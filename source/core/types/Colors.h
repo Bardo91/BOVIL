@@ -41,7 +41,7 @@ namespace BIL{
 
 
 	// ----- Functions -----
-	template<typename T> color3<T> PixelBGR2HSV(const color3<T> &_color){
+	template<typename T> color3<T> PixelRGB2HSV(const color3<T> &_color){
 		color3<T> HSV;
 		T MAX, MIN;
 
@@ -50,14 +50,14 @@ namespace BIL{
 	
 		if(MAX == MIN)
 			HSV.a = 0;
-		else if (_color.c == MAX && _color.b >= _color.a)
-			HSV.a = (60*(_color.b - _color.a)/(MAX - MIN)/2 + 0)/360 * ColorTypeInfo<T>::getMAX();
-		else if (_color.c == MAX && _color.b < _color.a)
-			HSV.a = (60*(_color.b - _color.a)/(MAX - MIN)/2 + 360)/360 * ColorTypeInfo<T>::getMAX();
+		else if (_color.a == MAX && _color.b >= _color.c)
+			HSV.a = (60*(_color.b - _color.c)/(MAX - MIN) + 0)/360 * ColorTypeInfo<T>::getMAX();
+		else if (_color.a == MAX && _color.b < _color.c)
+			HSV.a = (60*(_color.b - _color.c)/(MAX - MIN) + 360)/360 * ColorTypeInfo<T>::getMAX();
 		else if (_color.b == MAX)
-			HSV.a = (60*(_color.a - _color.c)/(MAX - MIN)/2 + 120)/360 * ColorTypeInfo<T>::getMAX();
-		else if (_color.a == MAX)
-			HSV.a = (60*(_color.c - _color.b)/(MAX - MIN)/2 + 240)/360 * ColorTypeInfo<T>::getMAX();
+			HSV.a = (60*(_color.c - _color.a)/(MAX - MIN) + 120)/360 * ColorTypeInfo<T>::getMAX();
+		else if (_color.c == MAX)
+			HSV.a = (60*(_color.a - _color.b)/(MAX - MIN) + 240)/360 * ColorTypeInfo<T>::getMAX();
 
 
 		MAX == 0 ? HSV.b = 0 : HSV.b = (1 - MIN/MAX) * ColorTypeInfo<T>::getMAX();
