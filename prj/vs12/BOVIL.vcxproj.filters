@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{b030153b-0d2f-4334-abf7-85aac96c2b49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms">
+      <UniqueIdentifier>{fc5b1c4a-68d5-47d3-926c-330a6a2e0167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\segmentation">
+      <UniqueIdentifier>{c3e57613-7ea3-43fd-a9d7-4683b8bf8b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\tracking">
+      <UniqueIdentifier>{f3fe2189-d954-4e76-a0fa-768c87e0a9a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\types">
+      <UniqueIdentifier>{317cd825-25f8-4e1f-8fa8-a49448969ca3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp">
+      <Filter>core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\types\colors.cpp">
+      <Filter>core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
+      <Filter>core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\segmentation\ColorClustering.cpp">
+      <Filter>algorithms\segmentation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
+      <Filter>algorithms\segmentation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\core\types\BasicTypes.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\types\ColorClusterSpace.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\types\Colors.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h">
+      <Filter>algorithms\segmentation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h">
+      <Filter>algorithms\segmentation</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
