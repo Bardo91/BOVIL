@@ -11,10 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\algorithms\segmentation\ColorClustering.cpp" />
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
-    <ClCompile Include="..\..\source\core\types\colors.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
   </ItemGroup>
@@ -35,13 +33,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

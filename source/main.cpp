@@ -23,13 +23,14 @@ int main(void){
 	BIL::algorithms::ColorClusterSpace *cs = BIL::algorithms::CreateHSVCS_8c(255U,255U,BIL::algorithms::bin2dec("00010000"));
 
 	cv::cvtColor(img, img, CV_BGR2HSV);
-	
-	BIL::algorithms::ColorClustering<uchar>(	img.data,		// Image pointer
-												img.cols,		// Width
-												img.rows,		// Height
-												5,				// Size Threshold
-												objects,		// Output Objects
-												*cs);	// Segmentation function
+
+	BIL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
+														img.cols,		// Width
+														img.rows,		// Height
+														5,				// Size Threshold
+														objects,		// Output Objects
+														*cs);			// Segmentation function 
+														
 
 	//BIL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
 	//													img.cols,		// Width

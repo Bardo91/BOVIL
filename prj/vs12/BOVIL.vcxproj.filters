@@ -33,14 +33,8 @@
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp">
       <Filter>core\types</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\core\types\colors.cpp">
-      <Filter>core\types</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
       <Filter>core\types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\algorithms\segmentation\ColorClustering.cpp">
-      <Filter>algorithms\segmentation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
       <Filter>algorithms\segmentation</Filter>

@@ -20,12 +20,18 @@ namespace BIL{
 	namespace algorithms{
 		//-----------------------------------------------------------------------------
 		// The template is the type of image pointer, and function is the segmentate pixel format
+
+		template<typename T> color3<T>  pixelXXX2XXX(color3<T> _col){
+			return _col;
+		}
+
 		template<typename T> void ColorClustering(	T *_image, 
 													int _width,
 													int _height, 
 													unsigned int _sizeThreshold, 
 													std::vector<ImageObject> &_objects,
-													std::function<int (T *_a, T *_b, T *_c)> _function){
+													std::function<int (T *_a, T *_b, T *_c)> _functionSegmentation,
+													std::function<color3<T> (color3<T> _col)> _functionColorSpace = pixelXXX2XXX<T>){
 
 			std::vector<std::vector<LineRLE>> aRLE;		// Matrix with every RLE encoded objects
 			std::vector<SegmentedRLEObject> objects;	// Auxiliary object that store Segmented objects while they are been growing.
@@ -37,10 +43,21 @@ namespace BIL{
 				// First horizontal loop. It will segmentate every pixel and encode it in a RLE if it's a desired color.
 				std::vector<LineRLE> temp;
 				for(int j = 0; j < _width ; j ++){		
+					// Convert Color 666 TODO: do it better
+					color3<T> c3(	*(_image + i * _width * 3 + 3*j + 0),
+									*(_image + i * _width * 3 + 3*j + 1),
+									*(_image + i * _width * 3 + 3*j + 2));
+
+					c3 = _functionColorSpace(c3);
+
+					*(_image + i * _width * 3 + 3*j + 0) = c3.a;
+					*(_image + i * _width * 3 + 3*j + 1) = c3.b;
+					*(_image + i * _width * 3 + 3*j + 2) = c3.c;
+
 					// This function segmentate the pixel and return the color of those.
-					color = _function(	_image + i * _width * 3 + 3*j + 0,
-										_image + i * _width * 3 + 3*j + 1,
-										_image + i * _width * 3 + 3*j + 2);
+					color = _functionSegmentation(	_image + i * _width * 3 + 3*j + 0,
+													_image + i * _width * 3 + 3*j + 1,
+													_image + i * _width * 3 + 3*j + 2);
 
 					if (j == 0) {
 						colorRLE = color;

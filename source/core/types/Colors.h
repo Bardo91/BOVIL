@@ -7,14 +7,28 @@
 #ifndef _OPENBIL_COLORS_H_
 #define _OPENBIL_COLORS_H_
 
-#include <type_traits>
-
 namespace BIL{
+	// ----- Traits -----		666 TODO: hacer con constexpr cuando salga para el compilador de vs
+	template <typename T> struct ColorTypeInfo{
+
+	};
+
+	template <> struct ColorTypeInfo<unsigned char>{
+		static unsigned char getMAX(){ return 255; };
+		static unsigned char getMIN(){ return 0; };
+	};
+
+	template <> struct ColorTypeInfo<float>{
+		static float getMAX(){ return 1.0f; };
+		static float getMIN(){ return 0.0f; };
+	};
+
 	// ----- Types and structures -----
 	template<typename T_> struct color3 {
 			color3(){
 				a = b = c = T_(0);
 			};
+
 			color3(T_ _a, T_ _b, T_ _c){
 				a = _a; b = _b; c = _c;
 			};
@@ -23,11 +37,35 @@ namespace BIL{
 		};
 
 	typedef color3<unsigned char> c3u;
+	typedef color3<float> c3f;
+
 
 	// ----- Functions -----
+	template<typename T> color3<T> PixelBGR2HSV(const color3<T> &_color){
+		color3<T> HSV;
+		T MAX, MIN;
+
+		_color.a > _color.b ? (_color.a > _color.c ? MAX = _color.a : MAX = _color.c) : (_color.b > _color.c ? MAX = _color.b : MAX = _color.c);
+		_color.a < _color.b ? (_color.a < _color.c ? MIN = _color.a : MIN = _color.c) : (_color.b < _color.c ? MIN = _color.b : MIN = _color.c);
 	
-	// 666 TODO: Hacer traits y dejarlo molon, pero ahora hay prisa
-	c3u PixelBGR2HSV(c3u _color);
+		if(MAX == MIN)
+			HSV.a = 0;
+		else if (_color.c == MAX && _color.b >= _color.a)
+			HSV.a = (60*(_color.b - _color.a)/(MAX - MIN)/2 + 0)/360 * ColorTypeInfo<T>::getMAX();
+		else if (_color.c == MAX && _color.b < _color.a)
+			HSV.a = (60*(_color.b - _color.a)/(MAX - MIN)/2 + 360)/360 * ColorTypeInfo<T>::getMAX();
+		else if (_color.b == MAX)
+			HSV.a = (60*(_color.a - _color.c)/(MAX - MIN)/2 + 120)/360 * ColorTypeInfo<T>::getMAX();
+		else if (_color.a == MAX)
+			HSV.a = (60*(_color.c - _color.b)/(MAX - MIN)/2 + 240)/360 * ColorTypeInfo<T>::getMAX();
+
+
+		MAX == 0 ? HSV.b = 0 : HSV.b = (1 - MIN/MAX) * ColorTypeInfo<T>::getMAX();
+		
+		HSV.c = MAX;
+		
+		return HSV;
+	}
 }
 
 
