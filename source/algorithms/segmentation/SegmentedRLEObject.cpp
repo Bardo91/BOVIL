@@ -12,7 +12,7 @@
 #include <vector>
 
 
-namespace BIL {
+namespace BOVIL {
 	namespace algorithms {
 		SegmentedRLEObject::SegmentedRLEObject(LineRLE ini) {
 			upperLeft.x = 9999;

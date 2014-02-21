@@ -5,22 +5,18 @@
  *      Author: pablo
  */
 
-#ifndef _OPENBIL_COLORSPACEHSV8_H_
-#define _OPENBIL_COLORSPACEHSV8_H_
+#ifndef _BOVIL_COLORSPACEHSV8_H_
+#define _BOVIL_COLORSPACEHSV8_H_
 
 #include "ColorClusterSpace.h"
 
 #include <math.h>
 #include <string>
 
-namespace BIL {
-	namespace algorithms {
-		uint8_t bin2dec(std::string bin);
+namespace BOVIL {
+	uint8_t bin2dec(std::string bin);
 
-		ColorClusterSpace<unsigned char> *CreateHSVCS_8c(uint8_t, uint8_t, uint8_t);
-		ColorClusterSpace<float> *CreateHSVCS_fc(uint8_t, uint8_t, uint8_t);
-
-	} // namespace segmentation.
+	ColorClusterSpace *CreateHSVCS_8c(unsigned char _maskH, unsigned char _maskS, unsigned char _maskV);
 } // namespace vision.
 
-#endif // _OPENBIL_COLORSPACEHSV8_H_
+#endif // _BOVIL_COLORSPACEHSV8_H_

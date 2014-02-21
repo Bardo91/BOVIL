@@ -4,10 +4,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _OPENBIL_COLORS_H_
-#define _OPENBIL_COLORS_H_
+#ifndef _BOVIL_COLORS_H_
+#define _BOVIL_COLORS_H_
 
-namespace BIL{
+namespace BOVIL{
 	// ----- Traits -----		666 TODO: hacer con constexpr cuando salga para el compilador de vs
 	template <typename T> struct ColorTypeInfo{
 
@@ -69,4 +69,4 @@ namespace BIL{
 }
 
 
-#endif	//_OPENBIL_COLORS_H_
+#endif	//_BOVIL_COLORS_H_

@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////////////
-//		OpenBIL
+//		OpenBOVIL
 //			Author: Pablo Ramon Soria
 //			Date:	2014-02-13
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#ifndef _OPENBIL_ALGORITHMS_COLORCLUSTERING_H_
-#define _OPENBIL_ALGORITHMS_COLORCLUSTERING_H_
+#ifndef _BOVIL_ALGORITHMS_COLORCLUSTERING_H_
+#define _BOVIL_ALGORITHMS_COLORCLUSTERING_H_
 
 #include <vector>
 #include <functional>
@@ -16,7 +16,7 @@
 #include "SegmentedRLEObject.h"
 
 
-namespace BIL{
+namespace BOVIL{
 	namespace algorithms{
 		//-----------------------------------------------------------------------------
 		// The template is the type of image pointer, and function is the segmentate pixel format
@@ -178,6 +178,6 @@ namespace BIL{
 		//-----------------------------------------------------------------------------
 
 	}	// namespace algorithms
-}	// namespace BIL
+}	// namespace BOVIL
 
-#endif	// _OPENBIL_ALGORITHMS_COLORCLUSTERING_H_
+#endif	// _BOVIL_ALGORITHMS_COLORCLUSTERING_H_

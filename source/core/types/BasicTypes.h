@@ -1,14 +1,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////
-//		OpenBIL
+//		OpenBOVIL
 //			Author: Pablo Ramon Soria
 //			Date:	2014-02-19
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#ifndef _OPENBIL_CORE_TYPES_BASICTYPES_H_
-#define _OPENBIL_CORE_TYPES_BASICTYPES_H_
+#ifndef _BOVIL_CORE_TYPES_BASICTYPES_H_
+#define _BOVIL_CORE_TYPES_BASICTYPES_H_
 
-namespace BIL{
+namespace BOVIL{
 	//-----------------------------------------------------------------------------
 	struct Point{
 		// Constructors.
@@ -41,7 +41,7 @@ namespace BIL{
 		int size;
 	};
 
-}	// namespace BIL
+}	// namespace BOVIL
 
 
-#endif	//_OPENBIL_CORE_TYPES_BASICTYPES_H_
+#endif	//_BOVIL_CORE_TYPES_BASICTYPES_H_

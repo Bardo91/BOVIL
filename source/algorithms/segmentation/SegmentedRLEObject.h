@@ -1,17 +1,17 @@
 /////////////////////////////////////////////////////////////////////////////////////////
-//		OpenBIL
+//		OpenBOVIL
 //			Author: Pablo Ramon Soria
 //			Date:	2014-02-19
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#ifndef _OPENBIL_ALGORITHM_SEGMENTATION_H_
-#define _OPENBIL_ALGORITHM_SEGMENTATION_H_
+#ifndef _BOVIL_ALGORITHM_SEGMENTATION_H_
+#define _BOVIL_ALGORITHM_SEGMENTATION_H_
 
 #include <vector>
 #include "../../core/types/BasicTypes.h"
 
-namespace BIL{
+namespace BOVIL{
 	namespace algorithms{
 		//-----------------------------------------------------------------------------
 			struct LineRLE{		// RLE encoding object.
@@ -70,6 +70,6 @@ namespace BIL{
 		};
 
 	}	// namespace algorithms
-}	// namespace BIL
+}	// namespace BOVIL
 
-#endif	//_OPENBIL_ALGORITHM_SEGMENTATION_H_
+#endif	//_BOVIL_ALGORITHM_SEGMENTATION_H_

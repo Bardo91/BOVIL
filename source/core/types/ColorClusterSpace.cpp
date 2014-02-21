@@ -1,19 +1,39 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	Color Cluster Segmentation Stereo Tracking
+///////////////////////////////////////////////////////////////////////////////
 //
-//		Author: Pablo Ramón Soria
-//		Date: 2013/10/22
 //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Color Cluster Space
-//		Here is defined the limits of every color and functions to truncate colors.
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #include "ColorClusterSpace.h"
 
-#include <cmath>
 
-namespace BIL {
-	namespace algorithms {
-		
-	} // namespace algorithms
-} // namespace vision
+namespace BOVIL{
+	ColorClusterSpace::ColorClusterSpace(	int n, 
+												unsigned char*_AClass, 
+												unsigned char* _BClass,	
+												unsigned char* _CClass, 
+												const c3u *_colors) {
+			AClass = new unsigned char[n];
+			BClass = new unsigned char[n];
+			CClass = new unsigned char[n];
+			clusters = new c3u[8];
+			size = n;
+
+			for (int i = 0; i < n; i++) {
+				AClass[i] = _AClass[i];
+				BClass[i] = _BClass[i];
+				CClass[i] = _CClass[i];
+				if (i < 8)
+					clusters[i] = _colors[i];
+			}
+		}
+
+		ColorClusterSpace::~ColorClusterSpace() {
+			delete[] AClass;
+			delete[] BClass;
+			delete[] CClass;
+			delete[] clusters;
+
+		}
+
+}	// namespace BOVIL

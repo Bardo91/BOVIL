@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
+    <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
   </ItemGroup>
@@ -26,7 +27,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C03AE01-0616-4AAF-B25C-760146ACED3A}</ProjectGuid>
     <RootNamespace>openBIL</RootNamespace>
-    <ProjectName>BOVIL</ProjectName>
+    <ProjectName>BOViL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
