@@ -20,7 +20,7 @@ int main(void){
 
 	std::vector<BIL::ImageObject> objects;
 
-	BIL::algorithms::ColorClusterSpace *cs = BIL::algorithms::CreateHSVCS_8c(255U,255U,BIL::algorithms::bin2dec("00010000"));
+	BIL::algorithms::ColorClusterSpace<unsigned char> *cs = BIL::algorithms::CreateHSVCS_8c(255U,255U,BIL::algorithms::bin2dec("00010000"));
 
 	cv::cvtColor(img, img, CV_BGR2HSV);
 
