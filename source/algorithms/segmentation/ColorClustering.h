@@ -31,7 +31,7 @@ namespace BOVIL{
 													unsigned int _sizeThreshold, 
 													std::vector<ImageObject> &_objects,
 													std::function<int (T *_a, T *_b, T *_c)> _functionSegmentation,
-													std::function<color3<T> (color3<T> _col)> _functionColorSpace = pixelXXX2XXX<T>){
+													std::function<color3<T> (color3<T> _col)> _functionColorSpace = nullptr){
 
 			std::vector<std::vector<LineRLE>> aRLE;		// Matrix with every RLE encoded objects
 			std::vector<SegmentedRLEObject> objects;	// Auxiliary object that store Segmented objects while they are been growing.
@@ -44,20 +44,30 @@ namespace BOVIL{
 				std::vector<LineRLE> temp;
 				for(int j = 0; j < _width ; j ++){		
 					// Convert Color 666 TODO: do it better
-					color3<T> c3(	*(_image + i * _width * 3 + 3*j + 0),
-									*(_image + i * _width * 3 + 3*j + 1),
-									*(_image + i * _width * 3 + 3*j + 2));
+					if(_functionColorSpace != nullptr){
+						color3<T> c3(	*(_image + i * _width * 3 + 3*j + 0),
+										*(_image + i * _width * 3 + 3*j + 1),
+										*(_image + i * _width * 3 + 3*j + 2));
 
-					c3 = _functionColorSpace(c3);
+						c3 = _functionColorSpace(c3);
 
-					*(_image + i * _width * 3 + 3*j + 0) = c3.a;
-					*(_image + i * _width * 3 + 3*j + 1) = c3.b;
-					*(_image + i * _width * 3 + 3*j + 2) = c3.c;
+						*(_image + i * _width * 3 + 3*j + 0) = c3.a;
+						*(_image + i * _width * 3 + 3*j + 1) = c3.b;
+						*(_image + i * _width * 3 + 3*j + 2) = c3.c;
+					}
+
+					
+					//std::cout <<	"(r = "		<< *(_image + i * _width * 3 + 3*j + 0) <<
+					//				", g = "	<< *(_image + i * _width * 3 + 3*j + 1) <<
+					//				", b = "	<< *(_image + i * _width * 3 + 3*j + 2) <<"  ==>"; 
+									
 
 					// This function segmentate the pixel and return the color of those.
 					color = _functionSegmentation(	_image + i * _width * 3 + 3*j + 0,
 													_image + i * _width * 3 + 3*j + 1,
 													_image + i * _width * 3 + 3*j + 2);
+
+					//std::cout << color << std::endl;	
 
 					if (j == 0) {
 						colorRLE = color;
