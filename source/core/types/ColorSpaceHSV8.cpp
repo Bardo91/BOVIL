@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	Color Cluster Segmentation Stereo Tracking
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date: 2013/10/22
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,10 +52,13 @@ namespace BOVIL {
 		len = strlen(cstr);
 		exp = len - 1;
 
-		for (i = 0; i < len; i++, exp--)
+		for (i = 0; i < len; i++, exp--){
 			dec += cstr[i] == '1' ? int(pow(2, exp)) : 0;
-		return unsigned char(dec);
+		}
+
+		return dec;
 	}
+
 
 	ColorClusterSpace *CreateHSVCS_8c(unsigned char MaskH, unsigned char MaskS, unsigned char MaskV) {
 

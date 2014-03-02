@@ -11,8 +11,8 @@
 #include <vector>
 #include <functional>
 
-#include "..\..\core\types\BasicTypes.h"
-#include "..\..\core\types\ColorSpaceHSV8.h"
+#include "../../core/types/BasicTypes.h"
+#include "../../core/types/ColorSpaceHSV8.h"
 #include "SegmentedRLEObject.h"
 
 

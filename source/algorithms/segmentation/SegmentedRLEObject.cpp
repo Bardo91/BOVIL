@@ -5,7 +5,7 @@
  *      Author: pablo
  */
 
-#include "../../core/types/basicTypes.h"
+#include "../../core/types/BasicTypes.h"
 #include "SegmentedRLEObject.h"
 
 #include <algorithm>    // std::sort

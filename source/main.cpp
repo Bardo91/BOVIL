@@ -4,11 +4,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <opencv\cv.h>
-#include <opencv\highgui.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 
-#include "algorithms\segmentation\ColorClustering.h"
-#include "core\types\ColorSpaceHSV8.h"
+#include "algorithms/segmentation/ColorClustering.h"
+#include "core/types/ColorSpaceHSV8.h"
 
 int main(void){
 

@@ -1,0 +1,59 @@
+################################################################################
+# VISUAL TRACKIN UI MAKEFILE
+#	Author: Pablo Ramón Soria
+#	Date: 2013/11/22
+################################################################################
+
+########## Variables ##########
+CPP_FILES := $(shell find . -name '*.cpp' -not -name 'moc*' -not -name 'qrc*')
+OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
+
+########## EXTERNAL INCLUDES ##########
+INCLUDES := -I./ -I/opt/ros/hydro/include
+LIBRARIES := -L/opt/ros/hydro/lib
+DEPENDENCIES := -lopencv_highgui -lopencv_core -lopencv_imgproc
+
+########## RULES ##########
+
+all: BOViL
+
+rebuild: clean BOViL
+	
+# Remove preious files
+clean:
+	@echo "--------------------------------------"
+	@echo "Cleaning project----------------------"
+	rm -f $(OBJ_FILES)
+	@echo "Project Cleaned-----------------------"
+
+
+# Run application
+run:
+	./main
+
+# Compile application
+BOViL: $(OBJ_FILES)
+	@echo "--------------------------------------"
+	@echo "Current cpps--------------------------"
+	@echo $(CPP_FILES)
+	@echo "Searching for objects-----------------"
+	@echo $(OBJ_FILES)
+	@echo "Prepare compilation-------------------"
+	gcc -o $@ $^ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) -fPIC -std=c++11
+	@echo "Generated file VisualTrackingUI-------"
+
+
+
+# Compile to .o
+%.o: %.cpp
+	@echo "--------------------------------------"
+	@echo "Linking " $^ " to " $@
+	gcc -c $^ -o $@ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) -fPIC -std=c++11
+
+
+########## PHONY ##########
+.PHONY: all clean run
+
+
+
+
