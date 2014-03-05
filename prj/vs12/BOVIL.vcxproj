@@ -19,10 +19,15 @@
   <ItemGroup>
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
+    <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />
+    <ClInclude Include="..\..\source\core\math\Matrix.h" />
     <ClInclude Include="..\..\source\core\types\BasicTypes.h" />
     <ClInclude Include="..\..\source\core\types\ColorClusterSpace.h" />
     <ClInclude Include="..\..\source\core\types\Colors.h" />
     <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\README.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3C03AE01-0616-4AAF-B25C-760146ACED3A}</ProjectGuid>
@@ -37,7 +42,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>

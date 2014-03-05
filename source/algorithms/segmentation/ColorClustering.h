@@ -16,7 +16,7 @@
 #include "SegmentedRLEObject.h"
 
 
-namespace BOVIL{
+namespace BOViL{
 	namespace algorithms{
 		//-----------------------------------------------------------------------------
 		// The template is the type of image pointer, and function is the segmentate pixel format
@@ -188,6 +188,6 @@ namespace BOVIL{
 		//-----------------------------------------------------------------------------
 
 	}	// namespace algorithms
-}	// namespace BOVIL
+}	// namespace BOViL
 
 #endif	// _BOVIL_ALGORITHMS_COLORCLUSTERING_H_

@@ -28,6 +28,15 @@
     <Filter Include="core\types">
       <UniqueIdentifier>{317cd825-25f8-4e1f-8fa8-a49448969ca3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="others">
+      <UniqueIdentifier>{16668cb1-1cd4-458d-89d2-ea3f2a8f14b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\geometrics">
+      <UniqueIdentifier>{94fd7514-4721-438b-8706-95bc9287965a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\math">
+      <UniqueIdentifier>{25449f5c-6479-4f55-aeb4-81832c9b6f98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
@@ -62,5 +71,16 @@
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h">
       <Filter>algorithms\segmentation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\core\geometrics\Geometrics.h">
+      <Filter>core\geometrics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\math\Matrix.h">
+      <Filter>core\math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\README.txt">
+      <Filter>others</Filter>
+    </Text>
   </ItemGroup>
 </Project>

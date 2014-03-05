@@ -4,27 +4,38 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <opencv\cv.h>
-#include <opencv\highgui.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 
-#include "algorithms\segmentation\ColorClustering.h"
-#include "core\types\ColorSpaceHSV8.h"
+#include "algorithms/segmentation/ColorClustering.h"
+#include "core/types/ColorSpaceHSV8.h"
+#include "core/math/Matrix.h"
 
 int main(void){
+	
+	std::cout << "TESTING MATRIX OPERATIONS" << std::endl;
 
+	BOViL::math::Matrix<double> mat(3,3);
+
+	mat << {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+
+	mat.showMatrix();
+
+
+	std::cout << "TESTING SEGMENTATION ALGORITHM" << std::endl;
 	cv::Mat img, ori;
 
 	img = cv::imread("../../test.jpg", CV_LOAD_IMAGE_COLOR);
 
 	img.copyTo(ori);
 
-	std::vector<BOVIL::ImageObject> objects;
+	std::vector<BOViL::ImageObject> objects;
 
-	BOVIL::ColorClusterSpace *cs = BOVIL::CreateHSVCS_8c(255U,255U,BOVIL::bin2dec("00010000"));
+	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U,BOViL::bin2dec("00010000"));
 
 	cv::cvtColor(img, img, CV_BGR2HSV);
 
-	BOVIL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
+	BOViL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
 														img.cols,		// Width
 														img.rows,		// Height
 														5,				// Size Threshold
@@ -51,7 +62,7 @@ int main(void){
 	//																													});	// Segmentation function
 
 	for(unsigned int i = 0; i < objects.size() ; i++){
-		BOVIL::Point p = objects[i].getCentroid();
+		BOViL::Point p = objects[i].getCentroid();
 		cv::circle(ori, cv::Point2i(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
 	}
 	cv::imshow("IMAGEORI", ori);
