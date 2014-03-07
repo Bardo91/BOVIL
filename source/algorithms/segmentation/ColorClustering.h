@@ -145,8 +145,10 @@ namespace BOVIL{
 					}	// while(1).
 
 				}	// If not first row.
+
+
 			}	// Vertical loop for each row
-			
+
 			// Re-assing overlaped parents
 			for(unsigned int i = 0 ; i < aRLE.size() ; i++){
 				for(unsigned int j = 0 ; j < aRLE[i].size() ; j++){
@@ -183,7 +185,9 @@ namespace BOVIL{
 				if(objects[i].getSize() >= _sizeThreshold)
 					_objects.push_back(ImageObject(objects[i].getUpperLeft(), objects[i].getDownRight(), objects[i].getSize(), objects[i].getColor()));
 			}
-		}
+
+
+		}	// ColorClustering
 		
 		//-----------------------------------------------------------------------------
 

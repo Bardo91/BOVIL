@@ -10,6 +10,8 @@
 
 #include "ColorSpaceHSV8.h"
 
+#include <cstring>
+
 namespace BOVIL {
 	const c3u colorsHSV8[8] = {
 	/*Black*/	c3u(0, 0, 0),

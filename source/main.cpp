@@ -4,8 +4,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <opencv/cv.h>
+#include <opencv/cv.hpp>
 #include <opencv/highgui.h>
+
+#include <iostream>
 
 #include "algorithms/segmentation/ColorClustering.h"
 #include "core/types/ColorSpaceHSV8.h"
@@ -15,6 +17,8 @@ int main(void){
 	cv::Mat img, ori;
 
 	img = cv::imread("../../test.jpg", CV_LOAD_IMAGE_COLOR);
+
+	std::cout << "Rows: " << img.rows << " - Cols: " << img.cols << std::endl;
 
 	img.copyTo(ori);
 
@@ -54,12 +58,14 @@ int main(void){
 		BOVIL::Point p = objects[i].getCentroid();
 		cv::circle(ori, cv::Point2i(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
 	}
+
+	delete cs;
+
 	cv::imshow("IMAGEORI", ori);
 	cv::imshow("Segmentated", img);
 
 	cv::waitKey();
-	
-	delete cs;
+
 
 
 	return 0;

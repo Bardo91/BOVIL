@@ -5,7 +5,7 @@
 ################################################################################
 
 ########## Variables ##########
-CPP_FILES := $(shell find . -name '*.cpp' -not -name 'moc*' -not -name 'qrc*')
+CPP_FILES := $(shell find . -name '*.cpp')
 OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 
 ########## EXTERNAL INCLUDES ##########
@@ -29,7 +29,7 @@ clean:
 
 # Run application
 run:
-	./main
+	./../../source/main
 
 # Compile application
 BOViL: $(OBJ_FILES)
