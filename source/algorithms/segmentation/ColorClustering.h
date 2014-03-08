@@ -185,9 +185,6 @@ namespace BOVIL{
 				if(objects[i].getSize() >= _sizeThreshold)
 					_objects.push_back(ImageObject(objects[i].getUpperLeft(), objects[i].getDownRight(), objects[i].getSize(), objects[i].getColor()));
 			}
-
-			aRLE.clear();
-			objects.clear();
 		}	// ColorClustering
 		
 		//-----------------------------------------------------------------------------

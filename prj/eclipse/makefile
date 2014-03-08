@@ -8,6 +8,8 @@
 CPP_FILES := $(shell find ./../../source/ -name '*.cpp')
 OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 
+CONFIG = -fPIC -std=c++11
+
 ########## EXTERNAL INCLUDES ##########
 INCLUDES := -I./ -I/opt/ros/hydro/include
 LIBRARIES := -L/opt/ros/hydro/lib
@@ -39,16 +41,16 @@ BOViL: $(OBJ_FILES)
 	@echo "Searching for objects-----------------"
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
-	gcc -o $@ $^ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) -fPIC -std=c++11
+	gcc -o $@ $^ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CONFIG)
 	@echo "Generated file VisualTrackingUI-------"
 
 
 
 # Compile to .o
-%.o: %.cpp
+%.cpp.o: %.cpp
 	@echo "--------------------------------------"
 	@echo "Linking " $^ " to " $@
-	gcc -c $^ -o $@ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) -fPIC -std=c++11
+	gcc -c $^ -o $@ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CONFIG)
 
 
 ########## PHONY ##########

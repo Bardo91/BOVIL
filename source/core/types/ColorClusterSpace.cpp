@@ -29,10 +29,10 @@ namespace BOVIL{
 		}
 
 		ColorClusterSpace::~ColorClusterSpace() {
-			delete[] AClass;
+			/*delete[] AClass;
 			delete[] BClass;
 			delete[] CClass;
-			delete[] clusters;
+			delete[] clusters;*/
 
 		}
 
