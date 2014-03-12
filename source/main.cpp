@@ -111,16 +111,21 @@ int main(void){
 		//																														return -1;
 		//																													}
 		//																													});	// Segmentation function
+		
+		t1 = time->frameTime();
 
+		std::cout << 1/(t1-t0) << " fps" << std::endl;
+
+		#ifdef _DEBUG
 		for(unsigned int i = 0; i < objects.size() ; i++){
 			BOViL::Point p = objects[i].getCentroid();
 			cv::circle(ori, cv::Point2i(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
 		}
 
-		t1 = time->frameTime();
+		cv::imshow("ORIGINAL", ori);
+		#endif
 
-		std::cout << "Step takes: " << t1-t0 << " s" << std::endl;
-
+		cv::waitKey(1);
 
 	}
 	cv::waitKey();
