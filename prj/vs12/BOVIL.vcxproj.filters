@@ -37,6 +37,9 @@
     <Filter Include="core\math">
       <UniqueIdentifier>{25449f5c-6479-4f55-aeb4-81832c9b6f98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="core\time">
+      <UniqueIdentifier>{58247cb6-22d3-4ef2-ad2e-0c3e5e9fa141}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
@@ -50,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp">
       <Filter>core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\time\time.cpp">
+      <Filter>core\time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\core\math\Matrix.h">
       <Filter>core\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\time\time.h">
+      <Filter>core\time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
