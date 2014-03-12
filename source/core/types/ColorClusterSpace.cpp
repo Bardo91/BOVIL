@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: core
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-05-03
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +9,7 @@
 #include "ColorClusterSpace.h"
 
 
-namespace BOViL{
+namespace BOViL {
 	ColorClusterSpace::ColorClusterSpace(	int n, 
 												unsigned char*_AClass, 
 												unsigned char* _BClass,	
@@ -38,8 +38,7 @@ namespace BOViL{
 
 		}
 
-<<<<<<< HEAD
+
 }	// namespace BOVIL
-=======
-}	// namespace BOViL
->>>>>>> 2b981b1b56e27612f9bbd1398f52973083f4eef0
+
+

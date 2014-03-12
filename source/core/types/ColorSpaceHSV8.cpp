@@ -1,13 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: core
 //
-<<<<<<< HEAD
-//		Author: Pablo Ramï¿½n Soria
-//		Date: 2013/10/22
-=======
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramon Soria
 //		Date:	2014-05-03
->>>>>>> 2b981b1b56e27612f9bbd1398f52973083f4eef0
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 // Color Cluster Space
@@ -15,13 +10,10 @@
 
 #include "ColorSpaceHSV8.h"
 
-<<<<<<< HEAD
 #include <cstring>
 
-namespace BOVIL {
-=======
+
 namespace BOViL {
->>>>>>> 2b981b1b56e27612f9bbd1398f52973083f4eef0
 	const c3u colorsHSV8[8] = {
 	/*Black*/	c3u(0, 0, 0),
 	/*White*/	c3u( 0, 0, 255 ),
