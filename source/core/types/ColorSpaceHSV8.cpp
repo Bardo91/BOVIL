@@ -59,7 +59,7 @@ namespace BOViL {
 			dec += cstr[i] == '1' ? int(pow(2, exp)) : 0;
 		}
 
-		return dec;
+		return unsigned char (dec);
 	}
 
 

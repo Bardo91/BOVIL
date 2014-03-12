@@ -5,7 +5,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <opencv/cv.h>
-#include <opencv/cv.hpp>
+#if defined (_linux)
+	#include <opencv/cv.hpp>
+#endif
 #include <opencv/highgui.h>
 
 #include <iostream>
@@ -36,8 +38,12 @@ int main(void){
 
 	std::string path = "";
 
-	path = "/home/bardo91/Programming/Images/";
-
+	#if defined (_linux)
+		path = "/home/bardo91/Programming/Images/";
+	#endif
+	#if defined (_WIN32)
+		path = "C:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
+	#endif
 
 	int i = 0;
 
@@ -88,32 +94,32 @@ int main(void){
 														
 
 
-	//BOVIL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
-	//													img.cols,		// Width
-	//													img.rows,		// Height
-	//													5,				// Size Threshold
-	//													objects,		// Output Objects
-	//													[](unsigned char *_a, unsigned char *_b, unsigned char *_c){	if(*_a < 80 && *_b < 80 && *_c > 180){
-	//																														*_a = 0;
-	//																														*_b = 0;
-	//																														*_c = 255;
-	//																														return 4;
-	//																													} else{
-	//																														*_a = 0;
-	//																														*_b = 0;
-	//																														*_c = 0;
-	//																														return -1;
-	//																													}
-	//																													});	// Segmentation function
+		//BOVIL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
+		//													img.cols,		// Width
+		//													img.rows,		// Height
+		//													5,				// Size Threshold
+		//													objects,		// Output Objects
+		//													[](unsigned char *_a, unsigned char *_b, unsigned char *_c){	if(*_a < 80 && *_b < 80 && *_c > 180){
+		//																														*_a = 0;
+		//																														*_b = 0;
+		//																														*_c = 255;
+		//																														return 4;
+		//																													} else{
+		//																														*_a = 0;
+		//																														*_b = 0;
+		//																														*_c = 0;
+		//																														return -1;
+		//																													}
+		//																													});	// Segmentation function
 
-	for(unsigned int i = 0; i < objects.size() ; i++){
-		BOViL::Point p = objects[i].getCentroid();
-		cv::circle(ori, cv::Point2i(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
-	}
+		for(unsigned int i = 0; i < objects.size() ; i++){
+			BOViL::Point p = objects[i].getCentroid();
+			cv::circle(ori, cv::Point2i(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
+		}
 
-	t1 = time->frameTime();
+		t1 = time->frameTime();
 
-	std::cout << "Step takes: " << t1-t0 << " s" << std::endl;
+		std::cout << "Step takes: " << t1-t0 << " s" << std::endl;
 
 
 	}
