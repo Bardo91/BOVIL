@@ -1,9 +1,11 @@
-/*
- * ColorSpaceHSV8.h
- *
- *  Created on: Oct 28, 2013
- *      Author: pablo
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+//	BOVIL: core
+//
+//		Author: Pablo Ramón Soria
+//		Date:	2014-05-03
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 #ifndef _BOVIL_COLORSPACEHSV8_H_
 #define _BOVIL_COLORSPACEHSV8_H_
@@ -13,10 +15,10 @@
 #include <math.h>
 #include <string>
 
-namespace BOVIL {
+namespace BOViL {
 	uint8_t bin2dec(std::string bin);
 
 	ColorClusterSpace *CreateHSVCS_8c(unsigned char _maskH, unsigned char _maskS, unsigned char _maskV);
-} // namespace vision.
+} // namespace BOViL.
 
 #endif // _BOVIL_COLORSPACEHSV8_H_

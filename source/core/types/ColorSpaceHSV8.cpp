@@ -1,18 +1,27 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	Color Cluster Segmentation Stereo Tracking
+/////////////////////////////////////////////////////////////////////////////////////////
+//	BOVIL: core
 //
+<<<<<<< HEAD
 //		Author: Pablo Ramï¿½n Soria
 //		Date: 2013/10/22
+=======
+//		Author: Pablo Ramón Soria
+//		Date:	2014-05-03
+>>>>>>> 2b981b1b56e27612f9bbd1398f52973083f4eef0
 //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Color Cluster Space
 //		Here is defined the limits of every color and functions to truncate colors.
 
 #include "ColorSpaceHSV8.h"
 
+<<<<<<< HEAD
 #include <cstring>
 
 namespace BOVIL {
+=======
+namespace BOViL {
+>>>>>>> 2b981b1b56e27612f9bbd1398f52973083f4eef0
 	const c3u colorsHSV8[8] = {
 	/*Black*/	c3u(0, 0, 0),
 	/*White*/	c3u( 0, 0, 255 ),
@@ -77,4 +86,4 @@ namespace BOVIL {
 		return new ColorClusterSpace(36, HClass, SClass, VClass, colorsHSV8);
 
 	}
-} // namespace vision
+} // namespace BOViL

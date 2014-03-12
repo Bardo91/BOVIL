@@ -12,7 +12,7 @@
 #include <vector>
 
 
-namespace BOVIL {
+namespace BOViL {
 	namespace algorithms {
 		SegmentedRLEObject::SegmentedRLEObject(LineRLE ini) {
 			upperLeft.x = 9999;
@@ -95,5 +95,5 @@ namespace BOVIL {
 			std::sort(obj.begin(), obj.end(), sortFunction);
 		}
 	} // namespace segmentation
-} // namespace vision
+} // namespace BOViL
 

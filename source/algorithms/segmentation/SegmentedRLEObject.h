@@ -11,7 +11,7 @@
 #include <vector>
 #include "../../core/types/BasicTypes.h"
 
-namespace BOVIL{
+namespace BOViL{
 	namespace algorithms{
 		//-----------------------------------------------------------------------------
 			struct LineRLE{		// RLE encoding object.
@@ -70,6 +70,6 @@ namespace BOVIL{
 		};
 
 	}	// namespace algorithms
-}	// namespace BOVIL
+}	// namespace BOViL
 
 #endif	//_BOVIL_ALGORITHM_SEGMENTATION_H_

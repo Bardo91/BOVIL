@@ -1,4 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////
+//	BOVIL: core
+//
 //		OpenBOVIL
 //			Author: Pablo Ramon Soria
 //			Date:	2014-02-19
@@ -8,7 +10,7 @@
 #ifndef _BOVIL_CORE_TYPES_BASICTYPES_H_
 #define _BOVIL_CORE_TYPES_BASICTYPES_H_
 
-namespace BOVIL{
+namespace BOViL{
 	//-----------------------------------------------------------------------------
 	struct Point{
 		// Constructors.
@@ -41,7 +43,7 @@ namespace BOVIL{
 		int size;
 	};
 
-}	// namespace BOVIL
+}	// namespace BOViL
 
 
 #endif	//_BOVIL_CORE_TYPES_BASICTYPES_H_

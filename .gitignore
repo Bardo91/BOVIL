@@ -46,3 +46,7 @@
 /prj/vs12/*.suo
 /prj/vs12/Debug
 /prj/vs12/Release
+/prj/vs12/*.opensdf
+/prj/vs12/*.user
+/prj/vs12/*.psess
+/prj/vs12/*.vsp
