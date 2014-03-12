@@ -1,22 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////////////////
-//	BOVIL: main
+//	BOVIL: test
 //
 //		Author: Pablo Ramón Soria
 //		Date:	2014-05-12
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "TestMatrix.h"
-#include "TestSegmentation.h"
+#include <iostream>
+#include "core/math/Matrix.h"
 
-int main(void){
-	
-	testMatrix();
-
-	//testSegmentation();
-
-	system("PAUSE");
-
-	return 0;
-
-}
+void testMatrix();
