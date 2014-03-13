@@ -73,7 +73,7 @@ namespace BOViL{
 		template<typename type_> 
 		Matrix<type_>::Matrix(const Matrix<type_>& _mat):	mPtr(new type_[_mat.mCols*_mat.mRows]),
 															mCols(_mat.mCols),
-															mRows(_mat.mRows){
+															mRows(_mat.mRows) {
 			for(int i = 0; i < mCols*mRows ; i ++){
 				mPtr[i] = _mat.mPtr[i];
 			}
@@ -143,8 +143,9 @@ namespace BOViL{
 		void Matrix<type_>::operator= (const Matrix<type_>& _mat){
 			mRows = _mat.mRows;
 			mCols = _mat.mCols;
-
-			delete mPtr;
+			
+			if(mPtr)
+				delete mPtr;
 
 			mPtr = new type_[mRows*mCols];
 
