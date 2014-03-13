@@ -18,18 +18,18 @@ namespace BOViL{
 		public:
 			ExtendedKalmanFilter();
 
-		private:
-			void forecastStep();
-			void filterStep(math::Matrix<double>&_Zk);
+			void getStateVector(math::Matrix<double>& _Xak) const;
 
 		public:
-			void stepEKF(math::Matrix<double>& _Zk, double _incT);
-
-			math::Matrix<double> getStateVector() const;
+			void stepEKF(const math::Matrix<double>& _Zk, const double _incT);
 
 		private:
-			math::Matrix<double> Xfk, Xak, K, Jf, Jh, P, Q, R, h_Zk;
-			double incT;
+			void forecastStep(const double _incT);
+			void filterStep(const math::Matrix<double>&_Zk);
+
+		private:
+			math::Matrix<double> mXfk, mXak, mK, mJf, mJh, mP, mQ, mR, mHZk;
+
 		};
 
 	}

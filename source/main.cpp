@@ -11,9 +11,9 @@
 
 int main(void){
 	
-	//testMatrix();
+	testMatrix();
 
-	testSegmentation();
+	//testSegmentation();
 
 	system("PAUSE");
 
