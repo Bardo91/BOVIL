@@ -33,11 +33,14 @@ namespace BOViL{
 			void showMatrix() const;
 
 		public:	// Overloaded Operators
-			std::string operator<<(const Matrix<type_>& _mat) const;
-			void operator=(const Matrix& _mat);
-			Matrix operator-(const Matrix& _mat) const;
-			Matrix operator*(const Matrix& _mat) const;
-			Matrix operator+(const Matrix& _mat) const;
+			std::string operator<<(const Matrix<type_>& _mat) const;		// Operator for cout 666 TODO:
+			void operator=(const Matrix& _mat);				// Assignement operator
+			Matrix operator+(const Matrix& _mat) const;		// Add operator
+			Matrix operator-(const Matrix& _mat) const;		// Sub operator
+			Matrix operator*(const Matrix& _mat) const;		// Mul operator
+			Matrix operator!();								// Transpose operator  666 TODO:
+
+			
 
 		private:
 			int mCols, mRows;
