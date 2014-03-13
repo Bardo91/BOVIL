@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\algorithms\filters\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />

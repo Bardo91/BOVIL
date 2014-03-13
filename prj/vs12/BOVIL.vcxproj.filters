@@ -40,7 +40,7 @@
     <Filter Include="core\time">
       <UniqueIdentifier>{58247cb6-22d3-4ef2-ad2e-0c3e5e9fa141}</UniqueIdentifier>
     </Filter>
-    <Filter Include="algorithms\filters">
+    <Filter Include="algorithms\state_estimators">
       <UniqueIdentifier>{3d69456d-e187-4940-954e-74ed72450f62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -65,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\TestSegmentation.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\filters\ExtendedKalmanFilter.cpp">
+      <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +105,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\filters\ExtendedKalmanFilter.h">
-      <Filter>algorithms\filters</Filter>
+      <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
