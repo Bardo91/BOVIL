@@ -20,6 +20,7 @@
     <ClCompile Include="..\..\source\TestSegmentation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\algorithms\filters\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />

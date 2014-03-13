@@ -24,7 +24,7 @@ void testMatrix(){
 	BOViL::math::Matrix<double> mat3 = mat1 + mat2;
 	mat3.showMatrix();
 
-	//BOViL::math::Matrix<double> mat4 = mat1 * mat2;
-	//mat4.showMatrix();
+	BOViL::math::Matrix<double> mat4 = mat1 * mat2;
+	mat4.showMatrix();
 
 }

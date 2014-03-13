@@ -40,6 +40,9 @@
     <Filter Include="core\time">
       <UniqueIdentifier>{58247cb6-22d3-4ef2-ad2e-0c3e5e9fa141}</UniqueIdentifier>
     </Filter>
+    <Filter Include="algorithms\filters">
+      <UniqueIdentifier>{3d69456d-e187-4940-954e-74ed72450f62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\TestSegmentation.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\filters\ExtendedKalmanFilter.h">
+      <Filter>algorithms\filters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
