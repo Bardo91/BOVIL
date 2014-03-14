@@ -10,7 +10,7 @@
 #include "TestSegmentation.h"
 
 int main(void){
-	
+
 	testMatrix();
 
 	//testSegmentation();

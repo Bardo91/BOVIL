@@ -38,7 +38,9 @@ namespace BOViL{
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
-			Matrix operator!();								// Transpose operator  666 TODO:
+			Matrix operator!();								// Transpose operator
+			type_ operator~();								// Determinant operator		666 TODO:
+			Matrix operator^(const Matrix& _mat) const;		// Pow operator     666 TODO:
 
 			
 
@@ -225,8 +227,22 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
+		template<typename type_> 
+		Matrix<type_> Matrix<type_>::operator! () {
+			
+			type_* ptr = new type_[mRows*mCols];
 
-		//-----------------------------------------------------------------------------
+			for(int i = 0; i < mRows ; i ++ ){
+				for(int j = 0 ; j < mCols ; j ++){
+					ptr[j*mCols + i] = mPtr[i*mCols + j];
+				}
+			}
+
+			Matrix<type_> mat(ptr, mRows, mCols);
+			delete ptr;
+
+			return mat;
+		}
 	}	// namespace math
 }	// namespace BOViL
 

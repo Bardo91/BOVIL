@@ -30,22 +30,28 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		void ExtendedKalmanFilter::forecastStep(const double _incT){
-			updateJf(_incT);
-
-			mXfk = mJf * mXak;
 			
-			mP = mJf * mP * mJf.t() + mQ;
+			_incT;
+			
+			//updateJf(_incT);
+			//
+			//mXfk = mJf * mXak;
+			//
+			//mP = mJf * mP * mJf.t() + mQ;
 		}
 
 		//-----------------------------------------------------------------------------
 		void ExtendedKalmanFilter::filterStep(const math::Matrix<double>& _Zk){
-			updateJh_and_hZk();
-		
-			mK = mP * mJh.t() * ((mJh * mP * mJh.t() + mR).inv());
 			
-			mXak = mXfk + mK * (_Zk - mHZk);
+			_Zk;
 
-			mP = (I - mK * mJh) * mP;
+			//updateJh_and_hZk();
+			//
+			//mK = mP * !mJh * ((mJh * mP * mJh.t() + mR).inv());
+			//
+			//mXak = mXfk + mK * (_Zk - mHZk);
+			//
+			//mP = (I - mK * mJh) * mP;
 		}
 
 		//-----------------------------------------------------------------------------
