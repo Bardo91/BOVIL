@@ -39,6 +39,7 @@ namespace BOViL{
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
+			Matrix operator*(const type_ _scalar) const;		// Scalar operator
 			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
 			Matrix operator!();								// Transpose operator
 			type_ operator~();								// Determinant operator
@@ -49,7 +50,7 @@ namespace BOViL{
 			bool decompositionLU(Matrix& _L, Matrix& _U);
 			bool decompositionCholesky(Matrix& _L, Matrix& _Lt);
 			bool decompositionLDL(Matrix& _L, Matrix& _D, Matrix& _Lt);
-			bool decompositionQR_HR(Matrix& _Q, Matrix& _R);		// QR decomposition using Householder reflexions algorithm.
+			bool decompositionQR_GR(Matrix& _Q, Matrix& _R);		// QR decomposition using Householder reflexions algorithm.
 			
 
 		private:	// Private interface
@@ -243,6 +244,24 @@ namespace BOViL{
 
 			return mat;
 		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_> 
+		Matrix<type_> Matrix<type_>::operator* (const type_ _scalar) const{
+			type_* ptr = new type_[mRows*mCols]();
+
+			for(int i = 0; i < mRows ; i ++ ){
+				for(int j = 0 ; j < mCols ; j ++){
+					ptr[mCols * i + j] = mPtr[mCols * i + j]*_scalar;
+				}
+			}
+
+			Matrix<type_> mat(ptr, mRows, mCols);
+			delete ptr;
+
+			return mat;
+		}
+
 		//-----------------------------------------------------------------------------
 		template<typename type_>
 		Matrix<type_> Matrix<type_>::operator&(const Matrix<type_>& _mat) const{
@@ -325,11 +344,35 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
-		bool Matrix<type_>::decompositionQR_HR(Matrix<type_>& _Q, Matrix<type_>& _R){
-				int t = m - 1 < n ? m - 1 : n;
+		bool Matrix<type_>::decompositionQR_GR(Matrix<type_>& _Q, Matrix<type_>& _R){
 
-				Matrix<type_> Qs[t];
+			// 666 TODO: improve without for loop	
+			int t = 0;
+			for(int i = 1 ; i <= mRows ; i++){
+				t += i;
+			}
+			if(mRows < mCols)
+				t += (mRows - mCols) * mCols;
 
+			int dim = mRows > mCols ? mRows : mCols;
+			_R = *this;
+			_Q = createEye<type_>(dim);
+
+			// Creating Givens Rotation matrix
+			int index = 0;
+			for(int i = mRows - 1 ; i > 0 ; i++){
+				for(int j = 0 ; j != i ; j++){
+					double theta = atan(mPtr[i*dim + j] / mPtr[(i - 1)*dim + j]);
+					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, j, theta);
+
+					_R = Gi * _R;
+					_Q = !Gi * _Q;
+
+					index++;
+				}
+			}
+
+			return true;
 		}
 		//-----------------------------------------------------------------------------
 
@@ -351,11 +394,15 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
-		Matrix<type_> createGivenRotation(int _n, double _theta){
-			Marix<type_>  mat(_n, _n);
+		Matrix<type_> createGivenRotation(int _n, int _i, int _j, double _theta){
+			Matrix<type_>  mat = createEye<type_>(_n);
 
+			*mat[_i*_n + _i] = cos(_theta);
+			*mat[_j*_n + _j] = cos(_theta);
+			*mat[_i*_n + _j] = -sin(_theta);
+			*mat[_j*_n + _i] = sin(_theta);
 			
-
+			return mat;
 		}
 
 	}	// namespace math

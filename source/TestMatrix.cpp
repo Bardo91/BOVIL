@@ -41,7 +41,6 @@ void testMatrix(){
 		matU.showMatrix();
 	}
 
-	std::cout << "Matrix LU decomposition" << std::endl;
 	std::cout << "Determinant: " << ~mat1 << std::endl;
 
 	std::cout << "Norm" << std::endl;
@@ -49,5 +48,25 @@ void testMatrix(){
 	mat6.showMatrix();
 	std::cout << "Norm: " << mat6.norm() << std::endl;
 
+
+	std::cout << "Eye matrix" << std::endl;
+	BOViL::math::Matrix<double> mat7 = BOViL::math::createEye<double>(3);	
+	mat7.showMatrix();
+
+	std::cout << "Scale Matrix" << std::endl;
+	BOViL::math::Matrix<double> mat8 = mat7*0.25;	
+	mat8.showMatrix();
+
+	double theta = atan(4.0/6.0);
+	std::cout << "Givens Rotation Matrix with theta: " << theta << " i = 1; j = 2" << std::endl;
+	BOViL::math::Matrix<double> mat9 = BOViL::math::createGivenRotation<double>(3, 1, 2, theta);	
+	mat9.showMatrix();
+
+	std::cout << "Matrix QR decomposition with Givens Rotation" << std::endl;
+	BOViL::math::Matrix<double> matQ(3, 3), matR(3, 3);
+	if(mat1.decompositionQR_GR(matQ, matR)){
+		matQ.showMatrix();
+		matR.showMatrix();
+	}
 
 }
