@@ -67,6 +67,9 @@ void testMatrix(){
 	if(mat1.decompositionQR_GR(matQ, matR)){
 		matQ.showMatrix();
 		matR.showMatrix();
+
+		BOViL::math::Matrix<double> matRes = matQ*matR;
+		matRes.showMatrix();
 	}
 
 }
