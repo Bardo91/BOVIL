@@ -5,10 +5,11 @@
 ################################################################################
 
 ########## Variables ##########
+CXX = gcc
 CPP_FILES := $(shell find ./../../source/ -name '*.cpp')
 OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 
-CONFIG = -fPIC -std=c++11
+CXX_FLAGS = -fPIC -std=c++11
 
 ########## EXTERNAL INCLUDES ##########
 INCLUDES := -I./ -I/opt/ros/hydro/include
@@ -41,7 +42,7 @@ BOViL: $(OBJ_FILES)
 	@echo "Searching for objects-----------------"
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
-	gcc -o $@ $^ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CONFIG)
+	$(CXX) $^ -o $@  $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
 	@echo "Generated file VisualTrackingUI-------"
 
 
@@ -50,7 +51,7 @@ BOViL: $(OBJ_FILES)
 %.cpp.o: %.cpp
 	@echo "--------------------------------------"
 	@echo "Linking " $^ " to " $@
-	gcc -c $^ -o $@ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CONFIG)
+	$(CXX) -c $^ -o $@ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
 
 
 ########## PHONY ##########
