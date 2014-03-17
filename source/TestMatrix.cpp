@@ -26,8 +26,8 @@ void testMatrix(){
 	BOViL::math::Matrix<double> mat3 = mat1 + mat2;
 	mat3.showMatrix();
 
-	std::cout << "Matrix substraction" << std::endl;
-	BOViL::math::Matrix<double> mat4 = mat1 * mat2;
+	std::cout << "Matrix multiplication" << std::endl;
+	BOViL::math::Matrix<double> mat4 = mat1 * mat3;
 	mat4.showMatrix();
 
 	std::cout << "Matrix transpose" << std::endl;

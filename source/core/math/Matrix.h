@@ -359,12 +359,11 @@ namespace BOViL{
 			_Q = createEye<type_>(dim);
 
 			// Creating Givens Rotation matrix
-			
 			for(int j = 0 ; j < mCols  ; j++){
 				for(int i = mRows - 1;  i > j ; i--){
-					double theta = atan(mPtr[i*dim + j] / mPtr[(i - 1)*dim + j]);
-					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, j, theta);
-
+					double theta = atan(- _R.mPtr[i*dim + j] / _R.mPtr[(i - 1)*dim + j]);
+					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, i - 1, theta);
+					
 					_R = Gi * _R;
 					_Q = Gi * _Q;
 				}
@@ -399,8 +398,8 @@ namespace BOViL{
 
 			*mat[_i*_n + _i] = cos(_theta);
 			*mat[_j*_n + _j] = cos(_theta);
-			*mat[_i*_n + _j] = -sin(_theta);
-			*mat[_j*_n + _i] = sin(_theta);
+			*mat[_i*_n + _j] = sin(_theta);
+			*mat[_j*_n + _i] = -sin(_theta);
 			
 			return mat;
 		}
