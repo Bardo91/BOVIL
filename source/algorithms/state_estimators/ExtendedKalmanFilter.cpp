@@ -17,8 +17,8 @@ namespace BOViL{
 		}
 		
 		//-----------------------------------------------------------------------------
-		void ExtendedKalmanFilter::getStateVector(math::Matrix<double>& _Xak) const{
-			_Xak = mXak;
+		math::Matrix<double> ExtendedKalmanFilter::getStateVector() const{
+			return mXak;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -30,9 +30,6 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		void ExtendedKalmanFilter::forecastStep(const double _incT){
-			
-			_incT;
-			
 			updateJf(_incT);
 			
 			mXfk = mJf * mXak;
@@ -42,16 +39,14 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		void ExtendedKalmanFilter::filterStep(const math::Matrix<double>& _Zk){
-			
-			_Zk;
-
-			updateJh_and_hZk();
+			updateHZk();
+			updateJh();
 			
 			mK = mP * !mJh * ((mJh * mP * !mJh + mR)^-1);
 			
 			mXak = mXfk + mK * (_Zk - mHZk);
 			
-			mP = (BOViL::math::createEye<double>(mK.getHeight()) - mK * mJh) * mP;
+			mP = (math::createEye<double>(mK.getHeight()) - mK * mJh) * mP;
 		}
 
 		//-----------------------------------------------------------------------------
