@@ -51,7 +51,7 @@ namespace BOViL{
 			
 			mXak = mXfk + mK * (_Zk - mHZk);
 			
-			mP = (BOViL::math::createEye(mK.mCols) - mK * mJh) * mP;
+			mP = (BOViL::math::createEye<double>(mK.getHeight()) - mK * mJh) * mP;
 		}
 
 		//-----------------------------------------------------------------------------
