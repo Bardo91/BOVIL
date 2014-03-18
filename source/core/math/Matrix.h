@@ -420,11 +420,13 @@ namespace BOViL{
 				for(int k = i - 1 ; k >= 0 ; k--){
 					double factor = *mat[k*mCols + i] / *mat[i*mCols + i];
 					for(int j = mCols - 1 ; j >= 0  ; j --){
-						*mat[k*mCols + j] = *mat[k*mCols + j] - *mat[i*mCols + j] * factor;
-						*mat[i*mCols + j] = *mat[i*mCols + j] / *mat[i*mCols + i];
-						*matInv[k*mCols + j] = *matInv[k*mCols + j] - *matInv[i*mCols + j] * factor;
-						*matInv[k*mCols + j] = *matInv[k*mCols + j] / *mat[i*mCols + i];
+						*mat[k*mCols + j] = (*mat[k*mCols + j] - *mat[i*mCols + j] * factor);
+						*matInv[k*mCols + j] = (*matInv[k*mCols + j] - *matInv[i*mCols + j] * factor);
 					}
+				}
+
+				for(int j = 0 ; j < mCols ; j ++){	// Unitarize the diagonal
+					*matInv[i*mCols + j] = *matInv[i*mCols + j] / *mat[i*mCols + i] ;
 				}
 			}
 
