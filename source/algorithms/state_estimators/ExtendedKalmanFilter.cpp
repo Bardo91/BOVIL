@@ -33,11 +33,11 @@ namespace BOViL{
 			
 			_incT;
 			
-			//updateJf(_incT);
-			//
-			//mXfk = mJf * mXak;
-			//
-			//mP = mJf * mP * mJf.t() + mQ;
+			updateJf(_incT);
+			
+			mXfk = mJf * mXak;
+			
+			mP = mJf * mP * !mJf + mQ;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -45,13 +45,13 @@ namespace BOViL{
 			
 			_Zk;
 
-			//updateJh_and_hZk();
-			//
-			//mK = mP * !mJh * ((mJh * mP * mJh.t() + mR).inv());
-			//
-			//mXak = mXfk + mK * (_Zk - mHZk);
-			//
-			//mP = (I - mK * mJh) * mP;
+			updateJh_and_hZk();
+			
+			mK = mP * !mJh * ((mJh * mP * !mJh + mR)^-1);
+			
+			mXak = mXfk + mK * (_Zk - mHZk);
+			
+			mP = (BOViL::math::createEye(mK.mCols) - mK * mJh) * mP;
 		}
 
 		//-----------------------------------------------------------------------------
