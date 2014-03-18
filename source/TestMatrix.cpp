@@ -59,7 +59,7 @@ void testMatrix(){
 
 	double theta = atan(4.0/6.0);
 	std::cout << "Givens Rotation Matrix with theta: " << theta << " i = 1; j = 2" << std::endl;
-	BOViL::math::Matrix<double> mat9 = BOViL::math::createGivenRotation<double>(3, 1, 2, theta);	
+	BOViL::math::Matrix<double> mat9 = BOViL::math::createGivenRotation(3, 1, 2, theta);	
 	mat9.showMatrix();
 
 	std::cout << "Matrix QR decomposition with Givens Rotation" << std::endl;

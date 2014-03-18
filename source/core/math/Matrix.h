@@ -397,7 +397,7 @@ namespace BOViL{
 			for(int j = 0 ; j < mCols  ; j++){
 				for(int i = mRows - 1;  i > j ; i--){
 					double theta = atan(- *_R[i*dim + j] / *_R[(i - 1)*dim + j]);
-					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, i - 1, theta);
+					Matrix<type_> Gi = createGivenRotation(dim, i, i - 1, theta);
 					
 					_R = Gi * _R;
 					_Q = Gi * _Q;
@@ -463,16 +463,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		Matrix<double> createGivenRotation(int _n, int _i, int _j, double _theta){
-			Matrix<double>  mat = createEye<double>(_n);
+		Matrix<double> createGivenRotation(int _n, int _i, int _j, double _theta);
 
-			*mat[_i*_n + _i] = cos(_theta);
-			*mat[_j*_n + _j] = cos(_theta);
-			*mat[_i*_n + _j] = sin(_theta);
-			*mat[_j*_n + _i] = -sin(_theta);
-			
-			return mat;
-		}
 	}	// namespace math
 }	// namespace BOViL
 

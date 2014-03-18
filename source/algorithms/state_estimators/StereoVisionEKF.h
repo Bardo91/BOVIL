@@ -16,10 +16,12 @@
 
 namespace BOViL{
 	namespace algorithms{
+		math::Matrix<double> createRotationMatrixEuler(double _alpha, double _beta, double _gamma);
+		
 		//-----------------------------------------------------------------------------
 		//----------------- Stereo Vision Class --------------------------------------
 		//-----------------------------------------------------------------------------
-		class StereoVisionEKF: ExtendedKalmanFilter{
+		class StereoVisionEKF: public ExtendedKalmanFilter{
 		public:
 			void setUpCameras(double _focalLenght, double _u0, double _v0);
 
@@ -39,9 +41,6 @@ namespace BOViL{
 
 			math::Matrix<double> mPosC1, mPosC2, mOriC1, mOriC2;
 		};
-
-
-		math::Matrix<double> createRotationMatrixEuler(double _alpha, double _beta, double _gamma);
 	}	//	namespace algorithms
 }	//	namespace BOVil
 

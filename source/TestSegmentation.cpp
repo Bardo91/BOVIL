@@ -9,6 +9,30 @@
 #include "TestSegmentation.h"
 #include "algorithms\state_estimators\StereoVisionEKF.h"
 
+#include <fstream>
+
+static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
+									0, 0.05, 0, 0, 0, 0, 
+									0, 0, 0.05, 0, 0, 0, 
+									0, 0, 0, 0.05, 0, 0, 
+									0, 0, 0, 0, 0.05, 0, 
+									0, 0, 0, 0, 0, 0.05};
+static const double arrayR[16] = {	0.1, 0, 0, 0, 
+									0, 0.1, 0, 0, 
+									0, 0, 0.1, 0, 
+									0, 0, 0, 0.1};
+
+static const double arrayX0[6] = {	8.0,//0, 
+									12.0,//0, 
+									0,//0, 
+									0,//0, 
+									0,//0, 
+									0};//0);
+
+
+bool openInputFile(std::ifstream& _inFile, std::string _path);
+bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
+
 void testSegmentation(){
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
 	cv::Mat img, ori;
@@ -21,7 +45,8 @@ void testSegmentation(){
 	#if defined (_WIN32)
 		path = "C:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
 	#endif
-
+	
+	bool condition = true;
 	int i = 0;
 
 	BOViL::STime::init();
@@ -32,13 +57,22 @@ void testSegmentation(){
 
 	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U,BOViL::bin2dec("00010000"));
 
+	//-------
 	BOViL::algorithms::StereoVisionEKF stereoEKF;
 
+	stereoEKF.setUpEKF(	BOViL::math::Matrix<double>(arrayQ, 6, 6),
+						BOViL::math::Matrix<double>(arrayR, 4, 4),
+						BOViL::math::Matrix<double>(arrayX0, 6, 1));
+
 	stereoEKF.setUpCameras(738.143358488352310, 346.966835812843040 , 240.286986071815390);
+	double inputBuffer[20];
+	std::ifstream inputFile;
+	
+	condition = openInputFile(inputFile, "C:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");
 
-	while(1){
+	while(condition){
 
-		t0 = time->frameTime();
+		//t0 = time->frameTime();
 
 		// ----------------- IMAGE SEGMENTATION ------------------------
 		++i;
@@ -57,6 +91,7 @@ void testSegmentation(){
 
 		img.copyTo(ori);
 
+		t0 = time->frameTime();
 		std::vector<BOViL::ImageObject> objects;
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
@@ -91,8 +126,10 @@ void testSegmentation(){
 		t1 = time->frameTime();
 
 		std::cout << 1/(t1-t0) << " fps" << std::endl;
+		std::cout << "Number of detected Objects in the scene: " << objects.size() << std::endl;
 
 		#ifdef _DEBUG
+	
 		for(unsigned int i = 0; i < objects.size() ; i++){
 			BOViL::Point2ui p = objects[i].getCentroid();
 			cv::circle(ori, cv::Point2d(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
@@ -100,11 +137,64 @@ void testSegmentation(){
 
 		cv::imshow("ORIGINAL", ori);
 		#endif
-
+		inputBuffer;
 		// ----------------- TRACKING ALGORITHM ------------------------
-
+		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
+		// Update cameras pos and ori
+		double arrayPosC1[3] = {inputBuffer[7], inputBuffer[8], inputBuffer[9]};
+		double arrayPosC2[3] = {inputBuffer[13], inputBuffer[14], inputBuffer[15]};
+		stereoEKF.updateCameras(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
+								BOViL::math::Matrix<double>(arrayPosC2, 3, 1),	
+								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
+								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
+		// Select Oject
+		int maxSize = 0, maxIndex = 0;
+		for(int i = 0; i < objects.size() ; i++){
+			if(objects[i].getSize() > maxSize){
+				maxSize = objects[i].getSize();
+				maxIndex = i;
+			}
+		}
+		double arrayZk[2] = {objects[i].getCentroid().x, objects[i].getCentroid().y};
+		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 2, 1),inputBuffer[0]);
+		
 		cv::waitKey(1);
 
 	}
+}
 
+
+bool openInputFile(std::ifstream& _inFile, std::string _path){
+	_inFile.open(_path);
+
+	if(!_inFile.is_open() || !_inFile.good())
+			return false;
+
+	return true;
+}
+
+bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer){
+	std::string line;
+	int colCounter = 0;
+	int init = 0;
+	int counter = 0;
+
+	getline(_inFile, line);
+	colCounter = line.size();
+
+	if(colCounter < 0)
+		return false;
+				
+	int index = 0;
+	for (int i = 0; i < colCounter; i++) {
+		if (((int) line.at(i)) == 9) {
+			std::string part = line.substr(init, i - init);
+			_buffer[index] = atof(part.c_str());
+			init = i + 1;
+			counter++;
+			index++;
+		}
+	}
+
+	return true;
 }

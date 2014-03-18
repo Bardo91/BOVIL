@@ -59,6 +59,7 @@ namespace BOViL{
 		int getWidth() const {return width;};
 		int getHeight() const {return height;};
 		int getColor() const {return color;};
+		int getSize() const {return size;};
 	private:
 		Point2ui centroid;
 		int width, height;
