@@ -29,6 +29,8 @@ namespace BOViL{
 			~Matrix();		// De-constructor
 
 			type_* getMatrixPtr() const;
+			int getWidth() const;
+			int getHeight() const;
 
 			void showMatrix() const;
 
@@ -116,6 +118,18 @@ namespace BOViL{
 		template<typename type_> 
 		type_* Matrix<type_>::getMatrixPtr() const{
 			return mPtr;
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		int Matrix<type_>::getWidth() const{
+			return mCols;
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		int Matrix<type_>::getHeight() const{
+			return mRows;
 		}
 
 		//-----------------------------------------------------------------------------
