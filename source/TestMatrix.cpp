@@ -72,4 +72,7 @@ void testMatrix(){
 		matRes.showMatrix();
 	}
 
+	std::cout << "Test inverse" << std::endl;
+	BOViL::math::Matrix<double> matInv = mat1^-1;
+	matInv.showMatrix();
 }

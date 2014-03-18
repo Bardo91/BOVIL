@@ -43,7 +43,7 @@ namespace BOViL{
 			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
 			Matrix operator!();								// Transpose operator
 			type_ operator~();								// Determinant operator
-			Matrix operator^(const Matrix& _mat) const;		// Pow operator     666 TODO:
+			Matrix operator^(const double _exp) const;		// Pow operator     666 TODO:
 
 		public:		// Various algorithms
 			double norm();
@@ -51,6 +51,8 @@ namespace BOViL{
 			bool decompositionCholesky(Matrix& _L, Matrix& _Lt);
 			bool decompositionLDL(Matrix& _L, Matrix& _D, Matrix& _Lt);
 			bool decompositionQR_GR(Matrix& _Q, Matrix& _R);		// QR decomposition using Householder reflexions algorithm.
+
+			Matrix inverse();		// Using QR algorithm
 			
 
 		private:	// Private interface
@@ -286,7 +288,7 @@ namespace BOViL{
 			return mat;
 		}
 
-			//-----------------------------------------------------------------------------
+		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		type_ Matrix<type_>::operator~ () {
 			if(mCols == mRows){
@@ -303,6 +305,25 @@ namespace BOViL{
 			return NULL;
 		}
 
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		Matrix<type_> Matrix<type_>::operator^(const double _exp) const{
+			Matrix<type_> mat(*this);
+
+			if(_exp < 0){
+				mat = mat^-_exp;
+				mat = mat.inverse();
+			} else {
+				for(int i = 0 ; i < mRows ; i++){
+					for(int j = 0 ; j < mCols ; j++){
+						mPtr[i*mCols + j] = pow(mPtr[i*mCols + j], _exp);
+					}
+				}
+			}
+
+			return mat;
+
+		}
 		//-----------------------------------------------------------------------------
 		//-------------------------- Various algorithms -------------------------------
 		//------------------------------------------------------------------------------
@@ -361,7 +382,7 @@ namespace BOViL{
 			// Creating Givens Rotation matrix
 			for(int j = 0 ; j < mCols  ; j++){
 				for(int i = mRows - 1;  i > j ; i--){
-					double theta = atan(- _R.mPtr[i*dim + j] / _R.mPtr[(i - 1)*dim + j]);
+					double theta = atan(- *_R[i*dim + j] / *_R[(i - 1)*dim + j]);
 					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, i - 1, theta);
 					
 					_R = Gi * _R;
@@ -374,7 +395,41 @@ namespace BOViL{
 			return true;
 		}
 		//-----------------------------------------------------------------------------
+		template<typename type_>
+		Matrix<type_> Matrix<type_>::inverse(){
+			// 666 TODO: how to do inverse? try with gaussian elimination
+			if(mCols != mRows)
+				assert(false);
 
+			
+			Matrix<type_> matInv = createEye<type_>(mRows), mat(*this);
+
+			// Inferior triangle elimination.
+			for(int i = 0 ; i < mRows ; i++){
+				for(int k = i + 1 ; k < mRows ; k++){
+					double factor = *mat[k*mCols + i] / *mat[i*mCols + i];
+					for(int j = 0 ; j < mCols ; j ++){
+						*mat[k*mCols + j] = *mat[k*mCols + j] - *mat[i*mCols + j] * factor;
+						*matInv[k*mCols + j] = *matInv[k*mCols + j] - *matInv[i*mCols + j] * factor;
+					}
+				}
+			}
+
+			// Superior triangle elimination.
+			for(int i = mRows - 1 ; i > 0 ; i--){
+				for(int k = i - 1 ; k >= 0 ; k--){
+					double factor = *mat[k*mCols + i] / *mat[i*mCols + i];
+					for(int j = mCols - 1 ; j >= 0  ; j --){
+						*mat[k*mCols + j] = *mat[k*mCols + j] - *mat[i*mCols + j] * factor;
+						*mat[i*mCols + j] = *mat[i*mCols + j] / *mat[i*mCols + i];
+						*matInv[k*mCols + j] = *matInv[k*mCols + j] - *matInv[i*mCols + j] * factor;
+						*matInv[k*mCols + j] = *matInv[k*mCols + j] / *mat[i*mCols + i];
+					}
+				}
+			}
+
+			return matInv;
+		}
 		//-----------------------------------------------------------------------------
 
 		//-----------------------------------------------------------------------------
