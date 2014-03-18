@@ -69,6 +69,9 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp">
       <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\types\BasicTypes.h">
@@ -105,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
   </ItemGroup>

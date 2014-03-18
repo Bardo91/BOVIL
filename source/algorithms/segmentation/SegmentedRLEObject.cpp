@@ -65,11 +65,11 @@ namespace BOViL {
 			return obj[k];
 		}
 
-		Point SegmentedRLEObject::getUpperLeft() const {
+		Point2ui SegmentedRLEObject::getUpperLeft() const {
 			return upperLeft;
 		}
 
-		Point SegmentedRLEObject::getDownRight() const {
+		Point2ui SegmentedRLEObject::getDownRight() const {
 			return downRight;
 		}
 
@@ -85,8 +85,8 @@ namespace BOViL {
 			return (downRight.x - upperLeft.x) * (downRight.y - upperLeft.y);
 		}
 
-		Point SegmentedRLEObject::getCentroid() const {
-			return Point((upperLeft.x + downRight.x)/2, (upperLeft.y + downRight.y)/2);
+		Point2ui SegmentedRLEObject::getCentroid() const {
+			return Point2ui((upperLeft.x + downRight.x)/2, (upperLeft.y + downRight.y)/2);
 		}
 
 		bool sortFunction(LineRLE a, LineRLE b) {

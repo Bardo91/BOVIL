@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestSegmentation.h"
+#include "algorithms\state_estimators\StereoVisionEKF.h"
 
 void testSegmentation(){
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
@@ -23,22 +24,23 @@ void testSegmentation(){
 
 	int i = 0;
 
-
 	BOViL::STime::init();
 
 	BOViL::STime *time = BOViL::STime::get();
 
 	double t0, t1;
 
+	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U,BOViL::bin2dec("00010000"));
 
-	std::cout << "Rows: " << img.rows << " - Cols: " << img.cols << std::endl;
+	BOViL::algorithms::StereoVisionEKF stereoEKF;
 
-	img.copyTo(ori);
+	stereoEKF.setUpCameras(738.143358488352310, 346.966835812843040 , 240.286986071815390);
 
 	while(1){
 
 		t0 = time->frameTime();
 
+		// ----------------- IMAGE SEGMENTATION ------------------------
 		++i;
 		std::stringstream ss;
 
@@ -56,8 +58,6 @@ void testSegmentation(){
 		img.copyTo(ori);
 
 		std::vector<BOViL::ImageObject> objects;
-
-		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U,BOViL::bin2dec("00010000"));
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
 
@@ -94,12 +94,14 @@ void testSegmentation(){
 
 		#ifdef _DEBUG
 		for(unsigned int i = 0; i < objects.size() ; i++){
-			BOViL::Point p = objects[i].getCentroid();
-			cv::circle(ori, cv::Point2i(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
+			BOViL::Point2ui p = objects[i].getCentroid();
+			cv::circle(ori, cv::Point2d(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
 		}
 
 		cv::imshow("ORIGINAL", ori);
 		#endif
+
+		// ----------------- TRACKING ALGORITHM ------------------------
 
 		cv::waitKey(1);
 

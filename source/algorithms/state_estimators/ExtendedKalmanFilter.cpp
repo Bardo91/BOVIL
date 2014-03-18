@@ -10,12 +10,20 @@
 
 
 namespace BOViL{
-	namespace state_estimators{
+	namespace algorithms{
 		//-----------------------------------------------------------------------------
 		ExtendedKalmanFilter::ExtendedKalmanFilter(){
 
 		}
 		
+		//-----------------------------------------------------------------------------
+		void ExtendedKalmanFilter::setUpEKF(const math::Matrix<double> _Q, const math::Matrix<double> _R, const math::Matrix<double> _x0){
+			mQ = _Q;
+			mR = _R;
+			mXak = _x0;
+			mP = math::createEye<double>(_Q.getHeight());
+		}
+
 		//-----------------------------------------------------------------------------
 		math::Matrix<double> ExtendedKalmanFilter::getStateVector() const{
 			return mXak;
