@@ -48,7 +48,7 @@ namespace BOViL {
 			"11111110", "11111110", "11111110" };
 
 
-	unsigned char bin2dec(std::string bin) {
+	int bin2dec(std::string bin) {
 		const char *cstr = bin.c_str();
 		int len, dec = 0, i, exp;
 
@@ -59,7 +59,7 @@ namespace BOViL {
 			dec += cstr[i] == '1' ? int(pow(2, exp)) : 0;
 		}
 
-		return unsigned char (dec);
+		return dec;
 	}
 
 

@@ -16,7 +16,7 @@
 #include <string>
 
 namespace BOViL {
-	uint8_t bin2dec(std::string bin);
+	int bin2dec(std::string bin);
 
 	ColorClusterSpace *CreateHSVCS_8c(unsigned char _maskH, unsigned char _maskS, unsigned char _maskV);
 } // namespace BOViL.

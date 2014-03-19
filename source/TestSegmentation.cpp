@@ -57,7 +57,7 @@ void testSegmentation(){
 
 		std::vector<BOViL::ImageObject> objects;
 
-		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U,BOViL::bin2dec("00010000"));
+		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, unsigned char(BOViL::bin2dec("00010000")));
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
 
