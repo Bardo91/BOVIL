@@ -130,9 +130,9 @@ void testSegmentation(){
 
 		#ifdef _DEBUG
 	
-		for(unsigned int i = 0; i < objects.size() ; i++){
-			BOViL::Point2ui p = objects[i].getCentroid();
-			cv::circle(ori, cv::Point2d(p.x,p.y), objects[i].getHeight()/2, cv::Scalar(1,1,1), 1);
+		for(unsigned int obj = 0; obj < objects.size() ; obj++){
+			BOViL::Point2ui p = objects[obj].getCentroid();
+			cv::circle(ori, cv::Point2d(p.x,p.y), objects[obj].getHeight()/2, cv::Scalar(1,1,1), 1);
 		}
 
 		cv::imshow("ORIGINAL", ori);
@@ -149,10 +149,10 @@ void testSegmentation(){
 								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
 		// Select Oject
 		int maxSize = 0, maxIndex = 0;
-		for(int i = 0; i < objects.size() ; i++){
-			if(objects[i].getSize() > maxSize){
-				maxSize = objects[i].getSize();
-				maxIndex = i;
+		for(unsigned int obj = 0; obj < objects.size() ; obj++){
+			if(objects[obj].getSize() > maxSize){
+				maxSize = objects[obj].getSize();
+				maxIndex = obj;
 			}
 		}
 		double arrayZk[2] = {objects[i].getCentroid().x, objects[i].getCentroid().y};

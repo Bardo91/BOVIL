@@ -21,7 +21,7 @@ namespace BOViL{
 		class Matrix{
 		public:		// Main interface
 			Matrix();		// Default constructor
-			Matrix(int _cols, int _rows);		// Empty matrix constructor
+			Matrix(int _rows, int _cols);		// Empty matrix constructor
 			Matrix(const type_* _mat, int _rows, int _cols);	// Full-defined matrix constructor
 			Matrix(const Matrix& _mat);		// Copy constructor
 			Matrix(Matrix&& _mat);			// Move constructor c++11
@@ -43,11 +43,11 @@ namespace BOViL{
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
 			Matrix operator*(const type_ _scalar) const;		// Scalar operator
 			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
-			Matrix operator!();								// Transpose operator
-			type_ operator~();								// Determinant operator
 			Matrix operator^(const double _exp) const;		// Pow operator     666 TODO:
 
 		public:		// Various algorithms
+			Matrix transpose();								// Transpose operator
+			type_ determinant();								// Determinant operator
 			double norm();
 			bool decompositionLU(Matrix& _L, Matrix& _U);
 			bool decompositionCholesky(Matrix& _L, Matrix& _Lt);
@@ -58,7 +58,7 @@ namespace BOViL{
 			
 
 		private:	// Private interface
-			int mCols, mRows;
+			int mRows, mCols;
 			type_* mPtr;
 
 		};
@@ -73,7 +73,7 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(int _cols, int _rows):	mPtr(new type_[_cols*_rows]()),
+		Matrix<type_>::Matrix(int _rows, int _cols):	mPtr(new type_[_cols*_rows]()),
 														mCols(_cols),
 														mRows(_rows)		
 		{}
@@ -233,7 +233,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
@@ -247,7 +247,7 @@ namespace BOViL{
 			type_* ptr = new type_[mRows*_mat.mCols]();
 
 			for(int i = 0; i < mRows ; i ++ ){
-				for(int j = 0 ; j < mCols ; j ++){
+				for(int j = 0 ; j < _mat.mCols ; j ++){
 					ptr[_mat.mCols * i + j] = 0;
 					for(int k = 0 ; k < _mat.mRows ; k ++){
 						ptr[_mat.mCols * i + j] += mPtr[mCols*i + k]*_mat.mPtr[_mat.mCols*k + j];
@@ -256,7 +256,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, _mat.mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
@@ -273,7 +273,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
@@ -282,41 +282,6 @@ namespace BOViL{
 		template<typename type_>
 		Matrix<type_> Matrix<type_>::operator&(const Matrix<type_>& _mat) const{
 			// 666 TODO:
-		}
-
-		//-----------------------------------------------------------------------------
-		template<typename type_> 
-		Matrix<type_> Matrix<type_>::operator! () {
-			
-			type_* ptr = new type_[mRows*mCols]();
-
-			for(int i = 0; i < mRows ; i ++ ){
-				for(int j = 0 ; j < mCols ; j ++){
-					ptr[j*mCols + i] = mPtr[i*mCols + j];
-				}
-			}
-
-			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
-
-			return mat;
-		}
-
-		//-----------------------------------------------------------------------------
-		template<typename type_> 
-		type_ Matrix<type_>::operator~ () {
-			if(mCols == mRows){
-				Matrix<type_> L(mRows, mCols), U(mRows, mCols);
-
-				if(decompositionLU(L, U)){
-					type_ det = *U[0];
-					for(int i = 1 ; i < mRows ; i++){
-						det *= *U[i*mRows + i];
-					}
-					return det;
-				}
-			}
-			return NULL;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -340,7 +305,42 @@ namespace BOViL{
 		}
 		//-----------------------------------------------------------------------------
 		//-------------------------- Various algorithms -------------------------------
+		//-----------------------------------------------------------------------------
+		template<typename type_> 
+		Matrix<type_> Matrix<type_>::transpose () {
+			
+			type_* ptr = new type_[mRows*mCols]();
+
+			for(int i = 0; i < mRows ; i ++ ){
+				for(int j = 0 ; j < mCols ; j ++){
+					ptr[j*mCols + i] = mPtr[i*mCols + j];
+				}
+			}
+
+			Matrix<type_> mat(ptr, mCols, mRows);
+			delete[] ptr;
+
+			return mat;
+		}
+
 		//------------------------------------------------------------------------------
+		template<typename type_> 
+		type_ Matrix<type_>::determinant() {
+			if(mCols == mRows){
+				Matrix<type_> L(mRows, mCols), U(mRows, mCols);
+
+				if(decompositionLU(L, U)){
+					type_ det = *U[0];
+					for(int i = 1 ; i < mRows ; i++){
+						det *= *U[i*mRows + i];
+					}
+					return det;
+				}
+			}
+			return NULL;
+		}
+
+		//-----------------------------------------------------------------------------		
 		template<typename type_>
 		double Matrix<type_>::norm(){		// 666 TODO: only true if vector, if not, is not max norm
 			int size = mRows > mCols ? mRows : mCols;
@@ -404,7 +404,7 @@ namespace BOViL{
 				}
 			}
 
-			_Q = !_Q;
+			_Q = _Q.transpose();
 
 			return true;
 		}

@@ -31,7 +31,7 @@ void testMatrix(){
 	mat4.showMatrix();
 
 	std::cout << "Matrix transpose" << std::endl;
-	BOViL::math::Matrix<double> mat5 = !mat4;
+	BOViL::math::Matrix<double> mat5 = mat4.transpose();
 	mat5.showMatrix();
 
 	std::cout << "Matrix LU decomposition" << std::endl;
@@ -41,7 +41,7 @@ void testMatrix(){
 		matU.showMatrix();
 	}
 
-	std::cout << "Determinant: " << ~mat1 << std::endl;
+	std::cout << "Determinant: " << mat1.determinant() << std::endl;
 
 	std::cout << "Norm" << std::endl;
 	BOViL::math::Matrix<double> mat6(matArray, 3, 1);	

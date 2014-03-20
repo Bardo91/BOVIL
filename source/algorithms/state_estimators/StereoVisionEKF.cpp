@@ -49,8 +49,8 @@ namespace BOViL {
 		void StereoVisionEKF::updateHZk(){
 			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
 
-			math::Matrix<double> Pc1 = !mOriC1 * (cPoint - mPosC1);
-			math::Matrix<double> Pc2 = !mOriC2 * (cPoint - mPosC2);
+			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
+			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
 
 			double* pc1data = Pc1.getMatrixPtr();
 			double* pc2data = Pc2.getMatrixPtr();
@@ -82,8 +82,8 @@ namespace BOViL {
 			
 			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
 
-			math::Matrix<double> Pc1 = !mOriC1 * (cPoint - mPosC1);
-			math::Matrix<double> Pc2 = !mOriC2 * (cPoint - mPosC2);
+			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
+			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
 
 			double* pc1data = Pc1.getMatrixPtr();
 			double* pc2data = Pc2.getMatrixPtr();
