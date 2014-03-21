@@ -50,3 +50,7 @@
 /prj/vs12/*.user
 /prj/vs12/*.psess
 /prj/vs12/*.vsp
+/prj/ModelingProject1/*.classdiagram
+/prj/ModelingProject1/*.layout
+/prj/ModelingProject1/ModelDefinition/*.uml
+/prj/ModelingProject1/*.modelproj
