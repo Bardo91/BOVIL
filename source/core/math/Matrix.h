@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <cmath>
 #include <sstream>
 
 namespace BOViL{

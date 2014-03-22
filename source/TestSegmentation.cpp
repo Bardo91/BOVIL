@@ -8,6 +8,7 @@
 
 #include "TestSegmentation.h"
 #include "algorithms\state_estimators\StereoVisionEKF.h"
+#include <cstdint>
 
 #include <fstream>
 
@@ -93,6 +94,8 @@ void testSegmentation(){
 
 		t0 = time->frameTime();
 		std::vector<BOViL::ImageObject> objects;
+
+		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
 
