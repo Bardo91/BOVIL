@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestSegmentation.h"
+#include <cstdint>
 
 void testSegmentation(){
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
@@ -57,7 +58,7 @@ void testSegmentation(){
 
 		std::vector<BOViL::ImageObject> objects;
 
-		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, unsigned char(BOViL::bin2dec("00010000")));
+		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
 

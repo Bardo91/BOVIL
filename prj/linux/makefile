@@ -48,7 +48,7 @@ BOViL: $(OBJ_FILES)
 
 
 # Compile to .o
-%.cpp.o: %.cpp
+%.o: %.cpp
 	@echo "--------------------------------------"
 	@echo "Linking " $^ " to " $@
 	$(CXX) -c $^ -o $@ $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
