@@ -28,7 +28,7 @@
 
 #include "core/time/time.h"
 
-#include "algorithms\state_estimators\StereoVisionEKF.h"
+#include "algorithms/state_estimators/StereoVisionEKF.h"
 
 #include <cstdint>
 #include <fstream>
