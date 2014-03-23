@@ -23,10 +23,10 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		void StereoVisionEKF::updateCameras(	const math::Matrix<double> _posC1, 
-												const math::Matrix<double> _posC2, 
-												const math::Matrix<double> _oriC1, 
-												const math::Matrix<double> _oriC2){
+		void StereoVisionEKF::updateCameras(	const math::Matrix<double>& _posC1, 
+												const math::Matrix<double>& _posC2, 
+												const math::Matrix<double>& _oriC1, 
+												const math::Matrix<double>& _oriC2){
 			mPosC1 = _posC1;	
 			mPosC2 = _posC2;	
 			mOriC1 = _oriC1;

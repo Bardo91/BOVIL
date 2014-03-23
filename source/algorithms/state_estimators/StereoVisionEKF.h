@@ -25,10 +25,10 @@ namespace BOViL{
 		public:
 			void setUpCameras(double _focalLenght, double _u0, double _v0);
 
-			void updateCameras(	const math::Matrix<double> _posC1, 
-								const math::Matrix<double> _posC2, 
-								const math::Matrix<double> _oriC1, 
-								const math::Matrix<double> _oriC2);
+			void updateCameras(	const math::Matrix<double>& _posC1, 
+								const math::Matrix<double>& _posC2, 
+								const math::Matrix<double>& _oriC1, 
+								const math::Matrix<double>& _oriC2);
 
 		private:
 			void updateJf(const double _incT);

@@ -8,8 +8,8 @@
 
 #include "TestSegmentation.h"
 #include "algorithms\state_estimators\StereoVisionEKF.h"
-#include <cstdint>
 
+#include <cstdint>
 #include <fstream>
 
 static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
@@ -18,6 +18,7 @@ static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0,
 									0, 0, 0, 0.05, 0, 0, 
 									0, 0, 0, 0, 0.05, 0, 
 									0, 0, 0, 0, 0, 0.05};
+
 static const double arrayR[16] = {	0.1, 0, 0, 0, 
 									0, 0.1, 0, 0, 
 									0, 0, 0.1, 0, 
@@ -56,7 +57,7 @@ void testSegmentation(){
 
 	double t0, t1;
 
-	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U,BOViL::bin2dec("00010000"));
+	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
 
 	//-------
 	BOViL::algorithms::StereoVisionEKF stereoEKF;
@@ -95,11 +96,9 @@ void testSegmentation(){
 		t0 = time->frameTime();
 		std::vector<BOViL::ImageObject> objects;
 
-		BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
-
 		cv::cvtColor(img, img, CV_BGR2HSV);
 
-		BOViL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
+		BOViL::algorithms::ColorClustering<std::uint8_t>(	img.data,		// Image pointer
 															img.cols,		// Width
 															img.rows,		// Height
 															5,				// Size Threshold
@@ -108,7 +107,7 @@ void testSegmentation(){
 														
 
 
-		//BOVIL::algorithms::ColorClustering<unsigned char>(	img.data,		// Image pointer
+		//BOVIL::algorithms::ColorClustering<std::uint8_t>(	img.data,		// Image pointer
 		//													img.cols,		// Width
 		//													img.rows,		// Height
 		//													5,				// Size Threshold
@@ -140,7 +139,6 @@ void testSegmentation(){
 
 		cv::imshow("ORIGINAL", ori);
 		#endif
-		inputBuffer;
 		// ----------------- TRACKING ALGORITHM ------------------------
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
@@ -158,8 +156,9 @@ void testSegmentation(){
 				maxIndex = obj;
 			}
 		}
-		double arrayZk[2] = {objects[i].getCentroid().x, objects[i].getCentroid().y};
-		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 2, 1),inputBuffer[0]);
+
+		double arrayZk[4] = {objects[i].getCentroid().x, objects[i].getCentroid().y, 5.2, 6.3};
+		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1),inputBuffer[0]);
 		
 		cv::waitKey(1);
 
