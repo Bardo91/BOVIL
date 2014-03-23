@@ -14,7 +14,6 @@
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
-    <ClCompile Include="..\..\source\core\math\Matrix.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
