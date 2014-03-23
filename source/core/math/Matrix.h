@@ -11,8 +11,9 @@
 #define _BOVIL_CORE_MATH_MATRIX_H_
 
 #include <cassert>
-#include <iostream>
 #include <cmath>
+#include <cstring>
+#include <iostream>
 #include <sstream>
 
 namespace BOViL{
