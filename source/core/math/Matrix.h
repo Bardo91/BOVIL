@@ -44,10 +44,12 @@ namespace BOViL{
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
 			Matrix operator*(const type_ _scalar) const;		// Scalar operator
-			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
-			Matrix operator!();								// Transpose operator
-			type_ operator~();								// Determinant operator
 			Matrix operator^(const double _exp) const;		// Pow operator     666 TODO:
+
+		public:	// Other operations	666 TODO: Change names
+			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
+			Matrix transpose();								// Transpose operator
+			type_ determinant();							// Determinant operator
 
 		public:		// Various algorithms
 			double norm();
@@ -310,6 +312,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
+		//------------------------Other operators-------------------------------------
+		//-----------------------------------------------------------------------------
 		template<typename type_>
 		Matrix<type_> Matrix<type_>::operator&(const Matrix<type_>& _mat) const{
 			// 666 TODO:
@@ -317,7 +321,7 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_> Matrix<type_>::operator! () {
+		Matrix<type_> Matrix<type_>::transpose () {
 			
 			type_* ptr = new type_[mRows*mCols];
 
@@ -335,7 +339,7 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		type_ Matrix<type_>::operator~ () {
+		type_ Matrix<type_>::determinant () {
 			if(mCols == mRows){
 				Matrix<type_> L(mRows, mCols), U(mRows, mCols);
 
@@ -436,7 +440,7 @@ namespace BOViL{
 				}
 			}
 
-			_Q = !_Q;
+			_Q = _Q.transpose();
 
 			return true;
 		}
