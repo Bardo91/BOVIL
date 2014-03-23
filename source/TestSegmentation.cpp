@@ -73,7 +73,13 @@ void testSegmentation(){
 	std::ifstream inputFile;
 	
 	std::cout << "--Open Input File" << std::endl;
-	condition = openInputFile(inputFile, "C:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");
+	
+	#if defined (__linux)
+		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
+	#endif
+	#if defined (_WIN32)
+		condition = openInputFile(inputFile, "C:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");	
+	#endif
 
 	while(condition){
 
