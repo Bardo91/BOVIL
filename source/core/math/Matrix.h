@@ -302,8 +302,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			if(ptr)
-				delete ptr;
+			delete ptr;
 
 			return mat;
 		}
