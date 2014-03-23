@@ -102,14 +102,14 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(int _cols, int _rows):	mPtr(new type_[_cols*_rows]()),
+		Matrix<type_>::Matrix(int _cols, int _rows):	mPtr(new type_[_cols*_rows]),
 														mCols(_cols),
 														mRows(_rows)		
 		{}
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(const type_* _matPtr, int _rows, int _cols):	mPtr(new type_[_cols*_rows]()),
+		Matrix<type_>::Matrix(const type_* _matPtr, int _rows, int _cols):	mPtr(new type_[_cols*_rows]),
 																			mCols(_cols),
 																			mRows(_rows)		
 		{
@@ -120,7 +120,7 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(const Matrix<type_>& _mat):	mPtr(new type_[_mat.mCols*_mat.mRows]()),
+		Matrix<type_>::Matrix(const Matrix<type_>& _mat):	mPtr(new type_[_mat.mCols*_mat.mRows]),
 															mCols(_mat.mCols),
 															mRows(_mat.mRows) {
 			for(int i = 0; i < mCols*mRows ; i ++){
@@ -216,7 +216,7 @@ namespace BOViL{
 			if(mPtr)
 				delete mPtr;
 
-			mPtr = new type_[mRows*mCols]();
+			mPtr = new type_[mRows*mCols];
 
 			for(int i = 0 ; i < mRows*mCols ; i++){
 				mPtr[i] = _mat.mPtr[i];
@@ -233,7 +233,7 @@ namespace BOViL{
 			if(_mat.mCols != mCols || _mat.mRows != mRows)
 				assert(false);
 
-			type_* ptr = new type_[_mat.mRows*_mat.mCols]();
+			type_* ptr = new type_[_mat.mRows*_mat.mCols];
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
@@ -253,7 +253,7 @@ namespace BOViL{
 			if(_mat.mCols != mCols || _mat.mRows != mRows)
 				assert(false);
 
-			type_* ptr = new type_[_mat.mRows*_mat.mCols]();
+			type_* ptr = new type_[_mat.mRows*_mat.mCols];
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
@@ -273,7 +273,7 @@ namespace BOViL{
 			if(mCols !=_mat.mRows)
 				assert(false);
 
-			type_* ptr = new type_[mRows*_mat.mCols]();
+			type_* ptr = new type_[mRows*_mat.mCols];
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
@@ -293,7 +293,7 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::operator* (const type_ _scalar) const{
-			type_* ptr = new type_[mRows*mCols]();
+			type_* ptr = new type_[mRows*mCols];
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
@@ -302,7 +302,8 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
+			if(ptr)
+				delete ptr;
 
 			return mat;
 		}
@@ -317,7 +318,7 @@ namespace BOViL{
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::operator! () {
 			
-			type_* ptr = new type_[mRows*mCols]();
+			type_* ptr = new type_[mRows*mCols];
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
