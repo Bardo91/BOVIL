@@ -11,8 +11,9 @@
 #define _BOVIL_CORE_MATH_MATRIX_H_
 
 #include <cassert>
-#include <iostream>
 #include <cmath>
+#include <cstring>
+#include <iostream>
 #include <sstream>
 
 namespace BOViL{
@@ -22,12 +23,12 @@ namespace BOViL{
 		class Matrix{
 		public:		// Main interface
 			Matrix();		// Default constructor
-			Matrix(int _rows, int _cols);		// Empty matrix constructor
+			Matrix(int _cols, int _rows);		// Empty matrix constructor
 			Matrix(const type_* _mat, int _rows, int _cols);	// Full-defined matrix constructor
 			Matrix(const Matrix& _mat);		// Copy constructor
 			Matrix(Matrix&& _mat);			// Move constructor c++11
 
-			~Matrix();		// Destructor
+			~Matrix();		// De-constructor
 
 			type_* getMatrixPtr() const;
 			int getWidth() const;
@@ -38,17 +39,17 @@ namespace BOViL{
 		public:	// Overloaded Operators
 			std::string operator<<(const Matrix<type_>& _mat) const;		// Operator for cout 666 TODO:
 			type_& operator[](int _index);
-			Matrix& operator=(const Matrix& _mat);				// Assignement operator
+			void operator=(const Matrix& _mat);				// Assignement operator
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
 			Matrix operator*(const type_ _scalar) const;		// Scalar operator
 			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
+			Matrix operator!();								// Transpose operator
+			type_ operator~();								// Determinant operator
 			Matrix operator^(const double _exp) const;		// Pow operator     666 TODO:
 
 		public:		// Various algorithms
-			Matrix transpose();								// Transpose operator
-			type_ determinant();								// Determinant operator
 			double norm();
 			bool decompositionLU(Matrix& _L, Matrix& _U);
 			bool decompositionCholesky(Matrix& _L, Matrix& _Lt);
@@ -59,7 +60,7 @@ namespace BOViL{
 			
 
 		private:	// Private interface
-			int mRows, mCols;
+			int mCols, mRows;
 			type_* mPtr;
 
 		};
@@ -95,24 +96,25 @@ namespace BOViL{
 		//---------------------- Matrix Main interface -------------------------------
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix():	mRows(0),
-									mCols(0),
-									mPtr(nullptr)	{
+		Matrix<type_>::Matrix():	mCols(0),
+									mRows(0),
+									mPtr(nullptr){
 		}
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(int _rows, int _cols):	mPtr(new type_[_cols*_rows]),
+		Matrix<type_>::Matrix(int _cols, int _rows):	mPtr(new type_[_cols*_rows]),
 														mCols(_cols),
-														mRows(_rows)		{
-			memset(mPtr, 0, sizeof(type_)*_cols*_rows);
+														mRows(_rows)	{
+			memset(mPtr, 0, sizeof(type_) * _cols * _rows);
 		}
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_>::Matrix(const type_* _matPtr, int _rows, int _cols):	mPtr(new type_[_cols*_rows]),
 																			mCols(_cols),
-																			mRows(_rows)	{
+																			mRows(_rows)		
+		{
 			for(int i = 0; i < _cols*_rows ; i ++){
 				mPtr[i] = _matPtr[i];
 			}
@@ -209,20 +211,22 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
-		Matrix<type_>& Matrix<type_>::operator= (const Matrix<type_>& _mat){
-			if(this == &_mat)
-				return *this;
-			else{
-				if(_mat.getHeight() != mRows || _mat.getWidth() != mCols){
-					mRows = _mat.mRows;
-					mCols = _mat.mCols;
-					if(mPtr)
-						delete[] mPtr;
+		void Matrix<type_>::operator= (const Matrix<type_>& _mat){
+			mRows = _mat.mRows;
+			mCols = _mat.mCols;
+			
+			if(mPtr)
+				delete[] mPtr;
 
-					mPtr = new type_[mRows * mCols];
-				}
+			mPtr = new type_[mRows*mCols];
+
+			for(int i = 0 ; i < mRows*mCols ; i++){
+				mPtr[i] = _mat.mPtr[i];
 			}
-			return *this;
+						
+			return ;
+
+
 		}
 
 		//-----------------------------------------------------------------------------
@@ -274,7 +278,7 @@ namespace BOViL{
 			type_* ptr = new type_[mRows*_mat.mCols];
 
 			for(int i = 0; i < mRows ; i ++ ){
-				for(int j = 0 ; j < _mat.mCols ; j ++){
+				for(int j = 0 ; j < mCols ; j ++){
 					ptr[_mat.mCols * i + j] = 0;
 					for(int k = 0 ; k < _mat.mRows ; k ++){
 						ptr[_mat.mCols * i + j] += mPtr[mCols*i + k]*_mat.mPtr[_mat.mCols*k + j];
@@ -312,6 +316,42 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
+		template<typename type_> 
+		Matrix<type_> Matrix<type_>::operator! () {
+			
+			type_* ptr = new type_[mRows*mCols];
+
+			for(int i = 0; i < mRows ; i ++ ){
+				for(int j = 0 ; j < mCols ; j ++){
+					ptr[j*mCols + i] = mPtr[i*mCols + j];
+				}
+			}
+
+			Matrix<type_> mat(ptr, mRows, mCols);
+			delete[] ptr;
+
+			return mat;
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_> 
+		type_ Matrix<type_>::operator~ () {
+			if(mCols == mRows){
+				Matrix<type_> L(mRows, mCols), U(mRows, mCols);
+
+				if(decompositionLU(L, U)){
+					type_ det = U[0];
+					for(int i = 1 ; i < mRows ; i++){
+						det *= U[i*mRows + i];
+					}
+					return det;
+				}
+			}
+
+			return static_cast<type_>(0);
+		}
+
+		//-----------------------------------------------------------------------------
 		template<typename type_>
 		Matrix<type_> Matrix<type_>::operator^(const double _exp) const{
 			Matrix<type_> mat(*this);
@@ -332,43 +372,7 @@ namespace BOViL{
 		}
 		//-----------------------------------------------------------------------------
 		//-------------------------- Various algorithms -------------------------------
-		//-----------------------------------------------------------------------------
-		template<typename type_> 
-		Matrix<type_> Matrix<type_>::transpose () {
-			
-			type_* ptr = new type_[mRows*mCols];
-
-			for(int i = 0; i < mRows ; i ++ ){
-				for(int j = 0 ; j < mCols ; j ++){
-					ptr[j*mCols + i] = mPtr[i*mCols + j];
-				}
-			}
-
-			Matrix<type_> mat(ptr, mCols, mRows);
-			delete[] ptr;
-
-			return mat;
-		}
-
 		//------------------------------------------------------------------------------
-		template<typename type_> 
-		type_ Matrix<type_>::determinant() {
-			if(mCols == mRows){
-				Matrix<type_> L(mRows, mCols), U(mRows, mCols);
-
-				if(decompositionLU(L, U)){
-					type_ det = U[0];
-					for(int i = 1 ; i < mRows ; i++){
-						det *= U[i*mRows + i];
-					}
-					return det;
-				}
-			}
-
-			return static_cast<type_>(0);
-		}
-
-		//-----------------------------------------------------------------------------		
 		template<typename type_>
 		double Matrix<type_>::norm(){		// 666 TODO: only true if vector, if not, is not max norm
 			int size = mRows > mCols ? mRows : mCols;
@@ -425,14 +429,14 @@ namespace BOViL{
 			for(int j = 0 ; j < mCols  ; j++){
 				for(int i = mRows - 1;  i > j ; i--){
 					double theta = atan(- _R[i*dim + j] / _R[(i - 1)*dim + j]);
-					Matrix<type_> Gi = createGivenRotation(dim, i, i - 1, theta);
+					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, i - 1, theta);
 					
 					_R = Gi * _R;
 					_Q = Gi * _Q;
 				}
 			}
 
-			_Q = _Q.transpose();
+			_Q = !_Q;
 
 			return true;
 		}
@@ -475,26 +479,6 @@ namespace BOViL{
 			return matInv;
 		}
 		//-----------------------------------------------------------------------------
-
-		//-----------------------------------------------------------------------------
-		//-------------------------- Related functions -------------------------------
-		//-----------------------------------------------------------------------------
-		template<typename type_>
-		Matrix<type_> createEye(int _n){
-			Matrix<type_> mat(_n, _n);
-
-			memset(mat.getMatrixPtr(), 0, sizeof(type_)*_n*_n); 
-
-			for(int i = 0 ; i < _n ; i++){
-				*mat[i * _n + i] = 1;
-			}
-
-			return mat;
-		}
-
-		//-----------------------------------------------------------------------------
-		Matrix<double> createGivenRotation(int _n, int _i, int _j, double _theta);
-
 	}	// namespace math
 }	// namespace BOViL
 
