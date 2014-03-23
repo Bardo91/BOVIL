@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOViL", "BOVIL.vcxproj", "{3C03AE01-0616-4AAF-B25C-760146ACED3A}"
 EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject1", "..\ModelingProject1\ModelingProject1.modelproj", "{1B1CF163-7442-4022-BCCD-92A9D0014E9E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,16 +23,6 @@ Global
 		{3C03AE01-0616-4AAF-B25C-760146ACED3A}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{3C03AE01-0616-4AAF-B25C-760146ACED3A}.Release|Win32.ActiveCfg = Release|Win32
 		{3C03AE01-0616-4AAF-B25C-760146ACED3A}.Release|Win32.Build.0 = Release|Win32
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1B1CF163-7442-4022-BCCD-92A9D0014E9E}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
