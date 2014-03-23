@@ -104,8 +104,9 @@ namespace BOViL{
 		template<typename type_> 
 		Matrix<type_>::Matrix(int _cols, int _rows):	mPtr(new type_[_cols*_rows]),
 														mCols(_cols),
-														mRows(_rows)		
-		{}
+														mRows(_rows)	{
+			memset(mPtr, 0, sizeof(type_) * _cols * _rows);
+		}
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
