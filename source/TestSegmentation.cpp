@@ -38,30 +38,30 @@ void testSegmentation(){
 
 	std::string path = "";
 
-	#if defined (_linux)
+	#if defined (__linux)
 		path = "/home/bardo91/Programming/Images/";
 	#endif
 	#if defined (_WIN32)
 		path = "C:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
 	#endif
 	
-	std::cout << "Path of images: " << path << std::endl;
+	std::cout << "--Path of images: " << path << std::endl;
 
 	bool condition = true;
 	int i = 0;
 
-	std::cout << "Init Timer" << std::endl;
+	std::cout << "--Init Timer" << std::endl;
 	BOViL::STime::init();
 
 	BOViL::STime *time = BOViL::STime::get();
 
 	double t0, t1;
 
-	std::cout << "Create Clustered Space" << std::endl;
+	std::cout << "--Create Clustered Space" << std::endl;
 	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
 
 	//-------
-	std::cout << "Init Stereo EKF" << std::endl;
+	std::cout << "--Init Stereo EKF" << std::endl;
 	BOViL::algorithms::StereoVisionEKF stereoEKF;
 
 	stereoEKF.setUpEKF(	BOViL::math::Matrix<double>(arrayQ, 6, 6),
@@ -72,7 +72,7 @@ void testSegmentation(){
 	double inputBuffer[20];
 	std::ifstream inputFile;
 	
-	std::cout << "Open Input File" << std::endl;
+	std::cout << "--Open Input File" << std::endl;
 	condition = openInputFile(inputFile, "C:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");
 
 	while(condition){
