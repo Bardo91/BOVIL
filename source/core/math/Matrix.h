@@ -214,7 +214,7 @@ namespace BOViL{
 			mCols = _mat.mCols;
 			
 			if(mPtr)
-				delete mPtr;
+				delete[] mPtr;
 
 			mPtr = new type_[mRows*mCols];
 
@@ -262,7 +262,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
@@ -285,7 +285,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, _mat.mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
@@ -302,7 +302,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
@@ -326,7 +326,7 @@ namespace BOViL{
 			}
 
 			Matrix<type_> mat(ptr, mRows, mCols);
-			delete ptr;
+			delete[] ptr;
 
 			return mat;
 		}
