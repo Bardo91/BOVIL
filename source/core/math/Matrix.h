@@ -344,7 +344,8 @@ namespace BOViL{
 					return det;
 				}
 			}
-			return NULL;
+
+			return static_cast<type_>(0);
 		}
 
 		//-----------------------------------------------------------------------------
