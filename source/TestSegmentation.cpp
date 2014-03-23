@@ -7,10 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestSegmentation.h"
-#include "algorithms\state_estimators\StereoVisionEKF.h"
 
-#include <cstdint>
-#include <fstream>
 
 static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
 									0, 0.05, 0, 0, 0, 0, 
