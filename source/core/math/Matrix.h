@@ -37,7 +37,7 @@ namespace BOViL{
 
 		public:	// Overloaded Operators
 			std::string operator<<(const Matrix<type_>& _mat) const;		// Operator for cout 666 TODO:
-			type_* operator[](int _index);
+			type_& operator[](int _index);
 			void operator=(const Matrix& _mat);				// Assignement operator
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
@@ -63,9 +63,36 @@ namespace BOViL{
 			type_* mPtr;
 
 		};
+		
+		//-----------------------------------------------------------------------------
+		//-------------------------- Related functions -------------------------------
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		Matrix<type_> createEye(int _n){
+			Matrix<type_> mat(_n, _n);
+
+			for(int i = 0 ; i < _n ; i++){
+				mat[i * _n + i] = 1;
+			}
+
+			return mat;
+		}
 
 		//-----------------------------------------------------------------------------
-		//--------------------------- Main interface ---------------------------------
+		template<typename type_>
+		Matrix<type_> createGivenRotation(int _n, int _i, int _j, double _theta){
+			Matrix<type_>  mat = createEye<type_>(_n);
+
+			mat[_i*_n + _i] = cos(_theta);
+			mat[_j*_n + _j] = cos(_theta);
+			mat[_i*_n + _j] = sin(_theta);
+			mat[_j*_n + _i] = -sin(_theta);
+			
+			return mat;
+		}
+
+		//-----------------------------------------------------------------------------
+		//---------------------- Matrix Main interface -------------------------------
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_>::Matrix(){
@@ -175,8 +202,8 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
-		type_* Matrix<type_>::operator[](int _index){
-			return (mPtr + _index);
+		type_& Matrix<type_>::operator[](int _index){
+			return mPtr[_index];
 		}
 
 		//-----------------------------------------------------------------------------
@@ -310,9 +337,9 @@ namespace BOViL{
 				Matrix<type_> L(mRows, mCols), U(mRows, mCols);
 
 				if(decompositionLU(L, U)){
-					type_ det = *U[0];
+					type_ det = U[0];
 					for(int i = 1 ; i < mRows ; i++){
-						det *= *U[i*mRows + i];
+						det *= U[i*mRows + i];
 					}
 					return det;
 				}
@@ -366,11 +393,11 @@ namespace BOViL{
 			_U = Matrix<type_>(mPtr, mRows, mCols);
 
 			for(int i = 0 ; i < mRows ; i++){
-				*_L[i*mCols + i] = 1.0;	// Set de diagonals of L. Eye matrix
+				_L[i*mCols + i] = 1.0;	// Set de diagonals of L. Eye matrix
 				for(int k = i + 1 ; k < mRows ; k++){
-					*_L[k*mCols + i] = *_U[k*mCols + i] / *_U[i*mCols + i];
+					_L[k*mCols + i] = _U[k*mCols + i] / _U[i*mCols + i];
 					for(int j = 0 ; j < mCols ; j ++){
-						*_U[k*mCols + j] = *_U[k*mCols + j] - *_U[i*mCols + j] * *_L[k*mCols + i];
+						_U[k*mCols + j] = _U[k*mCols + j] - _U[i*mCols + j] * _L[k*mCols + i];
 					}
 				}
 			}
@@ -397,7 +424,7 @@ namespace BOViL{
 			// Creating Givens Rotation matrix
 			for(int j = 0 ; j < mCols  ; j++){
 				for(int i = mRows - 1;  i > j ; i--){
-					double theta = atan(- *_R[i*dim + j] / *_R[(i - 1)*dim + j]);
+					double theta = atan(- _R[i*dim + j] / _R[(i - 1)*dim + j]);
 					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, i - 1, theta);
 					
 					_R = Gi * _R;
@@ -422,10 +449,10 @@ namespace BOViL{
 			// Inferior triangle elimination.
 			for(int i = 0 ; i < mRows ; i++){
 				for(int k = i + 1 ; k < mRows ; k++){
-					double factor = *mat[k*mCols + i] / *mat[i*mCols + i];
+					double factor = mat[k*mCols + i] / mat[i*mCols + i];
 					for(int j = 0 ; j < mCols ; j ++){
-						*mat[k*mCols + j] = *mat[k*mCols + j] - *mat[i*mCols + j] * factor;
-						*matInv[k*mCols + j] = *matInv[k*mCols + j] - *matInv[i*mCols + j] * factor;
+						mat[k*mCols + j] = mat[k*mCols + j] - mat[i*mCols + j] * factor;
+						matInv[k*mCols + j] = matInv[k*mCols + j] - matInv[i*mCols + j] * factor;
 					}
 				}
 			}
@@ -433,49 +460,21 @@ namespace BOViL{
 			// Superior triangle elimination.
 			for(int i = mRows - 1 ; i > 0 ; i--){
 				for(int k = i - 1 ; k >= 0 ; k--){
-					double factor = *mat[k*mCols + i] / *mat[i*mCols + i];
+					double factor = mat[k*mCols + i] / mat[i*mCols + i];
 					for(int j = mCols - 1 ; j >= 0  ; j --){
-						*mat[k*mCols + j] = (*mat[k*mCols + j] - *mat[i*mCols + j] * factor);
-						*matInv[k*mCols + j] = (*matInv[k*mCols + j] - *matInv[i*mCols + j] * factor);
+						mat[k*mCols + j] = (mat[k*mCols + j] - mat[i*mCols + j] * factor);
+						matInv[k*mCols + j] = (matInv[k*mCols + j] - matInv[i*mCols + j] * factor);
 					}
 				}
 
 				for(int j = 0 ; j < mCols ; j ++){	// Unitarize the diagonal
-					*matInv[i*mCols + j] = *matInv[i*mCols + j] / *mat[i*mCols + i] ;
+					matInv[i*mCols + j] = matInv[i*mCols + j] / mat[i*mCols + i] ;
 				}
 			}
 
 			return matInv;
 		}
 		//-----------------------------------------------------------------------------
-
-		//-----------------------------------------------------------------------------
-		//-------------------------- Related functions -------------------------------
-		//-----------------------------------------------------------------------------
-		template<typename type_>
-		Matrix<type_> createEye(int _n){
-			Matrix<type_> mat(_n, _n);
-
-			for(int i = 0 ; i < _n ; i++){
-				*mat[i * _n + i] = 1;
-			}
-
-			return mat;
-		}
-
-		//-----------------------------------------------------------------------------
-		template<typename type_>
-		Matrix<type_> createGivenRotation(int _n, int _i, int _j, double _theta){
-			Matrix<type_>  mat = createEye<type_>(_n);
-
-			*mat[_i*_n + _i] = cos(_theta);
-			*mat[_j*_n + _j] = cos(_theta);
-			*mat[_i*_n + _j] = sin(_theta);
-			*mat[_j*_n + _i] = -sin(_theta);
-			
-			return mat;
-		}
-
 	}	// namespace math
 }	// namespace BOViL
 
