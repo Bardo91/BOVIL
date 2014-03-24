@@ -39,7 +39,7 @@ namespace BOViL{
 		public:	// Overloaded Operators
 			std::string operator<<(const Matrix<type_>& _mat) const;		// Operator for cout 666 TODO:
 			type_& operator[](int _index);
-			void operator=(const Matrix& _mat);				// Assignement operator
+			Matrix operator=(const Matrix& _mat);				// Assignement operator
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
@@ -213,22 +213,23 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
-		void Matrix<type_>::operator= (const Matrix<type_>& _mat){
-			mRows = _mat.mRows;
-			mCols = _mat.mCols;
-			
-			if(mPtr)
-				delete[] mPtr;
+		Matrix<type_> Matrix<type_>::operator= (const Matrix<type_>& _mat){
+			if(this == &_mat)
+				return *this;
+			else{
+				if(mRows != _mat.mRows || mCols != _mat.mCols){
+					if(mPtr)
+						delete[] mPtr;
+					mRows = _mat.mRows;
+					mCols = _mat.mCols;
 
-			mPtr = new type_[mRows*mCols];
-
-			for(int i = 0 ; i < mRows*mCols ; i++){
-				mPtr[i] = _mat.mPtr[i];
+					mPtr = new type_[mRows*mCols];
+				}
+				for(int i = 0 ; i < mCols*mRows ; i++){
+					mPtr[i] = _mat.mPtr[i];
+				}
 			}
-						
-			return ;
-
-
+			return *this;
 		}
 
 		//-----------------------------------------------------------------------------
