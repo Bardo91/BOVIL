@@ -75,4 +75,8 @@ void testMatrix(){
 	std::cout << "Test inverse" << std::endl;
 	BOViL::math::Matrix<double> matInv = mat1^-1;
 	matInv.showMatrix();
+
+	std::cout << "Perreando" << std::endl;
+	BOViL::math::Matrix<double> finalMat = ((mat1 * mat2 * mat3.transpose())^-1) + mat4;
+	finalMat.showMatrix();
 }
