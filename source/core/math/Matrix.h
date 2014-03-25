@@ -214,9 +214,7 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_>
 		Matrix<type_> Matrix<type_>::operator= (const Matrix<type_>& _mat){
-			if(this == &_mat)
-				return *this;
-			else{
+			if(this != &_mat){
 				if(mRows != _mat.mRows || mCols != _mat.mCols){
 					if(mPtr)
 						delete[] mPtr;
