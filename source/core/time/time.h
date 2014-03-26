@@ -36,7 +36,7 @@ namespace BOViL
 			double mFrameTime;
 
 			// Internal use.
-	#if defined(_linux)
+	#if defined(__linux__)
 		int mLastTime;
 	#endif
 	#if defined (_WIN32)

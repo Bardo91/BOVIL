@@ -8,7 +8,7 @@
 // Time and time functions
 
 // Standard headers
-#if defined(_linux)
+#if defined(__linux__)
 		#include <sys/time.h>
 #elif defined (_WIN32)
 		#include <Windows.h>
@@ -49,7 +49,7 @@ namespace BOViL
 	//------------------------------------------------------------------------------------------------------------------
 	void STime::update()
 	{
-	#if defined (_linux)
+	#if defined (__linux__)
 		// Get current time
 		timeval currentTime;
 		gettimeofday(&currentTime, 0);
@@ -77,7 +77,7 @@ namespace BOViL
 	STime::STime():
 			mFrameTime(0.f)
 	{
-	#if defined (_linux)
+	#if defined (__linux__)
 			// Get current time
 			timeval currentTime;
 			gettimeofday(&currentTime, 0);
