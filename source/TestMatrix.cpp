@@ -76,7 +76,27 @@ void testMatrix(){
 	BOViL::math::Matrix<double> matInv = mat1^-1;
 	matInv.showMatrix();
 
-	std::cout << "Perreando" << std::endl;
-	BOViL::math::Matrix<double> finalMat = ((mat1 * mat2 * mat3.transpose())^-1) + mat4;
-	finalMat.showMatrix();
+	std::cout << "----- TESTING NON SQUARE MATRIX --------" << std::endl;
+
+	double array2[6] = {	1.0, 2.0, 3.0,
+							4.0, 5.0, 6.0	};
+
+	BOViL::math::Matrix<double> mat10(array2, 2, 3);
+	mat10.showMatrix();
+
+	std::cout << "Transpose NS matrix" << std::endl;
+	BOViL::math::Matrix<double> mat11 = mat10.transpose();
+	mat11.showMatrix();
+
+	std::cout << "Multiply NS matrixes" << std::endl;
+	BOViL::math::Matrix<double> mat12 = mat10*mat11;
+	mat12.showMatrix();
+
+	std::cout << "Multiply NS matrix" << std::endl;
+	BOViL::math::Matrix<double> mat13 = mat11*mat10;
+	mat13.showMatrix();
+
+	//std::cout << "Transpose NS matrix" << std::endl;
+	//BOViL::math::Matrix<double>
+	
 }

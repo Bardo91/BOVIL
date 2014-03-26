@@ -283,10 +283,10 @@ namespace BOViL{
 
 			Matrix<type_> mat(mRows, _mat.mCols);
 
-			for(int i = 0; i < mRows ; i ++ ){
-				for(int j = 0 ; j < _mat.mCols ; j ++){
+			for(int i = 0; i < mat.mRows ; i ++ ){
+				for(int j = 0 ; j < mat.mCols ; j ++){
 					mat(i, j) = 0;
-					for(int k = 0 ; k < mRows ; k ++){
+					for(int k = 0 ; k < mCols ; k ++){
 						mat(i, j) += (*this)(i, k) * _mat(k, j);
 					}
 				}
@@ -311,6 +311,26 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
+		template<typename type_>
+		Matrix<type_> Matrix<type_>::operator^(const double _exp) const{
+			Matrix<type_> mat(*this);
+
+			if(_exp < 0){
+				mat = mat^-_exp;
+				mat = mat.inverse();
+			} else {
+				for(int i = 0 ; i < mRows ; i++){
+					for(int j = 0 ; j < mCols ; j++){
+						mPtr[i*mCols + j] = pow(mPtr[i*mCols + j], _exp);
+					}
+				}
+			}
+
+			return mat;
+
+		}
+
+		//-----------------------------------------------------------------------------
 		//------------------------Other operators-------------------------------------
 		//-----------------------------------------------------------------------------
 		template<typename type_>
@@ -321,7 +341,7 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::transpose () {
-			Matrix<type_> mat(mRows, mCols);
+			Matrix<type_> mat(mCols, mRows);
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
@@ -350,25 +370,6 @@ namespace BOViL{
 			return static_cast<type_>(0);
 		}
 
-		//-----------------------------------------------------------------------------
-		template<typename type_>
-		Matrix<type_> Matrix<type_>::operator^(const double _exp) const{
-			Matrix<type_> mat(*this);
-
-			if(_exp < 0){
-				mat = mat^-_exp;
-				mat = mat.inverse();
-			} else {
-				for(int i = 0 ; i < mRows ; i++){
-					for(int j = 0 ; j < mCols ; j++){
-						mPtr[i*mCols + j] = pow(mPtr[i*mCols + j], _exp);
-					}
-				}
-			}
-
-			return mat;
-
-		}
 		//-----------------------------------------------------------------------------
 		//-------------------------- Various algorithms -------------------------------
 		//------------------------------------------------------------------------------

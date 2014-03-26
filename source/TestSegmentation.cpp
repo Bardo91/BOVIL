@@ -159,14 +159,14 @@ void testSegmentation(){
 								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
 		// Select Oject
 		int maxSize = 0, maxIndex = 0;
-		for(unsigned int obj = 0; obj < objects.size() ; obj++){
+		for(unsigned int obj = 0; obj < objects.size() ; ++obj){
 			if(objects[obj].getSize() > maxSize){
 				maxSize = objects[obj].getSize();
 				maxIndex = obj;
 			}
 		}
 
-		double arrayZk[4] = {objects[i].getCentroid().x, objects[i].getCentroid().y, 5.2, 6.3};
+		double arrayZk[4] = {objects[maxIndex].getCentroid().x, objects[maxIndex].getCentroid().y, 5.2, 6.3};
 		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1),inputBuffer[0]);
 		
 		cv::waitKey(1);
