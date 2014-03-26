@@ -45,9 +45,9 @@ namespace BOViL{
 		void ExtendedKalmanFilter::forecastStep(const double _incT){
 			updateJf(_incT);
 			
-			mXfk = (mJf * mXak);
+			mXfk = mJf * mXak;
 			
-			mP = (mJf * mP * mJf.transpose() + mQ);
+			mP = mJf * mP * mJf.transpose() + mQ;
 		}
 
 		//-----------------------------------------------------------------------------

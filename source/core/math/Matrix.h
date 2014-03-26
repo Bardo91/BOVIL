@@ -23,7 +23,7 @@ namespace BOViL{
 		class Matrix{
 		public:		// Main interface
 			Matrix();		// Default constructor
-			Matrix(int _cols, int _rows);		// Empty matrix constructor
+			Matrix(int _rows, int _cols);		// Empty matrix constructor
 			Matrix(const type_* _mat, int _rows, int _cols);	// Full-defined matrix constructor
 			Matrix(const Matrix& _mat);		// Copy constructor
 			Matrix(Matrix&& _mat);			// Move constructor c++11
@@ -38,7 +38,9 @@ namespace BOViL{
 
 		public:	// Overloaded Operators
 			std::string operator<<(const Matrix<type_>& _mat) const;		// Operator for cout 666 TODO:
-			type_& operator[](int _index);
+			type_& operator[](const int _index) const;
+			type_& operator()(const int _i, const int _j);
+			const type_& operator()(const int _i, const int _j) const;
 			Matrix operator=(const Matrix& _mat);				// Assignement operator
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
@@ -105,7 +107,7 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(int _cols, int _rows):	mPtr(new type_[_cols*_rows]),
+		Matrix<type_>::Matrix(int _rows, int _cols):	mPtr(new type_[_cols*_rows]),
 														mCols(_cols),
 														mRows(_rows)	{
 			memset(mPtr, 0, sizeof(type_) * _cols * _rows);
@@ -207,8 +209,20 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
-		type_& Matrix<type_>::operator[](int _index){
+		type_& Matrix<type_>::operator[](int _index) const{
 			return mPtr[_index];
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		type_& Matrix<type_>::operator()(int _i, int _j){
+			return mPtr[_i * mCols + _j];
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		const type_& Matrix<type_>::operator()(int _i, int _j) const{
+			return mPtr[_i * mCols + _j];
 		}
 
 		//-----------------------------------------------------------------------------
@@ -233,19 +247,15 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::operator+ (const Matrix<type_>& _mat) const{
-			if(_mat.mCols != mCols || _mat.mRows != mRows)
-				assert(false);
+			assert(_mat.mCols == mCols || _mat.mRows == mRows);
 
-			type_* ptr = new type_[_mat.mRows*_mat.mCols];
+			Matrix<type_> mat(mRows, mCols);
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
-					ptr[mCols * i + j] = mPtr[mCols * i + j] + _mat.getMatrixPtr()[mCols * i + j];
+					mat(i, j) = (*this)(i, j) + _mat(i, j);
 				}
 			}
-
-			Matrix<type_> mat(ptr, mRows, mCols);
-			delete[] ptr;
 
 			return mat;
 		}
@@ -253,19 +263,15 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::operator- (const Matrix<type_>& _mat) const{
-			if(_mat.mCols != mCols || _mat.mRows != mRows)
-				assert(false);
+			assert(_mat.mCols == mCols || _mat.mRows == mRows);
 
-			type_* ptr = new type_[_mat.mRows*_mat.mCols];
+			Matrix<type_> mat(mRows, mCols);
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
-					ptr[mCols * i + j] = mPtr[mCols * i + j] - _mat.getMatrixPtr()[mCols * i + j];
+					mat(i, j) = (*this)(i, j) - _mat(i, j);
 				}
 			}
-
-			Matrix<type_> mat(ptr, mRows, mCols);
-			delete[] ptr;
 
 			return mat;
 		}
@@ -273,22 +279,18 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::operator* (const Matrix<type_>& _mat) const{
-			if(mCols !=_mat.mRows)
-				assert(false);
+			assert(mCols ==_mat.mRows);
 
-			type_* ptr = new type_[mRows*_mat.mCols];
+			Matrix<type_> mat(mRows, _mat.mCols);
 
 			for(int i = 0; i < mRows ; i ++ ){
-				for(int j = 0 ; j < mCols ; j ++){
-					ptr[_mat.mCols * i + j] = 0;
-					for(int k = 0 ; k < _mat.mRows ; k ++){
-						ptr[_mat.mCols * i + j] += mPtr[mCols*i + k]*_mat.mPtr[_mat.mCols*k + j];
+				for(int j = 0 ; j < _mat.mCols ; j ++){
+					mat(i, j) = 0;
+					for(int k = 0 ; k < mRows ; k ++){
+						mat(i, j) += (*this)(i, k) * _mat(k, j);
 					}
 				}
 			}
-
-			Matrix<type_> mat(ptr, mRows, _mat.mCols);
-			delete[] ptr;
 
 			return mat;
 		}
@@ -296,16 +298,14 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::operator* (const type_ _scalar) const{
-			type_* ptr = new type_[mRows*mCols];
+
+			Matrix<type_> mat(mRows, mCols);
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
-					ptr[mCols * i + j] = mPtr[mCols * i + j]*_scalar;
+					mat(i, j) = (*this)(i, j) * _scalar;
 				}
 			}
-
-			Matrix<type_> mat(ptr, mRows, mCols);
-			delete[] ptr;
 
 			return mat;
 		}
@@ -321,17 +321,13 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
 		Matrix<type_> Matrix<type_>::transpose () {
-			
-			type_* ptr = new type_[mRows*mCols];
+			Matrix<type_> mat(mRows, mCols);
 
 			for(int i = 0; i < mRows ; i ++ ){
 				for(int j = 0 ; j < mCols ; j ++){
-					ptr[j*mCols + i] = mPtr[i*mCols + j];
+					mat(j, i) = (*this)(i, j);
 				}
 			}
-
-			Matrix<type_> mat(ptr, mRows, mCols);
-			delete[] ptr;
 
 			return mat;
 		}
