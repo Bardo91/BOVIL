@@ -145,8 +145,8 @@ void testSegmentation(){
 		//																													});	// Segmentation function
 		
 		t1 = time->frameTime();
-
-		std::cout << 1/(t1-t0) << " fps" << std::endl;
+		double fps = 1/(t1-t0);
+		std::cout << fps << " fps" << std::endl;
 		std::cout << "Number of detected Objects1 in the scene: " << objects1.size() << std::endl;
 		std::cout << "Number of detected Objects2 in the scene: " << objects2.size() << std::endl;
 
