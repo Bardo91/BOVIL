@@ -54,7 +54,7 @@ namespace BOViL
 		timeval currentTime;
 		gettimeofday(&currentTime, 0);
 		int usecTime = currentTime.tv_usec;
-		mFrameTime = TReal((usecTime - mLastTime)/ 1000000.0);        // Known conversion from double. There wont be loss of
+		mFrameTime = double((usecTime - mLastTime)/ 1000000.0);        // Known conversion from double. There wont be loss of
 																														// information because tv_usec isn't that precise.
 		if(mFrameTime < 0.f)
 		{
