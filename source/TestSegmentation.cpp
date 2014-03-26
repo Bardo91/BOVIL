@@ -34,7 +34,7 @@ bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
 void testSegmentation(){
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
-	cv::Mat img, ori;
+	cv::Mat img1, ori1, img2, ori2;
 
 	std::string path = "";
 
@@ -87,34 +87,44 @@ void testSegmentation(){
 
 		// ----------------- IMAGE SEGMENTATION ------------------------
 		++i;
-		std::stringstream ss;
+		std::stringstream ss1, ss2;
 
-		ss << path;
-		ss << "img";
-		ss << i;
-		ss << "_cam1.jpg";
+		ss1 << path;
+		ss1 << "img";
+		ss1 << i;
+		ss2 << ss1.str();
+		ss1 << "_cam1.jpg";
+		ss2 << "_cam2.jpg";
 
-		std::string imagePath = "HOLA";
+		std::string imagePath1 = ss1.str();
+		std::string imagePath2= ss2.str();
 		
-		imagePath = ss.str();
+		img1 = cv::imread(imagePath1, CV_LOAD_IMAGE_COLOR);
+		img2 = cv::imread(imagePath2, CV_LOAD_IMAGE_COLOR);
 
-		img = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);
-
-		img.copyTo(ori);
+		img1.copyTo(ori1);
+		img2.copyTo(ori2);
 
 		t0 = time->frameTime();
-		std::vector<BOViL::ImageObject> objects;
+		std::vector<BOViL::ImageObject> objects1;
+		std::vector<BOViL::ImageObject> objects2;
 
-		cv::cvtColor(img, img, CV_BGR2HSV);
+		cv::cvtColor(img1, img1, CV_BGR2HSV);
+		cv::cvtColor(img2, img2, CV_BGR2HSV);
 
-		BOViL::algorithms::ColorClustering<std::uint8_t>(	img.data,		// Image pointer
-															img.cols,		// Width
-															img.rows,		// Height
+		BOViL::algorithms::ColorClustering<std::uint8_t>(	img1.data,		// Image pointer
+															img1.cols,		// Width
+															img1.rows,		// Height
 															5,				// Size Threshold
-															objects,		// Output Objects
+															objects1,		// Output Objects
 															*cs);			// Segmentation function 
 														
-
+		BOViL::algorithms::ColorClustering<std::uint8_t>(	img2.data,		// Image pointer
+															img2.cols,		// Width
+															img2.rows,		// Height
+															5,				// Size Threshold
+															objects2,		// Output Objects
+															*cs);			// Segmentation function 
 
 		//BOVIL::algorithms::ColorClustering<std::uint8_t>(	img.data,		// Image pointer
 		//													img.cols,		// Width
@@ -137,17 +147,24 @@ void testSegmentation(){
 		t1 = time->frameTime();
 
 		std::cout << 1/(t1-t0) << " fps" << std::endl;
-		std::cout << "Number of detected Objects in the scene: " << objects.size() << std::endl;
+		std::cout << "Number of detected Objects1 in the scene: " << objects1.size() << std::endl;
+		std::cout << "Number of detected Objects2 in the scene: " << objects2.size() << std::endl;
 
 		#ifdef _DEBUG
-	
-		for(unsigned int obj = 0; obj < objects.size() ; obj++){
-			BOViL::Point2ui p = objects[obj].getCentroid();
-			cv::circle(ori, cv::Point2d(p.x,p.y), objects[obj].getHeight()/2, cv::Scalar(1,1,1), 1);
-		}
+			for(unsigned int obj = 0; obj < objects1.size() ; obj++){
+				BOViL::Point2ui p = objects1[obj].getCentroid();
+				cv::circle(ori1, cv::Point2d(p.x,p.y), objects1[obj].getHeight()/2, cv::Scalar(1,1,1), 1);
+			}
 
-		cv::imshow("ORIGINAL", ori);
+			for(unsigned int obj = 0; obj < objects2.size() ; obj++){
+				BOViL::Point2ui p = objects2[obj].getCentroid();
+				cv::circle(ori2, cv::Point2d(p.x,p.y), objects2[obj].getHeight()/2, cv::Scalar(1,1,1), 1);
+			}
+
+			cv::hconcat(ori2, ori1);
+			cv::imshow("ORIGINAL", ori1);
 		#endif
+
 		// ----------------- TRACKING ALGORITHM ------------------------
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
@@ -158,17 +175,29 @@ void testSegmentation(){
 								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
 								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
 		// Select Oject
-		int maxSize = 0, maxIndex = 0;
-		for(unsigned int obj = 0; obj < objects.size() ; ++obj){
-			if(objects[obj].getSize() > maxSize){
-				maxSize = objects[obj].getSize();
-				maxIndex = obj;
+		int maxSize1 = 0, maxIndex1 = 0;
+		for(unsigned int obj = 0; obj < objects1.size() ; ++obj){
+			if(objects1[obj].getSize() > maxSize1){
+				maxSize1 = objects1[obj].getSize();
+				maxIndex1 = obj;
+			}
+		}
+		int maxSize2 = 0, maxIndex2 = 0;
+		for(unsigned int obj = 0; obj < objects2.size() ; ++obj){
+			if(objects2[obj].getSize() > maxSize2){
+				maxSize2 = objects2[obj].getSize();
+				maxIndex2 = obj;
 			}
 		}
 
-		double arrayZk[4] = {objects[maxIndex].getCentroid().x, objects[maxIndex].getCentroid().y, 5.2, 6.3};
+		double arrayZk[4] = {	objects1[maxIndex1].getCentroid().x, objects1[maxIndex1].getCentroid().y, 
+								objects2[maxIndex2].getCentroid().x, objects2[maxIndex2].getCentroid().y};
 		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1),inputBuffer[0]);
 		
+		BOViL::math::Matrix<double> state =  stereoEKF.getStateVector();
+
+		state.showMatrix();
+
 		cv::waitKey(1);
 
 	}
