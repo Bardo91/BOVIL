@@ -2,21 +2,6 @@
 //	BOVIL: main
 //
 //		Author: Pablo Ramón Soria
-//		Date:	2014-03-12
+//		Date:	2014-03-27
 //
 /////////////////////////////////////////////////////////////////////////////////////////
-
-#include "TestMatrix.h"
-#include "TestSegmentation.h"
-
-int main(void){
-
-	//testMatrix();
-
-	testSegmentation();
-
-	system("PAUSE");
-
-	return 0;
-
-}
