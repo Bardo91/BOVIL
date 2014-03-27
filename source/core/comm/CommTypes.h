@@ -15,6 +15,10 @@
 	#include<winsock.h>
 #endif
 
+#if defined(__linux__)
+	#include <sys/types.h>
+	#include <sys/socket.h>
+#endif
 
 namespace BOViL{
 	namespace comm{
