@@ -9,10 +9,11 @@
 #ifndef _BOVIL_CORE_COMM_COMMTYPES_H_
 #define _BOVIL_CORE_COMM_COMMTYPES_H_
 
-#include<cstdint>
+#include <cstdint>
 
 #ifdef _WIN32
-	#include<winsock.h>
+	#include <winsock.h>
+	using namespace std;
 #endif
 
 #if defined(__linux__)
@@ -51,16 +52,16 @@ namespace BOViL{
 
 		//-------------------------------------------------------------------------------------
 		struct SockAddrIn6 {
-			std::uint16_t	sin6Family;	// Addres family, AD_INET6
-			std::uint16_t	sin6Port;	// Port number, Network Byte Order
-			std::uint32_t	sin6FlowInfo;	// IPv6 flow information
+			uint16_t	sin6Family;	// Addres family, AD_INET6
+			uint16_t	sin6Port;	// Port number, Network Byte Order
+			uint32_t	sin6FlowInfo;	// IPv6 flow information
 			struct In6Addr	In6Addr;	// IPv6 address
-			std::uint32_t	sin6ScopeId;	// Scope ID
+			uint32_t	sin6ScopeId;	// Scope ID
 		};
 
 		//-------------------------------------------------------------------------------------
 		struct InAddr {		// Internet Addres. Only for IPv4 --> for IPv6 In6Addr
-			std::uint32_t sAddr;	// 32 bits int
+			uint32_t sAddr;	// 32 bits int
 		};
 		//-------------------------------------------------------------------------------------
 		struct In6Addr {
