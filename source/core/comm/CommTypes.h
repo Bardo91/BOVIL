@@ -73,7 +73,7 @@ namespace BOViL{
 			sa_family_t ssFamily;	// address family
 
 			char	ssPad1[_SS_PAD1SIZE];
-			std::int64_t ssAlign;
+			int64_t ssAlign;
 			char	ssPad2[_SS_PAD2SIZE];
 
 		}
