@@ -119,9 +119,6 @@
     <ClInclude Include="..\..\source\core\comm\Socket.h">
       <Filter>core\comm</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\CommTypes.h">
-      <Filter>core\comm</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\README.txt">
