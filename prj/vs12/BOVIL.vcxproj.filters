@@ -78,7 +78,13 @@
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\testSockets.cpp">
+    <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\testSocketClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\testSocketsServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -126,6 +132,12 @@
       <Filter>core\comm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\testSocketsServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\ClientSocket.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\testSocketClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

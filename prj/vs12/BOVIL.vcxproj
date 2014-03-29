@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
@@ -21,13 +22,15 @@
     <ClCompile Include="..\..\source\main.cpp" />
     <ClCompile Include="..\..\source\TestMatrix.cpp" />
     <ClCompile Include="..\..\source\TestSegmentation.cpp" />
-    <ClCompile Include="..\..\source\testSockets.cpp" />
+    <ClCompile Include="..\..\source\testSocketClient.cpp" />
+    <ClCompile Include="..\..\source\testSocketsServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
+    <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
     <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
     <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />
     <ClInclude Include="..\..\source\core\math\Matrix.h" />
@@ -38,6 +41,7 @@
     <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h" />
     <ClInclude Include="..\..\source\TestMatrix.h" />
     <ClInclude Include="..\..\source\TestSegmentation.h" />
+    <ClInclude Include="..\..\source\testSocketClient.h" />
     <ClInclude Include="..\..\source\testSocketsServer.h" />
   </ItemGroup>
   <ItemGroup>

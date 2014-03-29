@@ -15,6 +15,9 @@ namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
 		ServerSocket::ServerSocket(){
+			mServerSocket = INVALID_SOCKET;
+			mClientSocket = INVALID_SOCKET;
+			mResult = nullptr;
 			// Initialize Winsock
 			int iResult = WSAStartup(MAKEWORD(2,2), &mWsaData);
 			if (iResult != 0) {
@@ -92,11 +95,11 @@ namespace BOViL{
 			int recvbuflen = 1024;
 
 			int iResult = recv(mClientSocket, recvbuf, recvbuflen, 0);
-			if (iResult > 0) {
-				printf("Bytes received: %d\n", iResult);
+			if (iResult < 0) {
 				return "ERROR";
 			}
 
+			printf("Bytes received: %d\n", iResult);
 			return std::string(recvbuf);
 		}
 
@@ -104,7 +107,7 @@ namespace BOViL{
 		int ServerSocket::sendStr(std::string& _str) {
 			// Echo the buffer back to the sender
 			int iResult;
-			int iSendResult = send( mClientSocket, _str.c_str(), iResult, 0 );
+			int iSendResult = send( mClientSocket, _str.c_str(), _str.size(), 0 );
 			if (iSendResult == SOCKET_ERROR) {
 				printf("send failed with error: %d\n", WSAGetLastError());
 				closesocket(mClientSocket);

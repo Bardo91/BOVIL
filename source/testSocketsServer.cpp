@@ -8,6 +8,8 @@
 
 #include "core/comm/ServerSocket.h"
 
+#include <iostream>
+
 int testSocketsServer(std::string _port){
 	BOViL::comm::ServerSocket server;
 
@@ -19,6 +21,7 @@ int testSocketsServer(std::string _port){
 
 	do{
 		msg = server.receiveStr();
+		std::cout << "Received: " << msg << std::endl;
 	}while(1);
 
 	return 0;

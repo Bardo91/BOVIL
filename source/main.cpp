@@ -9,6 +9,7 @@
 #include "TestMatrix.h"
 #include "TestSegmentation.h"
 #include "testSocketsServer.h"
+#include "testSocketClient.h"
 
 #include <vector>
 #include <map>
@@ -22,6 +23,8 @@ int main(int _argc, char** _argv){
 	//testSegmentation();
 
 	testSocketsServer(hashMap["PORT"]);
+
+	//testSocketClient(hashMap["IP"], hashMap["PORT"]);
 
 	system("PAUSE");
 

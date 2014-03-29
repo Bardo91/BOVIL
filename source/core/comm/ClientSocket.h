@@ -18,6 +18,8 @@
 	#include <ws2tcpip.h>
 
 	#pragma comment (lib, "Ws2_32.lib")
+	#pragma comment (lib, "Mswsock.lib")
+	#pragma comment (lib, "AdvApi32.lib")
 #endif
 
 #if defined(__linux__)
@@ -34,9 +36,7 @@ namespace BOViL{
 		public:
 			ClientSocket();
 
-			int initializeSocket(std::string& _port);
-
-			void closeSocket();
+			int initializeSocket(std::string& _ip, std::string& _port);
 
 			std::string receiveStr();
 			int sendStr(std::string& _str);
