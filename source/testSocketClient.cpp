@@ -18,9 +18,10 @@ int testSocketClient(std::string _ip, std::string _port){
 
 	std::string msg = "Hello world";
 
-	while(1){
+	do {
+		std::cin >> msg;
 		std::cout << "Send: " << msg << std::endl;
 		client.sendStr(msg);
-	}
+	} while(!msg.compare("ERROR"));
 
 }

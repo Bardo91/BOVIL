@@ -17,12 +17,12 @@ int testSocketsServer(std::string _port){
 
 	server.acceptClient();
 
-	std::string msg;
+	std::string msg = "";
 
 	do{
 		msg = server.receiveStr();
 		std::cout << "Received: " << msg << std::endl;
-	}while(1);
+	}while(!msg.compare("ERROR"));
 
 	return 0;
 }
