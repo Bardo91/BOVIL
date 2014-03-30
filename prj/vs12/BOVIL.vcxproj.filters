@@ -140,6 +140,9 @@
     <ClInclude Include="..\..\source\testSocketClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\Socket.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\README.txt">

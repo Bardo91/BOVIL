@@ -14,8 +14,10 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		ClientSocket::ClientSocket(){
-			mClientSocket = INVALID_SOCKET;
+		ClientSocket::ClientSocket(const std::string _ip, const std::string _port){
+			mServerIp = _ip;
+			mServerPort = _port;
+			mSocket = INVALID_SOCKET;
 			mResult = nullptr;
 			mPtr = nullptr;
 
@@ -33,9 +35,9 @@ namespace BOViL{
 
 		}
 		//-----------------------------------------------------------------------------
-		int ClientSocket::initializeSocket(std::string& _ip, std::string& _port){
+		int ClientSocket::initializeSocket(){
 			// Resolve the server address and port
-			int iResult = getaddrinfo(_ip.c_str(), _port.c_str(), &mHints, &mResult);
+			int iResult = getaddrinfo(mServerIp.c_str(), mServerPort.c_str(), &mHints, &mResult);
 			if ( iResult != 0 ) {
 				printf("getaddrinfo failed with error: %d\n", iResult);
 				WSACleanup();
@@ -46,18 +48,18 @@ namespace BOViL{
 			for(mPtr=mResult; mPtr != NULL ;mPtr=mPtr->ai_next) {
 
 				// Create a SOCKET for connecting to server
-				mClientSocket = socket(mPtr->ai_family, mPtr->ai_socktype, mPtr->ai_protocol);
-				if (mClientSocket == INVALID_SOCKET) {
+				mSocket = socket(mPtr->ai_family, mPtr->ai_socktype, mPtr->ai_protocol);
+				if (mSocket == INVALID_SOCKET) {
 					printf("socket failed with error: %ld\n", WSAGetLastError());
 					WSACleanup();
 					return 1;
 				}
 
 				// Connect to server.
-				iResult = connect( mClientSocket, mPtr->ai_addr, (int) mPtr->ai_addrlen);
+				iResult = connect( mSocket, mPtr->ai_addr, (int) mPtr->ai_addrlen);
 				if (iResult == SOCKET_ERROR) {
-					closesocket(mClientSocket);
-					mClientSocket = INVALID_SOCKET;
+					closesocket(mSocket);
+					mSocket = INVALID_SOCKET;
 					continue;
 				}
 				break;
@@ -65,7 +67,7 @@ namespace BOViL{
 
 			freeaddrinfo(mResult);
 
-			if (mClientSocket == INVALID_SOCKET) {
+			if (mSocket == INVALID_SOCKET) {
 				printf("Unable to connect to server!\n");
 				WSACleanup();
 				return 1;
@@ -76,11 +78,11 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 
 		//-----------------------------------------------------------------------------
-		int ClientSocket::sendStr(std::string& _str){
-			int iResult = send( mClientSocket, _str.c_str(), (int)_str.size(), 0 );
+		int ClientSocket::sendData(std::string& _str){
+			int iResult = send( mSocket, _str.c_str(), (int)_str.size(), 0 );
 			if (iResult == SOCKET_ERROR) {
 				printf("send failed with error: %d\n", WSAGetLastError());
-				closesocket(mClientSocket);
+				closesocket(mSocket);
 				WSACleanup();
 				return 1;
 			}

@@ -14,8 +14,9 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		ServerSocket::ServerSocket(){
-			mServerSocket = INVALID_SOCKET;
+		ServerSocket::ServerSocket(const std::string _port){
+			mPort = _port;
+			mSocket = INVALID_SOCKET;
 			mClientSocket = INVALID_SOCKET;
 			mResult = nullptr;
 			// Initialize Winsock
@@ -33,9 +34,9 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerSocket::initializeSocket(std::string& _port){
+		int ServerSocket::initializeSocket(){
 			// Resolve the server address and port
-			int iResult = getaddrinfo(NULL, _port.c_str(), &mHints, &mResult);
+			int iResult = getaddrinfo(NULL, mPort.c_str(), &mHints, &mResult);
 			if ( iResult != 0 ) {
 				printf("getaddrinfo failed with error: %d\n", iResult);
 				WSACleanup();
@@ -43,8 +44,8 @@ namespace BOViL{
 			}
 
 			// Create a SOCKET for connecting to server
-			mServerSocket = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
-			if (mServerSocket == INVALID_SOCKET) {
+			mSocket = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
+			if (mSocket == INVALID_SOCKET) {
 				printf("socket failed with error: %ld\n", WSAGetLastError());
 				freeaddrinfo(mResult);
 				WSACleanup();
@@ -52,21 +53,21 @@ namespace BOViL{
 			}
 
 			// Setup the TCP listening socket
-			iResult = bind( mServerSocket, mResult->ai_addr, (int)mResult->ai_addrlen);
+			iResult = bind( mSocket, mResult->ai_addr, (int)mResult->ai_addrlen);
 			if (iResult == SOCKET_ERROR) {
 				printf("bind failed with error: %d\n", WSAGetLastError());
 				freeaddrinfo(mResult);
-				closesocket(mServerSocket);
+				closesocket(mSocket);
 				WSACleanup();
 				return 1;
 			}
 
 			freeaddrinfo(mResult);
 
-			iResult = listen(mServerSocket, SOMAXCONN);
+			iResult = listen(mSocket, SOMAXCONN);
 			if (iResult == SOCKET_ERROR) {
 				printf("listen failed with error: %d\n", WSAGetLastError());
-				closesocket(mServerSocket);
+				closesocket(mSocket);
 				WSACleanup();
 				return 1;
 			}
@@ -75,22 +76,22 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		int ServerSocket::acceptClient(){
 			// Accept a client socket
-			mClientSocket = accept(mServerSocket, NULL, NULL);
+			mClientSocket = accept(mSocket, NULL, NULL);
 			if (mClientSocket == INVALID_SOCKET) {
 				printf("accept failed with error: %d\n", WSAGetLastError());
-				closesocket(mServerSocket);
+				closesocket(mSocket);
 				WSACleanup();
 				
 				return 1;
 			}
 
 			// No longer need server socket
-			closesocket(mServerSocket);
+			closesocket(mSocket);
 			
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		std::string ServerSocket::receiveStr() {
+		std::string ServerSocket::receiveData() {
 			char recvbuf[1024];
 			int recvbuflen = 1024;
 
@@ -104,7 +105,7 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerSocket::sendStr(std::string& _str) {
+		int ServerSocket::sendData(std::string& _str) {
 			// Echo the buffer back to the sender
 			int iResult;
 			int iSendResult = send( mClientSocket, _str.c_str(), _str.size(), 0 );

@@ -10,41 +10,20 @@
 #ifndef _BOVIL_CORE_COMM_CLIENTSOCKET_H_
 #define _BOVIL_CORE_COMM_CLIENTSOCKET_H_
 
-#if defined(_WIN32)
-	#define WIN32_LEAN_AND_MEAN
-
-	#include <windows.h>
-	#include <winsock2.h>
-	#include <ws2tcpip.h>
-
-	#pragma comment (lib, "Ws2_32.lib")
-	#pragma comment (lib, "Mswsock.lib")
-	#pragma comment (lib, "AdvApi32.lib")
-#endif
-
-#if defined(__linux__)
-	#include <sys/types.h>
-	#include <sys/socket.h>
-#endif
-
-#include <string>
+#include "Socket.h"
 
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		class ClientSocket{
-		public:
-			ClientSocket();
-
-			int initializeSocket(std::string& _ip, std::string& _port);
-
-			std::string receiveStr();
-			int sendStr(std::string& _str);
+		class ClientSocket: public Socket{
 		private:
-			WSADATA mWsaData;
-			SOCKET mClientSocket;
+			ClientSocket(const std::string _ip, const std::string _port);
+			~ClientSocket();
 
-			addrinfo *mResult, *mPtr, mHints;
+		private:
+			addrinfo *mPtr;
+
+			std::string mServerIp, mServerPort;
 		};	//	class ClientSocket
 		//-----------------------------------------------------------------------------
 
