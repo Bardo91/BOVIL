@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "core/comm/Socket.h"
-#include "core/comm/ServerSocket.h"
+#include "core/comm/so_deps/win32/ServerSocketWin32.h"
 #include "testSocketsServer.h"
 
 #include <iostream>

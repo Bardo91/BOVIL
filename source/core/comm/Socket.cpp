@@ -7,8 +7,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "Socket.h"
-#include "ClientSocket.h"
-#include "ServerSocket.h"
+#if defined(_WIN32)
+	#include "so_deps/win32/ClientSocketWin32.h"
+	#include "so_deps/win32/ServerSocketWin32.h"
+#endif
+#if defined(__linux__)
+	#include "so_deps/linux/ClientSocketLinux.h"
+	#include "so_deps/linux/ServerSocketLinux.h"
+#endif
 
 namespace BOViL	{
 	namespace comm{

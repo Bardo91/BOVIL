@@ -10,7 +10,7 @@
 #ifndef _BOVIL_CORE_COMM_CLIENTSOCKET_H_
 #define _BOVIL_CORE_COMM_CLIENTSOCKET_H_
 
-#include "Socket.h"
+#include "../../Socket.h"
 
 namespace BOViL{
 	namespace comm{
