@@ -16,9 +16,15 @@ namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
 		class ClientSocket: public Socket{
+		public:
+			int sendData(std::string _data);
+
 		private:
 			ClientSocket(const std::string _ip, const std::string _port);
 			~ClientSocket();
+
+			int initializeSocket();
+			int connectSocket();
 
 		private:
 			addrinfo *mPtr;

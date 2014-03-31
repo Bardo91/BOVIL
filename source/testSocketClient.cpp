@@ -12,14 +12,14 @@
 #include <iostream>
 
 int testSocketClient(std::string _ip, std::string _port){
-	BOViL::comm::Socket client = new BOViL::comm::Socket::createClientSocket(_ip, _port);
+	BOViL::comm::Socket* client = BOViL::comm::Socket::createClientSocket(_ip, _port);
 
 	std::string msg = "Hello world";
 
 	do {
 		std::cin >> msg;
 		std::cout << "Send: " << msg << std::endl;
-		client.sendData(msg);
+		client->sendData(msg);
 	} while(!msg.compare("ERROR"));
 
 

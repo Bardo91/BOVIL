@@ -78,8 +78,8 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 
 		//-----------------------------------------------------------------------------
-		int ClientSocket::sendData(std::string& _str){
-			int iResult = send( mSocket, _str.c_str(), (int)_str.size(), 0 );
+		int ClientSocket::sendData(std::string _data){
+			int iResult = send( mSocket, _data.c_str(), (int)_data.size(), 0 );
 			if (iResult == SOCKET_ERROR) {
 				printf("send failed with error: %d\n", WSAGetLastError());
 				closesocket(mSocket);

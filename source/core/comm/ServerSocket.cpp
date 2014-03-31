@@ -64,13 +64,18 @@ namespace BOViL{
 
 			freeaddrinfo(mResult);
 
-			iResult = listen(mSocket, SOMAXCONN);
+			return 0;
+		}
+		//-----------------------------------------------------------------------------
+		int ServerSocket::listenClient(){
+			int iResult = listen(mSocket, SOMAXCONN);
 			if (iResult == SOCKET_ERROR) {
 				printf("listen failed with error: %d\n", WSAGetLastError());
 				closesocket(mSocket);
 				WSACleanup();
 				return 1;
 			}
+
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
@@ -105,9 +110,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerSocket::sendData(std::string& _str) {
+		int ServerSocket::sendData(std::string _str) {
 			// Echo the buffer back to the sender
-			int iResult;
 			int iSendResult = send( mClientSocket, _str.c_str(), _str.size(), 0 );
 			if (iSendResult == SOCKET_ERROR) {
 				printf("send failed with error: %d\n", WSAGetLastError());

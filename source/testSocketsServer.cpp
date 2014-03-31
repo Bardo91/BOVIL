@@ -6,21 +6,21 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#include "core/comm/Socket.h"
 #include "core/comm/ServerSocket.h"
-
+#include "testSocketsServer.h"
 #include <iostream>
 
 int testSocketsServer(std::string _port){
-	BOViL::comm::ServerSocket server;
+	BOViL::comm::Socket* server = BOViL::comm::Socket::createServerSocket(_port);
 
-	server.initializeSocket(_port);
-
-	server.acceptClient();
+	static_cast<BOViL::comm::ServerSocket*>(server)->listenClient();
+	static_cast<BOViL::comm::ServerSocket*>(server)->acceptClient();
 
 	std::string msg = "";
 
 	do{
-		msg = server.receiveStr();
+		msg = server->receiveData();
 		std::cout << "Received: " << msg << std::endl;
 	}while(!msg.compare("ERROR"));
 
