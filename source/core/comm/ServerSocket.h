@@ -17,16 +17,15 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		class ServerSocket: public Socket{
 		public:
+			ServerSocket(const std::string _port);
+
 			int sendData(std::string _data);
 			std::string receiveData();
 
 			int listenClient();
 			int acceptClient();
 
-		private:
-			ServerSocket(const std::string _port);
-			~ServerSocket();
-
+		protected:
 			int initializeSocket();
 			int connectSocket();
 			

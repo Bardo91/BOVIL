@@ -25,4 +25,5 @@ int testSocketClient(std::string _ip, std::string _port){
 
 	delete client;
 
+	return 0;
 }

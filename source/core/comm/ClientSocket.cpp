@@ -33,7 +33,39 @@ namespace BOViL{
 			mHints.ai_socktype = SOCK_STREAM;
 			mHints.ai_protocol = IPPROTO_TCP;
 
+			initializeSocket();
+			connectSocket();
+
 		}
+
+		//-----------------------------------------------------------------------------
+		int ClientSocket::sendData(std::string _data){
+			int iResult = send( mSocket, _data.c_str(), _data.size(), 0 );
+			if (iResult == SOCKET_ERROR) {
+				printf("send failed with error: %d\n", WSAGetLastError());
+				closesocket(mSocket);
+				WSACleanup();
+				return 1;
+			}
+
+			return 0;
+
+		}
+		//-----------------------------------------------------------------------------
+		std::string ClientSocket::receiveData(){
+			char recvbuf[1024];
+			int recvbuflen = 1024;
+
+			int iResult = recv(mSocket, recvbuf, recvbuflen, 0);
+			if (iResult < 0) {
+				return "ERROR";
+			}
+
+			printf("Bytes received: %d\n", iResult);
+			return std::string(recvbuf);
+
+		}
+
 		//-----------------------------------------------------------------------------
 		int ClientSocket::initializeSocket(){
 			// Resolve the server address and port
@@ -44,6 +76,10 @@ namespace BOViL{
 				return 1;
 			}
 
+			return 0;
+		}
+		//-----------------------------------------------------------------------------
+		int ClientSocket::connectSocket(){
 			// Attempt to connect to an address until one succeeds
 			for(mPtr=mResult; mPtr != NULL ;mPtr=mPtr->ai_next) {
 
@@ -56,7 +92,7 @@ namespace BOViL{
 				}
 
 				// Connect to server.
-				iResult = connect( mSocket, mPtr->ai_addr, (int) mPtr->ai_addrlen);
+				int iResult = connect( mSocket, mPtr->ai_addr, (int) mPtr->ai_addrlen);
 				if (iResult == SOCKET_ERROR) {
 					closesocket(mSocket);
 					mSocket = INVALID_SOCKET;
@@ -75,20 +111,7 @@ namespace BOViL{
 
 			return 0;
 		}
-		//-----------------------------------------------------------------------------
 
-		//-----------------------------------------------------------------------------
-		int ClientSocket::sendData(std::string _data){
-			int iResult = send( mSocket, _data.c_str(), (int)_data.size(), 0 );
-			if (iResult == SOCKET_ERROR) {
-				printf("send failed with error: %d\n", WSAGetLastError());
-				closesocket(mSocket);
-				WSACleanup();
-				return 1;
-			}
-
-			return 0;
-		}
 		//-----------------------------------------------------------------------------
 		
 	}	//	namespace comm

@@ -87,6 +87,9 @@
     <ClCompile Include="..\..\source\testSocketsServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\Socket.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\types\BasicTypes.h">

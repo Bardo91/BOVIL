@@ -33,13 +33,13 @@ namespace BOViL{
 	namespace comm{
 		class Socket{
 		public:
-			int sendData(std::string _data);
-			std::string receiveData();
+			virtual int sendData(std::string _data) = 0;
+			virtual std::string receiveData() = 0;
 
 			int closeSocket();
 
 		protected:		
-			Socket();
+			Socket()	{};
 			virtual int initializeSocket() = 0;
 			virtual int connectSocket() = 0;
 

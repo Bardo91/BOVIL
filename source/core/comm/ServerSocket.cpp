@@ -13,7 +13,7 @@
 
 namespace BOViL{
 	namespace comm{
-		//-----------------------------------------------------------------------------
+				//-----------------------------------------------------------------------------
 		ServerSocket::ServerSocket(const std::string _port){
 			mPort = _port;
 			mSocket = INVALID_SOCKET;
@@ -31,6 +31,70 @@ namespace BOViL{
 			mHints.ai_socktype = SOCK_STREAM;
 			mHints.ai_protocol = IPPROTO_TCP;
 			mHints.ai_flags = AI_PASSIVE;
+
+			initializeSocket();
+			connectSocket();
+
+		}
+
+		//-----------------------------------------------------------------------------
+		int ServerSocket::sendData(std::string _str) {
+			// Echo the buffer back to the sender
+			int iSendResult = send( mClientSocket, _str.c_str(), _str.size(), 0 );
+			if (iSendResult == SOCKET_ERROR) {
+				printf("send failed with error: %d\n", WSAGetLastError());
+				closesocket(mClientSocket);
+				WSACleanup();
+				return 1;
+			}
+			printf("Bytes sent: %d\n", iSendResult);
+			
+			return 0;
+		}
+		
+		//-----------------------------------------------------------------------------
+		std::string ServerSocket::receiveData() {
+			char recvbuf[1024];
+			int recvbuflen = 1024;
+
+			int iResult = recv(mClientSocket, recvbuf, recvbuflen, 0);
+			if (iResult < 0) {
+				return "ERROR";
+			}
+
+			printf("Bytes received: %d\n", iResult);
+			return std::string(recvbuf);
+		}
+
+		//-----------------------------------------------------------------------------
+		int ServerSocket::listenClient(){
+			int iResult = listen(mSocket, SOMAXCONN);
+			if (iResult == SOCKET_ERROR) {
+				printf("listen failed with error: %d\n", WSAGetLastError());
+				closesocket(mSocket);
+				WSACleanup();
+				return 1;
+			}
+
+			return 0;
+		}
+
+		//-----------------------------------------------------------------------------
+		int ServerSocket::acceptClient(){
+			// Accept a client socket
+			mClientSocket = accept(mSocket, NULL, NULL);
+			if (mClientSocket == INVALID_SOCKET) {
+				printf("accept failed with error: %d\n", WSAGetLastError());
+				closesocket(mSocket);
+				WSACleanup();
+				
+				return 1;
+			}
+
+			// No longer need server socket
+			closesocket(mSocket);
+			
+			return 0;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -52,8 +116,12 @@ namespace BOViL{
 				return 1;
 			}
 
+			return 0;
+		}
+		//-----------------------------------------------------------------------------
+		int ServerSocket::connectSocket(){
 			// Setup the TCP listening socket
-			iResult = bind( mSocket, mResult->ai_addr, (int)mResult->ai_addrlen);
+			int iResult = bind( mSocket, mResult->ai_addr, (int)mResult->ai_addrlen);
 			if (iResult == SOCKET_ERROR) {
 				printf("bind failed with error: %d\n", WSAGetLastError());
 				freeaddrinfo(mResult);
@@ -63,67 +131,9 @@ namespace BOViL{
 			}
 
 			freeaddrinfo(mResult);
-
 			return 0;
+
 		}
-		//-----------------------------------------------------------------------------
-		int ServerSocket::listenClient(){
-			int iResult = listen(mSocket, SOMAXCONN);
-			if (iResult == SOCKET_ERROR) {
-				printf("listen failed with error: %d\n", WSAGetLastError());
-				closesocket(mSocket);
-				WSACleanup();
-				return 1;
-			}
-
-			return 0;
-		}
-		//-----------------------------------------------------------------------------
-		int ServerSocket::acceptClient(){
-			// Accept a client socket
-			mClientSocket = accept(mSocket, NULL, NULL);
-			if (mClientSocket == INVALID_SOCKET) {
-				printf("accept failed with error: %d\n", WSAGetLastError());
-				closesocket(mSocket);
-				WSACleanup();
-				
-				return 1;
-			}
-
-			// No longer need server socket
-			closesocket(mSocket);
-			
-			return 0;
-		}
-		//-----------------------------------------------------------------------------
-		std::string ServerSocket::receiveData() {
-			char recvbuf[1024];
-			int recvbuflen = 1024;
-
-			int iResult = recv(mClientSocket, recvbuf, recvbuflen, 0);
-			if (iResult < 0) {
-				return "ERROR";
-			}
-
-			printf("Bytes received: %d\n", iResult);
-			return std::string(recvbuf);
-		}
-
-		//-----------------------------------------------------------------------------
-		int ServerSocket::sendData(std::string _str) {
-			// Echo the buffer back to the sender
-			int iSendResult = send( mClientSocket, _str.c_str(), _str.size(), 0 );
-			if (iSendResult == SOCKET_ERROR) {
-				printf("send failed with error: %d\n", WSAGetLastError());
-				closesocket(mClientSocket);
-				WSACleanup();
-				return 1;
-			}
-			printf("Bytes sent: %d\n", iSendResult);
-			
-		}
-		//-----------------------------------------------------------------------------
-
 		//-----------------------------------------------------------------------------
 		
 		//-----------------------------------------------------------------------------
