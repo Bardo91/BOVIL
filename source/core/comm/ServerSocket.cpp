@@ -32,8 +32,10 @@ namespace BOViL{
 			mHints.ai_protocol = IPPROTO_TCP;
 			mHints.ai_flags = AI_PASSIVE;
 
-			initializeSocket();
-			connectSocket();
+			iResult += initializeSocket();
+			iResult += connectSocket();
+
+			assert(!iResult);	// If errors break!
 
 		}
 

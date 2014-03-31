@@ -33,8 +33,10 @@ namespace BOViL{
 			mHints.ai_socktype = SOCK_STREAM;
 			mHints.ai_protocol = IPPROTO_TCP;
 
-			initializeSocket();
-			connectSocket();
+			iResult += initializeSocket();
+			iResult += connectSocket();
+
+			assert(!iResult);	// If errors break!
 
 		}
 
