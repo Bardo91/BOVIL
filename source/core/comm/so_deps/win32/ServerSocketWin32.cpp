@@ -63,9 +63,13 @@ namespace BOViL{
 			if (iResult < 0) {
 				return "ERROR";
 			}
-
 			printf("Bytes received: %d\n", iResult);
-			return std::string(recvbuf);
+
+			std::string msg;
+
+			msg.append(recvbuf, iResult);
+
+			return msg;
 		}
 
 		//-----------------------------------------------------------------------------

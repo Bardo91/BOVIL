@@ -20,7 +20,7 @@ int testSocketClient(std::string _ip, std::string _port){
 		std::cin >> msg;
 		std::cout << "Send: " << msg << std::endl;
 		client->sendData(msg);
-	} while(!msg.compare("ERROR"));
+	} while(std::strcmp(msg.c_str(), "QUIT"));
 
 
 	delete client;

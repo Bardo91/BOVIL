@@ -28,7 +28,7 @@ int testSocketsServer(std::string _port){
 	do{
 		msg = server->receiveData();
 		std::cout << "Received: " << msg << std::endl;
-	}while(!msg.compare("ERROR"));
+	}while(std::strcmp(msg.c_str(), "QUIT"));
 
 	return 0;
 }
