@@ -7,8 +7,20 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef _BOVIL_CORE_COMM_SERVERSOCKET_H_
-#define _BOVIL_CORE_COMM_SERVERSOCKET_H_
+#ifndef _BOVIL_CORE_COMM_SODEPS_WIN32_SERVERSOCKETWIN32_H_
+#define _BOVIL_CORE_COMM_SODEPS_WIN32_SERVERSOCKETWIN32_H_
+
+#if defined(_WIN32)
+	#define WIN32_LEAN_AND_MEAN
+
+	#include <windows.h>
+	#include <winsock2.h>
+	#include <ws2tcpip.h>
+
+	#pragma comment (lib, "Ws2_32.lib")
+	#pragma comment (lib, "Mswsock.lib")
+	#pragma comment (lib, "AdvApi32.lib")
+#endif
 
 #include "../../Socket.h"
 
@@ -40,4 +52,4 @@ namespace BOViL{
 	}	//	namespace comm
 }	//	namespace BOViL
 
-#endif	// _BOVIL_CORE_COMM_SERVERSOCKET_H_
+#endif	// _BOVIL_CORE_COMM_SODEPS_WIN32_SERVERSOCKETWIN32_H_
