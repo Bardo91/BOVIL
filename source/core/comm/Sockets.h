@@ -56,6 +56,8 @@ namespace BOViL{
 
 			virtual int closeSocket() = 0;
 
+			int getLastError();
+
 		public:		// static members: Factory, etc.
 			static ClientSocket* createClientSocket(std::string _ip, std::string _port);
 			static ServerSocket* createServerSocket(std::string _port);

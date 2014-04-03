@@ -48,6 +48,18 @@ namespace BOViL	{
 
 			return msg;
 		}
+		//-----------------------------------------------------------------------------
+		int Socket::getLastError(){
+			#if defined (_WIN32)
+				int error = WSAGetLastError(); 	
+				WSACleanup();	
+				return error;
+			#endif
+
+			#if defined (__linux__)
+				return errno;
+			#endif
+		}
 
 		//-----------------------------------------------------------------------------
 		ClientSocket* Socket::createClientSocket(std::string _ip, std::string _port){
