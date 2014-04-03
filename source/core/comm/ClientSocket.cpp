@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: main
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-03-29
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -9,6 +9,7 @@
 #include "ClientSocket.h"
 
 #include <cassert>
+#include <iostream>
 #include <sstream>
 
 namespace BOViL{
@@ -21,9 +22,11 @@ namespace BOViL{
 			mResult = nullptr;
 			mPtr = nullptr;
 
+			int iResult;
+
 			#if defined (_WIN32)
 				// Initialize Winsock
-				int iResult = WSAStartup(MAKEWORD(2,2), &mWsaData);
+				iResult = WSAStartup(MAKEWORD(2,2), &mWsaData);
 				if (iResult != 0) {
 					printf("WSAStartup failed with error: %d\n", iResult);
 					assert(false);
@@ -46,9 +49,10 @@ namespace BOViL{
 		int ClientSocket::sendData(std::string _data){
 			int iResult = send( mSocket, _data.c_str(), _data.size(), 0 );
 			if (iResult == SOCKET_ERROR) {
-				printf("send failed with error: %d\n", WSAGetLastError());
+				std::cout << "Socket Error" << std::endl;
 				closesocket(mSocket);
 				#if defined (_WIN32)
+					std::cout << "Send failed with error: " << WSAGetLastError() << std::endl;
 					WSACleanup();
 				#endif
 				return 1;
@@ -77,7 +81,7 @@ namespace BOViL{
 			// Resolve the server address and port
 			int iResult = getaddrinfo(mServerIp.c_str(), mServerPort.c_str(), &mHints, &mResult);
 			if ( iResult != 0 ) {
-				printf("getaddrinfo failed with error: %d\n", iResult);
+				std::cout << "etaddrinfo failed with error: " << iResult << std::endl;
 				#if defined (_WIN32)
 					WSACleanup();
 				#endif
@@ -94,8 +98,9 @@ namespace BOViL{
 				// Create a SOCKET for connecting to server
 				mSocket = socket(mPtr->ai_family, mPtr->ai_socktype, mPtr->ai_protocol);
 				if (mSocket == INVALID_SOCKET) {
-					printf("socket failed with error: %ld\n", WSAGetLastError());
+					std::cout << "Socket Error" << std::endl;
 					#if defined (_WIN32)
+						std::cout << "socket failed with error: " << WSAGetLastError() << std::endl;
 						WSACleanup();
 					#endif
 					return 1;

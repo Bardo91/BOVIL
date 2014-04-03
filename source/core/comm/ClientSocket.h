@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: main
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-03-29
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -10,7 +10,7 @@
 #ifndef _BOVIL_CORE_COMM_CLIENTSOCKET_H_
 #define _BOVIL_CORE_COMM_CLIENTSOCKET_H_
 
-#include "Socket.h"
+#include "Sockets.h"
 
 namespace BOViL{
 	namespace comm{

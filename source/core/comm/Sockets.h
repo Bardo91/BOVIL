@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: main
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-03-30
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -11,6 +11,7 @@
 #define _BOVIL_CORE_COMM_SOCKET_H_
 
 #include <string>
+#include <cstring>
 
 #if defined(_WIN32)
 	#define WIN32_LEAN_AND_MEAN
@@ -25,9 +26,17 @@
 #endif
 
 #if defined(__linux__)
-	#include <sys/sockets.h>
+	#include <unistd.h>
+	#include <sys/types.h>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
 	#include <netdb.h>
-			
+
+	typedef int SOCKET;
+	const int INVALID_SOCKET = -1;
+	const int SOCKET_ERROR = -1;
+
+	#define closesocket(SOCKET) close(SOCKET)
 #endif
 
 namespace BOViL{
@@ -39,8 +48,6 @@ namespace BOViL{
 		public:
 			virtual int sendData(std::string _data) = 0;
 			virtual std::string receiveData() = 0;
-
-			int closeSocket();
 
 		protected:		
 			Socket()	{};
