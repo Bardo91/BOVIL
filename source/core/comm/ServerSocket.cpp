@@ -21,7 +21,7 @@ namespace BOViL{
 			mSocketOut = INVALID_SOCKET;
 			mResult = nullptr;
 
-			int iResult;
+			int iResult = 0;
 
 			#if defined (_WIN32)
 				// Initialize Winsock
@@ -33,9 +33,9 @@ namespace BOViL{
 			#endif
 
 			memset(&mHints, 0, sizeof(mHints));
-			mHints.ai_family = AF_INET;
+			mHints.ai_family = AF_UNSPEC;//AF_INET;
 			mHints.ai_socktype = SOCK_STREAM;
-			mHints.ai_protocol = IPPROTO_TCP;
+			//mHints.ai_protocol = IPPROTO_TCP;
 			mHints.ai_flags = AI_PASSIVE;
 
 			iResult += initializeSocket();
@@ -110,9 +110,16 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		int ServerSocket::connectSocket(){
 			// Setup the TCP listening socket
-			int iResult = bind( mSocketOwn, mResult->ai_addr, (int)mResult->ai_addrlen);
+			int iResult = 0;
+			#ifdef __linux__
+				int yes = 1;
+				iResult = setsockopt(mSocketOwn, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+			#endif
+
+			iResult = bind( mSocketOwn, mResult->ai_addr, mResult->ai_addrlen);
 			if (iResult == SOCKET_ERROR) {
 				std::cout << "Bind failed" << std::endl;
+				std::cout << "Error was: " << errno << std::endl;
 				freeaddrinfo(mResult);
 				closeSocket();
 				#if defined (_WIN32)

@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: main
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-03-12
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <map>
+#include <iostream>
 
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 
@@ -22,9 +23,9 @@ int main(int _argc, char** _argv){
 
 	//testSegmentation();
 
-	testSocketsServer(hashMap["PORT"]);
+	//testSocketsServer(hashMap["PORT"]);
 
-	//testSocketClient(hashMap["IP"], hashMap["PORT"]);
+	testSocketClient(hashMap["IP"], hashMap["PORT"]);
 
 	system("PAUSE");
 
@@ -40,6 +41,7 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 		std::string type = arg.substr(0, next);
 		arg = arg.substr(next + 1, arg.size());
 		hashMap[type] = arg;
+		std::cout << "Detected argument: " << type << " - With value: " << arg << std::endl;
 	}
 	return hashMap;
 }
