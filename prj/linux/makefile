@@ -5,16 +5,16 @@
 ################################################################################
 
 ########## Variables ##########
-CXX = gcc
+CXX = g++
 CPP_FILES := $(shell find ./../../source/ -name '*.cpp')
 OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 
 CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall
 
 ########## EXTERNAL INCLUDES ##########
-INCLUDES := -I./ -I/opt/ros/hydro/include
-LIBRARIES := -L/opt/ros/hydro/lib
-DEPENDENCIES := -lopencv_highgui -lopencv_core -lopencv_imgproc
+INCLUDES := -I./ 
+LIBRARIES := 
+DEPENDENCIES :=
 
 ########## RULES ##########
 
