@@ -46,15 +46,6 @@
     <Filter Include="core\comm">
       <UniqueIdentifier>{b50b6974-3104-4848-9c1a-411842cac3a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\comm\so_deps">
-      <UniqueIdentifier>{1dd969be-ab6c-4887-8a3f-63bd8c716cb4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\comm\so_deps\win32">
-      <UniqueIdentifier>{18e056f0-2566-4262-8447-af827fb9f53e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\comm\so_deps\linux">
-      <UniqueIdentifier>{8be889d7-dde6-4807-800b-81ded6205060}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
@@ -93,17 +84,11 @@
     <ClCompile Include="..\..\source\core\comm\Socket.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\core\comm\so_deps\win32\ClientSocketWin32.cpp">
-      <Filter>core\comm\so_deps\win32</Filter>
+    <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp">
+      <Filter>core\comm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\core\comm\so_deps\win32\ServerSocketWin32.cpp">
-      <Filter>core\comm\so_deps\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core\comm\so_deps\linux\ClientSocketLinux.cpp">
-      <Filter>core\comm\so_deps\linux</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core\comm\so_deps\linux\ServerSocketLinux.cpp">
-      <Filter>core\comm\so_deps\linux</Filter>
+    <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp">
+      <Filter>core\comm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,17 +140,11 @@
     <ClInclude Include="..\..\source\core\comm\Socket.h">
       <Filter>core\comm</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\so_deps\win32\ClientSocketWin32.h">
-      <Filter>core\comm\so_deps\win32</Filter>
+    <ClInclude Include="..\..\source\core\comm\ClientSocket.h">
+      <Filter>core\comm</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\so_deps\win32\ServerSocketWin32.h">
-      <Filter>core\comm\so_deps\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\so_deps\linux\ClientSocketLinux.h">
-      <Filter>core\comm\so_deps\linux</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\so_deps\linux\ServerSocketLinux.h">
-      <Filter>core\comm\so_deps\linux</Filter>
+    <ClInclude Include="..\..\source\core\comm\ServerSocket.h">
+      <Filter>core\comm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

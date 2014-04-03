@@ -14,11 +14,9 @@
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\Socket.cpp" />
-    <ClCompile Include="..\..\source\core\comm\so_deps\linux\ClientSocketLinux.cpp" />
-    <ClCompile Include="..\..\source\core\comm\so_deps\linux\ServerSocketLinux.cpp" />
-    <ClCompile Include="..\..\source\core\comm\so_deps\win32\ClientSocketWin32.cpp" />
-    <ClCompile Include="..\..\source\core\comm\so_deps\win32\ServerSocketWin32.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
@@ -33,11 +31,9 @@
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
+    <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
+    <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
     <ClInclude Include="..\..\source\core\comm\Socket.h" />
-    <ClInclude Include="..\..\source\core\comm\so_deps\linux\ClientSocketLinux.h" />
-    <ClInclude Include="..\..\source\core\comm\so_deps\linux\ServerSocketLinux.h" />
-    <ClInclude Include="..\..\source\core\comm\so_deps\win32\ClientSocketWin32.h" />
-    <ClInclude Include="..\..\source\core\comm\so_deps\win32\ServerSocketWin32.h" />
     <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />
     <ClInclude Include="..\..\source\core\math\Matrix.h" />
     <ClInclude Include="..\..\source\core\time\time.h" />
@@ -60,7 +56,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
