@@ -81,13 +81,13 @@
     <ClCompile Include="..\..\source\testSocketsServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\core\comm\Socket.cpp">
-      <Filter>core\comm</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\Sockets.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,13 +137,13 @@
     <ClInclude Include="..\..\source\testSocketClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\Socket.h">
-      <Filter>core\comm</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\core\comm\ClientSocket.h">
       <Filter>core\comm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\core\comm\ServerSocket.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\Sockets.h">
       <Filter>core\comm</Filter>
     </ClInclude>
   </ItemGroup>

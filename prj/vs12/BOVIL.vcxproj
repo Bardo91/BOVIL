@@ -16,7 +16,7 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp" />
-    <ClCompile Include="..\..\source\core\comm\Socket.cpp" />
+    <ClCompile Include="..\..\source\core\comm\Sockets.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
@@ -33,7 +33,7 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
     <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
-    <ClInclude Include="..\..\source\core\comm\Socket.h" />
+    <ClInclude Include="..\..\source\core\comm\Sockets.h" />
     <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />
     <ClInclude Include="..\..\source\core\math\Matrix.h" />
     <ClInclude Include="..\..\source\core\time\time.h" />
