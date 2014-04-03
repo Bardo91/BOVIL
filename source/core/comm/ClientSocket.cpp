@@ -50,7 +50,7 @@ namespace BOViL{
 			// Resolve the server address and port
 			int iResult = getaddrinfo(mServerIp.c_str(), mServerPort.c_str(), &mHints, &mResult);
 			if ( iResult != 0 ) {
-				std::cout << "etaddrinfo failed with error: " << iResult << std::endl;
+				std::cout << "etaddrinfo failed with error: " << getLastError() << std::endl;
 				#if defined (_WIN32)
 					WSACleanup();
 				#endif
@@ -67,11 +67,8 @@ namespace BOViL{
 				// Create a SOCKET for connecting to server
 				mSocketOut = socket(mPtr->ai_family, mPtr->ai_socktype, mPtr->ai_protocol);
 				if (mSocketOut == INVALID_SOCKET) {
-					std::cout << "Socket Error" << std::endl;
-					#if defined (_WIN32)
-						std::cout << "socket failed with error: " << WSAGetLastError() << std::endl;
-						WSACleanup();
-					#endif
+					std::cout << "Socket Error with error: " << getLastError() << std::endl;
+
 					return 1;
 				}
 
@@ -80,6 +77,7 @@ namespace BOViL{
 				if (iResult == SOCKET_ERROR) {
 					closeSocket();
 					mSocketOut = INVALID_SOCKET;
+					std::cout << "Socket Error with error: " << getLastError() << std::endl;
 					continue;
 				}
 				break;
