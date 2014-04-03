@@ -19,12 +19,11 @@ namespace BOViL{
 		public:
 			ClientSocket(const std::string _ip, const std::string _port);
 
-			int sendData(std::string _data);
-			std::string receiveData();
-
 		protected:
 			int initializeSocket();
 			int connectSocket();
+
+			int closeSocket();
 
 		private:
 			addrinfo *mPtr;

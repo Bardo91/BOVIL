@@ -19,9 +19,6 @@ namespace BOViL{
 		public:
 			ServerSocket(const std::string _port);
 
-			int sendData(std::string _data);
-			std::string receiveData();
-
 			int listenClient();
 			int acceptClient();
 
@@ -29,8 +26,10 @@ namespace BOViL{
 			int initializeSocket();
 			int connectSocket();
 			
+			int closeSocket();
+
 		private:
-			SOCKET mClientSocket;
+			SOCKET mSocketOwn;
 
 			std::string mPort;
 		};	//	class ServerSocket

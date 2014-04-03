@@ -12,6 +12,7 @@
 
 #include <string>
 #include <cstring>
+#include <iostream>
 
 #if defined(_WIN32)
 	#define WIN32_LEAN_AND_MEAN
@@ -46,14 +47,15 @@ namespace BOViL{
 
 		class Socket{
 		public:
-			virtual int sendData(std::string _data) = 0;
-			virtual std::string receiveData() = 0;
+			int sendData(std::string _data);
+			std::string receiveData();
 
 		protected:		
 			Socket()	{};
 			virtual int initializeSocket() = 0;
 			virtual int connectSocket() = 0;
 
+			virtual int closeSocket() = 0;
 
 		public:		// static members: Factory, etc.
 			static ClientSocket* createClientSocket(std::string _ip, std::string _port);
@@ -64,7 +66,7 @@ namespace BOViL{
 				WSADATA mWsaData;
 			#endif
 
-			SOCKET mSocket;
+			SOCKET mSocketOut;
 			
 			addrinfo *mResult, mHints;
 		};	//	class Socket
