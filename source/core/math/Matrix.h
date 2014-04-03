@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: core
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-05-03
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ namespace BOViL{
 			
 
 		private:	// Private interface
-			int mCols, mRows;
+			int mRows, mCols;
 			type_* mPtr;
 
 		};
@@ -100,25 +100,24 @@ namespace BOViL{
 		//---------------------- Matrix Main interface -------------------------------
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix():	mCols(0),
-									mRows(0),
+		Matrix<type_>::Matrix():	mRows(0),
+									mCols(0),
 									mPtr(nullptr){
 		}
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(int _rows, int _cols):	mPtr(new type_[_cols*_rows]),
+		Matrix<type_>::Matrix(int _rows, int _cols):	mRows(_rows),
 														mCols(_cols),
-														mRows(_rows)	{
+														mPtr(new type_[_cols*_rows])	{
 			memset(mPtr, 0, sizeof(type_) * _cols * _rows);
 		}
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(const type_* _matPtr, int _rows, int _cols):	mPtr(new type_[_cols*_rows]),
+		Matrix<type_>::Matrix(const type_* _matPtr, int _rows, int _cols):	mRows(_rows),
 																			mCols(_cols),
-																			mRows(_rows)		
-		{
+																			mPtr(new type_[_cols*_rows])	{
 			for(int i = 0; i < _cols*_rows ; i ++){
 				mPtr[i] = _matPtr[i];
 			}
@@ -126,9 +125,9 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(const Matrix<type_>& _mat):	mPtr(new type_[_mat.mCols*_mat.mRows]),
+		Matrix<type_>::Matrix(const Matrix<type_>& _mat):	mRows(_mat.mRows),
 															mCols(_mat.mCols),
-															mRows(_mat.mRows) {
+															mPtr(new type_[_mat.mCols*_mat.mRows]) {
 			for(int i = 0; i < mCols*mRows ; i ++){
 				mPtr[i] = _mat.mPtr[i];
 			}
@@ -136,9 +135,9 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_> 
-		Matrix<type_>::Matrix(Matrix<type_>&& _mat):	mPtr(_mat.mPtr),
+		Matrix<type_>::Matrix(Matrix<type_>&& _mat):	mRows(_mat.mRows),
 														mCols(_mat.mCols),
-														mRows(_mat.mRows){
+														mPtr(_mat.mPtr){
 			_mat.mPtr = nullptr;
 		}
 

@@ -22,7 +22,7 @@ namespace BOViL{
 			mResult = nullptr;
 			mPtr = nullptr;
 
-			int iResult;
+			int iResult = 0;
 
 			#if defined (_WIN32)
 				// Initialize Winsock

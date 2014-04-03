@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: test
 //
-//		Author: Pablo Ramón Soria
+//		Author: Pablo Ramï¿½n Soria
 //		Date:	2014-05-12
 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -190,8 +190,11 @@ void testSegmentation(){
 			}
 		}
 
-		double arrayZk[4] = {	objects1[maxIndex1].getCentroid().x, objects1[maxIndex1].getCentroid().y, 
-								objects2[maxIndex2].getCentroid().x, objects2[maxIndex2].getCentroid().y};
+		double arrayZk[4] = {	float (objects1[maxIndex1].getCentroid().x),
+								float (objects1[maxIndex1].getCentroid().y),
+								float (objects2[maxIndex2].getCentroid().x),
+								float (objects2[maxIndex2].getCentroid().y)};
+
 		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1),inputBuffer[0]);
 		
 		BOViL::math::Matrix<double> state =  stereoEKF.getStateVector();
