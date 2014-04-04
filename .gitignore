@@ -19,3 +19,7 @@
 /prj/ModelingProject1/*.layout
 /prj/ModelingProject1/ModelDefinition/*.uml
 /prj/ModelingProject1/*.modelproj
+/library/prj/vs12/*.suo
+/library/prj/vs12/*.sdf
+/library/prj/eclipse/Release
+/library/prj/vs12/Debug

@@ -54,32 +54,17 @@
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
       <Filter>algorithms\segmentation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp">
       <Filter>core\types</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core\time\time.cpp">
       <Filter>core\time</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\TestMatrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\TestSegmentation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp">
       <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp">
       <Filter>algorithms\state_estimators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\testSocketClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\testSocketsServer.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp">
       <Filter>core\comm</Filter>
@@ -119,23 +104,11 @@
     <ClInclude Include="..\..\source\core\time\time.h">
       <Filter>core\time</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\TestMatrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\TestSegmentation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h">
       <Filter>algorithms\state_estimators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\testSocketsServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\testSocketClient.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\core\comm\ClientSocket.h">
       <Filter>core\comm</Filter>
