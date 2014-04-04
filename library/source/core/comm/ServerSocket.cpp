@@ -102,6 +102,11 @@ namespace BOViL{
 				int yes = 1;
 				iResult = setsockopt(mSocketOwn, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
 			#endif
+			#ifdef _WIN32
+				bool bOptVal = TRUE;
+				int bOptLen = sizeof(bool);
+				iResult = setsockopt(mSocketOwn, SOL_SOCKET, SO_REUSEADDR, (char *) bOptVal, bOptLen);
+			#endif
 
 			iResult = bind( mSocketOwn, mResult->ai_addr, mResult->ai_addrlen);
 			if (iResult == SOCKET_ERROR) {

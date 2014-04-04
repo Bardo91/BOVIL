@@ -35,3 +35,5 @@
 /Tests/test_socket_client/prj/vs12/*.suo
 /Tests/test_socket_server/prj/vs12/*.sdf
 /Tests/test_socket_server/prj/vs12/*.suo
+/Tests/test_socket_client/prj/vs12/*.user
+/Tests/test_socket_server/prj/vs12/*.user
