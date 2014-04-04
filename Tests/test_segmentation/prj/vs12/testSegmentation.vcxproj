@@ -38,7 +38,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\opencv\opencv\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\opencv\build\x86\vc11\lib;C:\Programming\BOVIL\library\prj\vs12\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\opencv\opencv\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\opencv\build\x86\vc11\lib;C:\Programming\BOVIL\library\prj\vs12\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -47,6 +54,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opencv_highgui246d.lib;opencv_core246d.lib;opencv_imgproc246d.lib;BOViL.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -61,9 +69,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opencv_highgui246d.lib;opencv_core246d.lib;opencv_imgproc246d.lib;BOViL.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\TestSegmentation.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\main.cpp" />
+    <ClCompile Include="..\..\source\TestSegmentation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,11 +5,10 @@
 //		Date:	2014-05-12
 //
 /////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 #if defined (_linux)
 	#include <opencv/cv.hpp>
 #endif
-#include <opencv/highgui.h>
 
 #include <iostream>
 
@@ -33,4 +32,4 @@
 #include <cstdint>
 #include <fstream>
 
-void testSegmentation();*/
+void testSegmentation();

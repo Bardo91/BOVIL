@@ -8,7 +8,7 @@
 
 #include "TestSegmentation.h"
 
-/*
+
 static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
 									0, 0.05, 0, 0, 0, 0, 
 									0, 0, 0.05, 0, 0, 0, 
@@ -244,4 +244,3 @@ bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer){
 
 	return true;
 }
-*/

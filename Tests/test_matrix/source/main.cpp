@@ -7,9 +7,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestMatrix.h"
-#include "TestSegmentation.h"
-#include "testSocketsServer.h"
-#include "testSocketClient.h"
 
 #include <vector>
 #include <map>
@@ -19,13 +16,7 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
-	//testMatrix();
-
-	//testSegmentation();
-
-	//testSocketsServer(hashMap["PORT"]);
-
-	testSocketClient(hashMap["IP"], hashMap["PORT"]);
+	testMatrix();
 
 	system("PAUSE");
 

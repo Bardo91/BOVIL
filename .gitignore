@@ -25,3 +25,13 @@
 /library/prj/vs12/Debug
 /Tests/test_matrix/prj/vs12/*.sdf
 /Tests/test_matrix/prj/vs12/testMatrix.v11.suo
+/Tests/test_matrix/prj/vs12/Debug
+/Tests/test_socket_client/prj/vs12/Debug
+/Tests/test_socket_server/prj/vs12/Debug
+/Tests/test_segmentation/prj/vs12/Debug
+/Tests/test_segmentation/prj/vs12/*.sdf
+/Tests/test_segmentation/prj/vs12/*.suo
+/Tests/test_socket_client/prj/vs12/*.sdf
+/Tests/test_socket_client/prj/vs12/*.suo
+/Tests/test_socket_server/prj/vs12/*.sdf
+/Tests/test_socket_server/prj/vs12/*.suo
