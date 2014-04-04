@@ -23,3 +23,5 @@
 /library/prj/vs12/*.sdf
 /library/prj/eclipse/Release
 /library/prj/vs12/Debug
+/Tests/test_matrix/prj/vs12/*.sdf
+/Tests/test_matrix/prj/vs12/testMatrix.v11.suo
