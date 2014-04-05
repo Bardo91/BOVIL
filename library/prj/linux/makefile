@@ -42,8 +42,8 @@ BOViL: $(OBJ_FILES)
 	@echo "Searching for objects-----------------"
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
-	$(CXX) $^ -o $@  $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
-	@echo "Generated file VisualTrackingUI-------"
+	ar rcs libBOViL.a $^
+	@echo "Generated static library -------------"
 
 
 
