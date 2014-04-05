@@ -33,9 +33,9 @@ namespace BOViL{
 			#endif
 
 			memset(&mHints, 0, sizeof(mHints));
-			mHints.ai_family = AF_UNSPEC;//AF_INET;
+			mHints.ai_family = AF_INET;
 			mHints.ai_socktype = SOCK_STREAM;
-			//mHints.ai_protocol = IPPROTO_TCP;
+			mHints.ai_protocol = 0;//IPPROTO_TCP;
 			mHints.ai_flags = AI_PASSIVE;
 
 			iResult += initializeSocket();
@@ -90,7 +90,7 @@ namespace BOViL{
 			std::cout << "----> Got address info" << std::endl;
 
 			// Create a SOCKET for connecting to server
-			std::cout << "Creating server socket" << std::endl;
+			std::cout << "Creating server socket";
 			mSocketOwn = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
 			if (mSocketOwn == INVALID_SOCKET) {
 				std::cout << "Socket failed. Error was: " << getLastError() << std::endl;

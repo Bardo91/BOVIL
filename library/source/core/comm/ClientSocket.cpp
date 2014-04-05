@@ -34,9 +34,9 @@ namespace BOViL{
 			#endif
 
 			memset( &mHints, 0, sizeof(mHints));
-			mHints.ai_family = AF_UNSPEC;
+			mHints.ai_family = AF_INET;
 			mHints.ai_socktype = SOCK_STREAM;
-			mHints.ai_protocol = IPPROTO_TCP;
+			mHints.ai_protocol = 0;//IPPROTO_TCP;
 
 			iResult += initializeSocket();
 			iResult += connectSocket();
@@ -48,7 +48,7 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		int ClientSocket::initializeSocket(){
 			// Resolve the server address and port
-			std::cout << "Getting address info" << std::endl;
+			std::cout << "Getting address info";
 			int iResult = getaddrinfo(mServerIp.c_str(), mServerPort.c_str(), &mHints, &mResult);
 			if ( iResult != 0 ) {
 				std::cout << "etaddrinfo failed with error: " << getLastError() << std::endl;
@@ -66,7 +66,7 @@ namespace BOViL{
 			for(mPtr=mResult; mPtr != NULL ;mPtr=mPtr->ai_next) {
 
 				// Create a SOCKET for connecting to server
-				std::cout << "Creating client Socket" << std::endl;
+				std::cout << "Creating client Socket";
 				mSocketOut = socket(mPtr->ai_family, mPtr->ai_socktype, mPtr->ai_protocol);
 				if (mSocketOut == INVALID_SOCKET) {
 					std::cout << "Socket Error with error: " << getLastError() << std::endl;
@@ -76,7 +76,7 @@ namespace BOViL{
 				std::cout << "----> Socket created" << std::endl;
 
 				// Connect to server.
-				std::cout << "Connecting to socket" << std::endl;
+				std::cout << "Connecting to socket";
 				int iResult = connect( mSocketOut, mPtr->ai_addr, (int) mPtr->ai_addrlen);
 				if (iResult == SOCKET_ERROR) {
 					closeSocket();
