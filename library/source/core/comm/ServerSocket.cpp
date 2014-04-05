@@ -54,13 +54,14 @@ namespace BOViL{
 
 				return 1;
 			}
-
+			std::cout << "Start listening the port" << std::endl;
 			return 0;
 		}
 
 		//-----------------------------------------------------------------------------
 		int ServerSocket::acceptClient(){
 			// Accept a client socket
+			std::cout << "Waiting client to accept connection";
 			mSocketOut = accept(mSocketOwn, NULL, NULL);
 			if (mSocketOut == INVALID_SOCKET) {
 				std::cout << "Accept failed. Error was: " << getLastError() << std::endl;
@@ -68,6 +69,8 @@ namespace BOViL{
 				closeSocket();				
 				return 1;
 			}
+
+			std::cout << "----> Client accepted" << std::endl;
 			
 			return 0;
 		}
@@ -75,6 +78,7 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		int ServerSocket::initializeSocket(){
 			// Resolve the server address and port
+			std::cout << "Getting address info";
 			int iResult = getaddrinfo(NULL, mPort.c_str(), &mHints, &mResult);
 			if ( iResult != 0 ) {
 				std::cout << "getaddrinfo failed with error: " << iResult << std::endl;
@@ -83,14 +87,17 @@ namespace BOViL{
 				#endif
 				return 1;
 			}
+			std::cout << "----> Got address info" << std::endl;
 
 			// Create a SOCKET for connecting to server
+			std::cout << "Creating server socket" << std::endl;
 			mSocketOwn = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
 			if (mSocketOwn == INVALID_SOCKET) {
 				std::cout << "Socket failed. Error was: " << getLastError() << std::endl;
 				freeaddrinfo(mResult);
 				return 1;
 			}
+			std::cout << "----> Socket created" << std::endl;
 
 			return 0;
 		}
@@ -108,6 +115,7 @@ namespace BOViL{
 				iResult = setsockopt(mSocketOwn, SOL_SOCKET, SO_REUSEADDR, (char *) bOptVal, bOptLen);
 			#endif
 
+			std::cout << "Binding to port";
 			iResult = bind( mSocketOwn, mResult->ai_addr, mResult->ai_addrlen);
 			if (iResult == SOCKET_ERROR) {
 				std::cout << "Bind failed" << std::endl;
@@ -116,6 +124,7 @@ namespace BOViL{
 				closeSocket();
 				return 1;
 			}
+			std::cout << "----> Binded to port" << std::endl;
 
 			freeaddrinfo(mResult);
 			return 0;
