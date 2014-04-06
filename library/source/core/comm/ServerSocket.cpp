@@ -59,7 +59,7 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerSocket::acceptClient(){
+		SOCKET ServerSocket::acceptClient(){
 			// Accept a client socket
 			std::cout << "Waiting client to accept connection";
 			mSocketOut = accept(mSocketOwn, NULL, NULL);
@@ -67,12 +67,12 @@ namespace BOViL{
 				std::cout << "Accept failed. Error was: " << getLastError() << std::endl;
 
 				closeSocket();				
-				return 1;
+				return 0;
 			}
 
 			std::cout << "----> Client accepted" << std::endl;
 			
-			return 0;
+			return mSocketOut;
 		}
 
 		//-----------------------------------------------------------------------------

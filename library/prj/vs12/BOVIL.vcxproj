@@ -16,6 +16,7 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
     <ClCompile Include="..\..\source\core\comm\AuxiliarServerThread.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ServerMultiThread.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\Sockets.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
     <ClInclude Include="..\..\source\core\comm\AuxiliarServerThread.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
+    <ClInclude Include="..\..\source\core\comm\ServerMultiThread.h" />
     <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
     <ClInclude Include="..\..\source\core\comm\Sockets.h" />
     <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />

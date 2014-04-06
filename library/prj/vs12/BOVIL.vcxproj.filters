@@ -78,6 +78,9 @@
     <ClCompile Include="..\..\source\core\comm\AuxiliarServerThread.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\ServerMultiThread.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\types\BasicTypes.h">
@@ -123,6 +126,9 @@
       <Filter>core\comm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\core\comm\AuxiliarServerThread.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\ServerMultiThread.h">
       <Filter>core\comm</Filter>
     </ClInclude>
   </ItemGroup>

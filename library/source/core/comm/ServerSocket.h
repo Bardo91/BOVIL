@@ -20,7 +20,7 @@ namespace BOViL{
 			ServerSocket(const std::string _port);
 
 			int listenClient();
-			int acceptClient();
+			SOCKET acceptClient();
 
 		protected:
 			int initializeSocket();

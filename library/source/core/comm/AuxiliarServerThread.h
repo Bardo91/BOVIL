@@ -10,33 +10,37 @@
 #ifndef _BOVIL_CORE_COMM_SERVERAUXILIARTHREAD_H_
 #define _BOVIL_CORE_COMM_SERVERAUXILIARTHREAD_H_
 
-#include "Sockets.h"
+#include "ServerSocket.h"
 
 #include <functional>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
 
 namespace BOViL{
 	namespace comm{
-		class AuxiliarServerThread: std::thread {
+		class AuxiliarServerThread {
 		public:	// public interface
-			AuxiliarServerThread(SOCKET _socket);
+			AuxiliarServerThread(SOCKET _socket, int _index);
+			~AuxiliarServerThread();
 
-			int startThread();
-			int stopThread();
+			bool startThread();
+			bool stopThread();
 			
 			bool hasData();
-			std::string readData();
+			std::vector<std::string> readData();
 			int writeData(std::string _data);
 
 
 		private:	// private members
-			std::thread mThread;
+			int mIndex;
+			std::thread *mThread;
 			bool mIsRunning;	// Flag to know if current thread is running
 			
-			SOCKET mSocket;
+			std::mutex mMutex;
 
+			SOCKET mSocket;
 			char *mInputBuffer;
 			std::vector<std::string> mData;
 
