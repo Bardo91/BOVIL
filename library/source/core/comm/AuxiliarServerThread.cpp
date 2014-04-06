@@ -84,7 +84,7 @@ namespace BOViL {
 
 				int iResult = recv(mSocket, recvbuf, recvbuflen, 0);
 				if (iResult > 0) {
-					printf("Bytes received: %d\n", iResult);
+					std::cout << "Connection " << mIndex << " has received " << iResult << "bytes" << std::endl;
 
 					std::string msg;
 
