@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
+    <ClCompile Include="..\..\source\core\comm\AuxiliarServerThread.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\Sockets.cpp" />

@@ -13,17 +13,38 @@
 #include "Sockets.h"
 
 #include <functional>
+#include <string>
 #include <thread>
+#include <vector>
 
 namespace BOViL{
 	namespace comm{
 		class AuxiliarServerThread: std::thread {
-		public:
+		public:	// public interface
 			AuxiliarServerThread(SOCKET _socket);
-			AuxiliarServerThread(SOCKET _socket, std::function<void (...)> _function, ...);
 
-		private:	// Thread's function
-			void stdAuxiliarServerFunction();
+			int startThread();
+			int stopThread();
+			
+			bool hasData();
+			std::string readData();
+			int writeData(std::string _data);
+
+
+		private:	// private members
+			std::thread mThread;
+			bool mIsRunning;	// Flag to know if current thread is running
+			
+			SOCKET mSocket;
+
+			char *mInputBuffer;
+			std::vector<std::string> mData;
+
+
+		private:	//	thread private interdace
+
+			void watchFunction();
+
 		};
 	}	//	namespace comm
 }	//	namespace BOViL
