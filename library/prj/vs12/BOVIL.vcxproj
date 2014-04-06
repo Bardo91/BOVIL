@@ -26,6 +26,7 @@
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
+    <ClInclude Include="..\..\source\core\comm\AuxiliarServerThread.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
     <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
     <ClInclude Include="..\..\source\core\comm\Sockets.h" />
