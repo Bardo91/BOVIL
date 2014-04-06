@@ -22,7 +22,6 @@ namespace BOViL{
 	namespace comm{
 		class AuxiliarServerThread {
 		public:	// public interface
-			AuxiliarServerThread();
 			AuxiliarServerThread(SOCKET _socket, int _index);
 			~AuxiliarServerThread();
 

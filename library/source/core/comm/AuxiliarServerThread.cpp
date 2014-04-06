@@ -11,11 +11,6 @@
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
-		AuxiliarServerThread::AuxiliarServerThread(){
-
-		}
-
-		//-----------------------------------------------------------------------------
 		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index){
 			mSocket = _socket;
 			mIndex = _index;

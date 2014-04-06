@@ -33,7 +33,7 @@ namespace BOViL{
 			std::thread mAcceptThread;
 
 			int mNoConnections;
-			AuxiliarServerThread mThreadList[MAXCONNECTIONS];
+			AuxiliarServerThread* mThreadList[MAXCONNECTIONS];
 		
 		private: //	Thread function
 			void acceptFunction();

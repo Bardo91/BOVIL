@@ -27,7 +27,10 @@ namespace BOViL {
 		ServerMultiThread::~ServerMultiThread(){
 			if(mAcceptThread.joinable())
 				mAcceptThread.join();
-
+			
+			for(int i = 0; i < mNoConnections ; i++){
+				delete mThreadList[i];
+			}
 		}
 
 		//-----------------------------------------------------------------------------
@@ -41,7 +44,7 @@ namespace BOViL {
 			while(1){
 				SOCKET conn = mServerSocket.acceptClient();
 				if(conn != 0){
-					mThreadList[mNoConnections] = AuxiliarServerThread(conn, mNoConnections);
+					mThreadList[mNoConnections] = new AuxiliarServerThread(conn, mNoConnections);
 					mNoConnections++;
 				}
 			}
