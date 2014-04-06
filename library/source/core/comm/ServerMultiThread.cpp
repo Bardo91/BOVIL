@@ -14,15 +14,19 @@ namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
 		ServerMultiThread::ServerMultiThread(std::string _PORT) {
+			mNoConnections = 0;
 			mServerSocket = ServerSocket(_PORT);
-
+			
 			mServerSocket.listenClient();
+
+			mAcceptThread = std::thread(&ServerMultiThread::acceptFunction, this);
 
 		}
 
 		//-----------------------------------------------------------------------------
 		ServerMultiThread::~ServerMultiThread(){
-
+			if(mAcceptThread.joinable())
+				mAcceptThread.join();
 
 		}
 

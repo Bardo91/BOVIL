@@ -35,8 +35,6 @@ namespace BOViL {
 			if(mThread == nullptr){
 				mThread = new std::thread(&AuxiliarServerThread::watchFunction, this);
 
-				mThread->detach();
-
 				mIsRunning = true;
 
 				return true;

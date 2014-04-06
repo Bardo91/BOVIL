@@ -43,3 +43,5 @@
 /Tests/test_socket_multithreadserver/prj/vs12/*.opensdf
 /Tests/test_socket_multithreadserver/prj/vs12/*.sdf
 /Tests/test_socket_multithreadserver/prj/vs12/*.suo
+/Tests/test_socket_multithreadserver/prj/vs12/*.user
+/library/prj/vs12/*.user
