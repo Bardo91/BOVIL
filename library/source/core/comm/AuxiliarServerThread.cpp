@@ -11,6 +11,11 @@
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
+		AuxiliarServerThread::AuxiliarServerThread(){
+
+		}
+
+		//-----------------------------------------------------------------------------
 		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index){
 			mSocket = _socket;
 			mIndex = _index;
@@ -54,23 +59,16 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		bool AuxiliarServerThread::hasData(){
-			mMutex.lock();
 			if(mData.size() > 0){
-				mMutex.unlock();
 				return true;
 			}
-			mMutex.unlock();
 			return false;
 
 		}
 
 		//-----------------------------------------------------------------------------
 		std::vector<std::string> AuxiliarServerThread::readData(){
-			mMutex.lock();
-			std::vector<std::string> auxData = mData;
-			mMutex.unlock();
-
-			return auxData;
+			return mData;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -100,9 +98,7 @@ namespace BOViL {
 					msg.append(recvbuf, iResult);
 					std::vector<std::string> a;
 					
-					mMutex.lock();
 					mData.push_back(msg);
-					mMutex.unlock();
 
 				}
 			}

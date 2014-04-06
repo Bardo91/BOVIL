@@ -17,6 +17,7 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		class ServerSocket: public Socket{
 		public:
+			ServerSocket();
 			ServerSocket(const std::string _port);
 
 			int listenClient();

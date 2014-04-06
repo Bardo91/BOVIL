@@ -14,7 +14,12 @@
 
 namespace BOViL{
 	namespace comm{
-				//-----------------------------------------------------------------------------
+		//-----------------------------------------------------------------------------
+		ServerSocket::ServerSocket(){
+
+		}
+
+		//-----------------------------------------------------------------------------
 		ServerSocket::ServerSocket(const std::string _port){
 			mPort = _port;
 			mSocketOwn = INVALID_SOCKET;

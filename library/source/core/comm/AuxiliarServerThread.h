@@ -22,6 +22,7 @@ namespace BOViL{
 	namespace comm{
 		class AuxiliarServerThread {
 		public:	// public interface
+			AuxiliarServerThread();
 			AuxiliarServerThread(SOCKET _socket, int _index);
 			~AuxiliarServerThread();
 
@@ -37,8 +38,6 @@ namespace BOViL{
 			int mIndex;
 			std::thread *mThread;
 			bool mIsRunning;	// Flag to know if current thread is running
-			
-			std::mutex mMutex;
 
 			SOCKET mSocket;
 			char *mInputBuffer;
@@ -46,7 +45,6 @@ namespace BOViL{
 
 
 		private:	//	thread private interdace
-
 			void watchFunction();
 
 		};
