@@ -63,8 +63,8 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		bool AuxiliarServerThread::stopThread(){
-			if(mThread !=nullptr && mThread->joinable()){
-				mThread->join();
+			if(mThread != nullptr && mThread->joinable()){
+				mThread->detach();
 				delete mThread;
 				mIsRunning = false;
 				return true;
@@ -122,8 +122,14 @@ namespace BOViL {
 					mMutex.lock();
 					mData.push_back(msg);
 					mMutex.unlock();
+				} else if (iResult == SOCKET_ERROR){
+					// Socket error, closing connection.
+					mIsRunning = false;
 				}
 			}
+
+			// Auxiliar thread has nothing to do if connection failed. Selfdestroy
+			delete this;
 		}
 
 		//-----------------------------------------------------------------------------

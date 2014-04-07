@@ -52,7 +52,7 @@ namespace BOViL {
 			while(1){
 				SOCKET conn = mServerSocket.acceptClient();
 				if(conn != 0){
-					mThreadList[mNoConnections] = new AuxiliarServerThread(conn, mNoConnections);
+					mThreadList[mNoConnections] = new AuxiliarServerThread(conn, mNoConnections, mThreadList);
 					mNoConnections++;
 				}
 			}
