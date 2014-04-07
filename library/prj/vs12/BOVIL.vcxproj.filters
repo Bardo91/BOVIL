@@ -81,9 +81,6 @@
     <ClCompile Include="..\..\source\core\comm\ServerMultiThread.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\core\types\BasicTypes.h">

@@ -22,7 +22,9 @@ namespace BOViL{
 	namespace comm{
 		class AuxiliarServerThread {
 		public:	// public interface
+			AuxiliarServerThread(SOCKET _socket);
 			AuxiliarServerThread(SOCKET _socket, int _index);
+			AuxiliarServerThread(SOCKET _socket, int _index, AuxiliarServerThread** _threadList);
 			~AuxiliarServerThread();
 
 			bool startThread();
@@ -34,6 +36,7 @@ namespace BOViL{
 
 
 		private:	// private members
+			AuxiliarServerThread **mThreadList;	// 777 Possible revision. How to destroy and free the thread on the server list..
 			int mIndex;
 			std::thread *mThread;
 			bool mIsRunning;	// Flag to know if current thread is running

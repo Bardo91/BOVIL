@@ -33,7 +33,7 @@ namespace BOViL{
 			std::thread mAcceptThread;
 
 			int mNoConnections;
-			AuxiliarServerThread* mThreadList[MAXCONNECTIONS];
+			AuxiliarServerThread* mThreadList[MAXCONNECTIONS];	// 777 TODO: Possible improvement. Design a container as chained list.
 		
 		private: //	Thread function
 			void acceptFunction();

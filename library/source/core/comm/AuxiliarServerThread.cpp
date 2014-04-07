@@ -11,18 +11,41 @@
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
-		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index){
-			mSocket = _socket;
-			mIndex = _index;
-			mThread = nullptr;
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket): mSocket(_socket),	
+																	mIndex(0),
+																	mThread(nullptr){
+
 			startThread();
 
 		}
+
+		//-----------------------------------------------------------------------------
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index): mSocket(_socket),	
+																				mIndex(_index),
+																				mThread(nullptr){
+			startThread();
+
+		}
+		
+		//-----------------------------------------------------------------------------
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index, AuxiliarServerThread **_threadList): 
+										mSocket(_socket),	
+										mIndex(_index),
+										mThread(nullptr),
+										mThreadList(_threadList) {
+
+			startThread();
+
+		}
+
 		//-----------------------------------------------------------------------------
 		AuxiliarServerThread::~AuxiliarServerThread(){
 			std::cout << "Closing connection: " << mIndex << std::endl;
 			while(!stopThread());
 
+			if(mThreadList[mIndex] == this){	// 777 Das good, but, in Server mNoConnections keep same size...
+				mThreadList[mIndex] = nullptr;
+			}
 		}
 
 		//-----------------------------------------------------------------------------
