@@ -45,3 +45,4 @@
 /Tests/test_socket_multithreadserver/prj/vs12/*.suo
 /Tests/test_socket_multithreadserver/prj/vs12/*.user
 /library/prj/vs12/*.user
+/Tests/test_segmentation/prj/vs12/*.user

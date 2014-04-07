@@ -39,11 +39,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\opencv\opencv\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <IncludePath>C:\opencv\opencv\build\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
     <LibraryPath>C:\opencv\opencv\build\x86\vc11\lib;C:\Programming\BOVIL\library\prj\vs12\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\opencv\opencv\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <IncludePath>C:\opencv\opencv\build\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
     <LibraryPath>C:\opencv\opencv\build\x86\vc11\lib;C:\Programming\BOVIL\library\prj\vs12\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
