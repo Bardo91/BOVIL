@@ -19,6 +19,22 @@ int main(int _argc, char** _argv){
 
 	BOViL::comm::ServerMultiThread server(hashMap["PORT"]);
 
+	bool run = true;
+
+	while(run){
+		int noConn = server.getNoConnections();
+		
+		for(int i = 0 ; i < noConn ; i++){
+			if(server.getThread(i)->hasData()){
+				std::vector<std::string> data = server.getThread(i)->readData();
+				for(unsigned int j = 0 ; j < data.size() ; j++){
+					std::cout << "Data from thread " << i << ": " << data[j] << std::endl;
+				}
+			}
+		}
+
+	}
+
 	system("PAUSE");
 
 	return 0;

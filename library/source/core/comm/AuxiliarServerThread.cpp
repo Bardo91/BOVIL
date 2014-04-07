@@ -63,6 +63,7 @@ namespace BOViL {
 		std::vector<std::string> AuxiliarServerThread::readData(){
 			mMutex.lock();
 			std::vector<std::string> data = mData;
+			mData.clear();
 			mMutex.unlock();
 
 			return data;

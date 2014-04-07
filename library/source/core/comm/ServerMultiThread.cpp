@@ -34,8 +34,16 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
+		int ServerMultiThread::getNoConnections(){
+			return mNoConnections;
+
+		}
 
 		//-----------------------------------------------------------------------------
+		AuxiliarServerThread* ServerMultiThread::getThread(int _index){
+			return mThreadList[_index];
+
+		}
 
 		//-----------------------------------------------------------------------------
 
