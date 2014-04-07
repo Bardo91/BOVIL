@@ -61,7 +61,11 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		std::vector<std::string> AuxiliarServerThread::readData(){
-			return mData;
+			mMutex.lock();
+			std::vector<std::string> data = mData;
+			mMutex.unlock();
+
+			return data;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -91,8 +95,9 @@ namespace BOViL {
 					msg.append(recvbuf, iResult);
 					std::vector<std::string> a;
 					
+					mMutex.lock();
 					mData.push_back(msg);
-
+					mMutex.unlock();
 				}
 			}
 		}
