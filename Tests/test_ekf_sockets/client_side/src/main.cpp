@@ -19,9 +19,14 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
 
+	int id = 0;
+	id = atoi(hashMap["ID"].c_str());
+
+
 	BOViL::comm::ClientSocket* client = BOViL::comm::Socket::createClientSocket(hashMap["IP"], hashMap["PORT"]);
 
-	testSegmentation(client);
+	
+	testSegmentation(client, id);
 
 	system("PAUSE");
 	

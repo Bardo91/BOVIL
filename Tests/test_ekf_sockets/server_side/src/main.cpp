@@ -11,6 +11,7 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <string>
 
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 
@@ -19,6 +20,17 @@ int main(int _argc, char** _argv){
 
 	BOViL::comm::ServerMultiThread server(hashMap["PORT"]);
 
+	std::vector<std::string> data;
+	while (1){
+		for (int i = 0; i < server.getNoConnections(); i++){
+			if (server.getThread(i)->hasData()){
+				data = server.getThread(i)->readData();
+				for (unsigned int j = 0; j < data.size(); j++){
+					std::cout << data[j] << std::endl;
+				}
+			}
+		}
+	}
 
 	system("PAUSE");
 

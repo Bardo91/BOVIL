@@ -61,3 +61,11 @@
 /Tests/test_ekf_sockets/server_side/prj/vs13/*.suo
 /Tests/test_ekf_sockets/server_side/prj/vs13/*.sdf
 /Tests/test_ekf_sockets/server_side/prj/vs13/*.user
+/Tests/test_ekf_sockets/server_side/prj/vs13/Release
+/Tests/test_socket_server/prj/vs13/Debug/testSocketServer.tlog
+/Tests/test_socket_server/prj/vs13/Release/testSocketServer.tlog
+/Tests/test_socket_server/prj/vs13/Release
+/Tests/test_socket_server/prj/vs13/*.suo
+/Tests/test_socket_server/prj/vs13/Debug
+/Tests/test_socket_server/prj/vs13/*.sdf
+/Tests/test_ekf_sockets/server_side/prj/vs13/*.opensdf

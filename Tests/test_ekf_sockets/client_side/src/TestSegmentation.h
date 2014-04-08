@@ -29,4 +29,4 @@
 
 
 
-void testSegmentation(BOViL::comm::ClientSocket *_client);
+void testSegmentation(BOViL::comm::ClientSocket *_client, int _id);

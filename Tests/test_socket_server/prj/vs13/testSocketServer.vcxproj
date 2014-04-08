@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{08167AFC-A5C2-4A46-8D6D-236C21E9C82C}</ProjectGuid>
-    <RootNamespace>ekf_server_side</RootNamespace>
+    <ProjectGuid>{1E3F33F9-B81E-43F5-B7D8-4515102B12F2}</ProjectGuid>
+    <RootNamespace>testSocketServer</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\library\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Programming\BOVIL\library\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
@@ -73,7 +73,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\main.cpp" />
+    <ClInclude Include="..\..\source\testSocketsServer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\main.cpp" />
+    <ClCompile Include="..\..\source\testSocketsServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
