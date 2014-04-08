@@ -6,7 +6,7 @@
 
 ########## Variables ##########
 CXX = g++
-CPP_FILES := $(shell find ./../../source/ -name '*.cpp')
+CPP_FILES := $(shell find ./../../src/ -name '*.cpp')
 OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 
 CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall -pthread
