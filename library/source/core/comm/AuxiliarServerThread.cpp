@@ -11,27 +11,27 @@
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
-		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket): mSocket(_socket),	
-																	mIndex(0),
-																	mThread(nullptr){
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket): mIndex(0),
+																	mThread(nullptr),
+																	mSocket(_socket){
 
 			startThread();
 
 		}
 
 		//-----------------------------------------------------------------------------
-		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index): mSocket(_socket),	
-																				mIndex(_index),
-																				mThread(nullptr){
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index) :	mIndex(0),
+																					mThread(nullptr),
+																					mSocket(_socket){
 			startThread();
 
 		}
 		
 		//-----------------------------------------------------------------------------
 		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index, AuxiliarServerThread **_threadList): 
-										mSocket(_socket),	
-										mIndex(_index),
+										mIndex(0),
 										mThread(nullptr),
+										mSocket(_socket),
 										mThreadList(_threadList) {
 
 			startThread();

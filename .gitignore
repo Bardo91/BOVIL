@@ -69,3 +69,4 @@
 /Tests/test_socket_server/prj/vs13/Debug
 /Tests/test_socket_server/prj/vs13/*.sdf
 /Tests/test_ekf_sockets/server_side/prj/vs13/*.opensdf
+/library/prj/vs13/*.opensdf
