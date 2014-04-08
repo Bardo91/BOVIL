@@ -29,10 +29,10 @@ namespace BOViL {
 		
 		//-----------------------------------------------------------------------------
 		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index, AuxiliarServerThread **_threadList): 
+										mThreadList(_threadList),
 										mIndex(0),
 										mThread(nullptr),
-										mSocket(_socket),
-										mThreadList(_threadList) {
+										mSocket(_socket) {
 
 			startThread();
 
