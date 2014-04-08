@@ -12,8 +12,8 @@ OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall -pthread
 
 ########## EXTERNAL INCLUDES ##########
-INCLUDES := -I./ -I ../../../../library/source
-LIBRARIES := -L ../../../../library/prj/linux
+INCLUDES := -I./ -I ../../../../../library/source
+LIBRARIES := -L ../../../../../library/prj/linux
 DEPENDENCIES := -static -lBOViL
 
 ########## RULES ##########
