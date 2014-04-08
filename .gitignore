@@ -48,3 +48,6 @@
 /Tests/test_segmentation/prj/vs12/*.user
 /Tests/test_ekf_sockets/server_side/prj/vs13/Debug
 /Tests/test_ekf_sockets/server_side/prj/vs13
+/Tests/test_ekf_sockets/client_side/prj/vs13/*.sdf
+/Tests/test_ekf_sockets/client_side/prj/vs13/*.suo
+/Tests/test_ekf_sockets/client_side/prj/vs13/*.user
