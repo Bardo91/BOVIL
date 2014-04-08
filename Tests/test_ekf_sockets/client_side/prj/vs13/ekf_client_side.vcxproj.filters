@@ -12,5 +12,13 @@
     <ClCompile Include="..\..\src\main.cpp">
       <Filter>source folder</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\TestSegmentation.cpp">
+      <Filter>source folder</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\TestSegmentation.h">
+      <Filter>header folder</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

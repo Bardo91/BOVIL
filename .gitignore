@@ -56,3 +56,6 @@
 /library/prj/vs13/Debug
 /library/prj/vs13/*.sdf
 /library/prj/vs13/*.suo
+/Tests/test_ekf_sockets/client_side/prj/vs13/Release
+/library/prj/vs13/Release/BOVIL.tlog
+/library/prj/vs13/Release

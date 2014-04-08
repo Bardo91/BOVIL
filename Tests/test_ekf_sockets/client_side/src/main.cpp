@@ -7,6 +7,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "core/comm/ServerMultiThread.h"
+#include "TestSegmentation.h"
+
 
 #include <vector>
 #include <map>
@@ -19,9 +21,11 @@ int main(int _argc, char** _argv){
 
 	BOViL::comm::ClientSocket* client = BOViL::comm::Socket::createClientSocket(hashMap["IP"], hashMap["PORT"]);
 
+	testSegmentation(client);
+
 	system("PAUSE");
 	
-	delete client;
+	delete client;	//	 666 TODO: add destructor.
 
 	return 0;
 
