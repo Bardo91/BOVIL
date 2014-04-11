@@ -12,13 +12,13 @@ OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall
 
 ########## EXTERNAL INCLUDES ##########
-INCLUDES := -I./ 
-LIBRARIES := 
-DEPENDENCIES :=
+INCLUDES := -I./ -I../../../../library/source -I/usr/include
+LIBRARIES := -L../../../../library/prj/linux -L/usr/lib
+DEPENDENCIES := -lopencv_core -lopencv_highgui -lBOViL
 
 ########## RULES ##########
 
-all: BOViL
+all: testBOViLsegmentation
 
 rebuild: clean BOViL
 	
@@ -35,7 +35,7 @@ run:
 	./../../source/main
 
 # Compile application
-BOViL: $(OBJ_FILES)
+testBOViLsegmentation: $(OBJ_FILES)
 	@echo "--------------------------------------"
 	@echo "Current cpps--------------------------"
 	@echo $(CPP_FILES)
@@ -43,7 +43,7 @@ BOViL: $(OBJ_FILES)
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
 	$(CXX) $^ -o $@  $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
-	@echo "Generated file VisualTrackingUI-------"
+	@echo "Generated file testBOViLsegmentation-------"
 
 
 
