@@ -26,11 +26,11 @@ int main(int _argc, char** _argv){
 	BOViL::comm::ClientSocket* client = BOViL::comm::Socket::createClientSocket(hashMap["IP"], hashMap["PORT"]);
 
 	
-	testSegmentation(client, id);
+	testSegmentation(client, id, hashMap["IMG_PATH"]);
 
 	system("PAUSE");
 	
-	delete client;	//	 666 TODO: add destructor.
+	//delete client;	//	 666 TODO: add destructor.
 
 	return 0;
 

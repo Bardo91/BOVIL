@@ -35,20 +35,13 @@ static const double arrayX0[6] = {	8.0,//0,
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
-void testSegmentation(BOViL::comm::ClientSocket *_client, int _id){
+void testSegmentation(BOViL::comm::ClientSocket *_client, int _id, std::string _path){
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
 	cv::Mat img, ori;
 
 	std::string path = "";
-
-	#if defined (__linux)
-		path = "/home/bardo91/Programming/Images/";
-	#endif
-	#if defined (_WIN32)
-		path = "E:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
-	#endif
 	
-	std::cout << "--Path of images: " << path << std::endl;
+	std::cout << "--Path of images: " << _path << std::endl;
 
 	bool condition = true;
 	int i = 0;
@@ -71,7 +64,7 @@ void testSegmentation(BOViL::comm::ClientSocket *_client, int _id){
 		++i;
 		std::stringstream ss;
 
-		ss << path << "img" << _id << "_cam1.jpg";
+		ss << _path << "img" << _id << "_cam1.jpg";
 		
 
 		std::string imagePath = ss.str();
