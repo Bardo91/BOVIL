@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	Color Cluster Segmentation Stereo Tracking
 //
-//		Author: Pablo Ramón Soria (Based on Carmelo's J. Fernández-Agüera Tortosa (a.k.a. Technik) code)
+//		Author: Pablo Ramï¿½n Soria (Based on Carmelo's J. Fernï¿½ndez-Agï¿½era Tortosa (a.k.a. Technik) code)
 //		Date: 2013/11/08
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ namespace BOViL
 
 			// Internal use.
 	#if defined(__linux__)
-		int mLastTime;
+		double mLastTime;
 	#endif
 	#if defined (_WIN32)
 		unsigned mLastTime;

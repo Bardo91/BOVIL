@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	Color Cluster Segmentation Stereo Tracking
 //
-//		Author: Pablo Ramón Soria (Based on Carmelo's J. Fernández-Agüera Tortosa (a.k.a. Technik) code)
+//		Author: Pablo Ramï¿½n Soria (Based on Carmelo's J. Fernï¿½ndez-Agï¿½era Tortosa (a.k.a. Technik) code)
 //		Date: 2013/11/08
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,14 +53,8 @@ namespace BOViL
 		// Get current time
 		timeval currentTime;
 		gettimeofday(&currentTime, 0);
-		int usecTime = currentTime.tv_usec;
-		mFrameTime = double((usecTime - mLastTime)/ 1000000.0);        // Known conversion from double. There wont be loss of
-																														// information because tv_usec isn't that precise.
-		if(mFrameTime < 0.f)
-		{
-				mFrameTime += 1.f;
-		}
-		mLastTime = usecTime;
+		mFrameTime = double( currentTime.tv_sec + currentTime.tv_usec/1000000.0);
+
 	#elif defined (_WIN32)
 		// Get current time
 		LARGE_INTEGER largeTicks;
@@ -81,7 +75,7 @@ namespace BOViL
 			// Get current time
 			timeval currentTime;
 			gettimeofday(&currentTime, 0);
-			mLastTime = currentTime.tv_usec;
+			mLastTime = double( currentTime.tv_sec + currentTime.tv_usec/1000000.0);
 	#elif defined (WIN32)
 			// Get initial time
 			LARGE_INTEGER largeTicks;
