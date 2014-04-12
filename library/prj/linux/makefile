@@ -34,8 +34,8 @@ clean:
 run:
 	./../../source/main
 
-# Compile application
-BOViL: $(OBJ_FILES)
+# Compile static library
+static_lib: $(OBJ_FILES)
 	@echo "--------------------------------------"
 	@echo "Current cpps--------------------------"
 	@echo $(CPP_FILES)
@@ -44,6 +44,17 @@ BOViL: $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
 	ar rcs libBOViL.a $^
 	@echo "Generated static library -------------"
+
+# Compile shared library
+shared_lib: $(OBJ_FILES)
+	@echo "--------------------------------------"
+	@echo "Current cpps--------------------------"
+	@echo $(CPP_FILES)
+	@echo "Searching for objects-----------------"
+	@echo $(OBJ_FILES)
+	@echo "Prepare compilation-------------------"
+	gcc -shared -o libBOViL.so $(OBJ_FILES)
+	@echo "Generated shared library -------------"
 
 
 
