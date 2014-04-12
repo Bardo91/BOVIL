@@ -64,11 +64,11 @@ void testSegmentation(BOViL::comm::ClientSocket *_client, int _id, std::string _
 		++i;
 		std::stringstream ss;
 
-		ss << _path << "img" << _id << "_cam1.jpg";
+		ss << _path << "img" << i << "_cam" << _id << ".jpg";
 		
 
 		std::string imagePath = ss.str();
-		
+		std::cout << imagePath << std::endl;
 		img = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR); //cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);
 
 		img.copyTo(ori);
