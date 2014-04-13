@@ -73,3 +73,6 @@
 *.o
 *.a
 /Test/test_matrix/prj/linux/BOVIL
+/Tests/test_time/prj/vs13/Debug
+/Tests/test_time/prj/vs13/*.sdf
+/Tests/test_time/prj/vs13/*.suo
