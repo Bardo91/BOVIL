@@ -1,3 +1,4 @@
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: main
 //
@@ -26,7 +27,9 @@ int main(int _argc, char** _argv){
 		std::cout << time->frameTime() << std::endl;
 	}
 
-	system("PAUSE");
+	#if defined(_WIN32)
+		system("PAUSE");
+	#endif
 	
 	//delete client;	//	 666 TODO: add destructor.
 

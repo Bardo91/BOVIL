@@ -12,9 +12,9 @@ OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 CXX_FLAGS = -fPIC -std=c++11 -O3 -Wall -pthread
 
 ########## EXTERNAL INCLUDES ##########
-INCLUDES := -I./ -I ../../../../../library/source -I /usr/include
-LIBRARIES := -L ../../../../../library/prj/linux -L /usr/lib
-DEPENDENCIES := -lopencv_core -lopencv_highgui -lopencv_imgproc -lBOViL
+INCLUDES := -I./ -I ../../../../library/source 
+LIBRARIES := -L ../../../../library/prj/linux 
+DEPENDENCIES :=  -lBOViL
 
 ########## RULES ##########
 
@@ -29,11 +29,6 @@ clean:
 	rm -f $(OBJ_FILES)
 	@echo "Project Cleaned-----------------------"
 
-
-# Run application
-run:
-	./../../source/main
-
 # Compile application
 BOViL: $(OBJ_FILES)
 	@echo "--------------------------------------"
@@ -43,7 +38,7 @@ BOViL: $(OBJ_FILES)
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
 	$(CXX) $^ -o $@  $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
-	@echo "Generated file VisualTrackingUI-------"
+	@echo "Generated file------------------------"
 
 
 
