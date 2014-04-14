@@ -14,7 +14,7 @@ CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall
 ########## EXTERNAL INCLUDES ##########
 INCLUDES := -I./ -I ../../../../library/source
 LIBRARIES := -L ../../../../library/prj/linux
-DEPENDENCIES := -static -lBOViL
+DEPENDENCIES := -lBOViL
 
 ########## RULES ##########
 

@@ -9,7 +9,8 @@ CXX = g++
 CPP_FILES := $(shell find ./../../source/ -name '*.cpp')
 OBJ_FILES = $(patsubst %.cpp, %.o, $(CPP_FILES))
 
-CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall
+##CXX_FLAGS = -fPIC -std=c++11 -g -O0 -Wall
+CXX_FLAGS = -fPIC -std=c++11 -O3 -Wall
 
 ########## EXTERNAL INCLUDES ##########
 INCLUDES := -I./ 

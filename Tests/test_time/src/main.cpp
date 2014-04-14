@@ -23,16 +23,20 @@ int main(int _argc, char** _argv){
 
 	BOViL::STime *time = BOViL::STime::get();
 
+	std::string str;
+
 	while (1){
+		std::cin >> str;
 		std::cout << time->frameTime() << std::endl;
 	}
 
 	#if defined(_WIN32)
 		system("PAUSE");
 	#endif
-	
-	//delete client;	//	 666 TODO: add destructor.
 
+
+	BOViL::STime::end();
+	
 	return 0;
 
 }
