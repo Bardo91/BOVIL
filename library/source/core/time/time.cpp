@@ -36,6 +36,7 @@ namespace BOViL {
 	STime::STime() {
 		#if defined (__linux__)
 			// Get current time
+			std::cout << "por aqui he pasao" << std::endl;
 			gettimeofday(&mInitTime, 0);
 		#elif defined (WIN32)
 			// Get initial time
