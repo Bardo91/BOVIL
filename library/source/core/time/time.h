@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	Color Cluster Segmentation Stereo Tracking
+//	BOVIL - core
 //
-//		Author: Pablo Ram�n Soria (Based on Carmelo's J. Fern�ndez-Ag�era Tortosa (a.k.a. Technik) code)
-//		Date: 2013/11/08
+//		Author: Pablo Ram�n Soria 
+//		Date: 2013/04/08
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Time and time functions
 
-#ifndef _VISUAL_TRACKING_UI_TIME_H_
-#define _VISUAL_TRACKING_UI_TIME_H_
+#ifndef _BOVIL_CORE_TIME_TIME_H_
+#define _BOVIL_CORE_TIME_TIME_H_
 
 #if defined(__linux__)
 	#include <sys/time.h>
@@ -16,11 +16,8 @@
 	#include <Windows.h>
 #endif
 
-namespace BOViL
-{
-	class STime
-	{
-			/// \brief this system provides time meassures to game. time is considered constant along a whole frame.
+namespace BOViL {
+	class STime {
 	public:
 		// --- Singleton life cycle ---
 		static void init();
@@ -28,38 +25,27 @@ namespace BOViL
 		static void end();
 
 	public: // --- Public interface ---
-		double frameTime();
+		double getTime();
 
 	private:
 		STime();
-		void update();        // Update time system
 	private:
 		// Singleton instance
 		static STime* sTime; // Static data definition
-		// last frame duration.
-		double mFrameTime;
-		// Internal use.
+		// members
 		#if defined(__linux__)
-			timeval mLastTime;
+			timeval mInitTime;
 		#endif
 		#if defined (_WIN32)
-			unsigned mLastTime;
+			unsigned mInitTime;
 		#endif
 	};
 
 	//------------------------------------------------------------------------------------------------------------------
-	inline double STime::frameTime()
-	{
-		update();
-		return mFrameTime;
-	}
-
-	//------------------------------------------------------------------------------------------------------------------
-	inline STime * STime::get()
-	{
+	inline STime * STime::get() {
 		return sTime;
 	}
 
 }        // namespace BOViL
 
-#endif // _VISUAL_TRACKING_UI_TIME_H_
+#endif // _BOVIL_CORE_TIME_TIME_H_

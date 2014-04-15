@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	Color Cluster Segmentation Stereo Tracking
+//	BOVIL - core
 //
-//		Author: Pablo Ram�n Soria (Based on Carmelo's J. Fern�ndez-Ag�era Tortosa (a.k.a. Technik) code)
-//		Date: 2013/11/08
+//		Author: Pablo Ram�n Soria 
+//		Date: 2013/14/08	
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Time and time functions
@@ -10,10 +10,7 @@
 // Engine headers
 #include "time.h"
 #include <cassert>
-// Used namespaces
-
-namespace BOViL
-{
+namespace BOViL {
 	//------------------------------------------------------------------------------------------------------------------
 	// Static data definition
 	//------------------------------------------------------------------------------------------------------------------
@@ -23,29 +20,25 @@ namespace BOViL
 	//------------------------------------------------------------------------------------------------------------------
 	// Method implementations
 	//------------------------------------------------------------------------------------------------------------------
-	void STime::init()
-	{
+	void STime::init() {
 		assert(sTime == nullptr);
 		sTime = new STime();
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void STime::end()
-	{
+	void STime::end() {
 		assert(sTime != nullptr);
 		delete sTime;
 		sTime = nullptr;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	void STime::update()
-	{
+	double STime::getTime() {
 	#if defined (__linux__)
 		// Get current time
 		timeval currentTime;
 		gettimeofday(&currentTime, 0);
-		mFrameTime = double(currentTime.tv_sec - mLastTime.tv_sec) + double(currentTime.tv_usec - mLastTime.tv_usec)/1000000;
-		mLastTime = currentTime;
+		mFrameTime = double(currentTime.tv_sec - mInitTime.tv_sec) + double(currentTime.tv_usec - mInitTime.tv_usec)/1000000;
 
 	#elif defined (_WIN32)
 		// Get current time
@@ -60,17 +53,15 @@ namespace BOViL
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
-	STime::STime():
-			mFrameTime(0.f)
-	{
-	#if defined (__linux__)
+	STime::STime() {
+		#if defined (__linux__)
 			// Get current time
-			gettimeofday(&mLastTime, 0);
-	#elif defined (WIN32)
+			gettimeofday(&mInitTime, 0);
+		#elif defined (WIN32)
 			// Get initial time
 			LARGE_INTEGER largeTicks;
 			QueryPerformanceCounter(&largeTicks);
-	#endif
+		#endif
 	}
 	
-}        // namespace vision
+}        // namespace BOViL
