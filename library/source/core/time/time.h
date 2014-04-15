@@ -45,6 +45,26 @@ namespace BOViL {
 		return sTime;
 	}
 
+	//------------------------------------------------------------------------------------------------------------------
+	inline double STime::getTime() {
+	#if defined (__linux__)
+			// Get current time
+			timeval currentTime;
+			gettimeofday(&currentTime, 0);
+			return double(currentTime.tv_sec - mInitTime.tv_sec) + double(currentTime.tv_usec - mInitTime.tv_usec) / 1000000;
+	#elif defined (_WIN32)
+			// Get current time
+			LARGE_INTEGER largeTicks;
+			QueryPerformanceCounter(&largeTicks);
+			unsigned currTime = largeTicks.LowPart;
+			// Convert time difference to seconds
+			LARGE_INTEGER frequency;
+			QueryPerformanceFrequency(&frequency);
+			return (double(currTime) / double(frequency.LowPart)) -
+				(double(mInitTime.LowPart) / double(frequency.LowPart));
+	#endif 
+	}
+
 }        // namespace BOViL
 
 #endif // _BOVIL_CORE_TIME_TIME_H_
