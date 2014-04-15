@@ -34,10 +34,9 @@ namespace BOViL {
 		static STime* sTime; // Static data definition
 		// members
 		#if defined(__linux__)
-			timeval mInitTime;
-		#endif
-		#if defined (_WIN32)
-			unsigned mInitTime;
+			static timeval mInitTime;
+		#elif defined (_WIN32)
+			static LARGE_INTEGER mInitTime;
 		#endif
 	};
 

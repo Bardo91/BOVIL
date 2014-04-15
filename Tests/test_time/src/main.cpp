@@ -27,7 +27,7 @@ int main(int _argc, char** _argv){
 
 	while (1){
 		std::cin >> str;
-		std::cout << time->frameTime() << std::endl;
+		std::cout << time->getTime() << std::endl;
 	}
 
 	#if defined(_WIN32)

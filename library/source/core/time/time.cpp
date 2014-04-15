@@ -14,8 +14,13 @@ namespace BOViL {
 	//------------------------------------------------------------------------------------------------------------------
 	// Static data definition
 	//------------------------------------------------------------------------------------------------------------------
-
 	STime* STime::sTime = nullptr;	
+
+	#if defined(__linux__)
+		timeval STime::mInitTime = {0, 0};
+	#elif defined (_WIN32)
+		LARGE_INTEGER STime::mInitTime = { 0, 0 };
+	#endif
 
 	//------------------------------------------------------------------------------------------------------------------
 	// Method implementations
@@ -38,8 +43,7 @@ namespace BOViL {
 		// Get current time
 		timeval currentTime;
 		gettimeofday(&currentTime, 0);
-		mFrameTime = double(currentTime.tv_sec - mInitTime.tv_sec) + double(currentTime.tv_usec - mInitTime.tv_usec)/1000000;
-
+		return double(currentTime.tv_sec - mInitTime.tv_sec) + double(currentTime.tv_usec - mInitTime.tv_usec)/1000000;
 	#elif defined (_WIN32)
 		// Get current time
 		LARGE_INTEGER largeTicks;
@@ -48,7 +52,8 @@ namespace BOViL {
 		// Convert time difference to seconds
 		LARGE_INTEGER frequency;
 		QueryPerformanceFrequency(&frequency);
-		mFrameTime =  (double(currTime)/double(frequency.LowPart));
+		return (double(currTime) / double(frequency.LowPart)) - 
+							(double(mInitTime.LowPart) / double(frequency.LowPart));
 	#endif 
 	}
 
@@ -59,8 +64,7 @@ namespace BOViL {
 			gettimeofday(&mInitTime, 0);
 		#elif defined (WIN32)
 			// Get initial time
-			LARGE_INTEGER largeTicks;
-			QueryPerformanceCounter(&largeTicks);
+			QueryPerformanceCounter(&mInitTime);
 		#endif
 	}
 	
