@@ -10,6 +10,7 @@
 // Engine headers
 #include "time.h"
 #include <cassert>
+
 namespace BOViL {
 	//------------------------------------------------------------------------------------------------------------------
 	// Static data definition

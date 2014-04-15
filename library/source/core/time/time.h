@@ -16,6 +16,8 @@
 	#include <Windows.h>
 #endif
 
+#include <iostream>
+
 namespace BOViL {
 	class STime {
 	public:
@@ -51,6 +53,8 @@ namespace BOViL {
 			// Get current time
 			timeval currentTime;
 			gettimeofday(&currentTime, 0);
+			std::cout << "inittime: " << mInitTime.tv_sec << "; " << mInitTime.tv_usec << std::endl;
+			std::cout << "currenttime: " << currentTime.tv_sec << "; " << currentTime.tv_usec << std::endl;
 			return double(currentTime.tv_sec - mInitTime.tv_sec) + double(currentTime.tv_usec - mInitTime.tv_usec) / 1000000;
 	#elif defined (_WIN32)
 			// Get current time
