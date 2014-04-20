@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source folder">
+      <UniqueIdentifier>{089a7c50-07c3-441a-8014-23fae2e6b451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header folder">
+      <UniqueIdentifier>{c41d42f3-624f-463e-ac26-9e7c466164b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>source folder</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

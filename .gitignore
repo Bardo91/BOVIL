@@ -82,3 +82,9 @@
 /Tests/test_socket_multithreadserver/prj/vs13/*.opensdf
 /Tests/test_socket_multithreadserver/prj/vs13/*.suo
 /Tests/test_socket_multithreadserver/prj/vs13/*.user
+/Tests/test_ekf_sockets/server_side/prj/vs12/Debug/*.tlog
+/Tests/test_ekf_sockets/server_side/prj/vs12/Debug
+/Tests/test_ekf_sockets/server_side/prj/vs12/*.opensdf
+/Tests/test_ekf_sockets/server_side/prj/vs12/*.sdf
+/Tests/test_ekf_sockets/server_side/prj/vs12/*.suo
+/Tests/test_ekf_sockets/server_side/prj/vs12/*.user
