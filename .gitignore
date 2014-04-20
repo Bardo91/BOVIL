@@ -76,3 +76,9 @@
 /Tests/test_time/prj/vs13/Debug
 /Tests/test_time/prj/vs13/*.sdf
 /Tests/test_time/prj/vs13/*.suo
+/Tests/test_socket_multithreadserver/prj/vs13/Debug/test_soc.74B86451.tlog/*.tlog
+/Tests/test_socket_multithreadserver/prj/vs13/Debug
+/Tests/test_socket_multithreadserver/prj/vs13/*.sdf
+/Tests/test_socket_multithreadserver/prj/vs13/*.opensdf
+/Tests/test_socket_multithreadserver/prj/vs13/*.suo
+/Tests/test_socket_multithreadserver/prj/vs13/*.user

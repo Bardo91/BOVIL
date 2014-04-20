@@ -6,12 +6,11 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "core/comm/ServerMultiThread.h"
+#include <core/comm/ServerMultiThread.h>
 
 #include <vector>
 #include <map>
 #include <iostream>
-#include <string>
 
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 
@@ -20,16 +19,20 @@ int main(int _argc, char** _argv){
 
 	BOViL::comm::ServerMultiThread server(hashMap["PORT"]);
 
-	std::vector<std::string> data;
-	while (1){
-		for (int i = 0; i < server.getNoConnections(); i++){
-			if (server.getThread(i)->hasData()){
-				data = server.getThread(i)->readData();
+	bool run = true;
+
+	while (run){
+		int noConn = server.getNoConnections();
+
+		for (int i = 0; i < noConn; i++){
+			if (server.getThread(i) != nullptr && server.getThread(i)->hasData()){
+				std::vector<std::string> data = server.getThread(i)->readData();
 				for (unsigned int j = 0; j < data.size(); j++){
-					std::cout << data[j] << std::endl;
+					std::cout << "Data from thread " << i << ": " << data[j] << std::endl;
 				}
 			}
 		}
+
 	}
 
 	system("PAUSE");
