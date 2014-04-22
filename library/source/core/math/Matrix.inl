@@ -341,7 +341,7 @@ namespace BOViL{
 			for (int j = 0; j < mCols; j++){
 				for (int i = mRows - 1; i > j; i--){
 					double theta = atan(-_R[i*dim + j] / _R[(i - 1)*dim + j]);
-					Matrix<type_> Gi = createGivenRotation<type_>(dim, i, i - 1, theta);
+					Matrix<type_> Gi = createGivenRotation(dim, i, i - 1, theta);
 
 					_R = Gi * _R;
 					_Q = Gi * _Q;
