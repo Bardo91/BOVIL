@@ -73,11 +73,11 @@ namespace BOViL{
 		template<typename type_>
 		Matrix<type_> createEye(int _n);
 
-		template<typename type_>
-		Matrix<type_> createGivenRotation(int _n, int _i, int _j, double _theta);
+		Matrix<double> createGivenRotation(int _n, int _i, int _j, double _theta);
 
 	}	// namespace math
 }	// namespace BOViL
 
+#include "Matrix.inl"
 
 #endif	// _BOVIL_CORE_MATH_MATRIX_H_

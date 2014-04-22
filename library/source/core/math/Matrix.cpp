@@ -6,25 +6,13 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "Matrix.inl"
+#include "Matrix.h"
 
 namespace BOViL{
 	namespace math{
-		template<typename type_>
-		Matrix<type_> createEye(int _n){
-			Matrix<type_> mat(_n, _n);
-
-			for (int i = 0; i < _n; i++){
-				mat[i * _n + i] = 1;
-			}
-
-			return mat;
-		}
-
 		//-----------------------------------------------------------------------------
-		template<typename type_>
-		Matrix<type_> createGivenRotation(int _n, int _i, int _j, double _theta){
-			Matrix<type_>  mat = createEye<type_>(_n);
+		Matrix<double> createGivenRotation(int _n, int _i, int _j, double _theta){
+			Matrix<double>  mat = createEye<double>(_n);
 
 			mat[_i*_n + _i] = cos(_theta);
 			mat[_j*_n + _j] = cos(_theta);
