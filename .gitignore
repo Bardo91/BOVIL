@@ -95,3 +95,7 @@
 /Tests/test_segmentation/prj/vs13/*.sdf
 /Tests/test_segmentation/prj/vs13/*.suo
 /Tests/test_segmentation/prj/vs13/*.user
+/Tests/test_matrix/prj/vs13/Debug
+/Tests/test_matrix/prj/vs13/*.sdf
+/Tests/test_matrix/prj/vs13/*.suo
+/library/prj/vs13/ipch/bovil-b0db740a
