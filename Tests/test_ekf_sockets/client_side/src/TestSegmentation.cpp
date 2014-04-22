@@ -11,27 +11,6 @@
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
-
-static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
-									0, 0.05, 0, 0, 0, 0, 
-									0, 0, 0.05, 0, 0, 0, 
-									0, 0, 0, 0.05, 0, 0, 
-									0, 0, 0, 0, 0.05, 0, 
-									0, 0, 0, 0, 0, 0.05};
-
-static const double arrayR[16] = {	0.1, 0, 0, 0, 
-									0, 0.1, 0, 0, 
-									0, 0, 0.1, 0, 
-									0, 0, 0, 0.1};
-
-static const double arrayX0[6] = {	8.0,//0, 
-									12.0,//0, 
-									0,//0, 
-									0,//0, 
-									0,//0, 
-									0};//0);
-
-
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
@@ -73,7 +52,7 @@ void testSegmentation(BOViL::comm::ClientSocket *_client, int _id, std::string _
 
 		img.copyTo(ori);
 
-		t0 = time->frameTime();
+		t0 = time->getTime();
 		std::vector<BOViL::ImageObject> objects;
 		
 
@@ -104,7 +83,7 @@ void testSegmentation(BOViL::comm::ClientSocket *_client, int _id, std::string _
 		//																													}
 		//																													});	// Segmentation function
 		
-		t1 = time->frameTime();
+		t1 = time->getTime();
 		double fps = 1/(t1-t0);
 		std::cout << fps << " fps" << std::endl;
 		std::cout << "Number of detected Objects1 in the scene: " << objects.size() << std::endl;
