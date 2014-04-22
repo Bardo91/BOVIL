@@ -42,7 +42,7 @@ void testSegmentation(){
 		path = "/home/bardo91/Programming/Images/";
 	#endif
 	#if defined (_WIN32)
-		path = "C:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
+		path = "E:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
 	#endif
 	
 	std::cout << "--Path of images: " << path << std::endl;
@@ -78,12 +78,12 @@ void testSegmentation(){
 		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
 	#endif
 	#if defined (_WIN32)
-		condition = openInputFile(inputFile, "C:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");	
+		condition = openInputFile(inputFile, "E:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");	
 	#endif
 
 	while(condition){
 
-		//t0 = time->frameTime();
+		//t0 = time->getTime();
 
 		// ----------------- IMAGE SEGMENTATION ------------------------
 		++i;
@@ -105,7 +105,7 @@ void testSegmentation(){
 		img1.copyTo(ori1);
 		img2.copyTo(ori2);
 
-		t0 = time->frameTime();
+		t0 = time->getTime();
 		std::vector<BOViL::ImageObject> objects1;
 		std::vector<BOViL::ImageObject> objects2;
 
@@ -126,44 +126,12 @@ void testSegmentation(){
 															objects2,		// Output Objects
 															*cs);			// Segmentation function 
 
-		//BOVIL::algorithms::ColorClustering<std::uint8_t>(	img.data,		// Image pointer
-		//													img.cols,		// Width
-		//													img.rows,		// Height
-		//													5,				// Size Threshold
-		//													objects,		// Output Objects
-		//													[](unsigned char *_a, unsigned char *_b, unsigned char *_c){	if(*_a < 80 && *_b < 80 && *_c > 180){
-		//																														*_a = 0;
-		//																														*_b = 0;
-		//																														*_c = 255;
-		//																														return 4;
-		//																													} else{
-		//																														*_a = 0;
-		//																														*_b = 0;
-		//																														*_c = 0;
-		//																														return -1;
-		//																													}
-		//																													});	// Segmentation function
-		
-		t1 = time->frameTime();
+
+		t1 = time->getTime();
 		double fps = 1/(t1-t0);
 		std::cout << fps << " fps" << std::endl;
 		std::cout << "Number of detected Objects1 in the scene: " << objects1.size() << std::endl;
 		std::cout << "Number of detected Objects2 in the scene: " << objects2.size() << std::endl;
-
-		#ifdef _DEBUG
-			for(unsigned int obj = 0; obj < objects1.size() ; obj++){
-				BOViL::Point2ui p = objects1[obj].getCentroid();
-				cv::circle(ori1, cv::Point2d(p.x,p.y), objects1[obj].getHeight()/2, cv::Scalar(1,1,1), 1);
-			}
-
-			for(unsigned int obj = 0; obj < objects2.size() ; obj++){
-				BOViL::Point2ui p = objects2[obj].getCentroid();
-				cv::circle(ori2, cv::Point2d(p.x,p.y), objects2[obj].getHeight()/2, cv::Scalar(1,1,1), 1);
-			}
-
-			cv::hconcat(ori2, ori1);
-			cv::imshow("ORIGINAL", ori1);
-		#endif
 
 		// ----------------- TRACKING ALGORITHM ------------------------
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
@@ -189,6 +157,14 @@ void testSegmentation(){
 				maxIndex2 = obj;
 			}
 		}
+		BOViL::Point2ui p = objects1[maxIndex1].getCentroid();
+		cv::circle(ori1, cv::Point2d(p.x, p.y), objects1[maxIndex1].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
+
+		p = objects2[maxIndex2].getCentroid();
+		cv::circle(ori2, cv::Point2d(p.x, p.y), objects2[maxIndex2].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
+
+		cv::hconcat(ori1, ori2, ori1);
+		cv::imshow("ORIGINAL", ori1);
 
 		double arrayZk[4] = {	float (objects1[maxIndex1].getCentroid().x),
 								float (objects1[maxIndex1].getCentroid().y),
@@ -202,7 +178,6 @@ void testSegmentation(){
 		state.showMatrix();
 
 		cv::waitKey(1);
-
 	}
 
 	std::cout << "----------End----------" << std::endl;

@@ -52,67 +52,43 @@ namespace BOViL {
 			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
 			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
 
-			double* pc1data = Pc1.getMatrixPtr();
-			double* pc2data = Pc2.getMatrixPtr();
-
-			double PXc1 = pc1data[0];
-			double PYc1 = pc1data[1];
-			double PZc1 = pc1data[2];
-			double PXc2 = pc2data[0];
-			double PYc2 = pc2data[1];
-			double PZc2 = pc2data[2];
-
 			Point2d cc1(mU0, mV0);
 			Point2d cc2(mU0, mV0);
 
 			double * hzkdata = mHZk.getMatrixPtr();
 
-			hzkdata[0] = cc1.x - mFocalLenght * PYc1 / PXc1;
-			hzkdata[1] = cc1.y - mFocalLenght * PZc1 / PXc1;
-			hzkdata[2] = cc2.x - mFocalLenght * PYc2 / PXc2;
-			hzkdata[3] = cc2.y - mFocalLenght * PZc2 / PXc2;
+			hzkdata[0] = cc1.x - mFocalLenght * Pc1[1] / Pc1[0];
+			hzkdata[1] = cc1.y - mFocalLenght * Pc1[2] / Pc1[0];
+			hzkdata[2] = cc2.x - mFocalLenght * Pc2[1] / Pc2[0];
+			hzkdata[3] = cc2.y - mFocalLenght * Pc2[2] / Pc2[0];
 
 		}
 
 
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateJh(){
-			double * R1 = mOriC1.getMatrixPtr();
-			double * R2 = mOriC2.getMatrixPtr();
-			
 			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
 
 			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
 			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
 
-			double* pc1data = Pc1.getMatrixPtr();
-			double* pc2data = Pc2.getMatrixPtr();
-
-			double PXc1 = pc1data[0];
-			double PYc1 = pc1data[1];
-			double PZc1 = pc1data[2];
-			double PXc2 = pc2data[0];
-			double PYc2 = pc2data[1];
-			double PZc2 = pc2data[2];
-
 			double * dataJh = mJh.getMatrixPtr();
 
-
-			dataJh[0] = -mFocalLenght * (R1[3 * 0 + 1] * PXc1 - R1[3 * 0 + 0] * PYc1) / PXc1 / PXc1;
-			dataJh[1] = -mFocalLenght * (R1[3 * 1 + 1] * PXc1 - R1[3 * 1 + 0] * PYc1) / PXc1 / PXc1;
-			dataJh[2] = -mFocalLenght * (R1[3 * 2 + 1] * PXc1 - R1[3 * 2 + 0] * PYc1) / PXc1 / PXc1;
+			dataJh[0] = -mFocalLenght * (mOriC1(0, 1) * Pc1[0] - mOriC1(0, 0) * Pc1[1]) / Pc1[0] / Pc1[0];
+			dataJh[1] = -mFocalLenght * (mOriC1(1, 1) * Pc1[0] - mOriC1(1, 0) * Pc1[1]) / Pc1[0] / Pc1[0];
+			dataJh[2] = -mFocalLenght * (mOriC1(2, 1) * Pc1[0] - mOriC1(2, 0) * Pc1[1]) / Pc1[0] / Pc1[0];
 						 
-			dataJh[8] = -mFocalLenght * (R1[3 * 0 + 2] * PXc1 - R1[3 * 0 + 0] * PZc1) / PXc1 / PXc1;
-			dataJh[7] = -mFocalLenght * (R1[3 * 1 + 2] * PXc1 - R1[3 * 1 + 0] * PZc1) / PXc1 / PXc1;
-			dataJh[6] = -mFocalLenght * (R1[3 * 2 + 2] * PXc1 - R1[3 * 2 + 0] * PZc1) / PXc1 / PXc1;
+			dataJh[8] = -mFocalLenght * (mOriC1(0, 2) * Pc1[0] - mOriC1(0, 0) * Pc1[2]) / Pc1[0] / Pc1[0];
+			dataJh[7] = -mFocalLenght * (mOriC1(1, 2) * Pc1[0] - mOriC1(1, 0) * Pc1[2]) / Pc1[0] / Pc1[0];
+			dataJh[6] = -mFocalLenght * (mOriC1(2, 2) * Pc1[0] - mOriC1(2, 0) * Pc1[2]) / Pc1[0] / Pc1[0];
 
-			dataJh[12] = -mFocalLenght * (R2[3 * 0 + 1] * PXc2 - R2[3 * 0 + 0] * PYc2) / PXc2 / PXc2;
-			dataJh[13] = -mFocalLenght * (R2[3 * 1 + 1] * PXc2 - R2[3 * 1 + 0] * PYc2) / PXc2 / PXc2;
-			dataJh[14] = -mFocalLenght * (R2[3 * 2 + 1] * PXc2 - R2[3 * 2 + 0] * PYc2) / PXc2 / PXc2;
+			dataJh[12] = -mFocalLenght * (mOriC2(0, 1) * Pc2[0] - mOriC2(0, 0) * Pc2[1]) / Pc2[0] / Pc2[0];
+			dataJh[13] = -mFocalLenght * (mOriC2(1, 1) * Pc2[0] - mOriC2(1, 0) * Pc2[1]) / Pc2[0] / Pc2[0];
+			dataJh[14] = -mFocalLenght * (mOriC2(2, 1) * Pc2[0] - mOriC2(2, 0) * Pc2[1]) / Pc2[0] / Pc2[0];
 						  
-			dataJh[18] = -mFocalLenght * (R2[3 * 0 + 2] * PXc2 - R2[3 * 0 + 0] * PZc2) / PXc2 / PXc2;
-			dataJh[19] = -mFocalLenght * (R2[3 * 1 + 2] * PXc2 - R2[3 * 1 + 0] * PZc2) / PXc2 / PXc2;
-			dataJh[20] = -mFocalLenght * (R2[3 * 2 + 2] * PXc2 - R2[3 * 2 + 0] * PZc2) / PXc2 / PXc2;	
+			dataJh[18] = -mFocalLenght * (mOriC2(0, 2) * Pc2[0] - mOriC2(0, 0) * Pc2[2]) / Pc2[0] / Pc2[0];
+			dataJh[19] = -mFocalLenght * (mOriC2(1, 2) * Pc2[0] - mOriC2(1, 0) * Pc2[2]) / Pc2[0] / Pc2[0];
+			dataJh[20] = -mFocalLenght * (mOriC2(2, 2) * Pc2[0] - mOriC2(2, 0) * Pc2[2]) / Pc2[0] / Pc2[0];	
 
 			dataJh[3] = dataJh[4] = dataJh[5] = dataJh[9] = dataJh[10] = 
 						dataJh[11] = dataJh[15] = dataJh[16] = dataJh[17] = 
