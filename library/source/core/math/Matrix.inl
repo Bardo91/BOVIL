@@ -365,10 +365,10 @@ namespace BOViL{
 			// Inferior triangle elimination.
 			for (int i = 0; i < mRows; i++){
 				for (int k = i + 1; k < mRows; k++){
-					double factor = mat[k*mCols + i] / mat[i*mCols + i];
+					double factor = mat(k, i) / mat(i, i);
 					for (int j = 0; j < mCols; j++){
-						mat[k*mCols + j] = mat[k*mCols + j] - mat[i*mCols + j] * factor;
-						matInv[k*mCols + j] = matInv[k*mCols + j] - matInv[i*mCols + j] * factor;
+						mat(k, j) = mat(k, j) - mat(i, j) * factor;
+						matInv(k, j) = matInv(k, j) - matInv(i, j) * factor;
 					}
 				}
 			}
@@ -376,15 +376,17 @@ namespace BOViL{
 			// Superior triangle elimination.
 			for (int i = mRows - 1; i > 0; i--){
 				for (int k = i - 1; k >= 0; k--){
-					double factor = mat[k*mCols + i] / mat[i*mCols + i];
+					double factor = mat(k, i) / mat(i, i);
 					for (int j = mCols - 1; j >= 0; j--){
-						mat[k*mCols + j] = (mat[k*mCols + j] - mat[i*mCols + j] * factor);
-						matInv[k*mCols + j] = (matInv[k*mCols + j] - matInv[i*mCols + j] * factor);
+						mat(k, j) = (mat(k, j) - mat(i, j) * factor);
+						matInv(k, j) = (matInv(k, j) - matInv(i, j) * factor);
 					}
 				}
+			}
 
+			for (int i = 0 ; i < mRows ; i++){
 				for (int j = 0; j < mCols; j++){	// Unitarize the diagonal
-					matInv[i*mCols + j] = matInv[i*mCols + j] / mat[i*mCols + i];
+					matInv(i, j) = matInv(i, j) / mat(i, i);
 				}
 			}
 

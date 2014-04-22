@@ -84,9 +84,15 @@ void testMatrix(){
 	}
 	std::cout << "------------" << std::endl;
 	std::cout << "Test inverse of: " << std::endl;
-	mat1.showMatrix();
+	double array3[16] = {	11122, 2222, 3, 4,
+							1222333, 12222, 3, 22111,
+							122232, 42222, 2222, 3,
+							1, 23, 33334, 2};
+
+	BOViL::math::Matrix<double> mat2inv(array3, 4, 4);
+	mat2inv.showMatrix();
 	std::cout << "is: " << std::endl;
-	BOViL::math::Matrix<double> matInv = mat1^-1;
+	BOViL::math::Matrix<double> matInv = mat2inv^-1;
 	matInv.showMatrix();
 
 	std::cout << "----- TESTING NON SQUARE MATRIX --------" << std::endl;
