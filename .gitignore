@@ -104,3 +104,5 @@
 /Tests/test_ekf_sockets/client_side/prj/vs13/*.psess
 /Tests/test_ekf_sockets/client_side/prj/vs13/*.vsp
 /Tests/test_segmentation/prj/vs13/*.opensdf
+/Tests/test_segmentation/prj/vs13/*.psess
+/Tests/test_segmentation/prj/vs13/*.vsp

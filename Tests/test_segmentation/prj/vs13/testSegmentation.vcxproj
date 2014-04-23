@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>E:\opencv\opencv\build\include;E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\opencv\opencv\build\x86\vc12\lib;E:\Programming\BOVIL\library\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\opencv\opencv\build\x86\vc12\lib;E:\Programming\BOVIL\Tests\test_segmentation\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>E:\opencv\opencv\build\include;E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\opencv\opencv\build\x86\vc11\lib;E:\Programming\BOVIL\library\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\opencv\opencv\build\x86\vc11\lib;E:\Programming\BOVIL\Tests\test_segmentation\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

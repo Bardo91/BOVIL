@@ -33,6 +33,14 @@ bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
 void testSegmentation(){
+	///////////////////////////////////////////////////
+	std::ofstream outFile;
+	std::string pathName;
+	pathName = "C:/outputs/outputFileNew";
+	outFile.open(pathName.c_str());
+	///////////////////////////////////////////////////
+
+
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
 	cv::Mat img1, ori1, img2, ori2;
 
@@ -42,7 +50,7 @@ void testSegmentation(){
 		path = "/home/bardo91/Programming/Images/";
 	#endif
 	#if defined (_WIN32)
-		path = "E:/Programming/Imagenes Stereo Tracking/P1_640x480/Images/";	
+		path = "E:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
 	#endif
 	
 	std::cout << "--Path of images: " << path << std::endl;
@@ -78,15 +86,17 @@ void testSegmentation(){
 		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
 	#endif
 	#if defined (_WIN32)
-		condition = openInputFile(inputFile, "E:/Programming/Imagenes Stereo Tracking/P1_640x480/ViconData2.txt");	
+		condition = openInputFile(inputFile, "E:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
 	#endif
+
+	double lastTime = 0;
+
 
 	while(condition){
 
 		//t0 = time->getTime();
 
 		// ----------------- IMAGE SEGMENTATION ------------------------
-		++i;
 		std::stringstream ss1, ss2;
 
 		ss1 << path;
@@ -171,13 +181,18 @@ void testSegmentation(){
 								float (objects2[maxIndex2].getCentroid().x),
 								float (objects2[maxIndex2].getCentroid().y)};
 
-		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1),inputBuffer[0]);
-		
+		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1), inputBuffer[0] - lastTime);
+		lastTime = inputBuffer[0];
+
 		BOViL::math::Matrix<double> state =  stereoEKF.getStateVector();
 
 		state.showMatrix();
+		
+		outFile << inputBuffer[0] << "\t" << state[0] << "\t" << state[1] << "\t" << state[2] << "\t" << arrayZk[0] << "\t" << arrayZk[1] << "\t" << arrayZk[2] << "\t" << arrayZk[3] << "\n";
 
 		cv::waitKey(1);
+
+		++i;
 	}
 
 	std::cout << "----------End----------" << std::endl;
