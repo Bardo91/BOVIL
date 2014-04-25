@@ -75,7 +75,7 @@
     <ClInclude Include="..\..\source\core\comm\ServerMultiThread.h" />
     <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
     <ClInclude Include="..\..\source\core\comm\Sockets.h" />
-    <ClInclude Include="..\..\source\core\geometrics\Geometrics.h" />
+    <ClInclude Include="..\..\source\core\math\geometrics\Geometrics.h" />
     <ClInclude Include="..\..\source\core\math\Matrix.h" />
     <ClInclude Include="..\..\source\core\time\time.h" />
     <ClInclude Include="..\..\source\core\types\BasicTypes.h" />
@@ -92,6 +92,7 @@
     <ClCompile Include="..\..\source\core\comm\ServerMultiThread.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerSocket.cpp" />
     <ClCompile Include="..\..\source\core\comm\Sockets.cpp" />
+    <ClCompile Include="..\..\source\core\math\geometrics\SubSpace.cpp" />
     <ClCompile Include="..\..\source\core\math\Matrix.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
