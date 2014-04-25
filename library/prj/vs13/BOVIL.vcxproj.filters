@@ -93,7 +93,10 @@
     <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h">
       <Filter>core\types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\math\geometrics\Geometrics.h">
+    <ClInclude Include="..\..\source\core\math\geometrics\LinearSubspace3D.h">
+      <Filter>core\math\geometrics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\math\geometrics\LinearSubspace.h">
       <Filter>core\math\geometrics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,7 +137,10 @@
     <ClCompile Include="..\..\source\core\math\Matrix.cpp">
       <Filter>core\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\core\math\geometrics\SubSpace.cpp">
+    <ClCompile Include="..\..\source\core\math\geometrics\LinearSubspace3D.cpp">
+      <Filter>core\math\geometrics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\math\geometrics\LinearSubspace.cpp">
       <Filter>core\math\geometrics</Filter>
     </ClCompile>
   </ItemGroup>
