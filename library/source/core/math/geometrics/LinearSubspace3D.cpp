@@ -14,6 +14,7 @@
 namespace BOViL	{
 	namespace math {
 		//-------------------------------------------------------------------------------------
+		template<int subspaceSize_>
 		LinearSubspace3D::LinearSubspace3D(Matrix<double> &_matrixEcuations, Matrix<double> &_vectorCoef) {
 			assert(_matrixEcuations.getHeight() == 3);
 
@@ -22,6 +23,7 @@ namespace BOViL	{
 		}
 
 		//-------------------------------------------------------------------------------------
+		template<int subspaceSize_>
 		bool LinearSubspace3D::distanceToSubspace(LinearSubspace3D &_subspace, double &_distance, int &_errorCode){
 
 

@@ -13,7 +13,8 @@
 
 namespace BOViL	{
 	namespace math {
-		class LinearSubspace3D : public LinearSubspace {
+		template <typename subspaceSize_>
+		class LinearSubspace3D : public LinearSubspace<3, subspaceSize_> {
 		public:		// Constructors
 			//LinearSubspace3D();
 			LinearSubspace3D(Matrix<double> &_matrixEcuations, Matrix<double> &_vectorCoef);
@@ -22,7 +23,6 @@ namespace BOViL	{
 			bool distanceToSubspace(LinearSubspace3D &_subspace, double &_distance, int &_errorCode);
 
 		};
-
 	}	//	namespace math
 }	//	namespace BOViL
 
