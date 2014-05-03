@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOVIL", "..\..\..\..\library\prj\vs13\BOVIL.vcxproj", "{A37D6EF8-CB7D-4CE2-AC73-5D1ACE39A833}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOViL", "..\..\..\..\library\prj\vs13\BOVIL.vcxproj", "{A37D6EF8-CB7D-4CE2-AC73-5D1ACE39A833}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGroundEKF", "TestGroundEKF.vcxproj", "{A9929304-9EFC-4320-AB7D-5E9A0DF88C88}"
 EndProject
