@@ -62,18 +62,22 @@ namespace BOViL {
 
 			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
 
-			double * dataJh = mJh.getMatrixPtr();
+			
+			mJh(0, 0) = -mFocalLenght * (mOri(0, 1) * Pc[0] - mOri(0, 0) * Pc[1]) / Pc[0] / Pc[0];
+			mJh(0, 1) = -mFocalLenght * (mOri(1, 1) * Pc[0] - mOri(1, 0) * Pc[1]) / Pc[0] / Pc[0];
+			mJh(0, 2) = -mFocalLenght * (mOri(2, 1) * Pc[0] - mOri(2, 0) * Pc[1]) / Pc[0] / Pc[0];
+			mJh(0, 3) = 0;
+			mJh(0, 4) = 0;
+			mJh(0, 5) = 0;
 
-			dataJh[0] = -mFocalLenght * (mOri(0, 1) * Pc[0] - mOri(0, 0) * Pc[1]) / Pc[0] / Pc[0];
-			dataJh[1] = -mFocalLenght * (mOri(1, 1) * Pc[0] - mOri(1, 0) * Pc[1]) / Pc[0] / Pc[0];
-			dataJh[2] = -mFocalLenght * (mOri(2, 1) * Pc[0] - mOri(2, 0) * Pc[1]) / Pc[0] / Pc[0];
+			mJh(1, 0) = -mFocalLenght * (mOri(0, 2) * Pc[0] - mOri(0, 0) * Pc[2]) / Pc[0] / Pc[0];
+			mJh(1, 1) = -mFocalLenght * (mOri(1, 2) * Pc[0] - mOri(1, 0) * Pc[2]) / Pc[0] / Pc[0];
+			mJh(1, 2) = -mFocalLenght * (mOri(2, 2) * Pc[0] - mOri(2, 0) * Pc[2]) / Pc[0] / Pc[0];
+			mJh(1, 3) = 0;
+			mJh(1, 4) = 0;
+			mJh(1, 5) = 0;
 
-			dataJh[8] = -mFocalLenght * (mOri(0, 2) * Pc[0] - mOri(0, 0) * Pc[2]) / Pc[0] / Pc[0];
-			dataJh[7] = -mFocalLenght * (mOri(1, 2) * Pc[0] - mOri(1, 0) * Pc[2]) / Pc[0] / Pc[0];
-			dataJh[6] = -mFocalLenght * (mOri(2, 2) * Pc[0] - mOri(2, 0) * Pc[2]) / Pc[0] / Pc[0];
-
-			dataJh[3] = dataJh[4] = dataJh[5] = dataJh[9] = dataJh[10] = dataJh[11] = 0;
-
+			
 		}
 
 	}	//	namespace algorithms
