@@ -1,18 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////////////////
-//	BOVIL: filters
+//	BOVIL: algorithms
 //
 //		Author: Pablo Ramón Soria
-//		Date:	2014-05-18
+//		Date:	2014-04-18
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREOVISIONEKF_H_
-#define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREOVISIONEKF_H_
+#ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREO_VISIONEKF_H_
+#define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREO_VISIONEKF_H_
 
 #include "ExtendedKalmanFilter.h"
-#include "../../core/types/BasicTypes.h"
-
 
 namespace BOViL{
 	namespace algorithms{
@@ -44,4 +42,4 @@ namespace BOViL{
 	}	//	namespace algorithms
 }	//	namespace BOVil
 
-#endif	//	_BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREOVISIONEKF_H_
+#endif	//	_BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREO_VISIONEKF_H_

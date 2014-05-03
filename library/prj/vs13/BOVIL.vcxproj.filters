@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h">
       <Filter>core\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\state_estimators\PositionEstimatorNCamerasEKF.h">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
