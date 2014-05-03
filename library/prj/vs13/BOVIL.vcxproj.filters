@@ -96,7 +96,7 @@
     <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h">
       <Filter>core\types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\algorithms\state_estimators\PositionEstimatorNCamerasEKF.h">
+    <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
   </ItemGroup>
@@ -136,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\core\math\Matrix.cpp">
       <Filter>core\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp">
+      <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

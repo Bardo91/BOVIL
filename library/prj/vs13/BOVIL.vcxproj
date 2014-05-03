@@ -69,7 +69,7 @@
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
-    <ClInclude Include="..\..\source\algorithms\state_estimators\PositionEstimatorNCamerasEKF.h" />
+    <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
     <ClInclude Include="..\..\source\core\comm\AuxiliarServerThread.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
+    <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
     <ClCompile Include="..\..\source\core\comm\AuxiliarServerThread.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocket.cpp" />
