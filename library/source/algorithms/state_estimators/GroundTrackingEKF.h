@@ -2,13 +2,13 @@
 //	BOVIL: algorithms
 //
 //		Author: Pablo Ramón Soria
-//		Date:	2014-04-18
+//		Date:	2014-05-03
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREO_VISION_EKF_H_
-#define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_STEREO_VISION_EKF_H_
+#ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_GROUND_TRACKING_EKF_H_
+#define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_GROUND_TRACKING_EKF_H_
 
 #include "ExtendedKalmanFilter.h"
 
@@ -17,14 +17,11 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		//----------------- Stereo Vision Class --------------------------------------
 		//-----------------------------------------------------------------------------
-		class StereoVisionEKF: public ExtendedKalmanFilter{
+		class GroundTrackingEKF : public ExtendedKalmanFilter{
 		public:
-			void setUpCameras(double _focalLenght, double _u0, double _v0);
+			void setUpCamera(double _focalLenght, double _u0, double _v0);
 
-			void updateCameras(	const math::Matrix<double>& _posC1, 
-								const math::Matrix<double>& _posC2, 
-								const math::Matrix<double>& _oriC1, 
-								const math::Matrix<double>& _oriC2);
+			void updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori);
 
 		private:
 			void updateJf(const double _incT);
@@ -35,7 +32,7 @@ namespace BOViL{
 			double mFocalLenght;
 			double mU0, mV0;
 
-			math::Matrix<double> mPosC1, mPosC2, mOriC1, mOriC2;
+			math::Matrix<double> mPos, mOri;
 		};
 	}	//	namespace algorithms
 }	//	namespace BOVil

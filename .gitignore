@@ -106,3 +106,8 @@
 /Tests/test_segmentation/prj/vs13/*.opensdf
 /Tests/test_segmentation/prj/vs13/*.psess
 /Tests/test_segmentation/prj/vs13/*.vsp
+/Tests/test_groundEKF/prj/vs12
+/Tests/test_groundEKF/prj/vs13/Debug
+/Tests/test_groundEKF/prj/vs13/*.opensdf
+/Tests/test_groundEKF/prj/vs13/*.sdf
+/Tests/test_groundEKF/prj/vs13/*.suo
