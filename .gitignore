@@ -112,3 +112,7 @@
 /Tests/test_groundEKF/prj/vs13/*.sdf
 /Tests/test_groundEKF/prj/vs13/*.suo
 /Tests/test_groundEKF/prj/vs13/Release
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/Debug
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.opensdf
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.sdf
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.suo
