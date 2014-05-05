@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // Includes related to BOViL Libraries
+#include <core/comm/AuxiliarServerThread.h>
 #include <core/comm/ServerMultiThread.h>
 #include <core/types/BasicTypes.h>
 
@@ -34,8 +35,8 @@ struct QuadFrameInFo{
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
-void watchThreadFn(BOViL::comm::ServerMultiThread &_server);
-void trackingThreadFn();
+void watchThreadFn(BOViL::comm::ServerMultiThread &_server, std::vector<std::vector<std::string>> &_messages);
+void trackingThreadFn(std::vector<std::vector<std::string>> &_messages);
 
 //---------------------------------------------------------------------------------------
 //------------------------------------- main --------------------------------------------
@@ -44,26 +45,31 @@ int main(int _argc, char** _argv){
 	// Decode input arguments
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
 
+	// Message Container
+	std::vector<std::vector<std::string>> messages;
+
 	// Initiallize Server in the port received in input argument PORT.
 	BOViL::comm::ServerMultiThread server(hashMap["PORT"]);
 
 	// Start thread to watch connections
-	std::thread watchThread(watchThreadFn, server);
+	std::thread watchThread(watchThreadFn, std::ref(server), std::ref(messages));
 	
 	// Tracking
-	std::thread trackingThread(trackingThreadFn);
+	std::thread trackingThread(trackingThreadFn, std::ref(messages));
 
 
 	//	Interface With server
 	int command;
 	do{
-		std::cout << "\t \t	\t GROUND STATION - SERVER INTERFACE  " << std::endl;
+		std::cout <<  std::endl;
+		std::cout << "GROUND STATION - SERVER INTERFACE  " << std::endl;
 		std::cout << "\t --> Press 0 to close server" << std::endl;
 		std::cout << "\t --> Press 1 to request ...." << std::endl;
 		std::cout << "\t --> Press 2 to request ...." << std::endl;
+
+		std::cin >> command;
 	} while (command != 0);
 	
-
 	//	Detach Threads
 	if (watchThread.joinable()){
 		watchThread.detach();
@@ -95,13 +101,39 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 }
 
 //---------------------------------------------------------------------------------------
-void watchThreadFn(BOViL::comm::ServerMultiThread &_server){
+void watchThreadFn(BOViL::comm::ServerMultiThread &_server, std::vector<std::vector<std::string>> &_messages){
+	std::mutex mutex;
 
+	while (1){
+		// Check number of connections
+		int noCon = _server.getNoConnections();
 
+		// Check if has list to every connection.
+		mutex.lock();
+		int sizeMsg = _messages.size();
+		mutex.unlock();
+		if (noCon != sizeMsg){
+			_messages.resize(noCon);
+		}
+
+		// Read information
+		std::vector<std::string> poolMessage;
+		for (int i = 0; i < noCon; i++){
+			BOViL::comm::AuxiliarServerThread *conn = _server.getThread(i);
+			if (conn != nullptr && conn->hasData()){
+				poolMessage = conn->readData();
+				
+				mutex.lock();
+				_messages.insert(_messages.end(), poolMessage.begin(), poolMessage.end());
+				mutex.unlock();				
+			}
+		}
+	}
 }
 
 //---------------------------------------------------------------------------------------
-void trackingThreadFn(){
+void trackingThreadFn(std::vector<std::vector<std::string>> &_messages){
+	while (1){
 
-
+	}
 }
