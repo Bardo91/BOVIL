@@ -120,3 +120,9 @@
 /Projects/EC-SAFEMOBIL/quad/Tracking_Ground_Objects/prj/*.sdf
 /Projects/EC-SAFEMOBIL/quad/Tracking_Ground_Objects/prj/*.suo
 /Projects/EC-SAFEMOBIL/quad/Tracking_Ground_Objects/prj/*.opensdf
+/Tests/test_image_capture/prj/Debug/test_ima.BA49500C.tlog
+/Tests/test_image_capture/prj/Debug
+/Tests/test_image_capture/prj/Release/test_ima.BA49500C.tlog
+/Tests/test_image_capture/prj/Release
+/Tests/test_image_capture/prj/*.sdf
+/Tests/test_image_capture/prj/*.suo
