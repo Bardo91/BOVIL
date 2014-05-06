@@ -10,6 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9DA53BE2-5429-4EDA-B4D3-603EA9EEB9A8}</ProjectGuid>
     <RootNamespace>ECSAFEMOBIL_Tracking_Ground_Objects</RootNamespace>
@@ -40,11 +43,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -72,9 +75,6 @@
       <AdditionalDependencies>BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
