@@ -8,6 +8,7 @@
 
 
 // Includes related to BOViL Libraries
+#include <core/types/BasicTypes.h>
 
 // Includes of ppal libraries
 #include <cassert>
@@ -21,6 +22,19 @@
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
+struct CameraInfo{
+	BOViL::Point2ui resolution;
+
+};
+
+struct FrameInfo {
+
+
+};
+
+//---------------------------------------------------------------------------------------
+//-------------------------- Declaration of Functions -----------------------------------
+//---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 void acquisitionThreadFn();
 void segmentationThreadFn();
@@ -29,6 +43,8 @@ void segmentationThreadFn();
 //------------------------------------- main --------------------------------------------
 //---------------------------------------------------------------------------------------
 int main(int _argc, char** _argv){
+
+
 
 	return 0;
 }
@@ -53,7 +69,7 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 
 //---------------------------------------------------------------------------------------
 void acquisitionThreadFn(){
-
+	//	This functions is responsible for the image acquisition and the time span
 }
 
 //---------------------------------------------------------------------------------------

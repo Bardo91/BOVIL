@@ -42,12 +42,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\opencv\opencv\build\include;E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\opencv\opencv\build\x86\vc12\lib;E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Programming\BOVIL\library\source;E:\opencv\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Release;E:\opencv\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -57,7 +57,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BOViL.lib;opencv_core248d.lib;opencv_highgui248d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,7 +72,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BOViL.lib;opencv_core248.lib;opencv_highgui248.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
