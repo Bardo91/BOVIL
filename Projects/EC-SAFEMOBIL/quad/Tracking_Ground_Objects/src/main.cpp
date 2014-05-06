@@ -23,8 +23,16 @@
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
 struct CameraInfo{
-	BOViL::Point2ui resolution;
-
+public:
+	CameraInfo(BOViL::Point2ui _resolution, float _focalLenght, BOViL::Point2d _centroid){
+		mResolution = _resolution;
+		mFocalLenght = _focalLenght;
+		mCentroid = _centroid;
+	}
+public:
+	BOViL::Point2ui mResolution;
+	float mFocalLenght;
+	BOViL::Point2d mCentroid; 
 };
 
 struct FrameInfo {
@@ -43,7 +51,7 @@ void segmentationThreadFn();
 //------------------------------------- main --------------------------------------------
 //---------------------------------------------------------------------------------------
 int main(int _argc, char** _argv){
-
+	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
 
 
 	return 0;
