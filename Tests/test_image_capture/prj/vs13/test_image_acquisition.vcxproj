@@ -10,6 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BA49500C-9C5F-4A35-98A7-884028FD1165}</ProjectGuid>
     <RootNamespace>test_image_acquisition</RootNamespace>
@@ -40,11 +43,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>E:\Programming\BOVIL\library\source;E:\opencv\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Tests\test_image_capture\prj\Debug;E:\opencv\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Programming\BOVIL\Tests\test_image_capture\prj\vs13\Debug;E:\opencv\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>E:\Programming\BOVIL\library\source;E:\opencv\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Tests\test_image_capture\prj\Release;E:\opencv\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Programming\BOVIL\Tests\test_image_capture\prj\vs13\Release;E:\opencv\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -73,9 +76,6 @@
       <AdditionalDependencies>BOViL.lib;opencv_core248.lib;opencv_highgui248.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
