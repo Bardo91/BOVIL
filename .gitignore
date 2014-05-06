@@ -136,3 +136,4 @@
 /Tests/test_image_capture/prj/vs13/Debug
 /Tests/test_image_capture/prj/vs13/*.sdf
 /Tests/test_image_capture/prj/vs13/*.suo
+/Tests/test_image_capture/prj/vs13/*.opensdf

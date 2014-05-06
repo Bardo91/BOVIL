@@ -20,16 +20,24 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
 
+	int option = atoi(hashMap["OPTION"].c_str());
+
 	cv::Mat img;
 
 	cv::VideoCapture cam(0);
 
 	if (cam.isOpened()){
 		cam >> img;
+		
+		if (option == 0){
 
-		cv::imwrite("./testingImages.jpg", img);
-	}
-	else{
+			cv::imshow("test", img);
+		}
+		else if (option == 1){
+			cv::imwrite("./testImage.jpg", img);
+
+		}
+	}else{
 		assert(false);
 	}
 
