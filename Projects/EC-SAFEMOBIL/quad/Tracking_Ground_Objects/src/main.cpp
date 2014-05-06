@@ -24,13 +24,13 @@
 //---------------------------------------------------------------------------------------
 struct CameraInfo{
 public:
-	CameraInfo(BOViL::Point2ui _resolution, float _focalLenght, BOViL::Point2d _centroid){
+	CameraInfo(BOViL::Point2i _resolution, float _focalLenght, BOViL::Point2d _centroid){
 		mResolution = _resolution;
 		mFocalLenght = _focalLenght;
 		mCentroid = _centroid;
 	}
 public:
-	BOViL::Point2ui mResolution;
+	BOViL::Point2i mResolution;
 	float mFocalLenght;
 	BOViL::Point2d mCentroid; 
 };
@@ -52,6 +52,11 @@ void segmentationThreadFn();
 //---------------------------------------------------------------------------------------
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
+
+	CameraInfo camInfo(	BOViL::Point2i(atoi(hashMap["WIDTH"].c_str()), atoi(hashMap["HEIGHT"].c_str())),
+						atof(hashMap["FL"].c_str()),
+						BOViL::Point2d(atof(hashMap["U0"].c_str()), atof(hashMap["V0"].c_str())));
+
 
 
 	return 0;
