@@ -20,7 +20,7 @@ DEPENDENCIES := -lopencv_core -lopencv_highgui -lopencv_imgproc -lBOViL
 
 all: testImageAcquisition
 
-rebuild: clean BOViL
+rebuild: clean testImageAcquisition
 	
 # Remove preious files
 clean:
