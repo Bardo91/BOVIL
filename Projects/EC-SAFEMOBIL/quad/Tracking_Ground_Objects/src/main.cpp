@@ -16,8 +16,11 @@
 #include <map>
 #include <string>
 #include <thread>
+#include <mutex>
 
 // Other includes
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
@@ -44,8 +47,9 @@ struct FrameInfo {
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
-void acquisitionThreadFn();
-void segmentationThreadFn();
+void acquisitionThreadFn(cv::Mat &_bufferImage);
+void segmentationThreadFn(cv::Mat &_image);
+void communicationThreadFn();
 
 //---------------------------------------------------------------------------------------
 //------------------------------------- main --------------------------------------------
@@ -53,11 +57,32 @@ void segmentationThreadFn();
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
 
+	// Get Camera information from the arguments
 	CameraInfo camInfo(	BOViL::Point2i(atoi(hashMap["WIDTH"].c_str()), atoi(hashMap["HEIGHT"].c_str())),
 						atof(hashMap["FL"].c_str()),
 						BOViL::Point2d(atof(hashMap["U0"].c_str()), atof(hashMap["V0"].c_str())));
 
+	// OpenCV image in the main thread
+	cv::Mat bufferImage;
 
+	// Start threads
+	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(bufferImage));
+	std::thread segmentationThread(segmentationThreadFn, std::ref(bufferImage));
+	std::thread communicationThread(communicationThreadFn);
+
+	while (true) {
+
+
+	}
+
+	// Stop threads
+	if (imageAcquisitionThread.joinable()){
+		imageAcquisitionThread.detach();
+	}if (segmentationThread.joinable()){
+		segmentationThread.detach();
+	}if (communicationThread.joinable()){
+		communicationThread.detach();
+	}
 
 	return 0;
 }
@@ -81,13 +106,56 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 }
 
 //---------------------------------------------------------------------------------------
-void acquisitionThreadFn(){
+void acquisitionThreadFn(cv::Mat &_bufferImage){
 	//	This functions is responsible for the image acquisition and the time span
+	std::mutex mutex;
+
+	cv::Mat inputImage;
+	cv::VideoCapture camera(0);
+	
+	if (!camera.isOpened())	// 666 TODO: forma mejor de parar la ejecución
+		assert(false);
+
+	while (true){		// 666 TODO: whats about global variable or someway to control the exeution
+		
+		camera >> inputImage;
+
+		mutex.lock();
+		inputImage.copyTo(_bufferImage);
+		mutex.unlock();
+
+		cv::waitKey(1);
+	}
+
 }
 
 //---------------------------------------------------------------------------------------
-void segmentationThreadFn(){
+void segmentationThreadFn(cv::Mat &_image){
+	// This function is responsible for the image segmentation
+	cv::waitKey(100); //	Waiting the other thread to get one image.
+
+	std::mutex mutex;
+	cv::Mat image;
+
+	std::string windowsName = "Testing";		// 666 TODO: erase
+
+	while (true) {		// 666 TODO: whats about global variable or someway to control the exeution
+
+		mutex.lock();
+		_image.copyTo(image);
+		mutex.unlock();
+
+		if (image.rows > 0)
+			cv::imshow(windowsName, image);
+
+		cv::waitKey(1);
+	}
+
 
 }
 
 //---------------------------------------------------------------------------------------
+void communicationThreadFn(){
+
+
+}
