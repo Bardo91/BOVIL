@@ -9,6 +9,7 @@
 
 // Includes related to BOViL Libraries
 #include <core/types/BasicTypes.h>
+#include <algorithms/segmentation/ColorClustering.h>
 
 // Includes of ppal libraries
 #include <cassert>
@@ -17,6 +18,7 @@
 #include <string>
 #include <thread>
 #include <mutex>
+#include <cstdint>
 
 // Other includes
 #include <opencv/cv.h>
@@ -70,10 +72,16 @@ int main(int _argc, char** _argv){
 	std::thread segmentationThread(segmentationThreadFn, std::ref(bufferImage));
 	std::thread communicationThread(communicationThreadFn);
 
-	while (true) {
+	int command;
+	do{
+		std::cout << "" << std::endl;
+		std::cout << "" << std::endl;
+		std::cout << "" << std::endl;
+		std::cout << "" << std::endl;
 
+		std::cin >> command;
 
-	}
+	} while (command != 0);
 
 	// Stop threads
 	if (imageAcquisitionThread.joinable()){
@@ -140,13 +148,28 @@ void segmentationThreadFn(cv::Mat &_image){
 	std::string windowsName = "Testing";		// 666 TODO: erase
 
 	while (true) {		// 666 TODO: whats about global variable or someway to control the exeution
-
 		mutex.lock();
 		_image.copyTo(image);
 		mutex.unlock();
 
-		if (image.rows > 0)
+
+		if (image.rows > 0){
+			std::vector<BOViL::ImageObject> objects;
+			BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U, 255U, std::uint8_t(BOViL::bin2dec("00010000")));
+
+			cv::cvtColor(image, image, CV_BGR2HSV);
+
+			BOViL::algorithms::ColorClustering<std::uint8_t>(image.data,		// Image pointer
+				image.cols,		// Width
+				image.rows,		// Height
+				10,				// Size Threshold
+				objects,		// Output Objects
+				*cs);			// Segmentation function 
+
+			cv::cvtColor(image, image, CV_HSV2BGR);
 			cv::imshow(windowsName, image);
+
+		}
 
 		cv::waitKey(1);
 	}
