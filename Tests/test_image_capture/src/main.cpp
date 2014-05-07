@@ -41,6 +41,8 @@ int main(int _argc, char** _argv){
 		assert(false);
 	}
 
+	cv::waitKey();
+
 	return 0;
 }
 
