@@ -39,7 +39,7 @@ struct AcquisitionStatistics{
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
-void acquisitionThreadFn(AcquisitionStatistics &_statistics);
+void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPath);
 
 //---------------------------------------------------------------------------------------
 //------------------------------------- main --------------------------------------------
@@ -49,20 +49,28 @@ int main(int _argc, char** _argv){
 	
 	std::mutex mutex;
 
+	std::string imagePath;
+	if (hashMap.count("IMG_PATH"))
+		imagePath = hashMap["IMG_PATH"];
+	else
+		imagePath = "images";
+
 	runningCondition = true;
 	visualization = false;
 	AcquisitionStatistics statistics;
 
 	// Start threads
-	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(statistics));
+	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(statistics), std::ref(imagePath));
 
 	int command;
 	do{
 		std::cout << std::endl << "TEST IMAGE ACQUISITION AND STORAGE" << std::endl;
+		std::cout << "\t --> Standar image output path: " << imagePath << std::endl;
 		std::cout << "\t Press 0 to stop the execution" << std::endl;
 		std::cout << "\t Press 1 to see the number of acquisitions" << std::endl;
 		std::cout << "\t Press 2 to see statistics" << std::endl;
-		std::cout << "\t Press 3 to enable/disable visualization" << std::endl << std::endl;
+		std::cout << "\t Press 3 to enable/disable visualization" << std::endl;
+		std::cout << "\t Press 4 to change image path. Example 'C:/Images' or '/home/user/Images'. DONT ADD '/' at the end!! " << std::endl << std::endl;
 		std::cout << std::endl;
 
 		std::cin >> command;
@@ -85,6 +93,11 @@ int main(int _argc, char** _argv){
 			mutex.lock();
 			visualization = !visualization;
 			mutex.unlock();
+		}
+		else if (command == 4){
+			std::cout << "--> Introduce path: ";
+			std::cin >> imagePath;
+
 		}
 
 		
@@ -122,25 +135,72 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 }
 
 //---------------------------------------------------------------------------------------
-void acquisitionThreadFn(AcquisitionStatistics &_statistics){
+void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPath){
 	//	This functions is responsible for the image acquisition and the time span
+	// Init timer
 	BOViL::STime::init();
 	BOViL::STime *sTime = BOViL::STime::get();
 	
+	// Create mutex for safe multithread operations
 	std::mutex mutex;
+	
+	//Gget image Folder path
+	mutex.lock();
+	std::string imagePath = _imgPath;
+	mutex.unlock();
+	std::string imgName = "/image";
+	
+	// Create folder if not created
+	std::stringstream ssFolderCommand;
+	ssFolderCommand << "mkdir " << _imgPath;
+	system("@echo off");
+	system(ssFolderCommand.str().c_str());
 
+	// Init camera
 	cv::Mat inputImage;
 	cv::VideoCapture camera(0);
 	
 	if (!camera.isOpened())	// 666 TODO: forma mejor de parar la ejecución
 		assert(false);
 
+	// Window name
 	std::string winName = "Visualization Test";
-
+	
+	// Main Thread loop
 	while (runningCondition){		// 666 TODO: whats about global variable or someway to control the exeution
+		
+		mutex.lock();
+		if (imagePath.compare(_imgPath.c_str())){
+			
+			imagePath = _imgPath;
+			mutex.unlock();
+
+			// Update folder path
+			ssFolderCommand.str("");
+			ssFolderCommand << "mkdir " << _imgPath;
+			system("@echo off");
+			system(ssFolderCommand.str().c_str());
+		}
+		else
+			mutex.unlock();
+
+		
+
+
 		double time = sTime->getTime();
 
 		camera >> inputImage;
+
+		std::stringstream ss;
+		ss << imagePath << imgName;
+		
+		mutex.lock();
+		int number = _statistics.mNoImages;
+		mutex.unlock();
+		
+		ss << number << ".jpg";
+
+		cv::imwrite(ss.str(), inputImage);
 
 		time = sTime->getTime() - time;
 		double fps = 1 / time;
