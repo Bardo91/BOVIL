@@ -48,6 +48,8 @@ void acquisitionThreadFn(cv::Mat &_bufferImage);
 void segmentationThreadFn(cv::Mat &_image);
 void communicationThreadFn();
 
+void visualizationThreadFn(cv::Mat &_image, bool &_visualize);
+
 //---------------------------------------------------------------------------------------
 //------------------------------------- main --------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -67,14 +69,25 @@ int main(int _argc, char** _argv){
 	std::thread segmentationThread(segmentationThreadFn, std::ref(bufferImage));
 	std::thread communicationThread(communicationThreadFn);
 
+	bool visualize = false;
+	std::thread visualizationThread(visualizationThreadFn, std::ref(bufferImage), std::ref(visualize));
+
+
 	int command;
 	do{
-		std::cout << "" << std::endl;
-		std::cout << "" << std::endl;
-		std::cout << "" << std::endl;
-		std::cout << "" << std::endl;
+		std::cout << "\t QUAD ROTOR MAIN PROGRAM" << std::endl;
+		std::cout << "\t \t Press 0 to stop the execution" << std::endl;
+		std::cout << "\t \t Press 1 to enable/disable visualization" << std::endl;
+		std::cout << "\t \t Press 2 to enable/disable image storation" << std::endl;
 
 		std::cin >> command;
+
+		if (command == 1){
+			visualize = !visualize;
+		}
+		else if (command == 2){
+			
+		}
 
 	} while (command != 0);
 
@@ -85,6 +98,8 @@ int main(int _argc, char** _argv){
 		segmentationThread.detach();
 	}if (communicationThread.joinable()){
 		communicationThread.detach();
+	}if (visualizationThread.joinable()){
+		visualizationThread.join();
 	}
 
 	return 0;
@@ -127,7 +142,7 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 		inputImage.copyTo(_bufferImage);
 		mutex.unlock();
 
-		std::cout << "Cojo imagen \n";
+		//std::cout << "Cojo imagen \n";
 
 		cv::waitKey(1);
 	}
@@ -149,7 +164,7 @@ void segmentationThreadFn(cv::Mat &_image){
 		_image.copyTo(image);
 		mutex.unlock();
 
-		std::cout << "Segmento imagen \n";
+		//std::cout << "Segmento imagen \n";
 
 
 		if (image.rows > 0){
@@ -168,8 +183,14 @@ void segmentationThreadFn(cv::Mat &_image){
 				objects,		// Output Objects
 				*cs);			// Segmentation function 
 
-			cv::cvtColor(image, image, CV_HSV2BGR);
-			cv::imshow(windowsName, image);
+			for (int i = 0; i < objects.size(); i++){
+				mutex.lock();
+				circle(	_image, 
+						cv::Point(objects[i].getCentroid().x, objects[i].getCentroid().y), 
+						objects[i].getHeight() / 2, 
+						cv::Scalar(255, 255, 255));
+				mutex.unlock();
+			}
 
 		}
 
@@ -182,5 +203,30 @@ void segmentationThreadFn(cv::Mat &_image){
 //---------------------------------------------------------------------------------------
 void communicationThreadFn(){
 
+
+}
+
+//---------------------------------------------------------------------------------------
+void visualizationThreadFn(cv::Mat &_image, bool &_visualize){
+	std::mutex mutex;
+	cv::Mat image;
+
+	
+
+	while (true){	// 666 TODO
+		if (_visualize){
+			mutex.lock();
+			_image.copyTo(image);
+			mutex.unlock();
+
+			if (image.rows != 0)
+				cv::imshow("Visualization", image);
+
+			cv::waitKey(1);
+
+		} else{
+			cv::waitKey(100);
+		}
+	}
 
 }
