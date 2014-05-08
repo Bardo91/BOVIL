@@ -39,12 +39,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\library\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Programming\BOVIL\Tests\test_ekf_sockets\server_side\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\library\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Programming\BOVIL\library\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

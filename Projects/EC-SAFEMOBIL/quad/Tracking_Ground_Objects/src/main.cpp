@@ -10,6 +10,7 @@
 // Includes related to BOViL Libraries
 #include <core/types/BasicTypes.h>
 #include <algorithms/segmentation/ColorClustering.h>
+#include <core/comm/ClientSocket.h>
 
 // Includes of ppal libraries
 #include <cassert>
@@ -23,6 +24,9 @@
 // Other includes
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+
+// 666 GLOBAL VARIABLE---> DONT LIKE BUT ITS FASTER
+bool running;
 
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
@@ -45,8 +49,8 @@ public:
 //---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 void acquisitionThreadFn(cv::Mat &_bufferImage);
-void segmentationThreadFn(cv::Mat &_image);
-void communicationThreadFn();
+void segmentationThreadFn(cv::Mat &_image, std::vector<BOViL::ImageObject> &_objects);
+void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::string _ip, std::string _port);
 
 void visualizationThreadFn(cv::Mat &_image, bool &_visualize);
 
@@ -56,6 +60,8 @@ void visualizationThreadFn(cv::Mat &_image, bool &_visualize);
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
 
+	running = true;
+
 	// Get Camera information from the arguments
 	CameraInfo camInfo(	BOViL::Point2i(atoi(hashMap["WIDTH"].c_str()), atoi(hashMap["HEIGHT"].c_str())),
 						atof(hashMap["FL"].c_str()),
@@ -63,15 +69,17 @@ int main(int _argc, char** _argv){
 
 	// OpenCV image in the main thread
 	cv::Mat bufferImage;
+	std::vector<BOViL::ImageObject> objects;
 
 	// Start threads
 	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(bufferImage));
-	std::thread segmentationThread(segmentationThreadFn, std::ref(bufferImage));
-	std::thread communicationThread(communicationThreadFn);
-
+	std::thread segmentationThread(segmentationThreadFn, std::ref(bufferImage), std::ref(objects));
+	std::thread communicationThread(communicationThreadFn, std::ref(objects), hashMap["IP"], hashMap["PORT"]);
+	
 	bool visualize = false;
 	std::thread visualizationThread(visualizationThreadFn, std::ref(bufferImage), std::ref(visualize));
 
+	std::mutex mutex;
 
 	int command;
 	do{
@@ -81,8 +89,13 @@ int main(int _argc, char** _argv){
 		std::cout << "\t \t Press 2 to enable/disable image storation" << std::endl;
 
 		std::cin >> command;
-
-		if (command == 1){
+		if (command == 0){
+			mutex.lock();
+			running = false;
+			mutex.unlock();
+			continue;
+		}
+		else if (command == 1){
 			visualize = !visualize;
 		}
 		else if (command == 2){
@@ -93,11 +106,11 @@ int main(int _argc, char** _argv){
 
 	// Stop threads
 	if (imageAcquisitionThread.joinable()){
-		imageAcquisitionThread.detach();
+		imageAcquisitionThread.join();
 	}if (segmentationThread.joinable()){
-		segmentationThread.detach();
+		segmentationThread.join();
 	}if (communicationThread.joinable()){
-		communicationThread.detach();
+		communicationThread.join();
 	}if (visualizationThread.joinable()){
 		visualizationThread.join();
 	}
@@ -134,7 +147,7 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 	if (!camera.isOpened())	// 666 TODO: forma mejor de parar la ejecución
 		assert(false);
 
-	while (true){		// 666 TODO: whats about global variable or someway to control the exeution
+	while (running){		// 666 TODO: whats about global variable or someway to control the exeution
 		
 		camera >> inputImage;
 
@@ -150,7 +163,7 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 }
 
 //---------------------------------------------------------------------------------------
-void segmentationThreadFn(cv::Mat &_image){
+void segmentationThreadFn(cv::Mat &_image, std::vector<BOViL::ImageObject> &_objects){
 	// This function is responsible for the image segmentation
 	cv::waitKey(100);
 
@@ -159,7 +172,7 @@ void segmentationThreadFn(cv::Mat &_image){
 
 	std::string windowsName = "Testing";		// 666 TODO: erase
 
-	while (true) {		// 666 TODO: whats about global variable or someway to control the exeution
+	while (running) {		// 666 TODO: whats about global variable or someway to control the exeution
 		mutex.lock();
 		_image.copyTo(image);
 		mutex.unlock();
@@ -183,6 +196,10 @@ void segmentationThreadFn(cv::Mat &_image){
 				objects,		// Output Objects
 				*cs);			// Segmentation function 
 
+			mutex.lock();
+			_objects = objects;
+			mutex.unlock();
+
 			for (int i = 0; i < objects.size(); i++){
 				mutex.lock();
 				circle(	_image, 
@@ -201,8 +218,32 @@ void segmentationThreadFn(cv::Mat &_image){
 }
 
 //---------------------------------------------------------------------------------------
-void communicationThreadFn(){
+void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::string _ip, std::string _port){
+	std::mutex mutex;
 
+	std::vector<BOViL::ImageObject> objects;
+
+	BOViL::comm::ClientSocket client(_ip, _port);
+
+	while (running){
+		mutex.lock();
+		objects= _objects;
+		mutex.unlock();
+
+		std::stringstream ssMsg;	// Msg protocol {PROJECT;ID;msg1-msg2-...-msgN;PROJECT}
+
+		ssMsg << "{00;01";
+
+		for (unsigned int i = 0; i < objects.size(); i++){
+			ssMsg << objects[i].getCentroid().x << "," << objects[i].getCentroid().y << "-";
+		}
+
+		ssMsg << ";00}" << std::endl;
+
+		client.sendData(ssMsg.str());
+
+		//std::cout << objects.size()<< std::endl;
+	}
 
 }
 
@@ -210,10 +251,8 @@ void communicationThreadFn(){
 void visualizationThreadFn(cv::Mat &_image, bool &_visualize){
 	std::mutex mutex;
 	cv::Mat image;
-
 	
-
-	while (true){	// 666 TODO
+	while (running){	// 666 TODO
 		if (_visualize){
 			mutex.lock();
 			_image.copyTo(image);
@@ -225,6 +264,7 @@ void visualizationThreadFn(cv::Mat &_image, bool &_visualize){
 			cv::waitKey(1);
 
 		} else{
+			cv::destroyAllWindows();
 			cv::waitKey(100);
 		}
 	}
