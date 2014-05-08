@@ -61,10 +61,10 @@ int main(int _argc, char** _argv){
 
 	// Start threads
 	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(statistics), std::ref(imagePath));
-
+	
 	int command;
 	do{
-		std::cout << std::endl << "TEST IMAGE ACQUISITION AND STORAGE" << std::endl;
+		std::cout << std::endl << std::endl << "TEST IMAGE ACQUISITION AND STORAGE" << std::endl;
 		std::cout << "\t --> Standar image output path: " << imagePath << std::endl;
 		std::cout << "\t Press 0 to stop the execution" << std::endl;
 		std::cout << "\t Press 1 to see the number of acquisitions" << std::endl;
@@ -74,6 +74,13 @@ int main(int _argc, char** _argv){
 		std::cout << std::endl;
 
 		std::cin >> command;
+
+		#ifdef _WIN32
+				system("cls");
+		#endif
+		#ifdef  __linux__
+				system("clear");
+		#endif
 
 		if (command == 0)
 			continue;
@@ -99,10 +106,6 @@ int main(int _argc, char** _argv){
 			std::cin >> imagePath;
 
 		}
-
-		
-		std::cout.clear();
-
 
 	} while (command != 0);
 
@@ -170,7 +173,7 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 	while (runningCondition){		// 666 TODO: whats about global variable or someway to control the exeution
 		
 		mutex.lock();
-		if (imagePath.compare(_imgPath.c_str())){
+		if (imagePath.length() != _imgPath.length()){
 			
 			imagePath = _imgPath;
 			mutex.unlock();
@@ -200,7 +203,16 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 		
 		ss << number << ".jpg";
 
-		cv::imwrite(ss.str(), inputImage);
+		std::string imageName = ss.str();
+
+		cv::imwrite(imageName, inputImage);
+
+		/*if (inputImage.rows != 0){
+			std::thread storeThread([imageName, inputImage]() {
+				cv::imwrite(imageName, inputImage);
+			});
+			storeThread.join();
+		}*/
 
 		time = sTime->getTime() - time;
 		double fps = 1 / time;
