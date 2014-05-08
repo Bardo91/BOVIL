@@ -10,6 +10,7 @@
 // Includes related to BOViL Libraries
 #include <core/types/BasicTypes.h>
 #include <algorithms/segmentation/ColorClustering.h>
+#include <core/time/time.h>
 
 // Includes of ppal libraries
 #include <cassert>
@@ -24,42 +25,80 @@
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
-//---------------------------------------------------------------------------------------
-//-------------------------- Declaration of Functions -----------------------------------
-//---------------------------------------------------------------------------------------
+// 666 :::: GLOBAL for execution :::: MALA COSA... Pero es un test u.u
+bool runningCondition, visualization;
 
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
+struct AcquisitionStatistics{
+	int mNoImages = 0;
+	double mLastFps = 0.0;
+};
+//---------------------------------------------------------------------------------------
+//-------------------------- Declaration of Functions -----------------------------------
+//---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
-void acquisitionThreadFn(cv::Mat &_bufferImage);
+void acquisitionThreadFn(AcquisitionStatistics &_statistics);
 
 //---------------------------------------------------------------------------------------
 //------------------------------------- main --------------------------------------------
 //---------------------------------------------------------------------------------------
 int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
+	
+	std::mutex mutex;
 
-	// OpenCV image in the main thread
-	cv::Mat bufferImage;
+	runningCondition = true;
+	visualization = false;
+	AcquisitionStatistics statistics;
 
 	// Start threads
-	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(bufferImage));
+	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(statistics));
 
 	int command;
 	do{
-		std::cout << "/t TEST IMAGE ACQUISITION AND STORAGE" << std::endl;
-		std::cout << "/t /t Press 0 to stop the execution" << std::endl;
-		std::cout << "/t /t Press 1 to see the number of acquisitions" << std::endl;
-		std::cout << "/t /t Press 2 to see statistics" << std::endl;
+		std::cout << std::endl << "TEST IMAGE ACQUISITION AND STORAGE" << std::endl;
+		std::cout << "\t Press 0 to stop the execution" << std::endl;
+		std::cout << "\t Press 1 to see the number of acquisitions" << std::endl;
+		std::cout << "\t Press 2 to see statistics" << std::endl;
+		std::cout << "\t Press 3 to enable/disable visualization" << std::endl << std::endl;
+		std::cout << std::endl;
 
 		std::cin >> command;
 
+		if (command == 0)
+			continue;
+		else if (command == 1){
+			mutex.lock();
+			int noImages = statistics.mNoImages;
+			mutex.unlock();
+			std::cout << "--> Number of images acquired since execution: " << noImages << std::endl;
+		}
+		else if (command == 2){
+			mutex.lock();
+			int fps = statistics.mLastFps;
+			mutex.unlock();
+			std::cout << "--> Last FPS was: " << fps << std::endl;
+		}
+		else if (command == 3){
+			mutex.lock();
+			visualization = !visualization;
+			mutex.unlock();
+		}
+
+		
+		std::cout.clear();
+
+
 	} while (command != 0);
 
-	// Stop threads
+	// Stop thread
+	runningCondition = false;
+	cv::waitKey(100);
+
 	if (imageAcquisitionThread.joinable()){
-		imageAcquisitionThread.detach();
+		imageAcquisitionThread.join();
 	}
 	return 0;
 }
@@ -83,8 +122,11 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 }
 
 //---------------------------------------------------------------------------------------
-void acquisitionThreadFn(cv::Mat &_bufferImage){
+void acquisitionThreadFn(AcquisitionStatistics &_statistics){
 	//	This functions is responsible for the image acquisition and the time span
+	BOViL::STime::init();
+	BOViL::STime *sTime = BOViL::STime::get();
+	
 	std::mutex mutex;
 
 	cv::Mat inputImage;
@@ -93,17 +135,28 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 	if (!camera.isOpened())	// 666 TODO: forma mejor de parar la ejecución
 		assert(false);
 
-	while (true){		// 666 TODO: whats about global variable or someway to control the exeution
-		
+	std::string winName = "Visualization Test";
+
+	while (runningCondition){		// 666 TODO: whats about global variable or someway to control the exeution
+		double time = sTime->getTime();
+
 		camera >> inputImage;
 
+		time = sTime->getTime() - time;
+		double fps = 1 / time;
+
 		mutex.lock();
-		inputImage.copyTo(_bufferImage);
+		_statistics.mNoImages++;
+		_statistics.mLastFps = fps;
 		mutex.unlock();
 
-		std::cout << "Cojo imagen \n";
+		if (visualization)
+			cv::imshow(winName, inputImage);
+		else
+			cv::destroyWindow(winName);
 
 		cv::waitKey(1);
 	}
 
+	BOViL::STime::end();
 }
