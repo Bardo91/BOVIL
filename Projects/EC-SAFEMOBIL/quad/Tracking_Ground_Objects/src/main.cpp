@@ -40,11 +40,6 @@ public:
 	BOViL::Point2d mCentroid; 
 };
 
-struct FrameInfo {
-
-
-};
-
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
@@ -132,6 +127,8 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 		inputImage.copyTo(_bufferImage);
 		mutex.unlock();
 
+		std::cout << "Cojo imagen \n";
+
 		cv::waitKey(1);
 	}
 
@@ -140,7 +137,7 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 //---------------------------------------------------------------------------------------
 void segmentationThreadFn(cv::Mat &_image){
 	// This function is responsible for the image segmentation
-	cv::waitKey(100); //	Waiting the other thread to get one image.
+	cv::waitKey(100);
 
 	std::mutex mutex;
 	cv::Mat image;
@@ -152,8 +149,13 @@ void segmentationThreadFn(cv::Mat &_image){
 		_image.copyTo(image);
 		mutex.unlock();
 
+		std::cout << "Segmento imagen \n";
+
 
 		if (image.rows > 0){
+
+			cv::medianBlur(image, image, 5);
+
 			std::vector<BOViL::ImageObject> objects;
 			BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U, 255U, std::uint8_t(BOViL::bin2dec("00010000")));
 
