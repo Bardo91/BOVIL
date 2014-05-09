@@ -41,8 +41,6 @@ namespace BOViL{
 			std::thread *mThread;
 			bool mIsRunning;	// Flag to know if current thread is running
 
-			std::mutex mMutex;
-
 			SOCKET mSocket;
 			char *mInputBuffer;
 			std::vector<std::string> mData;

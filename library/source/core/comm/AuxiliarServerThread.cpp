@@ -20,7 +20,7 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index) :	mIndex(0),
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index) :	mIndex(_index),
 																					mThread(nullptr),
 																					mSocket(_socket){
 			startThread();
@@ -30,7 +30,7 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, int _index, AuxiliarServerThread **_threadList): 
 										mThreadList(_threadList),
-										mIndex(0),
+										mIndex(_index),
 										mThread(nullptr),
 										mSocket(_socket) {
 
@@ -51,10 +51,10 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		bool AuxiliarServerThread::startThread(){
 			if(mThread == nullptr){
-				mThread = new std::thread(&AuxiliarServerThread::watchFunction, this);
-
 				mIsRunning = true;
 
+				mThread = new std::thread(&AuxiliarServerThread::watchFunction, this);
+				
 				return true;
 			}else 
 				return false;
@@ -64,9 +64,9 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		bool AuxiliarServerThread::stopThread(){
 			if(mThread != nullptr && mThread->joinable()){
-				mThread->detach();
-				delete mThread;
 				mIsRunning = false;
+				mThread->join();		// 666 TODO: be carefully, because it cant be join if recv in watchfunction keep waiting... searchc how to solve
+				delete mThread;
 				return true;
 			} else 
 				return false;
@@ -75,7 +75,12 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		bool AuxiliarServerThread::hasData(){
-			if(mData.size() > 0){
+			std::mutex mutex;
+			mutex.lock();
+			int dataSize = mData.size();
+			mutex.unlock();
+
+			if(dataSize > 0){
 				return true;
 			}
 			return false;
@@ -84,10 +89,11 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		std::vector<std::string> AuxiliarServerThread::readData(){
-			mMutex.lock();
+			std::mutex mutex;
+			mutex.lock();
 			std::vector<std::string> data = mData;
 			mData.clear();
-			mMutex.unlock();
+			mutex.unlock();
 
 			return data;
 		}
@@ -106,22 +112,23 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void AuxiliarServerThread::watchFunction(){
+			std::mutex mutex;
+
 			while(mIsRunning){
 				char recvbuf[1024];
 				int recvbuflen = 1024;
-
-				int iResult = recv(mSocket, recvbuf, recvbuflen, 0);
+				
+				int iResult = recv(mSocket, recvbuf, recvbuflen, MSG_PARTIAL);
 				if (iResult > 0) {
 					std::cout << "Connection " << mIndex << " has received " << iResult << "bytes" << std::endl;
 
 					std::string msg;
 
 					msg.append(recvbuf, iResult);
-					std::vector<std::string> a;
 					
-					mMutex.lock();
+					mutex.lock();
 					mData.push_back(msg);
-					mMutex.unlock();
+					mutex.unlock();
 				} else if (iResult == SOCKET_ERROR){
 					// Socket error, closing connection.
 					mIsRunning = false;

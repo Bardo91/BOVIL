@@ -13,8 +13,7 @@
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
-		ServerMultiThread::ServerMultiThread(std::string _PORT) {
-			mNoConnections = 0;
+		ServerMultiThread::ServerMultiThread(std::string _PORT) :	mNoConnections(0) {
 			mServerSocket = ServerSocket(_PORT);
 			
 			mServerSocket.listenClient();
