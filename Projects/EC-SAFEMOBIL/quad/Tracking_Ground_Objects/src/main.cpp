@@ -239,6 +239,8 @@ void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::strin
 		}
 
 		ssMsg << ";00}" << std::endl;
+		
+		int msgSize = ssMsg.str().length();
 
 		client.sendData(ssMsg.str());
 

@@ -112,19 +112,22 @@ void watchThreadFn(BOViL::comm::ServerMultiThread &_server, std::vector<std::vec
 		mutex.lock();
 		int sizeMsg = _messages.size();
 		mutex.unlock();
-		if (noCon != sizeMsg){
+		if (noCon < sizeMsg){
 			_messages.resize(noCon);
 		}
 
 		// Read information
-		std::vector<std::string> poolMessage;
+		std::vector<std::string> poolMessages;
 		for (int i = 0; i < noCon; i++){
 			BOViL::comm::AuxiliarServerThread *conn = _server.getThread(i);
 			if (conn != nullptr && conn->hasData()){
-				poolMessage = conn->readData();
+				poolMessages = conn->readData();
 				
+				int quadId = atoi(0);
 				mutex.lock();
-				_messages.insert(_messages.end(), poolMessage.begin(), poolMessage.end());
+				for (unsigned int i = 0; i < poolMessages.size(); i++){
+					_messages[quadId].push_back(poolMessages[i].substr(7,poolMessages[i].size()-4));
+				}
 				mutex.unlock();				
 			}
 		}
