@@ -160,6 +160,8 @@ void acquisitionThreadFn(cv::Mat &_bufferImage){
 		cv::waitKey(1);
 	}
 
+	std::cout << "Closing acquisition Thread" << std::endl;
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -214,6 +216,7 @@ void segmentationThreadFn(cv::Mat &_image, std::vector<BOViL::ImageObject> &_obj
 		cv::waitKey(1);
 	}
 
+	std::cout << "Closing segmentation Thread" << std::endl;
 
 }
 
@@ -247,6 +250,8 @@ void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::strin
 		//std::cout << objects.size()<< std::endl;
 	}
 
+	std::cout << "Closing communication Thread" << std::endl;
+
 }
 
 //---------------------------------------------------------------------------------------
@@ -270,5 +275,7 @@ void visualizationThreadFn(cv::Mat &_image, bool &_visualize){
 			cv::waitKey(100);
 		}
 	}
+
+	std::cout << "Closing visualization Thread" << std::endl;
 
 }

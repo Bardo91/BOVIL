@@ -115,8 +115,8 @@ namespace BOViL {
 			std::mutex mutex;
 
 			while(mIsRunning){
-				char recvbuf[1024];
-				int recvbuflen = 1024;
+				int recvbuflen = 4096;
+				char recvbuf[4096];
 				
 				int iResult = recv(mSocket, recvbuf, recvbuflen, MSG_PARTIAL);
 				if (iResult > 0) {

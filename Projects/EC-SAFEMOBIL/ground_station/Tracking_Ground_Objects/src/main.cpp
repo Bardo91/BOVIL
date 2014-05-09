@@ -123,10 +123,12 @@ void watchThreadFn(BOViL::comm::ServerMultiThread &_server, std::vector<std::vec
 			if (conn != nullptr && conn->hasData()){
 				poolMessages = conn->readData();
 				
-				int quadId = atoi(0);
+				// 666 TODO: decode info etc...
+
+				int quadId = atoi("0");
 				mutex.lock();
 				for (unsigned int i = 0; i < poolMessages.size(); i++){
-					_messages[quadId].push_back(poolMessages[i].substr(7,poolMessages[i].size()-4));
+					//_messages[quadId].push_back(poolMessages[i].substr(7,poolMessages[i].size()-4));
 				}
 				mutex.unlock();				
 			}
