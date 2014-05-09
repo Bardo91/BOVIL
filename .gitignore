@@ -153,3 +153,8 @@
 /Projects/EC-SAFEMOBIL/quad/Test_Image_Acquisition_And_Storage/prj/vs13/*.psess
 /Projects/EC-SAFEMOBIL/quad/Test_Image_Acquisition_And_Storage/prj/vs13/*.vsp
 /Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.user
+/Tests/test_socket_client/prj/vs13/Debug
+/Tests/test_socket_client/prj/vs13/*.sdf
+/Tests/test_socket_client/prj/vs13/*.suo
+/Tests/test_socket_client/prj/vs13/*.user
+/Tests/test_socket_server/prj/vs13/*.user

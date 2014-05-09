@@ -14,12 +14,12 @@
 int testSocketsServer(std::string _port){
 	BOViL::comm::ServerSocket* server = BOViL::comm::Socket::createServerSocket(_port);
 	
-	int iResult = 0;
+	int socket = 0;
 	
-	iResult += server->listenClient();
-	iResult += server->acceptClient();
+	server->listenClient();
+	socket = server->acceptClient();
 	
-	if(iResult)
+	if(!socket)
 		return 1;
 	
 	std::string msg = "";
