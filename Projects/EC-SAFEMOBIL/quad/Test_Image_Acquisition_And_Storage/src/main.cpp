@@ -20,6 +20,7 @@
 #include <thread>
 #include <mutex>
 #include <cstdint>
+#include <fstream>
 
 // Other includes
 #include <opencv/cv.h>
@@ -29,12 +30,13 @@
 bool runningCondition, visualization;
 
 //---------------------------------------------------------------------------------------
-//-------------------------- Declaration of Functions -----------------------------------
+//--------------------------------- Structures ------------------------------------------
 //---------------------------------------------------------------------------------------
 struct AcquisitionStatistics{
 	int mNoImages = 0;
 	double mLastFps = 0.0;
 };
+
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
@@ -152,12 +154,19 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 	std::string imagePath = _imgPath;
 	mutex.unlock();
 	std::string imgName = "/image";
-	
+	std::string timeFileName = "timeSpan.txt";
+
 	// Create folder if not created
 	std::stringstream ssFolderCommand;
 	ssFolderCommand << "mkdir " << _imgPath;
 	system("@echo off");
 	system(ssFolderCommand.str().c_str());
+
+	// Timespan output file
+	std::ofstream timeSpanFile;
+	std::stringstream fileTimeName;
+	fileTimeName << imagePath << "/" << timeFileName;
+	timeSpanFile.open(fileTimeName.str());
 
 	// Init camera
 	cv::Mat inputImage;
@@ -194,6 +203,8 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 
 		camera >> inputImage;
 
+		double frameTime = sTime->getTime();
+
 		std::stringstream ss;
 		ss << imagePath << imgName;
 		
@@ -206,13 +217,7 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 		std::string imageName = ss.str();
 
 		cv::imwrite(imageName, inputImage);
-
-		/*if (inputImage.rows != 0){
-			std::thread storeThread([imageName, inputImage]() {
-				cv::imwrite(imageName, inputImage);
-			});
-			storeThread.join();
-		}*/
+		timeSpanFile << frameTime << std::endl;
 
 		time = sTime->getTime() - time;
 		double fps = 1 / time;
@@ -229,6 +234,8 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 
 		cv::waitKey(1);
 	}
+
+	timeSpanFile.close();
 
 	BOViL::STime::end();
 }
