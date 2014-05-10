@@ -74,9 +74,6 @@ namespace BOViL{
 		Matrix<type_> createEye(int _n);
 
 		Matrix<double> createGivenRotation(int _n, int _i, int _j, double _theta);
-
-		Matrix<double> createRotationMatrixEuler(double _alpha, double _beta, double _gamma);
-	
 	}	// namespace math
 }	// namespace BOViL
 
