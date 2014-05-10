@@ -1,5 +1,5 @@
 ################################################################################
-# VISUAL TRACKIN UI MAKEFILE
+# EC-SAFEMOBIL: Quad - Test Image Acquisition and Storage
 #	Author: Pablo Ramón Soria
 #	Date: 2013/11/22
 ################################################################################
@@ -18,9 +18,9 @@ DEPENDENCIES := -lopencv_core -lopencv_highgui -lopencv_imgproc -lBOViL
 
 ########## RULES ##########
 
-all: Quad_TrackingGround
+all: Quad_TestAcquisitionStorage
 
-rebuild: clean Quad_TrackingGround
+rebuild: clean Quad_TestAcquisitionStorage
 	
 # Remove preious files
 clean:
@@ -32,10 +32,10 @@ clean:
 
 # Run application
 run:
-	./Quad_TrackingGround WIDTH=640 HEIGHT=480 FL=738.143358488352310 U0=346.966835812843040 V0=240.286986071815390
+	./Quad_TestAcquisitionStorage WIDTH=640 HEIGHT=480 FL=738.143358488352310 U0=346.966835812843040 V0=240.286986071815390
 
 # Compile application
-Quad_TrackingGround: $(OBJ_FILES)
+Quad_TestAcquisitionStorage: $(OBJ_FILES)
 	@echo "--------------------------------------"
 	@echo "Current cpps--------------------------"
 	@echo $(CPP_FILES)
@@ -43,7 +43,7 @@ Quad_TrackingGround: $(OBJ_FILES)
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
 	$(CXX) $^ -o $@  $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
-	@echo "Generated file testBOViLsegmentation-------"
+	@echo "Generated file Quad_TestAcquisitionStorage-------"
 
 
 

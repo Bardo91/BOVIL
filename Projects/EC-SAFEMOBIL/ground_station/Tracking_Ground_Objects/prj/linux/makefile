@@ -1,5 +1,5 @@
 ################################################################################
-# VISUAL TRACKIN UI MAKEFILE
+# EC-SAFEMOBIL: Ground Station - Grount Tracking
 #	Author: Pablo Ramón Soria
 #	Date: 2013/11/22
 ################################################################################
@@ -18,9 +18,9 @@ DEPENDENCIES := -lopencv_core -lopencv_highgui -lopencv_imgproc -lBOViL
 
 ########## RULES ##########
 
-all: testImageAcquisition
+all: GroundStation_GroundTracking
 
-rebuild: clean testImageAcquisition
+rebuild: clean GroundStation_GroundTracking
 	
 # Remove preious files
 clean:
@@ -35,7 +35,7 @@ run:
 	./../../source/main
 
 # Compile application
-testImageAcquisition: $(OBJ_FILES)
+GroundStation_GroundTracking: $(OBJ_FILES)
 	@echo "--------------------------------------"
 	@echo "Current cpps--------------------------"
 	@echo $(CPP_FILES)
@@ -43,7 +43,7 @@ testImageAcquisition: $(OBJ_FILES)
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
 	$(CXX) $^ -o $@  $(INCLUDES) $(LIBRARIES) $(DEPENDENCIES) $(CXX_FLAGS)
-	@echo "Generated file testBOViLsegmentation-------"
+	@echo "Generated file GroundStation_GroundTracking-------"
 
 
 
