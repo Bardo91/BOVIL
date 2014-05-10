@@ -26,7 +26,7 @@ namespace BOViL	{
 				#endif
 				return 1;
 			}
-			printf("Bytes sent: %d\n", iSendResult);
+			//printf("Bytes sent: %d\n", iSendResult);
 			
 			return 0;
 		}
@@ -40,7 +40,7 @@ namespace BOViL	{
 			if (iResult < 0) {
 				return "ERROR";
 			}
-			printf("Bytes received: %d\n", iResult);
+			//printf("Bytes received: %d\n", iResult);
 
 			std::string msg;
 

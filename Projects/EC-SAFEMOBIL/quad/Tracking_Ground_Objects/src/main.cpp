@@ -87,7 +87,7 @@ int main(int _argc, char** _argv){
 		std::cout << "\t QUAD ROTOR MAIN PROGRAM" << std::endl;
 		std::cout << "\t \t Press 0 to stop the execution" << std::endl;
 		std::cout << "\t \t Press 1 to enable/disable visualization" << std::endl;
-		std::cout << "\t \t Press 2 to enable/disable image storation" << std::endl;
+		std::cout << "\t \t Press 2 to request fps" << std::endl;
 
 		std::cin >> command;
 		if (command == 0){
@@ -203,7 +203,7 @@ void segmentationThreadFn(cv::Mat &_image, std::vector<BOViL::ImageObject> &_obj
 			_objects = objects;
 			mutex.unlock();
 
-			for (int i = 0; i < objects.size(); i++){
+			for (unsigned int i = 0; i < objects.size(); i++){
 				mutex.lock();
 				circle(	_image, 
 						cv::Point(objects[i].getCentroid().x, objects[i].getCentroid().y), 

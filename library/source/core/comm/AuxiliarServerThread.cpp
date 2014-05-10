@@ -105,7 +105,7 @@ namespace BOViL {
 			if (iSendResult == SOCKET_ERROR) {
 				return -1;
 			}
-			printf("Bytes sent: %d\n", iSendResult);
+			//printf("Bytes sent: %d\n", iSendResult);
 			
 			return 0;
 		}
@@ -120,7 +120,7 @@ namespace BOViL {
 				
 				int iResult = recv(mSocket, recvbuf, recvbuflen, MSG_PARTIAL);
 				if (iResult > 0) {
-					std::cout << "Connection " << mIndex << " has received " << iResult << "bytes" << std::endl;
+					//std::cout << "Connection " << mIndex << " has received " << iResult << "bytes" << std::endl;
 
 					std::string msg;
 
