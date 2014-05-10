@@ -24,7 +24,7 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------------
 		//-------------------------  Matrix related functions ---------------------------------
 		//-------------------------------------------------------------------------------------
-		Matrix<double> rotationEulerMatrix(float _alpha, float _beta, float _gamma);
+		Matrix<double> createRotationMatrixEuler(double _alpha, double _beta, double _gamma);
 
 		//-------------------------------------------------------------------------------------
 
@@ -35,16 +35,7 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------------
 		//------------------------- Spatial function ------------------------------------------
 		//-------------------------------------------------------------------------------------
-		Matrix<double> triangulateFromImageToGround3D(unsigned int _px, unsigned int _py, Matrix<double> & _camPos, Matrix<double> &_camOri, double _focalLenght){
-			double x_c = -_camPos(2, 0) / (_camOri(2, 0) + _camOri(2, 1)*_px / _focalLenght + _camOri(2, 2)*_py / _focalLenght);
-			double arrayPos_c[3] = { x_c,
-								_px / _focalLenght * x_c,
-								_py / _focalLenght * x_c };
-
-			Matrix<double> pos_c(arrayPos_c, 3, 1);
-
-			return _camPos + _camOri*pos_c;
-		}
+		Matrix<double> triangulateFromImageToGround3D(unsigned int _px, unsigned int _py, Matrix<double> & _camPos, Matrix<double> &_camOri, double _focalLenght);
 
 		//-------------------------------------------------------------------------------------
 

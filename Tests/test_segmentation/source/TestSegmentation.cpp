@@ -8,6 +8,7 @@
 
 #include "TestSegmentation.h"
 
+#include <core/math/geometrics/Geometrics.h>
 
 static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
 									0, 0.05, 0, 0, 0, 0, 
@@ -50,7 +51,7 @@ void testSegmentation(){
 		path = "/home/bardo91/Programming/Images/";
 	#endif
 	#if defined (_WIN32)
-		path = "E:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
+		path = "C:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
 	#endif
 	
 	std::cout << "--Path of images: " << path << std::endl;
@@ -86,7 +87,7 @@ void testSegmentation(){
 		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
 	#endif
 	#if defined (_WIN32)
-		condition = openInputFile(inputFile, "E:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
+		condition = openInputFile(inputFile, "C:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
 	#endif
 
 	double lastTime = 0;
@@ -150,8 +151,8 @@ void testSegmentation(){
 		double arrayPosC2[3] = {inputBuffer[13], inputBuffer[14], inputBuffer[15]};
 		stereoEKF.updateCameras(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
 								BOViL::math::Matrix<double>(arrayPosC2, 3, 1),	
-								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
-								BOViL::algorithms::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
+								BOViL::math::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
+								BOViL::math::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
 		// Select Oject
 		int maxSize1 = 0, maxIndex1 = 0;
 		for(unsigned int obj = 0; obj < objects1.size() ; ++obj){
