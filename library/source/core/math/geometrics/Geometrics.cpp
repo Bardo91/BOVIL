@@ -33,6 +33,23 @@ namespace BOViL{
 		}
 
 		//-------------------------------------------------------------------------------
+		Matrix<double> triangulateFromImageToGround3D(Point2ui _point2d, Matrix<double> & _camPos, Matrix<double> &_camOri, double _focalLenght, Point2d _camCentroid, double _groundAltitude){
+			
+			double x_c = (_groundAltitude - _camPos(2, 0)) 
+											/ (	_camOri(2, 0) + 
+												_camOri(2, 1)*(_camCentroid.x - _point2d.x) / _focalLenght + 
+												_camOri(2, 2)*(_camCentroid.y - _point2d.y) / _focalLenght);
+
+			double arrayP_c[3] = {	x_c,
+									(_camCentroid.x - _point2d.x) / _focalLenght * x_c,
+									(_camCentroid.y - _point2d.y) / _focalLenght * x_c };
+
+			Matrix<double> Pc(arrayP_c, 3, 1);
+
+			return _camPos + _camOri*Pc;
+
+
+		}
 
 		//-------------------------------------------------------------------------------
 

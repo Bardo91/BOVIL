@@ -163,3 +163,6 @@
 /Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.vsp
 /Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/in_log.txt
 /Projects/EC-SAFEMOBIL/quad/Tracking_Ground_Objects/prj/vs13/comm_log.txt
+/Tests/test_ground_triangulation/prj/vs13/Debug
+/Tests/test_ground_triangulation/prj/vs13/*.sdf
+/Tests/test_ground_triangulation/prj/vs13/*.suo

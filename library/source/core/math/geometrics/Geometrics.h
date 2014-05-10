@@ -8,6 +8,7 @@
 
 
 #include "../Matrix.h"
+#include "../../types/BasicTypes.h"
 
 namespace BOViL{
 	namespace math{
@@ -35,7 +36,7 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------------
 		//------------------------- Spatial function ------------------------------------------
 		//-------------------------------------------------------------------------------------
-		Matrix<double> triangulateFromImageToGround3D(unsigned int _px, unsigned int _py, Matrix<double> & _camPos, Matrix<double> &_camOri, double _focalLenght);
+		Matrix<double> triangulateFromImageToGround3D(Point2ui _point2d, Matrix<double> & _camPos, Matrix<double> &_camOri, double _focalLenght, Point2d _camCentroid, double _groundAltitude = 0.0);
 
 		//-------------------------------------------------------------------------------------
 
