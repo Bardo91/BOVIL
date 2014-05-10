@@ -17,6 +17,7 @@
 #include <map>
 #include <string>
 #include <thread>
+#include <fstream>
 
 // Other includes
 
@@ -104,6 +105,12 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 void watchThreadFn(BOViL::comm::ServerMultiThread &_server, std::vector<std::vector<std::string>> &_messages){
 	std::mutex mutex;
 
+	// inputlog
+	std::ofstream inLog("./in_log.txt");
+	if (!inLog.is_open())
+		assert(false);	// 666 TODO: do better
+
+
 	while (1){
 		// Check number of connections
 		int noCon = _server.getNoConnections();
@@ -126,11 +133,16 @@ void watchThreadFn(BOViL::comm::ServerMultiThread &_server, std::vector<std::vec
 				// 666 TODO: decode info etc...
 
 				int quadId = atoi("0");
-				mutex.lock();
+				//mutex.lock();
+				//for (unsigned int i = 0; i < poolMessages.size(); i++){
+				//	//_messages[quadId].push_back(poolMessages[i].substr(7,poolMessages[i].size()-4));
+				//}
+				//mutex.unlock();				
+
 				for (unsigned int i = 0; i < poolMessages.size(); i++){
-					//_messages[quadId].push_back(poolMessages[i].substr(7,poolMessages[i].size()-4));
+					inLog << poolMessages[i];
 				}
-				mutex.unlock();				
+
 			}
 		}
 	}

@@ -20,6 +20,7 @@
 #include <thread>
 #include <mutex>
 #include <cstdint>
+#include <fstream>
 
 // Other includes
 #include <opencv/cv.h>
@@ -224,16 +225,26 @@ void segmentationThreadFn(cv::Mat &_image, std::vector<BOViL::ImageObject> &_obj
 void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::string _ip, std::string _port){
 	std::mutex mutex;
 
+	// OUTPUTLOG
+	std::ofstream outLog("./comm_log.txt");
+	if (!outLog.is_open())
+		assert(false);	// 666 TODO: do better
+
 	std::vector<BOViL::ImageObject> objects;
 
 	BOViL::comm::ClientSocket client(_ip, _port);
 
 	while (running){
 		mutex.lock();
-		objects= _objects;
+		objects = _objects;
+		_objects.clear();
 		mutex.unlock();
 
 		std::stringstream ssMsg;	// Msg protocol {PROJECT;ID;msg1-msg2-...-msgN;PROJECT}
+
+		// 666 TODO: y el tiempo?
+		if (objects.size() == 0)
+			continue;
 
 		ssMsg << "{00;01";
 
@@ -246,6 +257,8 @@ void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::strin
 		int msgSize = ssMsg.str().length();
 
 		client.sendData(ssMsg.str());
+
+		outLog << ssMsg.str();
 
 		//std::cout << objects.size()<< std::endl;
 	}

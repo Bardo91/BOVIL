@@ -158,3 +158,6 @@
 /Tests/test_socket_client/prj/vs13/*.suo
 /Tests/test_socket_client/prj/vs13/*.user
 /Tests/test_socket_server/prj/vs13/*.user
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/Release
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.psess
+/Projects/EC-SAFEMOBIL/ground_station/Tracking_Ground_Objects/prj/vs13/*.vsp

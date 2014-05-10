@@ -43,8 +43,8 @@
     <LibraryPath>C:\Programming\BOVIL\Projects\EC-SAFEMOBIL\ground_station\Tracking_Ground_Objects\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Programming\BOVIL\Projects\EC-SAFEMOBIL\ground_station\Tracking_Ground_Objects\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Programming\BOVIL\Projects\EC-SAFEMOBIL\ground_station\Tracking_Ground_Objects\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
