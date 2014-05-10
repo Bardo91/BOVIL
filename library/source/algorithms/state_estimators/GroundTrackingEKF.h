@@ -21,7 +21,7 @@ namespace BOViL{
 		public:
 			void setUpCamera(double _focalLenght, double _u0, double _v0);
 
-			void updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori);
+			void updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori, double _groundAltitude);
 
 		private:
 			void updateJf(const double _incT);
@@ -31,6 +31,8 @@ namespace BOViL{
 		private:
 			double mFocalLenght;
 			double mU0, mV0;
+
+			double mGroundAltitude;
 
 			math::Matrix<double> mPos, mOri;
 		};

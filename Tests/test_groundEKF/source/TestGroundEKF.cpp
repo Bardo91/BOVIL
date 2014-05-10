@@ -8,25 +8,20 @@
 
 #include "TestGroundEKF.h"
 
+#include <core/math/geometrics/Geometrics.h>
 
-static const double arrayQ[36] = {	0.05, 0, 0, 0, 0, 0, 
-									0, 0.05, 0, 0, 0, 0, 
-									0, 0, 0.05, 0, 0, 0, 
-									0, 0, 0, 0.05, 0, 0, 
-									0, 0, 0, 0, 0.05, 0, 
-									0, 0, 0, 0, 0, 0.05};
+static const double arrayQ[16] = {	0.05, 0, 0, 0,
+									0, 0.05, 0, 0,
+									0, 0, 0.05, 0,
+									0, 0, 0, 0.05 };
 
-static const double arrayR[16] = {	0.1, 0, 0, 0, 
-									0, 0.1, 0, 0, 
-									0, 0, 0.1, 0, 
-									0, 0, 0, 0.1};
+static const double arrayR[4] = {	0.1, 0, 
+									0, 0.1 };
 
-static const double arrayX0[6] = {	8.0,//0, 
+static const double arrayX0[4] = {	8.0,//0, 
 									12.0,//0, 
-									0,//0, 
-									0,//0, 
-									0,//0, 
-									0};//0);
+									0.0,//0, 
+									0.0};//0);
 
 
 bool openInputFile(std::ifstream& _inFile, std::string _path);
@@ -50,7 +45,7 @@ void testSegmentation(){
 		path = "/home/bardo91/Programming/Images/";
 	#endif
 	#if defined (_WIN32)
-		path = "E:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
+		path = "C:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
 	#endif
 	
 	std::cout << "--Path of images: " << path << std::endl;
@@ -72,9 +67,9 @@ void testSegmentation(){
 	std::cout << "--Init Stereo EKF" << std::endl;
 	BOViL::algorithms::GroundTrackingEKF groundEKF;
 
-	groundEKF.setUpEKF(BOViL::math::Matrix<double>(arrayQ, 6, 6),
+	groundEKF.setUpEKF(BOViL::math::Matrix<double>(arrayQ, 4, 4),
 						BOViL::math::Matrix<double>(arrayR, 2, 2),
-						BOViL::math::Matrix<double>(arrayX0, 6, 1));
+						BOViL::math::Matrix<double>(arrayX0, 4, 1));
 
 	groundEKF.setUpCamera(738.143358488352310, 346.966835812843040, 240.286986071815390);
 	double inputBuffer[20];
@@ -86,7 +81,7 @@ void testSegmentation(){
 		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
 	#endif
 	#if defined (_WIN32)
-		condition = openInputFile(inputFile, "E:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
+		condition = openInputFile(inputFile, "C:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
 	#endif
 
 	double lastTime = 0;
@@ -131,7 +126,8 @@ void testSegmentation(){
 		// Update cameras pos and ori
 		double arrayPosC1[3] = {inputBuffer[7], inputBuffer[8], inputBuffer[9]};
 		groundEKF.updateCamera(	BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
-								BOViL::math::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]));
+								BOViL::math::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
+								inputBuffer[3]);
 		// Select Oject
 		int maxSize = 0, maxIndex = 0;
 		for(unsigned int obj = 0; obj < objects.size() ; ++obj){

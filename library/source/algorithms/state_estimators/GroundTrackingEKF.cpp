@@ -23,26 +23,27 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		void GroundTrackingEKF::updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori){
+		void GroundTrackingEKF::updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori, double _groundAltitude){
 			mPos = _pos;
 			mOri = _ori;
+			mGroundAltitude = _groundAltitude;
 		}
 
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJf(const double _incT){
-			double arrayJf[6 * 6] = {	1, 0, 0, _incT, 0, 0,
-										0, 1, 0, 0, _incT, 0,
-										0, 0, 1, 0, 0, _incT,
-										0, 0, 0, 1, 0, 0,
-										0, 0, 0, 0, 1, 0,
-										0, 0, 0, 0, 0, 1 };
+			double arrayJf[16] = {	1,	0,	_incT,	0,
+										0,	1,	0,		_incT,
+										0,	0,	1,		0,
+										0,	0,	0,		1};
 
-			mJf = math::Matrix<double>(arrayJf, 6, 6);
+			mJf = math::Matrix<double>(arrayJf, 4, 4);
 
 		}
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateHZk(){
-			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
+			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
+
+			math::Matrix<double> cPoint(cPointArray, 3, 1);
 
 			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
 
@@ -58,24 +59,21 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJh(){
-			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
+			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
+			math::Matrix<double> cPoint(cPointArray, 3, 1);
 
 			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
 
 			
 			mJh(0, 0) = -mFocalLenght * (mOri(0, 1) * Pc[0] - mOri(0, 0) * Pc[1]) / Pc[0] / Pc[0];
 			mJh(0, 1) = -mFocalLenght * (mOri(1, 1) * Pc[0] - mOri(1, 0) * Pc[1]) / Pc[0] / Pc[0];
-			mJh(0, 2) = -mFocalLenght * (mOri(2, 1) * Pc[0] - mOri(2, 0) * Pc[1]) / Pc[0] / Pc[0];
+			mJh(0, 2) = 0;
 			mJh(0, 3) = 0;
-			mJh(0, 4) = 0;
-			mJh(0, 5) = 0;
 
 			mJh(1, 0) = -mFocalLenght * (mOri(0, 2) * Pc[0] - mOri(0, 0) * Pc[2]) / Pc[0] / Pc[0];
 			mJh(1, 1) = -mFocalLenght * (mOri(1, 2) * Pc[0] - mOri(1, 0) * Pc[2]) / Pc[0] / Pc[0];
-			mJh(1, 2) = -mFocalLenght * (mOri(2, 2) * Pc[0] - mOri(2, 0) * Pc[2]) / Pc[0] / Pc[0];
+			mJh(1, 2) = 0;
 			mJh(1, 3) = 0;
-			mJh(1, 4) = 0;
-			mJh(1, 5) = 0;
 
 			
 		}
