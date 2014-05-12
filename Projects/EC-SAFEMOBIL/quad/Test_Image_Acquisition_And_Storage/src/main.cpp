@@ -164,9 +164,9 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 
 	// Timespan output file
 	std::ofstream timeSpanFile;
-	std::stringstream fileTimeName;
-	fileTimeName << imagePath << "/" << timeFileName;
-	timeSpanFile.open(fileTimeName.str());
+	std::stringstream fileTimePath;
+	fileTimePath << imagePath << "/" << timeFileName;
+	timeSpanFile.open(fileTimePath.str());
 
 	// Init camera
 	cv::Mat inputImage;
@@ -192,6 +192,18 @@ void acquisitionThreadFn(AcquisitionStatistics &_statistics, std::string &_imgPa
 			ssFolderCommand << "mkdir " << _imgPath;
 			system("@echo off");
 			system(ssFolderCommand.str().c_str());
+
+
+			mutex.lock();
+			_statistics.mNoImages = 0;
+			mutex.unlock();
+
+			timeSpanFile.close();
+			std::stringstream fileTimePathNew;
+			fileTimePathNew << imagePath << "/" << timeFileName;
+			timeSpanFile.open(fileTimePathNew.str());
+			// Change timespan
+
 		}
 		else
 			mutex.unlock();
