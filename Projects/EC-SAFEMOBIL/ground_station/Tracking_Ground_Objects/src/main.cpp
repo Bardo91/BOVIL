@@ -12,6 +12,7 @@
 #include <core/types/BasicTypes.h>
 #include <core/math/Matrix.h>
 #include <core/math/geometrics/Geometrics.h>
+#include <algorithms/state_estimators/GroundTrackingEKF.h>
 
 // Includes of ppal libraries
 #include <cassert>
@@ -23,8 +24,27 @@
 
 // Other includes
 
-
+// CONSTS
 const int PROGRAM_ID = 34;
+
+const double PERSPECTIVE_ANGLE = 45;
+const double CAM_WIDTH_PIX = 256;
+const double FOCAL_LENGHT = 1 / (2 * tan(PERSPECTIVE_ANGLE / 2) / CAM_WIDTH_PIX);
+const double U0 = 0;
+const double V0 = 0;
+
+const double arrayQ[16] = { 0.05, 0, 0, 0,
+							0, 0.05, 0, 0,
+							0, 0, 0.05, 0,
+							0, 0, 0, 0.05 };
+
+const double arrayR[4] = {	0.1, 0,
+							0, 0.1 };
+
+const double arrayX0[4] = { 8.0,//0, 
+							12.0,//0, 
+							0.0,//0, 
+							0.0 };//0);
 
 //---------------------------------------------------------------------------------------
 //------------------------------- Other defs --------------------------------------------
@@ -36,14 +56,15 @@ struct QuadFrameInFo{
 	BOViL::math::Matrix<double> mPos = BOViL::math::Matrix<double>(3, 1);
 	BOViL::math::Matrix<double> mOri = BOViL::math::Matrix<double>(3, 3);
 	double mFrameTime = -1;
+	bool updated = false;
 };
 
 //---------------------------------------------------------------------------------------
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
-void watchThreadFn(std::string _port, std::vector<QuadFrameInFo> &_quadsFrameInfo);
-void trackingThreadFn(std::vector<std::vector<std::string>> &_messages);
+void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo);
+void trackingThreadFn(QuadFrameInFo &_quadsFrameInfo);
 
 void clearConsole();
 
@@ -52,17 +73,14 @@ void clearConsole();
 //---------------------------------------------------------------------------------------
 int main(int _argc, char** _argv){
 	// Decode input arguments
-	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
-
-	// Message Container
-	std::vector<std::vector<std::string>> messages;
+	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);	
 	
 	// Start thread to watch connections
-	std::vector<QuadFrameInFo> quadsFrameInfo;
-	std::thread watchThread(watchThreadFn, hashMap["PORT"], std::ref(quadsFrameInfo));
+	QuadFrameInFo quadFrameInfo;
+	std::thread watchThread(watchThreadFn, hashMap["PORT"], std::ref(quadFrameInfo));
 
 	// Tracking
-	std::thread trackingThread(trackingThreadFn, std::ref(messages));
+	std::thread trackingThread(trackingThreadFn, std::ref(quadFrameInfo));
 
 
 	//	Interface With server
@@ -171,6 +189,7 @@ QuadFrameInFo decodeMessage(std::string _message){
 			break;
 		}
 		case 5:{
+				   quadFrameInfo.mObjectsCentroid.push_back(BOViL::Point2ui());
 			break;
 		}
 		}
@@ -178,11 +197,13 @@ QuadFrameInFo decodeMessage(std::string _message){
 		dataType++;
 	}
 
+	quadFrameInfo.updated = true;
+
 	return quadFrameInfo;
 }
 
 //---------------------------------------------------------------------------------------
-void watchThreadFn(std::string _port, std::vector<QuadFrameInFo> &_quadsFrameInfo){
+void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo){
 	std::mutex mutex;
 
 	BOViL::comm::ServerMultiThread server(_port);
@@ -207,7 +228,7 @@ void watchThreadFn(std::string _port, std::vector<QuadFrameInFo> &_quadsFrameInf
 					QuadFrameInFo quadFrameInfo =  decodeMessage(poolMessages[i]);
 
 					mutex.lock();
-					_quadsFrameInfo.push_back(quadFrameInfo);
+					_quadsFrameInfo = quadFrameInfo;
 					mutex.unlock();
 				}
 
@@ -217,9 +238,38 @@ void watchThreadFn(std::string _port, std::vector<QuadFrameInFo> &_quadsFrameInf
 }
 
 //---------------------------------------------------------------------------------------
-void trackingThreadFn(std::vector<std::vector<std::string>> &_messages){
-	while (1){
+void trackingThreadFn( QuadFrameInFo &_quadsFrameInfo){
+	std::mutex mutex;
+	QuadFrameInFo quadFrameInfo;
 
+	BOViL::math::Matrix<double> Q(arrayQ, 4, 4);
+	BOViL::math::Matrix<double> R(arrayR, 2, 2);
+	BOViL::math::Matrix<double> x0(arrayX0, 4, 1);
+	
+	BOViL::algorithms::GroundTrackingEKF ekf;
+
+	ekf.setUpEKF(Q, R, x0);
+	ekf.setUpCamera(FOCAL_LENGHT, U0, V0);
+	
+	double lastTime = 0.0;
+	while (1){
+		mutex.lock();
+		quadFrameInfo = _quadsFrameInfo;
+		mutex.unlock();
+
+		if (!quadFrameInfo.updated)
+			continue;
+		
+		double arrayZk[2] = { double(quadFrameInfo.mObjectsCentroid[0].x), double(quadFrameInfo.mObjectsCentroid[0].y) };
+
+		BOViL::math::Matrix<double> Zk(arrayZk, 2, 1);
+		
+		ekf.updateCamera(quadFrameInfo.mPos, quadFrameInfo.mOri, 0.0);
+		ekf.stepEKF(Zk, quadFrameInfo.mFrameTime - lastTime);
+
+		lastTime = quadFrameInfo.mFrameTime;
+
+		ekf.getStateVector().showMatrix();
 	}
 }
 
