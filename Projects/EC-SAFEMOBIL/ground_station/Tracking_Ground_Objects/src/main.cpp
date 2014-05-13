@@ -52,7 +52,7 @@ const double arrayX0[4] = { 8.0,//0,
 
 struct QuadFrameInFo{
 	int mQuadId = -1;
-	std::vector<BOViL::Point2ui> mObjectsCentroid;	// 666 TODO: dont dont dont like it... but... size? u.u
+	std::vector<BOViL::Point2d> mObjectsCentroid;	// 666 TODO: dont dont dont like it... but... size? u.u
 	BOViL::math::Matrix<double> mPos = BOViL::math::Matrix<double>(3, 1);
 	BOViL::math::Matrix<double> mOri = BOViL::math::Matrix<double>(3, 3);
 	double mFrameTime = -1;
@@ -152,7 +152,7 @@ QuadFrameInFo decodeMessage(std::string _message){
 	int pos = 0, lastPos = 0;
 	int dataType = 0;	// dataType 0 = program ; 1 = quad ID ; 4 = frameTime ;3 = quad position ; 4 = quad orientation; 5 = centroids
 	while ((pos = _message.find(";", pos + 1)) != std::string::npos){
-
+		
 		std::string substr = _message.substr(lastPos, pos - lastPos);
 
 		lastPos = pos + 1;
@@ -189,7 +189,9 @@ QuadFrameInFo decodeMessage(std::string _message){
 			break;
 		}
 		case 5:{
-				   quadFrameInfo.mObjectsCentroid.push_back(BOViL::Point2ui());
+				   quadFrameInfo.mObjectsCentroid.push_back(
+					   BOViL::Point2d(	double(atof(substr.substr(0, substr.find("-")).c_str())),
+										double(atof(substr.substr(substr.find("-") + 1, substr.length() - substr.find("-")).c_str()))));
 			break;
 		}
 		}
@@ -223,7 +225,7 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo){
 			if (conn != nullptr && conn->hasData()){
 				std::vector<std::string> poolMessages = conn->readData();
 				for (unsigned int i = 0; i < poolMessages.size(); i++){
-					inLog << poolMessages[i];
+					inLog << poolMessages[i] << std::endl;
 
 					QuadFrameInFo quadFrameInfo =  decodeMessage(poolMessages[i]);
 
@@ -238,7 +240,11 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo){
 }
 
 //---------------------------------------------------------------------------------------
-void trackingThreadFn( QuadFrameInFo &_quadsFrameInfo){
+void trackingThreadFn( QuadFrameInFo &_quadFrameInfo){
+	std::ofstream outLog("./out_log.txt");
+	if (!outLog.is_open())
+		assert(false);	// 666 TODO: do better
+	
 	std::mutex mutex;
 	QuadFrameInFo quadFrameInfo;
 
@@ -253,13 +259,15 @@ void trackingThreadFn( QuadFrameInFo &_quadsFrameInfo){
 	
 	double lastTime = 0.0;
 	while (1){
-		mutex.lock();
-		quadFrameInfo = _quadsFrameInfo;
-		mutex.unlock();
-
-		if (!quadFrameInfo.updated)
-			continue;
 		
+		if (!_quadFrameInfo.updated)
+			continue;
+
+		mutex.lock();
+		_quadFrameInfo.updated = false;
+		quadFrameInfo = _quadFrameInfo;
+		mutex.unlock();
+				
 		double arrayZk[2] = { double(quadFrameInfo.mObjectsCentroid[0].x), double(quadFrameInfo.mObjectsCentroid[0].y) };
 
 		BOViL::math::Matrix<double> Zk(arrayZk, 2, 1);
@@ -269,7 +277,11 @@ void trackingThreadFn( QuadFrameInFo &_quadsFrameInfo){
 
 		lastTime = quadFrameInfo.mFrameTime;
 
-		ekf.getStateVector().showMatrix();
+		BOViL::math::Matrix<double> stateVector = ekf.getStateVector();
+
+		outLog << stateVector(0, 0) << ", " << stateVector(1, 0) << std::endl; 
+		stateVector.showMatrix();
+		
 	}
 }
 
