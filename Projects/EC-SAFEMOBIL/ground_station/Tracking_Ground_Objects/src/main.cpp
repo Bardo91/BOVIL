@@ -29,20 +29,20 @@ const int PROGRAM_ID = 34;
 
 const double PERSPECTIVE_ANGLE = 45;
 const double CAM_WIDTH_PIX = 256;
-const double FOCAL_LENGHT = 1 / (2 * tan(PERSPECTIVE_ANGLE / 2) / CAM_WIDTH_PIX);
+const double FOCAL_LENGHT =  1 / (2 * tan(PERSPECTIVE_ANGLE / 2) / CAM_WIDTH_PIX);
 const double U0 = 0;
 const double V0 = 0;
 
-const double arrayQ[16] = { 0.05, 0, 0, 0,
-							0, 0.05, 0, 0,
-							0, 0, 0.05, 0,
-							0, 0, 0, 0.05 };
+const double arrayQ[16] = { 0.005, 0, 0, 0,
+							0, 0.005, 0, 0,
+							0, 0, 0.005, 0,
+							0, 0, 0, 0.005 };
 
-const double arrayR[4] = {	0.1, 0,
-							0, 0.1 };
+const double arrayR[4] = {	0.001, 0,
+							0, 0.001 };
 
-const double arrayX0[4] = { 8.0,//0, 
-							12.0,//0, 
+const double arrayX0[4] = { 0.0,//0, 
+							0.0,//0, 
 							0.0,//0, 
 							0.0 };//0);
 
