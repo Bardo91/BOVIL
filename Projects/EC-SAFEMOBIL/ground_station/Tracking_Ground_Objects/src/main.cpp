@@ -190,8 +190,8 @@ QuadFrameInFo decodeMessage(std::string _message){
 		}
 		case 5:{
 				   quadFrameInfo.mObjectsCentroid.push_back(
-					   BOViL::Point2d(	double(atof(substr.substr(0, substr.find("-")).c_str())),
-										double(atof(substr.substr(substr.find("-") + 1, substr.length() - substr.find("-")).c_str()))));
+					   BOViL::Point2d(	double(atof(substr.substr(0, substr.find("*")).c_str())),
+										double(atof(substr.substr(substr.find("*") + 1, substr.length() - substr.find("*")).c_str()))));
 			break;
 		}
 		}
