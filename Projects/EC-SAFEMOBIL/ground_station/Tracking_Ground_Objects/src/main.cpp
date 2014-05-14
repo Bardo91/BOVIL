@@ -272,14 +272,14 @@ void trackingThreadFn( QuadFrameInFo &_quadFrameInfo){
 
 		BOViL::math::Matrix<double> Zk(arrayZk, 2, 1);
 		
-		ekf.updateCamera(quadFrameInfo.mPos, quadFrameInfo.mOri, 0.0);
+		ekf.updateCamera(quadFrameInfo.mPos, quadFrameInfo.mOri, 0.05);
 		ekf.stepEKF(Zk, quadFrameInfo.mFrameTime - lastTime);
 
 		lastTime = quadFrameInfo.mFrameTime;
 
 		BOViL::math::Matrix<double> stateVector = ekf.getStateVector();
 
-		outLog << stateVector(0, 0) << ", " << stateVector(1, 0) << std::endl; 
+		outLog << stateVector(0, 0) << "\t" << stateVector(1, 0) << std::endl; 
 		stateVector.showMatrix();
 		
 	}
