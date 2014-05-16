@@ -51,11 +51,11 @@ const double arrayX0[4] = { 0.0,//0,
 //---------------------------------------------------------------------------------------
 
 struct QuadFrameInFo{
-	int mQuadId1 = -1;
-	std::vector<BOViL::Point2d> mObjectsCentroid1;	// 666 TODO: dont dont dont like it... but... size? u.u
-	BOViL::math::Matrix<double> mPos1 = BOViL::math::Matrix<double>(3, 1);
-	BOViL::math::Matrix<double> mOri1 = BOViL::math::Matrix<double>(3, 3);
-	double mFrameTime1 = -1;
+	int mQuadId = -1;
+	std::vector<BOViL::Point2d> mObjectsCentroid;	// 666 TODO: dont dont dont like it... but... size? u.u
+	BOViL::math::Matrix<double> mPos = BOViL::math::Matrix<double>(3, 1);
+	BOViL::math::Matrix<double> mOri = BOViL::math::Matrix<double>(3, 3);
+	double mFrameIncTime = -1;
 	bool updated = false;
 };
 
@@ -63,8 +63,8 @@ struct QuadFrameInFo{
 //-------------------------- Declaration of Functions -----------------------------------
 //---------------------------------------------------------------------------------------
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
-void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo);
-void trackingThreadFn(QuadFrameInFo &_quadsFrameInfo);
+void watchThreadFn(std::string _port, QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameInfo2);
+void trackingThreadFn(QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameInfo2);
 
 void clearConsole();
 
@@ -76,11 +76,11 @@ int main(int _argc, char** _argv){
 	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);	
 	
 	// Start thread to watch connections
-	QuadFrameInFo quadFrameInfo;
-	std::thread watchThread(watchThreadFn, hashMap["PORT"], std::ref(quadFrameInfo));
+	QuadFrameInFo quadFrameInfo1, quadFrameInfo2;
+	std::thread watchThread(watchThreadFn, hashMap["PORT"], std::ref(quadFrameInfo1), std::ref(quadFrameInfo2));
 
 	// Tracking
-	std::thread trackingThread(trackingThreadFn, std::ref(quadFrameInfo));
+	std::thread trackingThread(trackingThreadFn, std::ref(quadFrameInfo1), std::ref(quadFrameInfo2));
 
 
 	//	Interface With server
@@ -101,10 +101,13 @@ int main(int _argc, char** _argv){
 		case 1:{		// Request statistics
 			   clearConsole();
 			   mutex.lock();
-			   int frameTime = 0;
+			   int fps1 = 1 / quadFrameInfo1.mFrameIncTime;
+			   int fps2 = 1 / quadFrameInfo2.mFrameIncTime;
+			   mutex.unlock();
 
+			   std::cout << "--> Quadrotor 1 runs algorithm with fps = " << fps1 << std::endl;
+			   std::cout << "--> Quadrotor 2 runs algorithm with fps = " << fps2 << std::endl;
 
-			   std::cout << "" << std::endl;
 		}
 		case 2:
 			clearConsole();
@@ -171,7 +174,7 @@ QuadFrameInFo decodeMessage(std::string _message){
 			break;
 		}
 		case 2:{
-			quadFrameInfo.mFrameTime = atof(substr.c_str());
+			quadFrameInfo.mFrameIncTime = atof(substr.c_str());
 			break;
 		}
 		case 3:{
@@ -205,7 +208,7 @@ QuadFrameInFo decodeMessage(std::string _message){
 }
 
 //---------------------------------------------------------------------------------------
-void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo){
+void watchThreadFn(std::string _port, QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameInfo2){
 	std::mutex mutex;
 
 	BOViL::comm::ServerMultiThread server(_port);
@@ -223,30 +226,57 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadsFrameInfo){
 		for (int i = 0; i < noCon; i++){
 			BOViL::comm::AuxiliarServerThread *conn = server.getThread(i);
 			if (conn != nullptr && conn->hasData()){
+				
+				// Lets try a modification, only read last info received
+				//std::vector<std::string> poolMessages = conn->readData();
+				//for (unsigned int i = 0; i < poolMessages.size(); i++){
+				//	inLog << poolMessages[i] << std::endl;
+				//
+				//	QuadFrameInFo quadFrameInfo =  decodeMessage(poolMessages[i]);
+				//
+				//	if (quadFrameInfo.mQuadId == 1){
+				//		mutex.lock();
+				//		_quadsFrameInfo1 = quadFrameInfo;
+				//		mutex.unlock();
+				//	}
+				//	else if (quadFrameInfo.mQuadId == 2){
+				//		mutex.lock();
+				//		_quadsFrameInfo2 = quadFrameInfo;
+				//		mutex.unlock();
+				//	}
+				//}
+				//
+				// READ ONLY THE LAST MESSAGE
+
 				std::vector<std::string> poolMessages = conn->readData();
-				for (unsigned int i = 0; i < poolMessages.size(); i++){
-					inLog << poolMessages[i] << std::endl;
 
-					QuadFrameInFo quadFrameInfo =  decodeMessage(poolMessages[i]);
-
+				inLog << poolMessages[poolMessages.size()] << std::endl;
+				
+				QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size()]);
+				
+				if (quadFrameInfo.mQuadId == 1){
 					mutex.lock();
-					_quadsFrameInfo = quadFrameInfo;
+					_quadFrameInfo1 = quadFrameInfo;
 					mutex.unlock();
 				}
-
+				else if (quadFrameInfo.mQuadId == 2){
+					mutex.lock();
+					_quadFrameInfo2 = quadFrameInfo;
+					mutex.unlock();
+				}
 			}
 		}
 	}
 }
 
 //---------------------------------------------------------------------------------------
-void trackingThreadFn( QuadFrameInFo &_quadFrameInfo){
+void trackingThreadFn(QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameInfo2){
 	std::ofstream outLog("./out_log.txt");
 	if (!outLog.is_open())
 		assert(false);	// 666 TODO: do better
 	
 	std::mutex mutex;
-	QuadFrameInFo quadFrameInfo;
+	QuadFrameInFo quadFrameInfo1, quadFrameInfo2;
 
 	BOViL::math::Matrix<double> Q(arrayQ, 4, 4);
 	BOViL::math::Matrix<double> R(arrayR, 2, 2);
@@ -260,27 +290,37 @@ void trackingThreadFn( QuadFrameInFo &_quadFrameInfo){
 	double lastTime = 0.0;
 	while (1){
 		
-		//if (!_quadFrameInfo.updated)
-		//	continue;
-		//
-		//mutex.lock();
-		//_quadFrameInfo.updated = false;
-		//quadFrameInfo = _quadFrameInfo;
-		//mutex.unlock();
-		//		
-		//double arrayZk[2] = { double(quadFrameInfo.mObjectsCentroid[0].x), double(quadFrameInfo.mObjectsCentroid[0].y) };
-		//
-		//BOViL::math::Matrix<double> Zk(arrayZk, 2, 1);
-		//
-		//ekf.updateCamera(quadFrameInfo.mPos, quadFrameInfo.mOri, 0.05);
-		//ekf.stepEKF(Zk, quadFrameInfo.mFrameTime - lastTime);
-		//
-		//lastTime = quadFrameInfo.mFrameTime;
-		//
-		//BOViL::math::Matrix<double> stateVector = ekf.getStateVector();
-		//
-		//outLog << stateVector(0, 0) << "\t" << stateVector(1, 0) << std::endl; 
-		//stateVector.showMatrix();
+		if (!_quadFrameInfo1.updated || !_quadFrameInfo2.updated)
+			continue;
+		
+		mutex.lock();
+		_quadFrameInfo1.updated = false;
+		_quadFrameInfo2.updated = false;
+		quadFrameInfo1 = _quadFrameInfo1;
+		quadFrameInfo2 = _quadFrameInfo2;
+		mutex.unlock();
+			
+		// 666 TODO: Where is the matching???? now take first element of the list
+		double arrayZk[4] = {	double(quadFrameInfo1.mObjectsCentroid[0].x),
+								double(quadFrameInfo1.mObjectsCentroid[0].y), 
+								double(quadFrameInfo2.mObjectsCentroid[0].x),
+								double(quadFrameInfo2.mObjectsCentroid[0].y) };
+		
+		BOViL::math::Matrix<double> Zk(arrayZk, 4, 1);
+		
+		ekf.updateCameras(quadFrameInfo1.mPos, quadFrameInfo2.mPos, quadFrameInfo1.mOri, quadFrameInfo2.mOri);
+		
+		// 666 TODO: asegurarse que se envia el incremento de tiempo, no el tiempo en si.
+		double medTime = (quadFrameInfo1.mFrameIncTime + quadFrameInfo2.mFrameIncTime) / 2;
+		ekf.stepEKF(Zk, medTime - lastTime);	// 666 TODO Probar cual es el mejor tiempo???
+
+		
+		lastTime = medTime;
+		
+		BOViL::math::Matrix<double> stateVector = ekf.getStateVector();
+		
+		outLog << stateVector(0, 0) << "\t" << stateVector(1, 0) << std::endl; 
+		stateVector.showMatrix();
 		
 	}
 }
