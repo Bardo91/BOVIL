@@ -26,15 +26,20 @@
 #endif
 
 // General information about the plugins implemented in the code
-const int filterCount=2; // Number of filters coded in this pluging
-int filterID[filterCount]={-1, -2}; // Filters with negative IDs won't have a dialog or special triggering conditions (negative IDs for simple filters!)
+const int filterCount=4; // Number of filters coded in this pluging
+int filterID[filterCount]={-1, -2, -3, -4}; // Filters with negative IDs won't have a dialog or special triggering conditions (negative IDs for simple filters!)
 // Header ID (DEVELOPER_DATA_HEADER), filterIDs and parameter values of a filter are serialized!! (don't change at will!)
 int nextFilterEnum=0; // used during enumeration
 char* filterName[filterCount]={ "ESI-PabloRamonSoria:	Simple Red Segmentation",
-								"ESI-PabloRamonSoria:	Color Cluster Segmentation"}; // Names of filters
+								"ESI-PabloRamonSoria:	Color Cluster Segmentation",
+								"ESI-PabloRamonSoria:	CCS for quad 1", 
+								"ESI-PabloRamonSoria:	CCS for quad 2" }; // Names of filters
 
 // Main functions of the V-REP plugins DLL
 LIBRARY vrepLib;
+
+// -----------   OTHER FUNCTIONS -----------------------------------------------
+void CCS4quad(const std::string &_quadName, float *_workImage, int _width, int _height);
 
 VREP_DLLEXPORT unsigned char v_repStart(void* reservedPointer,int reservedInt)
 { // This is called just once, at the start of V-REP.
@@ -101,6 +106,8 @@ VREP_DLLEXPORT void v_repEnd()
 
 VREP_DLLEXPORT void* v_repMessage(int message,int* auxiliaryData,void* customData,int* replyData)
 { // This is called quite often. Just watch out for messages/events you want to handle
+	const std::string quadName1 = "Quad1";
+	const std::string quadName2 = "Quad2";
 
 	// This function should not generate any error messages:
 	int errorModeSaved;
@@ -161,60 +168,19 @@ VREP_DLLEXPORT void* v_repMessage(int message,int* auxiliaryData,void* customDat
 
 			//-------------------------------------------------------------------------
 			else if (auxiliaryData[1]==-2) { // Filter: Color Cluster Segmentation
-	
-				// 666 TODO: displayear de alguna forma para luego hacer el EKF.
-				std::vector<BOViL::ImageObject> objects;
-				
-
-				// 666 TODO: está recibiendo  todo vacío
-				BOViL::algorithms::ColorClustering<float>(	workImage,
-															res[0], 
-															res[1], 
-															10, 
-															objects, 
-															[](float *_a, float *_b, float *_c){	if(*_a > 0.705f && *_b < 0.32f && *_c < 0.32f){
-																										*_a = 1.0f;
-																										*_b = 0;
-																										*_c = 0;
-																										return 4;
-																									} else{
-																										*_a = 0;
-																										*_b = 0;
-																										*_c = 0;
-																										return -1;
-																									}
-																									});
-
-
-				simInt myHandle = simGetObjectAssociatedWithScript(sim_handle_self);
-				simChar* name = simGetObjectName(myHandle);
-
-				simClearStringSignal(name);
-
-				for(unsigned int i = 0 ; i < objects.size() ; i ++){ /// 666 TODO: solo va  a funcionar con un objecto, revisar
-					//std::cout << "(x, y) == (" << objects[i].getCentroid().x << ", " << objects[i].getCentroid().y << ")" << std::endl;
-					
-					std::stringstream ss;
-					ss << objects[i].getCentroid().x << "*" << objects[i].getCentroid().y;
-					
-					std::string msg = ss.str();
-					simInt quadHandle = 0;
-					quadHandle = simGetObjectHandle("Quadricopter");
-					
-					std::cout << "QuadHandle: " << quadHandle << " ; name: " << name << " ; message: " << msg << std::endl;
-
-					//int result = simAddObjectCustomData(quadHandle, DEVELOPER_DATA_HEADER, msg.c_str(), msg.size());
-					int result = simSetStringSignal(name, msg.c_str(), msg.size());
-
-					if(result == -1)
-						std::cout << "ERROR CUSTOM DATA" << std::endl;
-					
-					
-					
-
-				}
+				CCS4quad(quadName1, workImage, res[0], res[1]);
 			}	// COLOR CLUSTER SEGMENTATION
 			
+			//-------------------------------------------------------------------------
+			else if (auxiliaryData[1] == -3) { // Filter: Color Cluster Segmentation
+				CCS4quad(quadName1, workImage, res[0], res[1]);
+			}	// COLOR CLUSTER SEGMENTATION
+
+			//-------------------------------------------------------------------------
+			else if (auxiliaryData[1] == -4) { // Filter: Color Cluster Segmentation
+				CCS4quad(quadName2, workImage, res[0], res[1]);
+			}	// COLOR CLUSTER SEGMENTATION
+
 			//-------------------------------------------------------------------------
 
 			// We return auxiliary information that resulted from the image processing (that could be a vector, a direction, or other filter specific data)
@@ -232,4 +198,61 @@ VREP_DLLEXPORT void* v_repMessage(int message,int* auxiliaryData,void* customDat
 
 	simSetIntegerParameter(sim_intparam_error_report_mode,errorModeSaved); // restore previous settings
 	return(retVal);
+}
+
+
+//---------------------------------------------------------------------------------------
+void CCS4quad(const std::string &_quadName, float *_workImage, int _width, int _height){
+
+
+	// 666 TODO: displayear de alguna forma para luego hacer el EKF.
+	std::vector<BOViL::ImageObject> objects;
+
+
+	// 666 TODO: está recibiendo  todo vacío
+	BOViL::algorithms::ColorClustering<float>(_workImage,
+		_width,
+		_height,
+		10,
+		objects,
+		[](float *_a, float *_b, float *_c){	if (*_a > 0.705f && *_b < 0.32f && *_c < 0.32f){
+		*_a = 1.0f;
+		*_b = 0;
+		*_c = 0;
+		return 4;
+	}
+		else{
+			*_a = 0;
+			*_b = 0;
+			*_c = 0;
+			return -1;
+		}
+	});
+
+
+	simClearStringSignal(_quadName.c_str());
+
+	for (unsigned int i = 0; i < objects.size(); i++){ /// 666 TODO: solo va  a funcionar con un objecto, revisar
+		//std::cout << "(x, y) == (" << objects[i].getCentroid().x << ", " << objects[i].getCentroid().y << ")" << std::endl;
+
+		std::stringstream ss;
+		ss << objects[i].getCentroid().x << "*" << objects[i].getCentroid().y;
+
+		std::string msg = ss.str();
+		simInt quadHandle = 0;
+		quadHandle = simGetObjectHandle("Quadricopter");
+
+		std::cout << "QuadHandle: " << quadHandle << " ; name: " << _quadName.c_str() << " ; message: " << msg << std::endl;
+
+		//int result = simAddObjectCustomData(quadHandle, DEVELOPER_DATA_HEADER, msg.c_str(), msg.size());
+		int result = simSetStringSignal(_quadName.c_str(), msg.c_str(), msg.size());
+
+		if (result == -1)
+			std::cout << "ERROR CUSTOM DATA" << std::endl;
+
+
+
+
+	}
+
 }
