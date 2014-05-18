@@ -37,7 +37,7 @@ void testSegmentation(){
 	///////////////////////////////////////////////////
 	std::ofstream outFile;
 	std::string pathName;
-	pathName = "C:/outputs/outputFileNew";
+	pathName = "./outputFile_StereoTracking.txt";
 	outFile.open(pathName.c_str());
 	///////////////////////////////////////////////////
 
