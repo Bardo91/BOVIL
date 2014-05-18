@@ -33,18 +33,24 @@ const double FOCAL_LENGHT =  1 / (2 * tan(PERSPECTIVE_ANGLE / 2) / CAM_WIDTH_PIX
 const double U0 = 256 / 2;
 const double V0 = 256 / 2;
 
-const double arrayQ[16] = { 0.05, 0, 0, 0,
-							0, 0.05, 0, 0,
-							0, 0, 0.05, 0,
-							0, 0, 0, 0.05 };
+const double arrayQ[36] = { 0.05, 0, 0, 0, 0, 0,
+							0, 0.05, 0, 0, 0, 0,
+							0, 0, 0.05, 0, 0, 0, 
+							0, 0, 0, 0.05, 0, 0,
+							0, 0, 0, 0, 0.05, 0,
+							0, 0, 0, 0, 0, 0.05};
 
-const double arrayR[4] = {	0.1, 0,
-							0, 0.1 };
+const double arrayR[16] = {	0.1, 0, 0, 0,
+							0, 0.1, 0, 0,
+							0, 0, 0.1, 0,
+							0, 0, 0, 0.1};
 
-const double arrayX0[4] = { 0.0,//0, 
+const double arrayX0[6] = { 0.0,//0, 
 							0.0,//0, 
 							0.0,//0, 
-							0.0 };//0);
+							0.0,
+							0.0,
+							0.0};//0);
 
 //---------------------------------------------------------------------------------------
 //------------------------------- Other defs --------------------------------------------
@@ -214,8 +220,9 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadFrameInfo1, QuadFrameI
 	BOViL::comm::ServerMultiThread server(_port);
 
 	// inputlog
-	std::ofstream inLog("./in_log.txt");
-	if (!inLog.is_open())
+	std::ofstream inLog1("./in_log_quad1.txt");
+	std::ofstream inLog2("./in_log_quad2.txt");
+	if (!inLog1.is_open() || !inLog2.is_open())
 		assert(false);	// 666 TODO: do better
 
 	while (1){
@@ -250,10 +257,14 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadFrameInfo1, QuadFrameI
 
 				std::vector<std::string> poolMessages = conn->readData();
 
-				inLog << poolMessages[poolMessages.size()] << std::endl;
+				QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size() - 1]);
 				
-				QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size()]);
-				
+				if (quadFrameInfo.mQuadId == 1)
+					inLog1 << poolMessages[poolMessages.size() - 1] << std::endl;
+				else if (quadFrameInfo.mQuadId == 2)
+					inLog2 << poolMessages[poolMessages.size() - 1] << std::endl;
+
+
 				if (quadFrameInfo.mQuadId == 1){
 					mutex.lock();
 					_quadFrameInfo1 = quadFrameInfo;
@@ -278,9 +289,9 @@ void trackingThreadFn(QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameI
 	std::mutex mutex;
 	QuadFrameInFo quadFrameInfo1, quadFrameInfo2;
 
-	BOViL::math::Matrix<double> Q(arrayQ, 4, 4);
-	BOViL::math::Matrix<double> R(arrayR, 2, 2);
-	BOViL::math::Matrix<double> x0(arrayX0, 4, 1);
+	BOViL::math::Matrix<double> Q(arrayQ, 6, 6);
+	BOViL::math::Matrix<double> R(arrayR, 4, 4);
+	BOViL::math::Matrix<double> x0(arrayX0, 6, 1);
 	
 	BOViL::algorithms::StereoVisionEKF ekf;
 
@@ -319,7 +330,7 @@ void trackingThreadFn(QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameI
 		
 		BOViL::math::Matrix<double> stateVector = ekf.getStateVector();
 		
-		outLog << stateVector(0, 0) << "\t" << stateVector(1, 0) << std::endl; 
+		outLog << stateVector(0, 0) << "\t" << stateVector(1, 0) << "\t" << stateVector(2, 0) << std::endl;
 		stateVector.showMatrix();
 		
 	}
