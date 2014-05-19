@@ -110,8 +110,8 @@ int main(int _argc, char** _argv){
 		case 1:{		// Request statistics
 			   clearConsole();
 			   mutex.lock();
-			   int fps1 = 1 / quadFrameInfo1.mFrameIncTime;
-			   int fps2 = 1 / quadFrameInfo2.mFrameIncTime;
+			   double fps1 = 1 / quadFrameInfo1.mFrameIncTime;
+			   double fps2 = 1 / quadFrameInfo2.mFrameIncTime;
 			   mutex.unlock();
 
 			   std::cout << "--> Quadrotor 1 runs algorithm with fps = " << fps1 << std::endl;
@@ -158,6 +158,16 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 
 
 //---------------------------------------------------------------------------------------
+void addPointRecursive(std::vector<BOViL::Point2d> _points, std::string _str){
+	int i = _str.find(",");
+	_points.push_back(	BOViL::Point2d(	atof(_str.substr(0, _str.find("*")).c_str()),
+										atof(_str.substr(_str.find("*"), i - _str.find("*")).c_str())));
+	if (i != std::string::npos){
+		addPointRecursive(_points, _str.substr(i, _str.length() - i));
+	}
+}
+
+//---------------------------------------------------------------------------------------
 QuadFrameInFo decodeMessage(std::string _message){
 	QuadFrameInFo quadFrameInfo;
 
@@ -194,16 +204,16 @@ QuadFrameInFo decodeMessage(std::string _message){
 			break;
 		}
 		case 4:{
-				   quadFrameInfo.mOri = BOViL::math::createRotationMatrixEuler(
+			quadFrameInfo.mOri = BOViL::math::createRotationMatrixEuler(
 					   double(atof(substr.substr(0, substr.find(",")).c_str())),
 					   double(atof(substr.substr(substr.find(",") + 1, substr.find_last_of(",") - substr.find(",") - 1).c_str())),
 					   double(atof(substr.substr(substr.find_last_of(",") + 1, substr.length()).c_str())));
 			break;
 		}
 		case 5:{
-				   quadFrameInfo.mObjectsCentroid.push_back(
-					   BOViL::Point2d(	double(atof(substr.substr(0, substr.find("*")).c_str())),
-										double(atof(substr.substr(substr.find("*") + 1, substr.length() - substr.find("*")).c_str()))));
+			addPointRecursive(quadFrameInfo.mObjectsCentroid, substr);
+			//quadFrameInfo.mObjectsCentroid.push_back( BOViL::Point2d(	double(atof(substr.substr(0, substr.find("*")).c_str())),
+			//															double(atof(substr.substr(substr.find("*") + 1, substr.length() - substr.find("*")).c_str()))));
 			break;
 		}
 		}
@@ -236,43 +246,30 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadFrameInfo1, QuadFrameI
 		for (int i = 0; i < noCon; i++){
 			BOViL::comm::AuxiliarServerThread *conn = server.getThread(i);
 			if (conn != nullptr && conn->hasData()){
-				
-				
-				
-
-				//----------------------------------------------------------------------------------------------
-				// Read all messages
-				//----------------------------------------------------------------------------------------------
-				std::vector<std::string> poolMessages = conn->readData();
-				std::vector<QuadFrameInFo> poolQuadFrameInfo;
-				for (unsigned int i = 0; i < poolMessages.size(); i++){
-					poolQuadFrameInfo.push_back(decodeMessage(poolMessages[i]));
-				}
-
-
+			
 				//----------------------------------------------------------------------------------------------
 				// Lets try a modification, only read last info received
 				//----------------------------------------------------------------------------------------------
-				//std::vector<std::string> poolMessages = conn->readData();
-				//
-				//QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size() - 1]);
-				//
-				//if (quadFrameInfo.mQuadId == 1)
-				//	inLog1 << poolMessages[poolMessages.size() - 1] << std::endl;
-				//else if (quadFrameInfo.mQuadId == 2)
-				//	inLog2 << poolMessages[poolMessages.size() - 1] << std::endl;
-				//
-				//
-				//if (quadFrameInfo.mQuadId == 1){
-				//	mutex.lock();
-				//	_quadFrameInfo1 = quadFrameInfo;
-				//	mutex.unlock();
-				//}
-				//else if (quadFrameInfo.mQuadId == 2){
-				//	mutex.lock();
-				//	_quadFrameInfo2 = quadFrameInfo;
-				//	mutex.unlock();
-				//}
+				std::vector<std::string> poolMessages = conn->readData();
+				
+				QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size() - 1]);
+				
+				if (quadFrameInfo.mQuadId == 1)
+					inLog1 << poolMessages[poolMessages.size() - 1] << std::endl;
+				else if (quadFrameInfo.mQuadId == 2)
+					inLog2 << poolMessages[poolMessages.size() - 1] << std::endl;
+				
+				
+				if (quadFrameInfo.mQuadId == 1){
+					mutex.lock();
+					_quadFrameInfo1 = quadFrameInfo;
+					mutex.unlock();
+				}
+				else if (quadFrameInfo.mQuadId == 2){
+					mutex.lock();
+					_quadFrameInfo2 = quadFrameInfo;
+					mutex.unlock();
+				}
 			}
 		}
 	}

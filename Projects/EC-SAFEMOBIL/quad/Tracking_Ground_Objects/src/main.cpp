@@ -249,7 +249,7 @@ void communicationThreadFn(std::vector<BOViL::ImageObject> &_objects, std::strin
 		ssMsg << "{00;01";
 
 		for (unsigned int i = 0; i < objects.size(); i++){
-			ssMsg << objects[i].getCentroid().x << "," << objects[i].getCentroid().y << "-";
+			ssMsg << objects[i].getCentroid().x << "," << objects[i].getCentroid().y << "*";
 		}
 
 		ssMsg << ";00}" << std::endl;
