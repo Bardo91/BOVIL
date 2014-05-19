@@ -14,8 +14,8 @@ double minDist2Lines(BOViL::math::Matrix<double> _c1,
 	BOViL::math::Matrix<double> _c2,
 	BOViL::math::Matrix<double> _r1,
 	BOViL::math::Matrix<double> _r2,
-	BOViL::Point2ui _p1,
-	BOViL::Point2ui _p2,
+	BOViL::Point2d _p1,
+	BOViL::Point2d _p2,
 	double _focalLenght){
 
 	// Direction of lines in camera's coordinates.

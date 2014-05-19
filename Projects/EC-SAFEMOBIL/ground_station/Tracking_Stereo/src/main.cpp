@@ -158,12 +158,12 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
 
 
 //---------------------------------------------------------------------------------------
-void addPointRecursive(std::vector<BOViL::Point2d> _points, std::string _str){
+void addPointRecursive(std::vector<BOViL::Point2d> &_points, std::string _str){
 	int i = _str.find(",");
 	_points.push_back(	BOViL::Point2d(	atof(_str.substr(0, _str.find("*")).c_str()),
-										atof(_str.substr(_str.find("*"), i - _str.find("*")).c_str())));
+										atof(_str.substr(_str.find("*") + 1, (i!=-1?i:_str.length()) - _str.find("*")).c_str())));
 	if (i != std::string::npos){
-		addPointRecursive(_points, _str.substr(i, _str.length() - i));
+		addPointRecursive(_points, _str.substr(i + 1, _str.length() - i + 1));
 	}
 }
 
@@ -307,10 +307,39 @@ void trackingThreadFn(QuadFrameInFo &_quadFrameInfo1, QuadFrameInFo &_quadFrameI
 		mutex.unlock();
 			
 		// 666 TODO: Where is the matching???? now take first element of the list
-		double arrayZk[4] = {	double(quadFrameInfo1.mObjectsCentroid[0].x),
-								double(quadFrameInfo1.mObjectsCentroid[0].y), 
-								double(quadFrameInfo2.mObjectsCentroid[0].x),
-								double(quadFrameInfo2.mObjectsCentroid[0].y) };
+		//double arrayZk[4] = {	double(quadFrameInfo1.mObjectsCentroid[0].x),
+		//						double(quadFrameInfo1.mObjectsCentroid[0].y), 
+		//						double(quadFrameInfo2.mObjectsCentroid[0].x),
+		//						double(quadFrameInfo2.mObjectsCentroid[0].y) };
+
+		// ---- Matching.... Miediito 666 TODO: analizar con el profiling.
+		std::vector<BOViL::Point2ui> pairs;
+		for (unsigned int i = 0; i < quadFrameInfo1.mObjectsCentroid.size(); i++){
+			double minDist = 9999999999999;
+			int minJ = 0;
+			for (unsigned int j = 0; j < quadFrameInfo2.mObjectsCentroid.size(); j++){
+				double dist = minDist2Lines(	quadFrameInfo1.mPos,
+												quadFrameInfo2.mPos,
+												quadFrameInfo1.mOri,
+												quadFrameInfo2.mOri,
+												quadFrameInfo1.mObjectsCentroid[i],
+												quadFrameInfo2.mObjectsCentroid[j],
+												FOCAL_LENGHT);
+				if (dist < minDist){
+					minDist = dist;
+					minJ = j;
+				}
+			}
+			pairs.push_back(BOViL::Point2ui(i, minJ));
+		}
+
+		double arrayZk[4] = {	double(quadFrameInfo1.mObjectsCentroid[pairs[0].x].x),
+								double(quadFrameInfo1.mObjectsCentroid[pairs[0].x].y), 
+								double(quadFrameInfo2.mObjectsCentroid[pairs[0].y].x),
+								double(quadFrameInfo2.mObjectsCentroid[pairs[0].y].y) };
+
+		
+		// ------------------------------------------------------------------------------------------
 		
 		BOViL::math::Matrix<double> Zk(arrayZk, 4, 1);
 		
