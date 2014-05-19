@@ -287,6 +287,9 @@ namespace BOViL{
 		//------------------------------------------------------------------------------
 		template<typename type_>
 		double Matrix<type_>::norm(){		// 666 TODO: only true if vector, if not, is not max norm
+			if (mRows != 1 && mCols != 1)
+				assert(false);	// check dimensions
+
 			int size = mRows > mCols ? mRows : mCols;
 
 			double norm = 0;

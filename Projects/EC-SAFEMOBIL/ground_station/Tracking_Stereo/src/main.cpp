@@ -14,6 +14,9 @@
 #include <core/math/geometrics/Geometrics.h>
 #include <algorithms/state_estimators/StereoVisionEKF.h>
 
+#include "MathGeometrics.h"
+
+
 // Includes of ppal libraries
 #include <cassert>
 #include <iostream>
@@ -234,47 +237,42 @@ void watchThreadFn(std::string _port, QuadFrameInFo &_quadFrameInfo1, QuadFrameI
 			BOViL::comm::AuxiliarServerThread *conn = server.getThread(i);
 			if (conn != nullptr && conn->hasData()){
 				
-				// Lets try a modification, only read last info received
-				//std::vector<std::string> poolMessages = conn->readData();
-				//for (unsigned int i = 0; i < poolMessages.size(); i++){
-				//	inLog << poolMessages[i] << std::endl;
-				//
-				//	QuadFrameInFo quadFrameInfo =  decodeMessage(poolMessages[i]);
-				//
-				//	if (quadFrameInfo.mQuadId == 1){
-				//		mutex.lock();
-				//		_quadsFrameInfo1 = quadFrameInfo;
-				//		mutex.unlock();
-				//	}
-				//	else if (quadFrameInfo.mQuadId == 2){
-				//		mutex.lock();
-				//		_quadsFrameInfo2 = quadFrameInfo;
-				//		mutex.unlock();
-				//	}
-				//}
-				//
-				// READ ONLY THE LAST MESSAGE
-
-				std::vector<std::string> poolMessages = conn->readData();
-
-				QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size() - 1]);
 				
-				if (quadFrameInfo.mQuadId == 1)
-					inLog1 << poolMessages[poolMessages.size() - 1] << std::endl;
-				else if (quadFrameInfo.mQuadId == 2)
-					inLog2 << poolMessages[poolMessages.size() - 1] << std::endl;
+				
+
+				//----------------------------------------------------------------------------------------------
+				// Read all messages
+				//----------------------------------------------------------------------------------------------
+				std::vector<std::string> poolMessages = conn->readData();
+				std::vector<QuadFrameInFo> poolQuadFrameInfo;
+				for (unsigned int i = 0; i < poolMessages.size(); i++){
+					poolQuadFrameInfo.push_back(decodeMessage(poolMessages[i]));
+				}
 
 
-				if (quadFrameInfo.mQuadId == 1){
-					mutex.lock();
-					_quadFrameInfo1 = quadFrameInfo;
-					mutex.unlock();
-				}
-				else if (quadFrameInfo.mQuadId == 2){
-					mutex.lock();
-					_quadFrameInfo2 = quadFrameInfo;
-					mutex.unlock();
-				}
+				//----------------------------------------------------------------------------------------------
+				// Lets try a modification, only read last info received
+				//----------------------------------------------------------------------------------------------
+				//std::vector<std::string> poolMessages = conn->readData();
+				//
+				//QuadFrameInFo quadFrameInfo = decodeMessage(poolMessages[poolMessages.size() - 1]);
+				//
+				//if (quadFrameInfo.mQuadId == 1)
+				//	inLog1 << poolMessages[poolMessages.size() - 1] << std::endl;
+				//else if (quadFrameInfo.mQuadId == 2)
+				//	inLog2 << poolMessages[poolMessages.size() - 1] << std::endl;
+				//
+				//
+				//if (quadFrameInfo.mQuadId == 1){
+				//	mutex.lock();
+				//	_quadFrameInfo1 = quadFrameInfo;
+				//	mutex.unlock();
+				//}
+				//else if (quadFrameInfo.mQuadId == 2){
+				//	mutex.lock();
+				//	_quadFrameInfo2 = quadFrameInfo;
+				//	mutex.unlock();
+				//}
 			}
 		}
 	}
