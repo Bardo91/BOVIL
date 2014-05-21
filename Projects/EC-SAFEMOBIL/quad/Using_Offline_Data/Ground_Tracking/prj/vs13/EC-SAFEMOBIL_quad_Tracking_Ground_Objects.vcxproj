@@ -43,11 +43,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\3rdParty\opencv\build\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\3rdParty\opencv\build\x86\vc12\lib;C:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\3rdParty\opencv\build\x86\vc12\lib;C:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Using_Offline_Data\Ground_Tracking\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\3rdParty\opencv\build\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Tracking_Ground_Objects\prj\vs13\Release;C:\3rdParty\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Programming\BOVIL\Projects\EC-SAFEMOBIL\quad\Using_Offline_Data\Ground_Tracking\prj\vs13\Release;C:\3rdParty\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

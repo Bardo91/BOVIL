@@ -51,7 +51,8 @@ struct QuadFrameInFo{
 	double mPos[3];
 	double mOri[3];
 	double mFrameIncTime = -1;
-	bool updated = false;
+	bool newPoints = true;
+	bool sended = true;
 };
 
 //---------------------------------------------------------------------------------------
@@ -81,7 +82,9 @@ int main(int _argc, char** _argv){
 	// Get Camera information from the arguments
 	CameraInfo camInfo(	BOViL::Point2i(atoi(hashMap["WIDTH"].c_str()), atoi(hashMap["HEIGHT"].c_str())),
 						atof(hashMap["FL"].c_str()),
-						BOViL::Point2d(atof(hashMap["U0"].c_str()), atof(hashMap["V0"].c_str())));
+						BOViL::Point2d(
+								double(atof(hashMap["U0"].c_str())), 
+								double(atof(hashMap["V0"].c_str()))));
 
 	// OpenCV image in the main thread
 	cv::Mat bufferImage;
@@ -89,8 +92,8 @@ int main(int _argc, char** _argv){
 
 	// Start threads
 	std::thread imageAcquisitionThread(acquisitionThreadFn, std::ref(bufferImage), std::ref(imagePath), std::ref(dataPath), std::ref(quadFrameInfo));
-	std::thread segmentationThread(segmentationThreadFn, std::ref(quadFrameInfo));
-	std::thread communicationThread(communicationThreadFn, std::ref(objects), hashMap["IP"], hashMap["PORT"], std::ref(quadFrameInfo));
+	std::thread segmentationThread(segmentationThreadFn, std::ref(bufferImage), std::ref(quadFrameInfo));
+	std::thread communicationThread(communicationThreadFn, hashMap["IP"], hashMap["PORT"], std::ref(quadFrameInfo));
 	
 	bool visualize = false;
 	std::thread visualizationThread(visualizationThreadFn, std::ref(bufferImage), std::ref(visualize));
@@ -211,8 +214,11 @@ void acquisitionThreadFn(cv::Mat &_bufferImage, std::string &_imgPath, std::stri
 
 	while (running){		// 666 TODO: whats about global variable or someway to control the exeution
 		
+		if (!_quadFrameInfo.newPoints)
+			continue;
+
 		std::stringstream ss;
-		ss << _imgPath << "\img" << imgIndex << "_cam" << quadID << ".jpg";
+		ss << _imgPath << "img" << imgIndex << "_cam" << quadID << ".jpg";
 
 		inputImage = cv::imread(ss.str());
 
@@ -234,7 +240,15 @@ void acquisitionThreadFn(cv::Mat &_bufferImage, std::string &_imgPath, std::stri
 		_quadFrameInfo.mFrameIncTime = inputBuffer[0] - lastTime;
 		mutex.unlock();
 
+		mutex.lock();
+		_quadFrameInfo.newPoints = false;
+		mutex.unlock();
+
 		lastTime = inputBuffer[0];
+		
+		//std::cout << lastTime << std::endl;
+
+		imgIndex++;
 
 		cv::waitKey(1);
 	}
@@ -254,8 +268,15 @@ void segmentationThreadFn(cv::Mat &_image, QuadFrameInFo &_quadFrameInfo){
 	std::string windowsName = "Testing";		// 666 TODO: erase
 
 	while (running) {		// 666 TODO: whats about global variable or someway to control the exeution
+		if (!_quadFrameInfo.sended)
+			continue;
+
+		if (_quadFrameInfo.newPoints)
+			continue;
+
 		mutex.lock();
 		_image.copyTo(image);
+		_quadFrameInfo.newPoints = true;
 		mutex.unlock();
 
 		//std::cout << "Segmento imagen \n";
@@ -293,7 +314,12 @@ void segmentationThreadFn(cv::Mat &_image, QuadFrameInFo &_quadFrameInfo){
 				mutex.unlock();
 			}
 
+			mutex.lock();
+			_quadFrameInfo.sended = false;
+			mutex.lock();
+
 		}
+
 
 		cv::waitKey(1);
 	}
@@ -316,6 +342,9 @@ void communicationThreadFn(std::string _ip, std::string _port, QuadFrameInFo &_q
 	BOViL::comm::ClientSocket client(_ip, _port);
 
 	while (running){
+		if (_quadFrameInfo.sended)
+			continue;
+
 		mutex.lock();
 		centroids = _quadFrameInfo.mObjectsCentroid;
 		mutex.unlock();
@@ -326,7 +355,7 @@ void communicationThreadFn(std::string _ip, std::string _port, QuadFrameInFo &_q
 		if (centroids.size() == 0)
 			continue;
 
-		ssMsg << "{00;01;" << _quadFrameInfo.mFrameIncTime << ";0*0,";
+		ssMsg << "{34;01;" << _quadFrameInfo.mFrameIncTime << ";0*0";
 
 		for (unsigned int i = 0; i < centroids.size(); i++){
 			ssMsg << "," << centroids[i].x << "*" << centroids[i].y ;
@@ -337,6 +366,10 @@ void communicationThreadFn(std::string _ip, std::string _port, QuadFrameInFo &_q
 		int msgSize = ssMsg.str().length();
 
 		client.sendData(ssMsg.str());
+
+		mutex.lock();
+		_quadFrameInfo.sended = true;
+		mutex.unlock();
 
 		outLog << ssMsg.str();
 
