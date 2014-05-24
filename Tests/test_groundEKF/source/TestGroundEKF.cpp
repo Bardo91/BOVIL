@@ -116,9 +116,7 @@ void testSegmentation(){
 															objects,		// Output Objects
 															*cs);			// Segmentation function 
 
-		t1 = time->getTime();
-		double fps = 1/(t1-t0);
-		std::cout << fps << " fps" << std::endl;
+		
 		std::cout << "Number of detected Objects1 in the scene: " << objects.size() << std::endl;
 
 		// ----------------- TRACKING ALGORITHM ------------------------
@@ -149,6 +147,10 @@ void testSegmentation(){
 		lastTime = inputBuffer[0];
 
 		BOViL::math::Matrix<double> state = groundEKF.getStateVector();
+
+		t1 = time->getTime();
+		double fps = 1 / (t1 - t0);
+		std::cout << fps << " fps" << std::endl;
 
 		state.showMatrix();
 		
