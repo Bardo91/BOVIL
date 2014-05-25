@@ -19,9 +19,16 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		class GroundTrackingEKF : public ExtendedKalmanFilter{
 		public:
+			// In this EKF the observed state is compoud by two integers that are the pixel's X & Y of the targeting object
+			// Make sure that the image has the origin (0,0) at the top on the left. If not, a transformation is necessary. 
+			// Another assumtion is that the Z coordinate of the camera is upfront and the X edge has the same orientation
+			// of the X edge of the image (X_c == X_img).
+			
+			// Set camera's parameters
 			void setUpCamera(double _focalLenght, double _u0, double _v0);
 
-			void updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori, double _groundAltitude);
+			// Update camera's position and orientation. An additional parameter is the altitude of the target.
+			void updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori, double _groundAltitude = 0);
 
 		private:
 			void updateJf(const double _incT);

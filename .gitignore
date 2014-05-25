@@ -186,3 +186,5 @@
 /Projects/EC-SAFEMOBIL/quad/Using_Offline_Data/Ground_Tracking/prj/vs13/*.sdf
 /Projects/EC-SAFEMOBIL/quad/Using_Offline_Data/Ground_Tracking/prj/vs13/*.suo
 /Projects/EC-SAFEMOBIL/quad/Using_Offline_Data/Ground_Tracking/prj/vs13/*.user
+/Tests/test_groundEKF/prj/vs13/outputFile_GroundTracking.txt
+/Tests/test_segmentation/prj/vs13/outputFile_StereoTracking.txt

@@ -32,50 +32,49 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJf(const double _incT){
 			double arrayJf[16] = {	1,	0,	_incT,	0,
-										0,	1,	0,		_incT,
-										0,	0,	1,		0,
-										0,	0,	0,		1};
+									0,	1,	0,		_incT,
+									0,	0,	1,		0,
+									0,	0,	0,		1};
 
 			mJf = math::Matrix<double>(arrayJf, 4, 4);
 
 		}
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateHZk(){
+			// Calculate the estimated position of the system in global coordinates
 			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
-
 			math::Matrix<double> cPoint(cPointArray, 3, 1);
 
+			// Point related to camera's coordinate
 			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
 
-			Point2d cc(mU0, mV0);
-
-			double * hzkdata = mHZk.getMatrixPtr();
-
-			hzkdata[0] = cc.x - mFocalLenght * Pc[1] / Pc[0];
-			hzkdata[1] = cc.y - mFocalLenght * Pc[2] / Pc[0];
+			// Estimation of the observation state based on actual estimation of system state ( h(·) )
+			mHZk(0,1) = mU0 - mFocalLenght * Pc[0] / Pc[2];
+			mHZk(1,1) = mV0 + mFocalLenght * Pc[1] / Pc[2];
 
 		}
 
 
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJh(){
+			// Calculate the estimated position of the system in global coordinates
 			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
 			math::Matrix<double> cPoint(cPointArray, 3, 1);
 
+			// Point related to camera's coordinate
 			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
 
-			
-			mJh(0, 0) = -mFocalLenght * (mOri(0, 1) * Pc[0] - mOri(0, 0) * Pc[1]) / Pc[0] / Pc[0];
-			mJh(0, 1) = -mFocalLenght * (mOri(1, 1) * Pc[0] - mOri(1, 0) * Pc[1]) / Pc[0] / Pc[0];
+			// Updating the jacobian of the observation system
+			mJh(0, 0) = -mFocalLenght * (mOri(0, 0) * Pc[2] - mOri(0, 2) * Pc[0]) / Pc[2] / Pc[2];
+			mJh(0, 1) = -mFocalLenght * (mOri(1, 0) * Pc[2] - mOri(1, 2) * Pc[0]) / Pc[2] / Pc[2];
 			mJh(0, 2) = 0;
 			mJh(0, 3) = 0;
 
-			mJh(1, 0) = -mFocalLenght * (mOri(0, 2) * Pc[0] - mOri(0, 0) * Pc[2]) / Pc[0] / Pc[0];
-			mJh(1, 1) = -mFocalLenght * (mOri(1, 2) * Pc[0] - mOri(1, 0) * Pc[2]) / Pc[0] / Pc[0];
+			mJh(1, 0) = mFocalLenght * (mOri(0, 1) * Pc[2] - mOri(0, 2) * Pc[1]) / Pc[2] / Pc[2];
+			mJh(1, 1) = mFocalLenght * (mOri(1, 1) * Pc[2] - mOri(1, 2) * Pc[1]) / Pc[2] / Pc[2];
 			mJh(1, 2) = 0;
 			mJh(1, 3) = 0;
 
-			
 		}
 
 	}	//	namespace algorithms
