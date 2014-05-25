@@ -124,7 +124,7 @@ void testSegmentation(){
 		// Update cameras pos and ori
 		double arrayPosC1[3] = {inputBuffer[7], inputBuffer[8], inputBuffer[9]};
 		groundEKF.updateCamera(	BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
-								BOViL::math::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
+								BOViL::math::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11] - 3.1416/2, inputBuffer[12]),
 								inputBuffer[3]);
 		// Select Oject
 		int maxSize = 0, maxIndex = 0;

@@ -22,10 +22,10 @@ namespace BOViL{
 			mR = _R;
 			mXak = _x0;
 			mXfk = _x0;
-			mK = math::createEye<double>(_Q.getHeight());;
-			mJf = math::createEye<double>(_Q.getHeight());;
+			mK = math::Matrix<double>(_Q.getHeight(), _R.getHeight());
+			mJf = math::createEye<double>(_Q.getHeight());
 			mP = math::createEye<double>(_Q.getHeight());
-			mHZk = math::Matrix<double>(_Q.getHeight(), 1);
+			mHZk = math::Matrix<double>(_R.getHeight(), 1);
 			mJh = math::Matrix<double>(_R.getHeight(), _Q.getHeight());
 		}
 		

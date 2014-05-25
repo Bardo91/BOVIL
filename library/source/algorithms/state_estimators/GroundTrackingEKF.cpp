@@ -43,14 +43,14 @@ namespace BOViL {
 		void GroundTrackingEKF::updateHZk(){
 			// Calculate the estimated position of the system in global coordinates
 			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
-			math::Matrix<double> cPoint(cPointArray, 3, 1);
+			math::Matrix<double> Point(cPointArray, 3, 1);
 
 			// Point related to camera's coordinate
-			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
+			math::Matrix<double> Pc = mOri.transpose() * (Point - mPos);
 
 			// Estimation of the observation state based on actual estimation of system state ( h(·) )
-			mHZk(0,1) = mU0 - mFocalLenght * Pc[0] / Pc[2];
-			mHZk(1,1) = mV0 + mFocalLenght * Pc[1] / Pc[2];
+			mHZk(0,0) = mU0 - mFocalLenght * Pc(0,0) / Pc(2,0);
+			mHZk(1,0) = mV0 + mFocalLenght * Pc(1,0) / Pc(2,0);
 
 		}
 
