@@ -65,15 +65,15 @@ namespace BOViL {
 			math::Matrix<double> Pc = mOri.transpose() * (cPoint - mPos);
 
 			// Updating the jacobian of the observation system
-			mJh(0, 0) = -mFocalLenght * (mOri(0, 0) * Pc[2] - mOri(0, 2) * Pc[0]) / Pc[2] / Pc[2];
-			mJh(0, 1) = -mFocalLenght * (mOri(1, 0) * Pc[2] - mOri(1, 2) * Pc[0]) / Pc[2] / Pc[2];
-			mJh(0, 2) = 0;
-			mJh(0, 3) = 0;
+			mJh(0, 0) = -mFocalLenght * (mOri(0, 0) * Pc(2, 0) - mOri(0, 2) * Pc(0, 0)) / Pc(2, 0) / Pc(2, 0);
+			mJh(0, 1) = -mFocalLenght * (mOri(1, 0) * Pc(2, 0) - mOri(1, 2) * Pc(0, 0)) / Pc(2, 0) / Pc(2, 0);
+			//mJh(0, 2) = 0;
+			//mJh(0, 3) = 0;
 
-			mJh(1, 0) = mFocalLenght * (mOri(0, 1) * Pc[2] - mOri(0, 2) * Pc[1]) / Pc[2] / Pc[2];
-			mJh(1, 1) = mFocalLenght * (mOri(1, 1) * Pc[2] - mOri(1, 2) * Pc[1]) / Pc[2] / Pc[2];
-			mJh(1, 2) = 0;
-			mJh(1, 3) = 0;
+			mJh(1, 0) = mFocalLenght * (mOri(0, 1) * Pc(2, 0) - mOri(0, 2) * Pc(1, 0)) / Pc(2, 0) / Pc(2, 0);
+			mJh(1, 1) = mFocalLenght * (mOri(1, 1) * Pc(2, 0) - mOri(1, 2) * Pc(1, 0)) / Pc(2, 0) / Pc(2, 0);
+			//mJh(1, 2) = 0;
+			//mJh(1, 3) = 0;
 
 		}
 

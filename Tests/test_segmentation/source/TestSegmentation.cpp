@@ -151,8 +151,8 @@ void testSegmentation(){
 		double arrayPosC2[3] = {inputBuffer[13], inputBuffer[14], inputBuffer[15]};
 		stereoEKF.updateCameras(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
 								BOViL::math::Matrix<double>(arrayPosC2, 3, 1),	
-								BOViL::math::createRotationMatrixEuler(inputBuffer[10], inputBuffer[11], inputBuffer[12]),
-								BOViL::math::createRotationMatrixEuler(inputBuffer[16], inputBuffer[17], inputBuffer[18]));
+								BOViL::math::createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2, inputBuffer[11], inputBuffer[12] - 3.1416 / 2),
+								BOViL::math::createRotationMatrixEuler(inputBuffer[16] - 3.1416 / 2, inputBuffer[17], inputBuffer[18] - 3.1416 / 2));
 		// Select Oject
 		int maxSize1 = 0, maxIndex1 = 0;
 		for(unsigned int obj = 0; obj < objects1.size() ; ++obj){
