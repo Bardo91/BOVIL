@@ -52,15 +52,10 @@ namespace BOViL {
 			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
 			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
 
-			Point2d cc1(mU0, mV0);
-			Point2d cc2(mU0, mV0);
-
-			double * hzkdata = mHZk.getMatrixPtr();
-
-			hzkdata[0] = cc1.x - mFocalLenght * Pc1[1] / Pc1[0];
-			hzkdata[1] = cc1.y - mFocalLenght * Pc1[2] / Pc1[0];
-			hzkdata[2] = cc2.x - mFocalLenght * Pc2[1] / Pc2[0];
-			hzkdata[3] = cc2.y - mFocalLenght * Pc2[2] / Pc2[0];
+			mHZk(0, 0) = mU0 - mFocalLenght * Pc1(0, 0) / Pc1(2, 0);
+			mHZk(1, 0) = mV0 + mFocalLenght * Pc1(1, 0) / Pc1(2, 0);
+			mHZk(2, 0) = mU0 - mFocalLenght * Pc2(0, 0) / Pc2(2, 0);
+			mHZk(3, 0) = mV0 + mFocalLenght * Pc2(1, 0) / Pc2(2, 0);
 
 		}
 
@@ -72,27 +67,25 @@ namespace BOViL {
 			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
 			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
 
-			double * dataJh = mJh.getMatrixPtr();
+			mJh(0, 0)= -mFocalLenght * (mOriC1(0, 0) * Pc1(0, 0) - mOriC1(0, 2) * Pc1(3, 0)) / Pc1(3, 0) / Pc1(3, 0);
+			mJh(1, 0)= -mFocalLenght * (mOriC1(1, 0) * Pc1(1, 0) - mOriC1(1, 2) * Pc1(3, 0)) / Pc1(3, 0) / Pc1(3, 0);
+			mJh(2, 0)= -mFocalLenght * (mOriC1(2, 0) * Pc1(2, 0) - mOriC1(2, 2) * Pc1(3, 0)) / Pc1(3, 0) / Pc1(3, 0);
+			   											  							  			   
+			mJh(0, 1)= -mFocalLenght * (mOriC1(0, 1) * Pc1(0, 0) - mOriC1(0, 2) * Pc1(3, 0)) / Pc1(3, 0) / Pc1(3, 0);
+			mJh(1, 1)= -mFocalLenght * (mOriC1(1, 1) * Pc1(1, 0) - mOriC1(1, 2) * Pc1(3, 0)) / Pc1(3, 0) / Pc1(3, 0);
+			mJh(2, 1)= -mFocalLenght * (mOriC1(2, 1) * Pc1(2, 0) - mOriC1(2, 2) * Pc1(3, 0)) / Pc1(3, 0) / Pc1(3, 0);
+															
+			mJh(0, 2) = -mFocalLenght * (mOriC2(0, 0) * Pc2(0, 0) - mOriC2(0, 2) * Pc2(3, 0)) / Pc2(3, 0) / Pc2(3, 0);
+			mJh(1, 2) = -mFocalLenght * (mOriC2(1, 0) * Pc2(1, 0) - mOriC2(1, 2) * Pc2(3, 0)) / Pc2(3, 0) / Pc2(3, 0);
+			mJh(2, 2) = -mFocalLenght * (mOriC2(2, 0) * Pc2(2, 0) - mOriC2(2, 2) * Pc2(3, 0)) / Pc2(3, 0) / Pc2(3, 0);
+														   							   				
+			mJh(0, 3) = -mFocalLenght * (mOriC2(0, 1) * Pc2(0, 0) - mOriC2(0, 2) * Pc2(3, 0)) / Pc2(3, 0) / Pc2(3, 0);
+			mJh(1, 3) = -mFocalLenght * (mOriC2(1, 1) * Pc2(1, 0) - mOriC2(1, 2) * Pc2(3, 0)) / Pc2(3, 0) / Pc2(3, 0);
+			mJh(2, 3) = -mFocalLenght * (mOriC2(2, 1) * Pc2(2, 0) - mOriC2(2, 2) * Pc2(3, 0)) / Pc2(3, 0) / Pc2(3, 0);	
 
-			dataJh[0] = -mFocalLenght * (mOriC1(0, 1) * Pc1[0] - mOriC1(0, 0) * Pc1[1]) / Pc1[0] / Pc1[0];
-			dataJh[1] = -mFocalLenght * (mOriC1(1, 1) * Pc1[0] - mOriC1(1, 0) * Pc1[1]) / Pc1[0] / Pc1[0];
-			dataJh[2] = -mFocalLenght * (mOriC1(2, 1) * Pc1[0] - mOriC1(2, 0) * Pc1[1]) / Pc1[0] / Pc1[0];
-						 
-			dataJh[8] = -mFocalLenght * (mOriC1(0, 2) * Pc1[0] - mOriC1(0, 0) * Pc1[2]) / Pc1[0] / Pc1[0];
-			dataJh[7] = -mFocalLenght * (mOriC1(1, 2) * Pc1[0] - mOriC1(1, 0) * Pc1[2]) / Pc1[0] / Pc1[0];
-			dataJh[6] = -mFocalLenght * (mOriC1(2, 2) * Pc1[0] - mOriC1(2, 0) * Pc1[2]) / Pc1[0] / Pc1[0];
-
-			dataJh[12] = -mFocalLenght * (mOriC2(0, 1) * Pc2[0] - mOriC2(0, 0) * Pc2[1]) / Pc2[0] / Pc2[0];
-			dataJh[13] = -mFocalLenght * (mOriC2(1, 1) * Pc2[0] - mOriC2(1, 0) * Pc2[1]) / Pc2[0] / Pc2[0];
-			dataJh[14] = -mFocalLenght * (mOriC2(2, 1) * Pc2[0] - mOriC2(2, 0) * Pc2[1]) / Pc2[0] / Pc2[0];
-						  
-			dataJh[18] = -mFocalLenght * (mOriC2(0, 2) * Pc2[0] - mOriC2(0, 0) * Pc2[2]) / Pc2[0] / Pc2[0];
-			dataJh[19] = -mFocalLenght * (mOriC2(1, 2) * Pc2[0] - mOriC2(1, 0) * Pc2[2]) / Pc2[0] / Pc2[0];
-			dataJh[20] = -mFocalLenght * (mOriC2(2, 2) * Pc2[0] - mOriC2(2, 0) * Pc2[2]) / Pc2[0] / Pc2[0];	
-
-			dataJh[3] = dataJh[4] = dataJh[5] = dataJh[9] = dataJh[10] = 
-						dataJh[11] = dataJh[15] = dataJh[16] = dataJh[17] = 
-						dataJh[21] = dataJh[22] = dataJh[23] = 0;
+			//dataJh[3] = dataJh[4] = dataJh[5] = dataJh[9] = dataJh[10] = 
+			//			dataJh[11] = dataJh[15] = dataJh[16] = dataJh[17] = 
+			//			dataJh[21] = dataJh[22] = dataJh[23] = 0;
 
 		}
 		
