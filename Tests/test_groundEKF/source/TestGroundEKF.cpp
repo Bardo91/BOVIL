@@ -142,8 +142,8 @@ void testSegmentation(){
 
 		cv::imshow("ORIGINAL", ori);
 
-		double arrayZk[2] = {	float (objects[maxIndex].getCentroid().x),
-								float (objects[maxIndex].getCentroid().y)};
+		double arrayZk[2] = {	double (objects[maxIndex].getCentroid().x),
+								double (objects[maxIndex].getCentroid().y)};
 
 		groundEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 2, 1), inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];

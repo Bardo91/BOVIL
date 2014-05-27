@@ -151,8 +151,12 @@ void testSegmentation(){
 		double arrayPosC2[3] = {inputBuffer[13], inputBuffer[14], inputBuffer[15]};
 		stereoEKF.updateCameras(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
 								BOViL::math::Matrix<double>(arrayPosC2, 3, 1),	
-								BOViL::math::createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2, inputBuffer[11], inputBuffer[12] - 3.1416 / 2),
-								BOViL::math::createRotationMatrixEuler(inputBuffer[16] - 3.1416 / 2, inputBuffer[17], inputBuffer[18] - 3.1416 / 2));
+								BOViL::math::createRotationMatrixEuler(	inputBuffer[10] - 3.1416 / 2, 
+																		inputBuffer[11], 
+																		inputBuffer[12] - 3.1416 / 2),
+								BOViL::math::createRotationMatrixEuler(	inputBuffer[16] - 3.1416 / 2, 
+																		inputBuffer[17],
+																		inputBuffer[18] - 3.1416 / 2));
 		// Select Oject
 		int maxSize1 = 0, maxIndex1 = 0;
 		for(unsigned int obj = 0; obj < objects1.size() ; ++obj){
@@ -177,10 +181,10 @@ void testSegmentation(){
 		cv::hconcat(ori1, ori2, ori1);
 		cv::imshow("ORIGINAL", ori1);
 
-		double arrayZk[4] = {	float (objects1[maxIndex1].getCentroid().x),
-								float (objects1[maxIndex1].getCentroid().y),
-								float (objects2[maxIndex2].getCentroid().x),
-								float (objects2[maxIndex2].getCentroid().y)};
+		double arrayZk[4] = {	double (objects1[maxIndex1].getCentroid().x),
+								double (objects1[maxIndex1].getCentroid().y),
+								double (objects2[maxIndex2].getCentroid().x),
+								double (objects2[maxIndex2].getCentroid().y)};
 
 		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1), inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];

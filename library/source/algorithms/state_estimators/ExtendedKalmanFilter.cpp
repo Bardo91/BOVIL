@@ -55,8 +55,7 @@ namespace BOViL{
 			updateHZk();
 			updateJh();
 
-			math::Matrix<double> auxT(mJh.transpose());
-			mK = mP * auxT * ((mJh * mP * auxT + mR) ^ -1);
+			mK = mP * mJh.transpose() * ((mJh * mP * mJh.transpose() + mR) ^ -1);
 			
 			mXak = mXfk + mK * (_Zk - mHZk);
 			
