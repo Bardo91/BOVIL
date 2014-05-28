@@ -15,12 +15,14 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		ServerSocket::ServerSocket(){
+		template<int type_>
+		ServerSocket<type_>::ServerSocket(){
 
 		}
 
 		//-----------------------------------------------------------------------------
-		ServerSocket::ServerSocket(const std::string _port){
+		template<int type_>
+		ServerSocket<type_>::ServerSocket(const std::string _port){
 			mPort = _port;
 			mSocketOwn = INVALID_SOCKET;
 			mSocketOut = INVALID_SOCKET;
@@ -51,7 +53,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerSocket::listenClient(){
+		template<int type_>
+		int ServerSocket<type_>::listenClient(){
 			int iResult = listen(mSocketOwn, SOMAXCONN);
 			if (iResult == SOCKET_ERROR) {
 				std::cout << "listen failed with error: " << getLastError() << std::endl;
@@ -64,7 +67,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		SOCKET ServerSocket::acceptClient(){
+		template<int type_>
+		SOCKET ServerSocket<type_>::acceptClient(){
 			// Accept a client socket
 			std::cout << "Waiting client to accept connection";
 			mSocketOut = accept(mSocketOwn, NULL, NULL);
@@ -81,7 +85,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerSocket::initializeSocket(){
+		template<int type_>
+		int ServerSocket<type_>::initializeSocket(){
 			// Resolve the server address and port
 			std::cout << "Getting address info";
 			int iResult = getaddrinfo(NULL, mPort.c_str(), &mHints, &mResult);
@@ -107,7 +112,8 @@ namespace BOViL{
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		int ServerSocket::connectSocket(){
+		template<int type_>
+		int ServerSocket<type_>::connectSocket(){
 			// Setup the TCP listening socket
 			int iResult = 0;
 			#ifdef __linux__
@@ -136,7 +142,8 @@ namespace BOViL{
 
 		}
 		//-----------------------------------------------------------------------------
-		int ServerSocket::closeSocket(){
+		template<int type_>
+		int ServerSocket<type_>::closeSocket(){
 			closesocket(mSocketOut);
 			closesocket(mSocketOwn);
 

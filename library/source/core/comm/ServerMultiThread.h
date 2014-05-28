@@ -19,6 +19,7 @@ namespace BOViL{
 
 		const int MAXCONNECTIONS = 128;
 
+		template<int type_>
 		class ServerMultiThread{
 		public:		// public interface
 			ServerMultiThread(std::string _PORT);
@@ -28,7 +29,7 @@ namespace BOViL{
 			AuxiliarServerThread* getThread(int _threadNo);
 
 		private:	// server members
-			ServerSocket mServerSocket;
+			ServerSocket<type_> mServerSocket;
 
 			std::thread mAcceptThread;
 

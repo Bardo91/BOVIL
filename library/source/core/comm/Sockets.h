@@ -41,9 +41,15 @@
 
 namespace BOViL{
 	namespace comm{
+		template<int type_>
 		class ClientSocket;
+
+		template<int type_>
 		class ServerSocket;
 
+		enum eSocketType { eTCP = SOCK_STREAM, eUDP = SOCK_DGRAM };
+
+		template<int type_>
 		class Socket{
 		public:
 			int sendData(std::string _data);

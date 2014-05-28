@@ -15,7 +15,8 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		class ServerSocket: public Socket{
+		template<int type_>
+		class ServerSocket: public Socket<type_>{
 		public:
 			ServerSocket();
 			ServerSocket(const std::string _port);

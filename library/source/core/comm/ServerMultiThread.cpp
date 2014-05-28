@@ -13,7 +13,8 @@
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
-		ServerMultiThread::ServerMultiThread(std::string _PORT) :	mNoConnections(0) {
+		template<int type_>
+		ServerMultiThread<type_>::ServerMultiThread(std::string _PORT) :	mNoConnections(0) {
 			mServerSocket = ServerSocket(_PORT);
 			
 			mServerSocket.listenClient();
@@ -23,7 +24,8 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		ServerMultiThread::~ServerMultiThread(){
+		template<int type_>
+		ServerMultiThread<type_>::~ServerMultiThread(){
 			if(mAcceptThread.joinable())
 				mAcceptThread.join();
 			
@@ -33,13 +35,15 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		int ServerMultiThread::getNoConnections(){
+		template<int type_>
+		int ServerMultiThread<type_>::getNoConnections(){
 			return mNoConnections;
 
 		}
 
 		//-----------------------------------------------------------------------------
-		AuxiliarServerThread* ServerMultiThread::getThread(int _index){
+		template<int type_>
+		AuxiliarServerThread* ServerMultiThread<type_>::getThread(int _index){
 			return mThreadList[_index];
 
 		}
@@ -47,7 +51,8 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 
 		//-----------------------------------------------------------------------------
-		void ServerMultiThread::acceptFunction(){
+		template<int type_>
+		void ServerMultiThread<type_>::acceptFunction(){
 			while(1){
 				SOCKET conn = mServerSocket.acceptClient();
 				if(conn != 0){

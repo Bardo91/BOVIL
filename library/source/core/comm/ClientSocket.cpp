@@ -15,7 +15,8 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		ClientSocket::ClientSocket(const std::string _ip, const std::string _port){
+		template<int type_>
+		ClientSocket<type_>::ClientSocket(const std::string _ip, const std::string _port){
 			mServerIp = _ip;
 			mServerPort = _port;
 			mSocketOut = INVALID_SOCKET;
@@ -35,8 +36,10 @@ namespace BOViL{
 
 			memset( &mHints, 0, sizeof(mHints));
 			mHints.ai_family = AF_INET;
-			mHints.ai_socktype = SOCK_STREAM;
-			mHints.ai_protocol = 0;//IPPROTO_TCP;
+			
+			mHints.ai_socktype = type_; // Templated protocol
+
+			mHints.ai_protocol = 0;
 
 			iResult += initializeSocket();
 			iResult += connectSocket();
@@ -46,7 +49,8 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		int ClientSocket::initializeSocket(){
+		template<int type_>
+		int ClientSocket<type_>::initializeSocket(){
 			// Resolve the server address and port
 			std::cout << "Getting address info";
 			int iResult = getaddrinfo(mServerIp.c_str(), mServerPort.c_str(), &mHints, &mResult);
@@ -61,7 +65,8 @@ namespace BOViL{
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		int ClientSocket::connectSocket(){
+		template<int type_>
+		int ClientSocket<type_>::connectSocket(){
 			// Attempt to connect to an address until one succeeds
 			for(mPtr=mResult; mPtr != NULL ;mPtr=mPtr->ai_next) {
 
@@ -102,7 +107,8 @@ namespace BOViL{
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		int ClientSocket::closeSocket(){
+		template<int type_>
+		int ClientSocket<type_>::closeSocket(){
 			closesocket(mSocketOut);
 
 			return 0;

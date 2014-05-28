@@ -15,7 +15,8 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		class ClientSocket: public Socket{
+		template<int type_>
+		class ClientSocket: public Socket<type_>{
 		public:
 			ClientSocket(const std::string _ip, const std::string _port);
 
