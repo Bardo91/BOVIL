@@ -192,3 +192,6 @@
 /Tests/test_cases/prj/outputFile_GroundTracking.txt
 /Tests/test_cases/prj/*.sdf
 /Tests/test_cases/prj/*.suo
+/Tests/test_sockets_UDP/client/prj/Debug
+/Tests/test_sockets_UDP/client/prj/*.sdf
+/Tests/test_sockets_UDP/client/prj/*.suo
