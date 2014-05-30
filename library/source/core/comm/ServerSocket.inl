@@ -14,12 +14,6 @@ namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
 		template<eSocketType type_>
-		ServerSocket<type_>::ServerSocket(){
-
-		}
-
-		//-----------------------------------------------------------------------------
-		template<eSocketType type_>
 		ServerSocket<type_>::ServerSocket(const std::string _port){
 			mPort = _port;
 			mSocketOwn = INVALID_SOCKET;
