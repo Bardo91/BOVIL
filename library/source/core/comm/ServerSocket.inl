@@ -34,7 +34,7 @@ namespace BOViL{
 			memset(&mHints, 0, sizeof(mHints));
 			mHints.ai_family = AF_INET;
 			mHints.ai_socktype = type_;
-			mHints.ai_protocol = 0;//IPPROTO_TCP;
+			mHints.ai_protocol = 0; // IPPROTO_UDP; IPPROTO_TCP;
 			mHints.ai_flags = AI_PASSIVE;
 
 			iResult += initializeSocket();
