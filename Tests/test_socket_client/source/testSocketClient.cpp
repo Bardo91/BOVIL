@@ -11,8 +11,10 @@
 
 #include <iostream>
 
+using namespace BOViL::comm;
+
 int testSocketClient(std::string _ip, std::string _port){
-	BOViL::comm::ClientSocket* client = BOViL::comm::Socket::createClientSocket(_ip, _port);
+	ClientSocket<eSocketType::eTCP>* client = Socket::createClientSocket<eSocketType::eTCP>(_ip, _port);
 	
 	std::string msg = "Hello world";
 	

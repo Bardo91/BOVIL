@@ -20,7 +20,26 @@ int main(int _argc, char** _argv){
 	
 	ServerSocket<eSocketType::eUDP>* serverSocket = Socket::createServerSocket<eSocketType::eUDP>(hashMap["PORT"]);
 
-	serverSocket;
+	bool condition;
+
+	serverSocket->listenClient();
+
+	if (serverSocket->acceptClient())
+		condition = true;
+	else
+		condition = false;
+	
+	
+	string msg;
+	
+	while (condition){
+		msg = serverSocket->receiveData();
+
+		if (msg.compare("QUIT"))
+			condition = false;
+		else
+			cout << msg << endl;
+	}
 }
 
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv){

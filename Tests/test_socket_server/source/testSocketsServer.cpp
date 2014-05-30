@@ -11,8 +11,10 @@
 
 #include <iostream>
 
+using namespace BOViL::comm;
+
 int testSocketsServer(std::string _port){
-	BOViL::comm::ServerSocket* server = BOViL::comm::Socket::createServerSocket(_port);
+	ServerSocket<eSocketType::eTCP>* server = Socket::createServerSocket<eSocketType::eTCP>(_port);
 	
 	int socket = 0;
 	
