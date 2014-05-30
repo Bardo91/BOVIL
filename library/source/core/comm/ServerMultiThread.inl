@@ -7,13 +7,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-#include "ServerMultiThread.h"
-
-
 namespace BOViL {
 	namespace comm {
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		ServerMultiThread<type_>::ServerMultiThread(std::string _PORT) :	mNoConnections(0) {
 			mServerSocket = ServerSocket(_PORT);
 			
@@ -24,7 +21,7 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		ServerMultiThread<type_>::~ServerMultiThread(){
 			if(mAcceptThread.joinable())
 				mAcceptThread.join();
@@ -35,14 +32,14 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ServerMultiThread<type_>::getNoConnections(){
 			return mNoConnections;
 
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		AuxiliarServerThread* ServerMultiThread<type_>::getThread(int _index){
 			return mThreadList[_index];
 
@@ -51,7 +48,7 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		void ServerMultiThread<type_>::acceptFunction(){
 			while(1){
 				SOCKET conn = mServerSocket.acceptClient();

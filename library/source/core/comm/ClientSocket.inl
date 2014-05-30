@@ -6,8 +6,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "ClientSocket.h"
-
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -15,7 +13,7 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		ClientSocket<type_>::ClientSocket(const std::string _ip, const std::string _port){
 			mServerIp = _ip;
 			mServerPort = _port;
@@ -49,7 +47,7 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ClientSocket<type_>::initializeSocket(){
 			// Resolve the server address and port
 			std::cout << "Getting address info";
@@ -65,7 +63,7 @@ namespace BOViL{
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ClientSocket<type_>::connectSocket(){
 			// Attempt to connect to an address until one succeeds
 			for(mPtr=mResult; mPtr != NULL ;mPtr=mPtr->ai_next) {
@@ -107,7 +105,7 @@ namespace BOViL{
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ClientSocket<type_>::closeSocket(){
 			closesocket(mSocketOut);
 

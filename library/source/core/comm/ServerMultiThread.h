@@ -19,7 +19,7 @@ namespace BOViL{
 
 		const int MAXCONNECTIONS = 128;
 
-		template<int type_>
+		template<eSocketType type_>
 		class ServerMultiThread{
 		public:		// public interface
 			ServerMultiThread(std::string _PORT);
@@ -42,5 +42,8 @@ namespace BOViL{
 		};	//	class ServerMultiThread
 	}	//	namespace comm
 }	//	namespace BOViL
+
+#include "ServerMultiThread.inl"
+
 
 #endif	//	_BOVIL_CORE_COMM_SERVERMULTITHREAD_H_

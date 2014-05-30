@@ -41,15 +41,14 @@
 
 namespace BOViL{
 	namespace comm{
-		template<int type_>
+		enum eSocketType { eTCP = SOCK_STREAM, eUDP = SOCK_DGRAM };
+		
+		template<eSocketType type_>
 		class ClientSocket;
 
-		template<int type_>
+		template<eSocketType type_>
 		class ServerSocket;
 
-		enum eSocketType { eTCP = SOCK_STREAM, eUDP = SOCK_DGRAM };
-
-		template<int type_>
 		class Socket{
 		public:
 			int sendData(std::string _data);
@@ -64,9 +63,12 @@ namespace BOViL{
 
 			int getLastError();
 
-		public:		// static members: Factory, etc.
-			static ClientSocket* createClientSocket(std::string _ip, std::string _port);
-			static ServerSocket* createServerSocket(std::string _port);
+		public:		// static members: Factory, etc
+			template<eSocketType type_>
+			static ClientSocket<type_>* createClientSocket(std::string _ip, std::string _port);
+			
+			template<eSocketType type_>
+			static ServerSocket<type_>* createServerSocket(std::string _port);
 
 		protected:	
 			#if defined(_WIN32)
@@ -79,5 +81,7 @@ namespace BOViL{
 		};	//	class Socket
 	}	//	namespace comm
 }	//	namespace BOViL
+
+#include "Sockets.inl"
 
 #endif	// _BOVIL_CORE_COMM_SOCKET_H_

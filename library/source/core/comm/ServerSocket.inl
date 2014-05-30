@@ -6,8 +6,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "ServerSocket.h"
-
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -15,13 +13,13 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		ServerSocket<type_>::ServerSocket(){
 
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		ServerSocket<type_>::ServerSocket(const std::string _port){
 			mPort = _port;
 			mSocketOwn = INVALID_SOCKET;
@@ -41,7 +39,7 @@ namespace BOViL{
 
 			memset(&mHints, 0, sizeof(mHints));
 			mHints.ai_family = AF_INET;
-			mHints.ai_socktype = SOCK_STREAM;
+			mHints.ai_socktype = type_;
 			mHints.ai_protocol = 0;//IPPROTO_TCP;
 			mHints.ai_flags = AI_PASSIVE;
 
@@ -53,7 +51,7 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ServerSocket<type_>::listenClient(){
 			int iResult = listen(mSocketOwn, SOMAXCONN);
 			if (iResult == SOCKET_ERROR) {
@@ -67,7 +65,7 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		SOCKET ServerSocket<type_>::acceptClient(){
 			// Accept a client socket
 			std::cout << "Waiting client to accept connection";
@@ -85,7 +83,7 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ServerSocket<type_>::initializeSocket(){
 			// Resolve the server address and port
 			std::cout << "Getting address info";
@@ -112,7 +110,7 @@ namespace BOViL{
 			return 0;
 		}
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ServerSocket<type_>::connectSocket(){
 			// Setup the TCP listening socket
 			int iResult = 0;
@@ -142,7 +140,7 @@ namespace BOViL{
 
 		}
 		//-----------------------------------------------------------------------------
-		template<int type_>
+		template<eSocketType type_>
 		int ServerSocket<type_>::closeSocket(){
 			closesocket(mSocketOut);
 			closesocket(mSocketOwn);

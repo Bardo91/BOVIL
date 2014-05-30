@@ -195,3 +195,4 @@
 /Tests/test_sockets_UDP/client/prj/Debug
 /Tests/test_sockets_UDP/client/prj/*.sdf
 /Tests/test_sockets_UDP/client/prj/*.suo
+/Tests/test_sockets_UDP/client/prj/*.opensdf
