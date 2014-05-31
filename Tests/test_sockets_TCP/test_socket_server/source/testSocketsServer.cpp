@@ -6,7 +6,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "core/comm/ServerSocket.h"
+#include <core/comm/ServerSocketTCP.h>
 #include "testSocketsServer.h"
 
 #include <iostream>
@@ -14,22 +14,17 @@
 using namespace BOViL::comm;
 
 int testSocketsServer(std::string _port){
-	ServerSocket<eSocketType::eTCP>* server = Socket::createServerSocket<eSocketType::eTCP>(_port);
-	
-	int socket = 0;
-	
-	server->listenClient();
-	socket = server->acceptClient();
-	
-	if(!socket)
-		return 1;
+	Socket *socket = Socket::createSocket(eSocketType::serverTCP, "2048");
 	
 	std::string msg = "";
 	
 	do{
-		msg = server->receiveData();
+		msg.clear();
+		socket->receiveMsg(msg);
 		std::cout << "Received: " << msg << std::endl;
 	}while(std::strcmp(msg.c_str(), "QUIT"));
+
+	delete socket;
 
 	return 0;
 }

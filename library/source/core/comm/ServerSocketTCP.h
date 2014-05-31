@@ -14,13 +14,14 @@
 namespace BOViL{
 	namespace comm{
 		class ServerSocketTCP : public SocketTCP{
-			SOCKET acceptClient();
 		protected:
 			ServerSocketTCP(const std::string &_serverPort);
+			SOCKET acceptClient();
 
 		private:
 			std::string mServerPort;
 			addrinfo *mResult;
+			SOCKET mAcceptSocket;
 
 			friend class Socket;	// 666 TODO: no se si es lo mejor
 		};	//	class ServerSocketTCP

@@ -13,7 +13,7 @@
 namespace BOViL{
 	namespace comm{
 		//-------------------------------------------------------------------------------
-		ServerSocketTCP::ServerSocketTCP(const std::string &_serverPort): mServerPort(_serverPort) {
+		ServerSocketTCP::ServerSocketTCP(const std::string &_serverPort): mServerPort(_serverPort), mAcceptSocket(INVALID_SOCKET) {
 			memset(&mHints, 0, sizeof(mHints));
 			mHints.ai_family = AF_INET;
 			mHints.ai_socktype = SOCK_STREAM;
@@ -27,8 +27,8 @@ namespace BOViL{
 			}
 
 			// Create a SOCKET for connecting to server
-			mSocket = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
-			if (mSocket == INVALID_SOCKET) {
+			mAcceptSocket = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
+			if (mAcceptSocket == INVALID_SOCKET) {
 				closeSocket();
 				freeaddrinfo(mResult);
 				assert(false);
@@ -37,39 +37,34 @@ namespace BOViL{
 			// Setup the TCP listening socket
 			#ifdef __linux__
 				int yes = 1;
-				setsockopt(mSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+				setsockopt(mAcceptSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
 			#endif
 			#ifdef _WIN32
 				bool bOptVal = TRUE;
 				int bOptLen = sizeof(bool);
-				setsockopt(mSocket, SOL_SOCKET, SO_REUSEADDR, (char *)bOptVal, bOptLen);
+				setsockopt(mAcceptSocket, SOL_SOCKET, SO_REUSEADDR, (char *)bOptVal, bOptLen);
 			#endif
 
-			if (bind(mSocket, mResult->ai_addr, mResult->ai_addrlen) == SOCKET_ERROR) {
+			if (bind(mAcceptSocket, mResult->ai_addr, mResult->ai_addrlen) == SOCKET_ERROR) {
 				freeaddrinfo(mResult);
 				closeSocket();
 				assert(false);
 			}
 
-			if (listen(mSocket, SOMAXCONN) == SOCKET_ERROR) {
+			if (listen(mAcceptSocket, SOMAXCONN) == SOCKET_ERROR) {
 				closeSocket();
 				assert(false);
 			}
 
 			freeaddrinfo(mResult);
 
-		}
 
-		//-------------------------------------------------------------------------------
-		SOCKET ServerSocketTCP::acceptClient(){
-			// Accept a client socket			
-			SOCKET socketOut = accept(mSocket, NULL, NULL);
-			if (socketOut == INVALID_SOCKET) {
+			mSocket = accept(mAcceptSocket, NULL, NULL);
+			if (mSocket == INVALID_SOCKET) {
 				closeSocket();
-				return socketOut;
+				assert(false);
 			}
 
-			return socketOut;
 		}
 	}	//	namespace comm
 }	//	namespace BOViL

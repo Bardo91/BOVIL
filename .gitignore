@@ -202,3 +202,14 @@
 /Tests/test_sockets_UDP/server/prj/*.suo
 /Tests/test_sockets_UDP/client/prj/*.user
 /Tests/test_sockets_UDP/server/prj/*.user
+/Tests/test_sockets_TCP/test_socket_client/prj/vs13/Debug
+/Tests/test_sockets_TCP/test_socket_server/prj/vs13/Debug/testSocketServer.tlog
+/Tests/test_sockets_TCP/test_socket_server/prj/vs13/Debug
+/Tests/test_sockets_TCP/test_socket_client/prj/vs13/*.opensdf
+/Tests/test_sockets_TCP/test_socket_client/prj/vs13/*.sdf
+/Tests/test_sockets_TCP/test_socket_client/prj/vs13/*.suo
+/Tests/test_sockets_TCP/test_socket_client/prj/vs13/*.user
+/Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.opensdf
+/Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.sdf
+/Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.suo
+/Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.user

@@ -6,7 +6,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "core/comm/ClientSocket.h"
+#include <core/comm/Socket.h>
 #include "testSocketClient.h"
 
 #include <iostream>
@@ -14,18 +14,18 @@
 using namespace BOViL::comm;
 
 int testSocketClient(std::string _ip, std::string _port){
-	ClientSocket<eSocketType::eTCP>* client = Socket::createClientSocket<eSocketType::eTCP>(_ip, _port);
+	Socket *socket = Socket::createSocket(eSocketType::clientTCP, "2048", "localhost");
 	
 	std::string msg = "Hello world";
 	
 	do {
 		std::cin >> msg;
 		std::cout << "Send: " << msg << std::endl;
-		client->sendData(msg);
+		socket->sendMsg(msg);
 	} while(std::strcmp(msg.c_str(), "QUIT"));
 	
 	
-	delete client;
+	delete socket;
 
 	return 0;
 }
