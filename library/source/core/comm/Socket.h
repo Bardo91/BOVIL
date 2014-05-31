@@ -1,11 +1,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////
-//	BOVIL: main
+//	BOVIL: core
 //
-//		Author: Pablo Ram�n Soria
-//		Date:	2014-03-30
+//			Author:		Pablo Ramon Soria
+//			Date:		2014-03-30
+//		Last Update:	2014-05-31
 //
 /////////////////////////////////////////////////////////////////////////////////////////
-
 
 #ifndef _BOVIL_CORE_COMM_SOCKET_H_
 #define _BOVIL_CORE_COMM_SOCKET_H_
@@ -14,6 +14,9 @@
 #include <cstring>
 #include <iostream>
 
+//---------------------------------------------------------------------------------------
+//-------------------------------- OS DEPENDENCIES --------------------------------------
+//---------------------------------------------------------------------------------------
 #if defined(_WIN32)
 	#define WIN32_LEAN_AND_MEAN
 
@@ -39,49 +42,34 @@
 	#define closesocket(SOCKET) close(SOCKET)
 #endif
 
+//---------------------------------------------------------------------------------------
+//-------------------------------- Socket Interface -------------------------------------
+//---------------------------------------------------------------------------------------
 namespace BOViL{
 	namespace comm{
-		enum eSocketType { eTCP = SOCK_STREAM, eUDP = SOCK_DGRAM };
-		
-		template<eSocketType type_>
-		class ClientSocket;
-
-		template<eSocketType type_>
-		class ServerSocket;
-
 		class Socket{
 		public:
-			int sendData(std::string _data);
-			std::string receiveData();
+			virtual bool sendMsg(std::string _msg) = 0;
+			virtual bool receiveMsg(std::string &_msg) = 0;
 
-		protected:		
+		protected:
 			Socket()	{};
-			virtual int initializeSocket() = 0;
-			virtual int connectSocket() = 0;
+			virtual bool initializeSocket() = 0;
 
-			virtual int closeSocket() = 0;
+			bool closeSocket();
 
 			int getLastError();
 
-		public:		// static members: Factory, etc
-			template<eSocketType type_>
-			static ClientSocket<type_>* createClientSocket(std::string _ip, std::string _port);
-			
-			template<eSocketType type_>
-			static ServerSocket<type_>* createServerSocket(std::string _port);
-
-		protected:	
+		protected:
 			#if defined(_WIN32)
 				WSADATA mWsaData;
 			#endif
 
-			SOCKET mSocketOut;
-			
+			SOCKET mSocket;
+
 			addrinfo *mResult, mHints;
 		};	//	class Socket
 	}	//	namespace comm
 }	//	namespace BOViL
-
-#include "Sockets.inl"
 
 #endif	// _BOVIL_CORE_COMM_SOCKET_H_

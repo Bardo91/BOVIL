@@ -1,0 +1,23 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+//	BOVIL: core
+//
+//			Author:		Pablo Ramon Soria
+//			Date:		2014-05-31
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef _BOVIL_CORE_COMM_SOCKETUDP_H_
+#define _BOVIL_CORE_COMM_SOCKETUDP_H_
+
+#include "Socket.h"
+
+namespace BOVil{
+	namespace comm{
+		class SocketUDP{
+
+		};
+	}
+}
+
+
+#endif // _BOVIL_CORE_COMM_SOCKETUDP_H_
