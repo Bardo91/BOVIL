@@ -7,8 +7,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "SocketTCP.h"
+#include "Socket.h"
 
-namespace BOVil{
+namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
 		bool SocketTCP::sendMsg(std::string _str) {

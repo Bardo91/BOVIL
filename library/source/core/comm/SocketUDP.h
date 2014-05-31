@@ -11,11 +11,16 @@
 
 #include "Socket.h"
 
-namespace BOVil{
+namespace BOViL{
 	namespace comm{
-		class SocketUDP{
+		class SocketUDP : public Socket{
+		public:
+			bool sendMsg(std::string _msg);
+			bool receiveMsg(std::string &_msg);
 
-		};
+		protected:
+			SocketUDP() {};
+		};	// class SocketUDP
 	}
 }
 

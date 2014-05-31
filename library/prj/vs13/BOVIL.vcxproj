@@ -72,11 +72,11 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
-    <ClInclude Include="..\..\source\core\comm\AuxiliarServerThread.h" />
-    <ClInclude Include="..\..\source\core\comm\ClientSocket.h" />
-    <ClInclude Include="..\..\source\core\comm\ServerMultiThread.h" />
-    <ClInclude Include="..\..\source\core\comm\ServerSocket.h" />
-    <ClInclude Include="..\..\source\core\comm\Sockets.h" />
+    <ClInclude Include="..\..\source\core\comm\ClientSocketTCP.h" />
+    <ClInclude Include="..\..\source\core\comm\ServerSocketTCP.h" />
+    <ClInclude Include="..\..\source\core\comm\Socket.h" />
+    <ClInclude Include="..\..\source\core\comm\SocketTCP.h" />
+    <ClInclude Include="..\..\source\core\comm\SocketUDP.h" />
     <ClInclude Include="..\..\source\core\math\geometrics\Geometrics.h" />
     <ClInclude Include="..\..\source\core\math\Matrix.h" />
     <ClInclude Include="..\..\source\core\time\time.h" />
@@ -90,7 +90,11 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
-    <ClCompile Include="..\..\source\core\comm\AuxiliarServerThread.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ClientSocketTCP.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ServerSocketTCP.cpp" />
+    <ClCompile Include="..\..\source\core\comm\Socket.cpp" />
+    <ClCompile Include="..\..\source\core\comm\SocketTCP.cpp" />
+    <ClCompile Include="..\..\source\core\comm\SocketUDP.cpp" />
     <ClCompile Include="..\..\source\core\math\geometrics\Geometrics.cpp" />
     <ClCompile Include="..\..\source\core\math\Matrix.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
@@ -98,10 +102,6 @@
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\source\core\comm\ClientSocket.inl" />
-    <None Include="..\..\source\core\comm\ServerMultiThread.inl" />
-    <None Include="..\..\source\core\comm\ServerSocket.inl" />
-    <None Include="..\..\source\core\comm\Sockets.inl" />
     <None Include="..\..\source\core\math\Matrix.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

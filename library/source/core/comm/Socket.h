@@ -47,14 +47,17 @@
 //---------------------------------------------------------------------------------------
 namespace BOViL{
 	namespace comm{
+		const enum eSocketType {serverTCP, clientTCP, serverUDP, clientUDP};
+		
 		class Socket{
 		public:
-			virtual bool sendMsg(std::string _msg) = 0;
-			virtual bool receiveMsg(std::string &_msg) = 0;
+			virtual bool sendMsg(std::string _msg);
+			virtual bool receiveMsg(std::string &_msg);
 
+		public:	// Socket factory
+			static Socket* createSocket(const eSocketType _socketType, const std::string &_serverPort, const std::string &_serverIp = "");
 		protected:
-			Socket()	{};
-			virtual bool initializeSocket() = 0;
+			Socket();
 
 			bool closeSocket();
 
@@ -67,7 +70,7 @@ namespace BOViL{
 
 			SOCKET mSocket;
 
-			addrinfo *mResult, mHints;
+			addrinfo mHints;
 		};	//	class Socket
 	}	//	namespace comm
 }	//	namespace BOViL

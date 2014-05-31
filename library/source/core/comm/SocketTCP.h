@@ -11,15 +11,16 @@
 
 #include "Socket.h"
 
-namespace BOVil{
+namespace BOViL{
 	namespace comm{
 		class SocketTCP : public Socket{
 		public:
 			bool sendMsg(std::string _msg);
 			bool receiveMsg(std::string &_msg);
+		
 		protected:
 			SocketTCP() {};
-		};
+		};	//	class SocketTCP
 	}
 }
 

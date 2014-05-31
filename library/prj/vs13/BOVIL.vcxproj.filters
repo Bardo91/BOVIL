@@ -45,15 +45,6 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\AuxiliarServerThread.h">
-      <Filter>core\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\ClientSocket.h">
-      <Filter>core\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\Sockets.h">
-      <Filter>core\comm</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\core\math\Matrix.h">
       <Filter>core\math</Filter>
     </ClInclude>
@@ -78,10 +69,19 @@
     <ClInclude Include="..\..\source\core\math\geometrics\Geometrics.h">
       <Filter>core\math\geometrics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\ServerMultiThread.h">
+    <ClInclude Include="..\..\source\core\comm\Socket.h">
       <Filter>core\comm</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\comm\ServerSocket.h">
+    <ClInclude Include="..\..\source\core\comm\SocketUDP.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\SocketTCP.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\ClientSocketTCP.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\ServerSocketTCP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
   </ItemGroup>
@@ -94,9 +94,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp">
       <Filter>algorithms\state_estimators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core\comm\AuxiliarServerThread.cpp">
-      <Filter>core\comm</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core\time\time.cpp">
       <Filter>core\time</Filter>
@@ -116,22 +113,25 @@
     <ClCompile Include="..\..\source\core\math\geometrics\Geometrics.cpp">
       <Filter>core\math\geometrics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\Socket.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\SocketUDP.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\SocketTCP.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\ServerSocketTCP.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\ClientSocketTCP.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\core\math\Matrix.inl">
       <Filter>core\math</Filter>
-    </None>
-    <None Include="..\..\source\core\comm\Sockets.inl">
-      <Filter>core\comm</Filter>
-    </None>
-    <None Include="..\..\source\core\comm\ClientSocket.inl">
-      <Filter>core\comm</Filter>
-    </None>
-    <None Include="..\..\source\core\comm\ServerMultiThread.inl">
-      <Filter>core\comm</Filter>
-    </None>
-    <None Include="..\..\source\core\comm\ServerSocket.inl">
-      <Filter>core\comm</Filter>
     </None>
   </ItemGroup>
 </Project>
