@@ -213,3 +213,9 @@
 /Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.sdf
 /Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.suo
 /Tests/test_sockets_TCP/test_socket_server/prj/vs13/*.user
+/Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/Debug/test_soc.74B86451.tlog
+/Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/Debug
+/Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.opensdf
+/Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.sdf
+/Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.suo
+/Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.user

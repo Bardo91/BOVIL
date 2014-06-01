@@ -26,15 +26,15 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		class AuxiliarServerThread{
 		public:
-			// 666 TODO: destructor
+			~AuxiliarServerThread();
 			bool sendMsg(const std::string &_msg);
 
 			bool hasMsg();
-			bool readMsgs(std::vector<std::string> _messages);
+			bool readMsgs(std::vector<std::string> &_messages);
 
 			bool closeConnection();
 		protected:
-			AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf) : mSocket(_socket), mMySelf(_mySelf) {};
+			AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf);
 
 			bool startThread();
 			bool stopThread();
@@ -65,6 +65,9 @@ namespace BOViL{
 			int requestNoConnections();
 
 		private:
+			#if defined(_WIN32)
+				WSADATA mWsaData;
+			#endif
 			std::string mServerPort;
 
 			bool mIsRunning;

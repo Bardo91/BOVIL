@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\BOVIL\Tests\test_socket_multithreadserver\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Programming\BOVIL\Tests\test_sockets_TCP\test_socket_multithreadserver\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\BOVIL\Tests\test_socket_multithreadserver\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Programming\BOVIL\Tests\test_sockets_TCP\test_socket_multithreadserver\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

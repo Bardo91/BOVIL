@@ -16,6 +16,12 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		//-------------------------- AuxiliarServerThread -------------------------------
 		//-------------------------------------------------------------------------------
+		AuxiliarServerThread::~AuxiliarServerThread(){
+			while (!closeConnection());
+
+		}
+
+		//-------------------------------------------------------------------------------
 		bool AuxiliarServerThread::sendMsg(const std::string &_msg){
 			if (send(mSocket, _msg.c_str(), _msg.size(), 0) == SOCKET_ERROR)
 				return false;
@@ -34,7 +40,7 @@ namespace BOViL{
 
 		}
 		//-----------------------------------------------------------------------------
-		bool AuxiliarServerThread::readMsgs(std::vector<std::string> _messages){
+		bool AuxiliarServerThread::readMsgs(std::vector<std::string> &_messages){
 			
 			if (!hasMsg())
 				return false;
@@ -67,11 +73,9 @@ namespace BOViL{
 		bool AuxiliarServerThread::stopThread(){
 			if (mThread != nullptr && mThread->joinable()){
 				mIsRunning = false;
-				mThread->join();		// 666 TODO: be carefully, because it cant be join if recv in watchfunction keep waiting... searchc how to solve
-				delete mThread;
+				mThread->join();		// 666 TODO: be carefully, because it cant be join if recv in watchfunction keep waiting... search how to solve
 				return true;
-			}
-			else
+			} else
 				return false;
 
 		}
@@ -91,6 +95,11 @@ namespace BOViL{
 			
 			return true;
 		}		
+		
+		//-------------------------------------------------------------------------------
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf) : mSocket(_socket), mMySelf(_mySelf) {
+			startThread();
+		}
 
 		//-------------------------------------------------------------------------------
 		void AuxiliarServerThread::watchFunction(){
@@ -117,9 +126,6 @@ namespace BOViL{
 					mIsRunning = false;
 				}
 			}
-
-			// Auxiliar thread has nothing to do if connection failed. Selfdestroy
-			delete this;
 		}
 
 		//-------------------------------------------------------------------------------
@@ -127,9 +133,17 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		ServerMultiThreadTCP::ServerMultiThreadTCP(std::string _serverPort):	mServerPort(_serverPort), 
 																				mNoConnections(0),
-																				mIsRunning(true){
+																				mIsRunning(true),
+																				mAcceptSocket(INVALID_SOCKET){
 
 			// Initialization of accept socket
+			#if defined (_WIN32) 
+				// Initialize Winsock
+				if (WSAStartup(MAKEWORD(2, 2), &mWsaData) != 0) {
+					assert(false);
+				}
+			#endif
+
 			addrinfo mHints, *mResult;
 
 			memset(&mHints, 0, sizeof(mHints));
@@ -186,6 +200,9 @@ namespace BOViL{
 		
 		//-------------------------------------------------------------------------------
 		bool ServerMultiThreadTCP::readMsgsFrom(std::vector<std::string> &_msgs, int _connection){
+			if (mThreadList[_connection] == nullptr)
+				return false;
+
 			return mThreadList[_connection]->readMsgs(_msgs);
 		}
 
