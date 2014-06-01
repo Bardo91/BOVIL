@@ -33,7 +33,7 @@ namespace BOViL	{
 				return new ServerSocketUDP(_serverPort);
 				break;
 			case eSocketType::clientUDP:
-				return nullptr;
+				return new ClientSocketUDP(_serverIp, _serverPort);
 				break;
 			default:
 				return nullptr;
