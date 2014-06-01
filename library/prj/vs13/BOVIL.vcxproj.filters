@@ -84,6 +84,12 @@
     <ClInclude Include="..\..\source\core\comm\ServerSocketTCP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\core\BOViL_core.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\comm\ServerMultiThreadTCP.h">
+      <Filter>core\comm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
@@ -126,6 +132,9 @@
       <Filter>core\comm</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core\comm\ClientSocketTCP.cpp">
+      <Filter>core\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\comm\ServerMultiThreadTCP.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
   </ItemGroup>

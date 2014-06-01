@@ -42,10 +42,11 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -53,12 +54,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,7 +74,9 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
+    <ClInclude Include="..\..\source\core\BOViL_core.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocketTCP.h" />
+    <ClInclude Include="..\..\source\core\comm\ServerMultiThreadTCP.h" />
     <ClInclude Include="..\..\source\core\comm\ServerSocketTCP.h" />
     <ClInclude Include="..\..\source\core\comm\Socket.h" />
     <ClInclude Include="..\..\source\core\comm\SocketTCP.h" />
@@ -91,6 +95,7 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocketTCP.cpp" />
+    <ClCompile Include="..\..\source\core\comm\ServerMultiThreadTCP.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerSocketTCP.cpp" />
     <ClCompile Include="..\..\source\core\comm\Socket.cpp" />
     <ClCompile Include="..\..\source\core\comm\SocketTCP.cpp" />

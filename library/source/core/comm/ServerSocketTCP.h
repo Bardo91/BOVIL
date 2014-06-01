@@ -16,7 +16,6 @@ namespace BOViL{
 		class ServerSocketTCP : public SocketTCP{
 		protected:
 			ServerSocketTCP(const std::string &_serverPort);
-			SOCKET acceptClient();
 
 		private:
 			std::string mServerPort;
