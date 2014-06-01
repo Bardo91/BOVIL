@@ -16,8 +16,8 @@ namespace BOViL{
 		ServerSocketUDP::ServerSocketUDP(const std::string &_serverPort) : mServerPort(_serverPort) {
 			memset(&mHints, 0, sizeof(mHints));
 			mHints.ai_family = AF_INET;
-			mHints.ai_socktype = SOCK_STREAM;
-			mHints.ai_protocol = IPPROTO_TCP;
+			mHints.ai_socktype = SOCK_DGRAM;
+			mHints.ai_protocol = IPPROTO_UDP;
 			mHints.ai_flags = AI_PASSIVE;
 
 			// Resolve the server address and port
