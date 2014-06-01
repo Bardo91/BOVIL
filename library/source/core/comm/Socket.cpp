@@ -11,6 +11,8 @@
 
 #include "ServerSocketTCP.h"
 #include "ClientSocketTCP.h"
+#include "ServerSocketUDP.h"
+#include "ClientSocketUDP.h"
 
 #include <cassert>
 
@@ -28,7 +30,7 @@ namespace BOViL	{
 				return new ClientSocketTCP(_serverIp, _serverPort);
 				break;
 			case eSocketType::serverUDP:
-				return nullptr;
+				return new ServerSocketUDP(_serverPort);
 				break;
 			case eSocketType::clientUDP:
 				return nullptr;
