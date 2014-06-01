@@ -6,7 +6,8 @@
 //																						//
 //////////////////////////////////////////////////////////////////////////////////////////
 
-#include <core/comm/ClientSocket.h>
+#include <core/comm/Socket.h>
+
 #include <map>
 #include <string>
 
@@ -18,20 +19,16 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 int main(int _argc, char** _argv){
 	map<string, string> hashMap = parseArgs(_argc, _argv);
 
-	ClientSocket<eSocketType::eUDP>* clientSocket = Socket::createClientSocket<eSocketType::eUDP>(hashMap["IP"], hashMap["PORT"]);
-
-	bool condition = true;
+	Socket* client = Socket::createSocket(eSocketType::clientUDP, "2048", "");
 
 	string msg;
+	bool condition = true;
 
-	while (condition){
-		cin >> msg;
-
-		if (msg.compare("QUIT"))
-			condition = false;
-		else
-			clientSocket->sendData(msg);
-	}
+	do {
+		std::cin >> msg;
+		std::cout << "Send: " << msg << std::endl;
+		condition = client->sendMsg(msg);
+	} while (condition && std::strcmp(msg.c_str(), "QUIT"));
 }
 
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv){
