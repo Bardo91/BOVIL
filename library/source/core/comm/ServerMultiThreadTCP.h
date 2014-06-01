@@ -26,16 +26,18 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		class AuxiliarServerThread{
 		public:
+			// 666 TODO: destructor
 			bool sendMsg(const std::string &_msg);
 
 			bool hasMsg();
 			bool readMsgs(std::vector<std::string> _messages);
 
-			bool startThread();
-			bool stopThread();
 			bool closeConnection();
 		protected:
 			AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf) : mSocket(_socket), mMySelf(_mySelf) {};
+
+			bool startThread();
+			bool stopThread();
 
 		private:
 			AuxiliarServerThread **mMySelf;
@@ -54,21 +56,23 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		class ServerMultiThreadTCP{
 		public:
+			// 666 TODO: destructor
 			ServerMultiThreadTCP(std::string _serverPort);
 
 			bool sendMsgTo(const std::string &_msg, int _connection);
-			bool readMsgFrom(std::string &_msg, int _connection);
+			bool readMsgsFrom(std::vector<std::string> &_msgs, int _connection);
 
 			int requestNoConnections();
 
 		private:
 			std::string mServerPort;
 
+			bool mIsRunning;
 			std::thread mAcceptThread;
 			SOCKET mAcceptSocket;
 
 			int mNoConnections;
-			AuxiliarServerThread mThreadList[MAX_CONNECTIONS];
+			AuxiliarServerThread* mThreadList[MAX_CONNECTIONS];
 
 		private:
 			void acceptFunction();

@@ -7,7 +7,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "ServerMultiThreadTCP.h"
+
 #include <mutex>
+#include <cassert>
 
 namespace BOViL{
 	namespace comm {
@@ -33,6 +35,10 @@ namespace BOViL{
 		}
 		//-----------------------------------------------------------------------------
 		bool AuxiliarServerThread::readMsgs(std::vector<std::string> _messages){
+			
+			if (!hasMsg())
+				return false;
+
 			std::mutex mutex;
 			mutex.lock();
 			_messages = mMessages;
@@ -119,13 +125,90 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		//-------------------------- ServerMultiThreadTCP -------------------------------
 		//-------------------------------------------------------------------------------
-		ServerMultiThreadTCP::ServerMultiThreadTCP(std::string _serverPort): mServerPort(_serverPort) {
+		ServerMultiThreadTCP::ServerMultiThreadTCP(std::string _serverPort):	mServerPort(_serverPort), 
+																				mNoConnections(0),
+																				mIsRunning(true){
 
+			// Initialization of accept socket
+			addrinfo mHints, *mResult;
+
+			memset(&mHints, 0, sizeof(mHints));
+			mHints.ai_family = AF_INET;
+			mHints.ai_socktype = SOCK_STREAM;
+			mHints.ai_protocol = IPPROTO_TCP;
+			mHints.ai_flags = AI_PASSIVE;
+
+			// Resolve the server address and port
+			if (getaddrinfo(NULL, mServerPort.c_str(), &mHints, &mResult) != 0) {
+				assert(false);
+			}
+
+			// Create a SOCKET for connecting to server
+			mAcceptSocket = socket(mResult->ai_family, mResult->ai_socktype, mResult->ai_protocol);
+			if (mAcceptSocket == INVALID_SOCKET) {
+				closesocket(mAcceptSocket);
+				freeaddrinfo(mResult);
+				assert(false);
+			}
+
+			// Setup the TCP listening socket
+			#ifdef __linux__
+				int yes = 1;
+				setsockopt(mAcceptSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+			#endif
+			#ifdef _WIN32
+				bool bOptVal = TRUE;
+				int bOptLen = sizeof(bool);
+				setsockopt(mAcceptSocket, SOL_SOCKET, SO_REUSEADDR, (char *)bOptVal, bOptLen);
+			#endif
+
+			if (bind(mAcceptSocket, mResult->ai_addr, mResult->ai_addrlen) == SOCKET_ERROR) {
+				freeaddrinfo(mResult);
+				closesocket(mAcceptSocket);
+				assert(false);
+			}
+
+			if (listen(mAcceptSocket, SOMAXCONN) == SOCKET_ERROR) {
+				closesocket(mAcceptSocket);
+				assert(false);
+			}
+
+			freeaddrinfo(mResult);
+
+			// Start accept thread
+			mAcceptThread = std::thread(&ServerMultiThreadTCP::acceptFunction, this);
 		}
-		//-------------------------------------------------------------------------------
 
 		//-------------------------------------------------------------------------------
+		bool ServerMultiThreadTCP::sendMsgTo(const std::string &_msg, int _connection){
+			return mThreadList[_connection]->sendMsg(_msg);
+		}
+		
+		//-------------------------------------------------------------------------------
+		bool ServerMultiThreadTCP::readMsgsFrom(std::vector<std::string> &_msgs, int _connection){
+			return mThreadList[_connection]->readMsgs(_msgs);
+		}
 
+		
+		//-------------------------------------------------------------------------------
+		int ServerMultiThreadTCP::requestNoConnections(){
+			return mNoConnections;
+		}
+
+		//-------------------------------------------------------------------------------
+		void ServerMultiThreadTCP::acceptFunction(){
+			while (mIsRunning){
+				SOCKET conn = accept(mAcceptSocket, nullptr, nullptr);
+				if (conn == INVALID_SOCKET) {
+					closesocket(mAcceptSocket);
+					assert(false);
+				}
+				if (conn != 0 && mNoConnections < MAX_CONNECTIONS){
+					mThreadList[mNoConnections] = new AuxiliarServerThread(conn, &mThreadList[mNoConnections]);
+					mNoConnections++;
+				}
+			}
+		}	
 		//-------------------------------------------------------------------------------
 	}	//	namespace comm
 }	//	namespace BOViL

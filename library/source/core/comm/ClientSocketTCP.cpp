@@ -14,7 +14,6 @@ namespace BOViL{
 	namespace comm{
 		ClientSocketTCP::ClientSocketTCP(const std::string &_serverIp, const std::string &_serverPort): mServerIp(_serverIp), mServerPort(_serverPort){
 			memset(&mHints, 0, sizeof(mHints));
-			
 			mHints.ai_family = AF_INET;			// Connect to ip v4 or v6
 			mHints.ai_socktype = SOCK_STREAM;	// Connection tipe TCP IP
 			mHints.ai_protocol = IPPROTO_TCP;
