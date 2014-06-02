@@ -10,6 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{29ECA51E-BDEE-4296-9C61-5F6D97B4D130}</ProjectGuid>
     <RootNamespace>serverUDP</RootNamespace>
@@ -40,11 +43,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\BOVIL\Tests\test_sockets_UDP\server\prj\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Programming\BOVIL\Tests\test_sockets_UDP\client\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\BOVIL\Tests\test_sockets_UDP\server\prj\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Programming\BOVIL\Tests\test_sockets_UDP\client\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -74,9 +77,6 @@
       <AdditionalDependencies>BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

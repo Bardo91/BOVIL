@@ -219,3 +219,12 @@
 /Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.sdf
 /Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.suo
 /Tests/test_sockets_TCP/test_socket_multithreadserver/prj/vs13/*.user
+/Tests/test_sockets_UDP/client/prj/vs13/Debug
+/Tests/test_sockets_UDP/server/prj/vs13/Debug/serverUDP.tlog
+/Tests/test_sockets_UDP/server/prj/vs13/Debug
+/Tests/test_sockets_UDP/client/prj/vs13/*.sdf
+/Tests/test_sockets_UDP/client/prj/vs13/*.suo
+/Tests/test_sockets_UDP/client/prj/vs13/*.user
+/Tests/test_sockets_UDP/server/prj/vs13/*.sdf
+/Tests/test_sockets_UDP/server/prj/vs13/*.suo
+/Tests/test_sockets_UDP/server/prj/vs13/*.user

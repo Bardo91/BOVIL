@@ -47,7 +47,7 @@
 //---------------------------------------------------------------------------------------
 namespace BOViL{
 	namespace comm{
-		const enum eSocketType {serverTCP, clientTCP, serverUDP, clientUDP};
+		enum class eSocketType {serverTCP, clientTCP, serverUDP, clientUDP};
 		
 		class Socket{
 		public:
