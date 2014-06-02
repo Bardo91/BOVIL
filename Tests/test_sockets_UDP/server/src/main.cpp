@@ -24,10 +24,10 @@ int main(int _argc, char** _argv){
 	bool condition;
 
 	do {
+		msg.clear();
 		condition = server->receiveMsg(msg);
 		if (condition){
 			cout << msg << endl;
-			msg.clear();
 		}
 		
 	} while (condition && std::strcmp(msg.c_str(), "QUIT"));

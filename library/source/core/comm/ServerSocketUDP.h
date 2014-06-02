@@ -19,7 +19,6 @@ namespace BOViL{
 
 		private:
 			std::string mServerPort;
-			addrinfo *mResult;
 
 			friend class Socket;	// 666 TODO: no se si es lo mejor
 		};	//	class ServerSocketTCP

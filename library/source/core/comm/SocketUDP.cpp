@@ -13,7 +13,7 @@ namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
 		bool SocketUDP::sendMsg(std::string _str) {
-			if (sendto(mSocket, _str.c_str(), _str.size(), 0, mHints.ai_addr, (int)mHints.ai_addrlen) == SOCKET_ERROR) {
+			if (sendto(mSocket, _str.c_str(), _str.size(), 0, (sockaddr *) &mAddr, sizeof(mAddr)) == SOCKET_ERROR) {
 				std::cout << "Socket Error" << std::endl;
 				closeSocket();
 				#if defined (_WIN32)

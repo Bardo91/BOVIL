@@ -26,7 +26,6 @@ int main(int _argc, char** _argv){
 
 	do {
 		std::cin >> msg;
-		std::cout << "Send: " << msg << std::endl;
 		condition = client->sendMsg(msg);
 	} while (condition && std::strcmp(msg.c_str(), "QUIT"));
 }
