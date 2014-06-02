@@ -20,20 +20,17 @@ int main(int _argc, char** _argv){
 	
 	Socket *server = Socket::createSocket(eSocketType::serverUDP, "2048");
 
-	bool condition = true;
-	
 	string msg;
-	
-	while (condition){
-		server->receiveMsg(msg);
+	bool condition;
 
-		if (msg.compare("QUIT"))
-			condition = false;
-		else
+	do {
+		condition = server->receiveMsg(msg);
+		if (condition){
 			cout << msg << endl;
-
-		msg.clear();
-	}
+			msg.clear();
+		}
+		
+	} while (condition && std::strcmp(msg.c_str(), "QUIT"));
 }
 
 std::map<std::string, std::string> parseArgs(int _argc, char** _argv){

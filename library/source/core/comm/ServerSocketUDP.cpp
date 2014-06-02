@@ -31,10 +31,10 @@ namespace BOViL{
 			// Set up a SOCKADDR_IN structure that will tell bind that we
 			// want to receive datagrams from all interfaces using port _serverPort.
 			mAddr.sin_family = AF_INET;
-			mAddr.sin_port = htons((USHORT)atoi(_serverPort.c_str()));
+			mAddr.sin_port = htons((USHORT) atoi(_serverPort.c_str()));
 			mAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-			if (bind(mSocket, (sockaddr*)&mAddr, sizeof(mAddr) == SOCKET_ERROR)){
+			if (bind(mSocket, (sockaddr*)&mAddr, sizeof(mAddr)) == SOCKET_ERROR){
 				closeSocket();
 				assert(false);
 

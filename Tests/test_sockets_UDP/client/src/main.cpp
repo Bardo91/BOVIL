@@ -19,7 +19,7 @@ std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
 int main(int _argc, char** _argv){
 	map<string, string> hashMap = parseArgs(_argc, _argv);
 
-	Socket* client = Socket::createSocket(eSocketType::clientUDP, "2048", "");
+	Socket* client = Socket::createSocket(eSocketType::clientUDP, "2048", "127.0.0.1");
 
 	string msg;
 	bool condition = true;
