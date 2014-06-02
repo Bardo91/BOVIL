@@ -20,6 +20,7 @@ namespace BOViL{
 		
 		protected:
 			SocketTCP() {};
+
 		};	//	class SocketTCP
 	}
 }

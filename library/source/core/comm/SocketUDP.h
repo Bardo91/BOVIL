@@ -20,6 +20,8 @@ namespace BOViL{
 
 		protected:
 			SocketUDP() {};
+
+			sockaddr_in mAddr;
 		};	// class SocketUDP
 	}
 }
