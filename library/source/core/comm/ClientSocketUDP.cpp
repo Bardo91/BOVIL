@@ -8,6 +8,7 @@
 
 #include "ClientSocketUDP.h"
 
+#include <arpa/inet.h>
 #include <cassert>
 
 namespace BOViL{
