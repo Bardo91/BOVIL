@@ -38,7 +38,7 @@ namespace BOViL{
 			#if defined(_WIN32)
 				mAddr.sin_addr.s_addr = inet_addr(_serverIp.c_str());
 			#elif defined(__linux__)
-				mAddr.sin_addr.s_addr = htons(_serverIp.c_str());
+				inet_aton(_serverIp.c_str() , &mAddr.sin_addr) == 0
 			#endif
 			// 666 TODO: ver como meter el request de información del otro lado del socket etc...
 		}
