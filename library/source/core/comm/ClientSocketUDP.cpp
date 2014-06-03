@@ -33,13 +33,13 @@ namespace BOViL{
 			// assume our receiver's IP address is _serverIp and waiting
 			// for datagrams on port _serverPort.
 			// 666 TODO: bindear al puerto para no tener que hacer el send!
-			//mAddr.sin_family = AF_INET;
-			//mAddr.sin_port = htons((unsigned short)atoi(_serverPort.c_str()));
-			//#if defined(_WIN32)
-			//	mAddr.sin_addr.s_addr = inet_addr(_serverIp.c_str());
-			//#elif defined(__linux__)
-			//	mAddr.sin_addr.s_addr = htons(_serverIp.c_str());
-			//#endif
+			mAddr.sin_family = AF_INET;
+			mAddr.sin_port = htons((unsigned short)atoi(_serverPort.c_str()));
+			#if defined(_WIN32)
+				mAddr.sin_addr.s_addr = inet_addr(_serverIp.c_str());
+			#elif defined(__linux__)
+				mAddr.sin_addr.s_addr = htons(_serverIp.c_str());
+			#endif
 			// 666 TODO: ver como meter el request de información del otro lado del socket etc...
 		}
 	}	//	namespace comm
