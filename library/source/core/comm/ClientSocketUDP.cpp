@@ -8,7 +8,9 @@
 
 #include "ClientSocketUDP.h"
 
-#include <arpa/inet.h>
+#elif defined(__linux__)
+	#include <arpa/inet.h>
+#endif
 #include <cassert>
 
 namespace BOViL{
@@ -39,7 +41,7 @@ namespace BOViL{
 			#if defined(_WIN32)
 				mAddr.sin_addr.s_addr = inet_addr(_serverIp.c_str());
 			#elif defined(__linux__)
-				inet_aton(_serverIp.c_str() , &mAddr.sin_addr)
+				inet_aton(_serverIp.c_str() , &mAddr.sin_addr);
 			#endif
 			// 666 TODO: ver como meter el request de información del otro lado del socket etc...
 		}
