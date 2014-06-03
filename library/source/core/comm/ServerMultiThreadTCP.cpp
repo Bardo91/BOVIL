@@ -97,7 +97,7 @@ namespace BOViL{
 		}		
 		
 		//-------------------------------------------------------------------------------
-		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf) : mSocket(_socket), mMySelf(_mySelf) {
+		AuxiliarServerThread::AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf) : mMySelf(_mySelf), mSocket(_socket) {
 			startThread();
 		}
 
@@ -109,7 +109,7 @@ namespace BOViL{
 				int recvbuflen = 4096;
 				char recvbuf[4096];
 
-				int iResult = recv(mSocket, recvbuf, recvbuflen, MSG_PARTIAL);
+				int iResult = recv(mSocket, recvbuf, recvbuflen, 0); // 666 TODO: MSG_PARTIAL);
 				if (iResult > 0) {
 					//std::cout << "Connection " << mIndex << " has received " << iResult << "bytes" << std::endl;
 
@@ -132,9 +132,9 @@ namespace BOViL{
 		//-------------------------- ServerMultiThreadTCP -------------------------------
 		//-------------------------------------------------------------------------------
 		ServerMultiThreadTCP::ServerMultiThreadTCP(std::string _serverPort):	mServerPort(_serverPort), 
-																				mNoConnections(0),
-																				mIsRunning(true),
-																				mAcceptSocket(INVALID_SOCKET){
+																				mIsRunning(true), 
+																				mAcceptSocket(INVALID_SOCKET),
+																				mNoConnections(0) {
 
 			// Initialization of accept socket
 			#if defined (_WIN32) 
