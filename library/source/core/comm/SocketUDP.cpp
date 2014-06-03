@@ -30,8 +30,12 @@ namespace BOViL{
 		bool SocketUDP::receiveMsg(std::string &_msg) {
 			char recvbuf[1024];
 			int recvbuflen = 1024;
-
-			int iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (int*)mHints.ai_addrlen);
+			int iResult;			
+			#if defined(_WIN32)
+				iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (int*)mHints.ai_addrlen);
+			#elif defined(__linux__)
+				iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, mHints.ai_addrlen);
+			#endif
 			if (iResult < 0) {
 				return false;
 			}
