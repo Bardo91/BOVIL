@@ -228,3 +228,9 @@
 /Tests/test_sockets_UDP/server/prj/vs13/*.sdf
 /Tests/test_sockets_UDP/server/prj/vs13/*.suo
 /Tests/test_sockets_UDP/server/prj/vs13/*.user
+/library/prj_assets/vs13/BOViL_assets/Debug/BOViL_assets.tlog
+/library/prj_assets/vs13/BOViL_assets/Debug
+/library/prj_assets/vs13/Debug
+/library/prj_assets/vs13/*.opensdf
+/library/prj_assets/vs13/*.sdf
+/library/prj_assets/vs13/*.suo
