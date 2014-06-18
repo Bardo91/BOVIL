@@ -43,6 +43,13 @@ namespace BOViL{
 			#elif defined(__linux__)
 				inet_aton(_serverIp.c_str() , &mAddr.sin_addr);
 			#endif
+
+			if (bind(mSocket, (sockaddr*)&mAddr, sizeof(mAddr)) == SOCKET_ERROR){
+				closeSocket();
+				assert(false);
+
+			}
+
 			// 666 TODO: ver como meter el request de información del otro lado del socket etc...
 		}
 	}	//	namespace comm
