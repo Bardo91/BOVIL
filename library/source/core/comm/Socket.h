@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 //	BOVIL: core
 //
-//			Author:		Pablo Ramon Soria
-//			Date:		2014-03-30
-//		Last Update:	2014-05-31
+//			Author:			Pablo Ramon Soria
+//			Date:			2014-03-30
+//			Last Update:	2014-05-31
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@
 #if defined(_WIN32)
 	#define WIN32_LEAN_AND_MEAN
 
-	#include <windows.h>
+	#include <Windows.h>
 	#include <winsock2.h>
 	#include <ws2tcpip.h>
 

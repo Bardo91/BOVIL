@@ -234,3 +234,4 @@
 /library/prj_assets/vs13/*.opensdf
 /library/prj_assets/vs13/*.sdf
 /library/prj_assets/vs13/*.suo
+/Tests/test_sockets_UDP/server/prj/vs13/*.opensdf
