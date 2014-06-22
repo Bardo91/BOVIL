@@ -58,7 +58,7 @@ void testSegmentation(){
 
 	BOViL::STime *time = BOViL::STime::get();
 
-	double t0, t1;
+	double t0, t1, t2, t3;
 
 	std::cout << "--Create Clustered Space" << std::endl;
 	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
@@ -88,7 +88,7 @@ void testSegmentation(){
 
 
 	while(condition){
-		//t0 = time->getTime();
+		t0 = time->getTime();
 
 		// ----------------- IMAGE SEGMENTATION ------------------------
 		std::stringstream ss;
@@ -104,7 +104,6 @@ void testSegmentation(){
 
 		img.copyTo(ori);
 
-		t0 = time->getTime();
 		std::vector<BOViL::ImageObject> objects;
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
@@ -116,18 +115,11 @@ void testSegmentation(){
 															objects,		// Output Objects
 															*cs);			// Segmentation function 
 
-		
+		t1 = time->getTime();
 		std::cout << "Number of detected Objects1 in the scene: " << objects.size() << std::endl;
 
 		// ----------------- TRACKING ALGORITHM ------------------------
-		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
-		// Update cameras pos and ori
-		double arrayPosC1[3] = {inputBuffer[7], inputBuffer[8], inputBuffer[9]};
-		groundEKF.updateCamera(	BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
-								BOViL::math::createRotationMatrixEuler(	inputBuffer[10] - 3.1416 / 2, 
-																		inputBuffer[11], 
-																		inputBuffer[12] - 3.1416 / 2),
-								inputBuffer[3]);
+		
 		// Select Oject
 		int maxSize = 0, maxIndex = 0;
 		for(unsigned int obj = 0; obj < objects.size() ; ++obj){
@@ -142,6 +134,17 @@ void testSegmentation(){
 
 		cv::imshow("ORIGINAL", ori);
 
+		t2 = time->getTime();
+		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
+		// Update cameras pos and ori
+		double arrayPosC1[3] = { inputBuffer[7], inputBuffer[8], inputBuffer[9] };
+		groundEKF.updateCamera(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
+			BOViL::math::createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2,
+			inputBuffer[11],
+			inputBuffer[12] - 3.1416 / 2),
+			inputBuffer[3]);
+
+
 		double arrayZk[2] = {	double (objects[maxIndex].getCentroid().x),
 								double (objects[maxIndex].getCentroid().y)};
 
@@ -150,13 +153,13 @@ void testSegmentation(){
 
 		BOViL::math::Matrix<double> state = groundEKF.getStateVector();
 
-		t1 = time->getTime();
-		double fps = 1 / (t1 - t0);
-		std::cout << fps << " fps" << std::endl;
+		t3 = time->getTime();
+		//double fps = 1 / (t1 - t0);
+		//std::cout << fps << " fps" << std::endl;
 
 		state.showMatrix();
 		
-		outFile << inputBuffer[0] << "\t" << state[0] << "\t" << state[1] << "\t" << state[2] << "\t" << arrayZk[0] << "\t" << arrayZk[1] << "\n";
+		outFile << inputBuffer[0] << "\t" << state[0] << "\t" << state[1] << "\t" << state[2] << "\t" << arrayZk[0] << "\t" << arrayZk[1] << "\t" << 1 / (t1 - t0) << "\t" << 1 / (t3 - t2) << "\n";
 
 		cv::waitKey(1);
 
