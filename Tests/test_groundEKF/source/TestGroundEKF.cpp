@@ -139,18 +139,16 @@ void testSegmentation(){
 		t2 = time->getTime();
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
-		double alpha = inputBuffer[10];
-		double beta = inputBuffer[11];
-		double gamma = inputBuffer[12];
-
-		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, alpha) *
-								createRotationMatrix(eEdges::EdgeY, beta) *
-								createRotationMatrix(eEdges::EdgeZ, gamma);
+		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, inputBuffer[10]) *
+								createRotationMatrix(eEdges::EdgeY, inputBuffer[11]) *
+								createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
 
 		Matrix<double> rotAdapt = createRotationMatrix(eEdges::EdgeX, PiCte / 2) * createRotationMatrix(eEdges::EdgeZ, PiCte);
 
+		Matrix<double> finRot = rotAdapt * camOri;
+
 		double arrayPosC1[3] = { inputBuffer[7], inputBuffer[8], inputBuffer[9] };
-		groundEKF.updateCamera(Matrix<double>(arrayPosC1, 3, 1), rotAdapt * camOri, inputBuffer[3]);
+		groundEKF.updateCamera(Matrix<double>(arrayPosC1, 3, 1), finRot , inputBuffer[3]);
 
 
 		// EKF step
