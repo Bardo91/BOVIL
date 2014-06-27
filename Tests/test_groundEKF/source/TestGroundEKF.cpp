@@ -139,17 +139,10 @@ void testSegmentation(){
 		t2 = time->getTime();
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
-		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, inputBuffer[10]) *
-								createRotationMatrix(eEdges::EdgeY, inputBuffer[11]) *
-								createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
-
-		Matrix<double> rotAdapt = createRotationMatrix(eEdges::EdgeX, PiCte / 2) * createRotationMatrix(eEdges::EdgeZ, PiCte);
-
-		Matrix<double> finRot = rotAdapt * camOri;
+		Matrix<double> camOri = BOViL::math::createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2, inputBuffer[11], inputBuffer[12] - 3.1416 / 2);
 
 		double arrayPosC1[3] = { inputBuffer[7], inputBuffer[8], inputBuffer[9] };
-		groundEKF.updateCamera(Matrix<double>(arrayPosC1, 3, 1), finRot , inputBuffer[3]);
-
+		groundEKF.updateCamera(	BOViL::math::Matrix<double>(arrayPosC1, 3, 1), camOri, inputBuffer[3]);
 
 		// EKF step
 		double arrayZk[2] = {	double (objects[maxIndex].getCentroid().x),
