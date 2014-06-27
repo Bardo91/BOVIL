@@ -35,20 +35,20 @@ namespace BOViL{
 			{
 			case eEdges::EdgeX:{
 								   double arrayRx[9] = { 1, 0, 0,
-									   0, cos(_angle), sin(_angle),
-									   0, -sin(_angle), cos(_angle) };
+									   0, cos(_angle), -sin(_angle),
+									   0, sin(_angle), cos(_angle) };
 
 								   return Matrix<double>(arrayRx, 3, 3);
 			}
 			case eEdges::EdgeY:{
-								   double arrayRy[9] = { cos(_angle), 0, -sin(_angle),
+								   double arrayRy[9] = { cos(_angle), 0, sin(_angle),
 									   0, 1, 0,
-									   sin(_angle), 0, cos(_angle) };
+									   -sin(_angle), 0, cos(_angle) };
 								   return Matrix<double>(arrayRy, 3, 3);
 			}
 			case eEdges::EdgeZ:{
-								   double arrayRz[9] = { cos(_angle), sin(_angle), 0,
-									   -sin(_angle), cos(_angle), 0,
+								   double arrayRz[9] = { cos(_angle), -sin(_angle), 0,
+									   sin(_angle), cos(_angle), 0,
 									   0, 0, 1 };
 								   return Matrix<double>(arrayRz, 3, 3);
 			}
