@@ -10,6 +10,8 @@
 
 #include <core/math/geometrics/Geometrics.h>
 
+using namespace BOViL::math;
+
 static const double arrayQ[16] = {	0.05, 0, 0, 0,
 									0, 0.05, 0, 0,
 									0, 0, 0.05, 0,
@@ -67,9 +69,9 @@ void testSegmentation(){
 	std::cout << "--Init Stereo EKF" << std::endl;
 	BOViL::algorithms::GroundTrackingEKF groundEKF;
 
-	groundEKF.setUpEKF(BOViL::math::Matrix<double>(arrayQ, 4, 4),
-						BOViL::math::Matrix<double>(arrayR, 2, 2),
-						BOViL::math::Matrix<double>(arrayX0, 4, 1));
+	groundEKF.setUpEKF(Matrix<double>(arrayQ, 4, 4),
+						Matrix<double>(arrayR, 2, 2),
+						Matrix<double>(arrayX0, 4, 1));
 
 	groundEKF.setUpCamera(738.143358488352310, 346.966835812843040, 240.286986071815390);
 	double inputBuffer[20];
@@ -137,21 +139,28 @@ void testSegmentation(){
 		t2 = time->getTime();
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
+		double alpha = inputBuffer[10];
+		double beta = inputBuffer[11];
+		double gamma = inputBuffer[12];
+
+		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, alpha) *
+								createRotationMatrix(eEdges::EdgeY, beta) *
+								createRotationMatrix(eEdges::EdgeZ, gamma);
+
+		Matrix<double> rotAdapt = createRotationMatrix(eEdges::EdgeX, PiCte / 2) * createRotationMatrix(eEdges::EdgeZ, PiCte);
+
 		double arrayPosC1[3] = { inputBuffer[7], inputBuffer[8], inputBuffer[9] };
-		groundEKF.updateCamera(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
-			BOViL::math::createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2,
-			inputBuffer[11],
-			inputBuffer[12] - 3.1416 / 2),
-			inputBuffer[3]);
+		groundEKF.updateCamera(Matrix<double>(arrayPosC1, 3, 1), rotAdapt * camOri, inputBuffer[3]);
 
 
+		// EKF step
 		double arrayZk[2] = {	double (objects[maxIndex].getCentroid().x),
 								double (objects[maxIndex].getCentroid().y)};
 
-		groundEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 2, 1), inputBuffer[0] - lastTime);
+		groundEKF.stepEKF(Matrix<double>(arrayZk, 2, 1), inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
 
-		BOViL::math::Matrix<double> state = groundEKF.getStateVector();
+		Matrix<double> state = groundEKF.getStateVector();
 
 		t3 = time->getTime();
 		//double fps = 1 / (t1 - t0);
