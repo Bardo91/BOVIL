@@ -140,14 +140,16 @@ void testSegmentation(){
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
 		
-		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, inputBuffer[10])*
-			createRotationMatrix(eEdges::EdgeY, inputBuffer[11])*
-			createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
+		Matrix<double> Rx = createRotationMatrix(eEdges::EdgeX, inputBuffer[10]);
+		Matrix<double> Ry = createRotationMatrix(eEdges::EdgeY, inputBuffer[11]);
+		Matrix<double> Rz = createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
+
+		Matrix<double> camOri = Rx*Ry*Rz;
 		
 
 		Matrix<double> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2)*
-									createRotationMatrix(eEdges::EdgeZ, PiCte);
-
+									createRotationMatrix(eEdges::EdgeZ, PiCte / 2);
+		
 		
 		camOri = adaptRot*camOri;
 

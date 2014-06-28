@@ -46,11 +46,12 @@ namespace BOViL {
 			math::Matrix<double> cPoint(cPointArray, 3, 1);
 
 			// Point related to camera's coordinate
-			math::Matrix<double> Pc = mOri * (cPoint - mPos);
+			math::Matrix<double> Pc = (cPoint - mPos);
+			math::Matrix<double> Pc_local = mOri * Pc;
 
 			// Estimation of the observation state based on actual estimation of system state ( h(·) )
-			mHZk(0,0) = mU0 - mFocalLenght * Pc(0,0) / Pc(2,0);
-			mHZk(1,0) = mV0 + mFocalLenght * Pc(1,0) / Pc(2,0);
+			mHZk(0, 0) = mU0 - mFocalLenght * Pc_local(0, 0) / Pc_local(2, 0);
+			mHZk(1, 0) = mV0 + mFocalLenght * Pc_local(1, 0) / Pc_local(2, 0);
 
 		}
 
