@@ -20,8 +20,8 @@ static const double arrayQ[16] = {	0.05, 0, 0, 0,
 static const double arrayR[4] = {	0.1, 0, 
 									0, 0.1 };
 
-static const double arrayX0[4] = {	8.0,//0, 
-									12.0,//0, 
+static const double arrayX0[4] = {	0.0,//0, 
+									0.0,//0, 
 									0.0,//0, 
 									0.0};//0);
 
@@ -88,6 +88,8 @@ void testSegmentation(){
 
 	double lastTime = 0;
 
+	Matrix<double> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2)*
+								createRotationMatrix(eEdges::EdgeZ, PiCte / 2);
 
 	while(condition){
 		t0 = time->getTime();
@@ -139,10 +141,14 @@ void testSegmentation(){
 		t2 = time->getTime();
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		// Update cameras pos and ori
-		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, inputBuffer[10] - PiCte / 2)*
+		Matrix<double> camOri = createRotationMatrix(eEdges::EdgeX, inputBuffer[10])*
 								createRotationMatrix(eEdges::EdgeY, inputBuffer[11])*
-								createRotationMatrix(eEdges::EdgeZ, inputBuffer[12] - PiCte / 2);
+								createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
 								
+		
+		
+		camOri = adaptRot*camOri;
+
 		//Matrix<double> camOri = createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2, inputBuffer[11], inputBuffer[12] - 3.1416 / 2);
 
 		double arrayPosC1[3] = { inputBuffer[7], inputBuffer[8], inputBuffer[9] };
