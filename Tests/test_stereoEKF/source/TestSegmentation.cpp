@@ -53,7 +53,7 @@ void testSegmentation(){
 		path = "/home/bardo91/Programming/Images/";
 	#endif
 	#if defined (_WIN32)
-		path = "C:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
+		path = "C:/Programming/ImagenesStereoTracking/P2_640x480/Images/";	
 	#endif
 	
 	std::cout << "--Path of images: " << path << std::endl;
@@ -89,7 +89,7 @@ void testSegmentation(){
 		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
 	#endif
 	#if defined (_WIN32)
-		condition = openInputFile(inputFile, "C:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
+		condition = openInputFile(inputFile, "C:/Programming/ImagenesStereoTracking/P2_640x480/ViconData2.txt");	
 	#endif
 
 	double lastTime = 0;
@@ -140,14 +140,51 @@ void testSegmentation(){
 															*cs);			// Segmentation function 
 
 
+		
 		t1 = time->getTime();
 		double fps = 1/(t1-t0);
 		std::cout << fps << " fps" << std::endl;
 		std::cout << "Number of detected Objects1 in the scene: " << objects1.size() << std::endl;
 		std::cout << "Number of detected Objects2 in the scene: " << objects2.size() << std::endl;
 
+		int maxY1 = 0, maxIndex1 = 0;
+		int maxY2 = 0, maxIndex2 = 0;
+
+		if (objects1.size() != 0 && objects2.size() != 0){
+			// Select Object
+			
+			for (unsigned int obj = 0; obj < objects1.size(); obj++){
+				if (objects1[obj].getCentroid().y > maxY1){
+					maxY1 = objects1[obj].getCentroid().y;
+					maxIndex1 = obj;
+				}
+			}
+			
+			for (unsigned int obj = 0; obj < objects2.size(); obj++){
+				if (objects2[obj].getCentroid().y > maxY2){
+					maxY2 = objects2[obj].getCentroid().y;
+					maxIndex2 = obj;
+				}
+			}
+
+			BOViL::Point2ui p = objects1[maxIndex1].getCentroid();
+			cv::circle(ori1, cv::Point2d(p.x, p.y), objects1[maxIndex1].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
+
+			p = objects2[maxIndex2].getCentroid();
+			cv::circle(ori2, cv::Point2d(p.x, p.y), objects2[maxIndex2].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
+		}
+
+		cv::hconcat(ori1, ori2, ori1);
+		cv::imshow("ORIGINAL", ori1);
+
+
 		// ----------------- TRACKING ALGORITHM ------------------------
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
+
+		if (objects1.size() == 0 || objects2.size() == 0)
+			continue;
+
+
 		// Update cameras pos and ori
 		double arrayPosC1[3] = {inputBuffer[7], inputBuffer[8], inputBuffer[9]};
 		double arrayPosC2[3] = {inputBuffer[13], inputBuffer[14], inputBuffer[15]};
@@ -173,29 +210,6 @@ void testSegmentation(){
 								Matrix<double>(arrayPosC2, 3, 1),	
 								adaptRot*camOri1,
 								adaptRot*camOri2);
-		// Select Oject
-		int maxY1 = 0, maxIndex1 = 0;
-		for(unsigned int obj = 0; obj < objects1.size() ; obj++){
-			if(objects1[obj].getCentroid().y > maxY1){
-				maxY1 = objects1[obj].getCentroid().y;
-				maxIndex1 = obj;
-			}
-		}
-		int maxY2 = 0, maxIndex2 = 0;
-		for(unsigned int obj = 0; obj < objects2.size() ; obj++){
-			if(objects2[obj].getCentroid().y > maxY2){
-				maxY2 = objects2[obj].getCentroid().y;
-				maxIndex2 = obj;
-			}
-		}
-		BOViL::Point2ui p = objects1[maxIndex1].getCentroid();
-		cv::circle(ori1, cv::Point2d(p.x, p.y), objects1[maxIndex1].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
-
-		p = objects2[maxIndex2].getCentroid();
-		cv::circle(ori2, cv::Point2d(p.x, p.y), objects2[maxIndex2].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
-
-		cv::hconcat(ori1, ori2, ori1);
-		cv::imshow("ORIGINAL", ori1);
 
 		double arrayZk[4] = {	double (objects1[maxIndex1].getCentroid().x),
 								img1.rows - double (objects1[maxIndex1].getCentroid().y),
