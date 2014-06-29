@@ -30,6 +30,8 @@ static const double arrayX0[6] = {	8.0,//0,
 									0};//0);
 
 
+using namespace BOViL::math;
+
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
@@ -73,9 +75,9 @@ void testSegmentation(){
 	std::cout << "--Init Stereo EKF" << std::endl;
 	BOViL::algorithms::StereoVisionEKF stereoEKF;
 
-	stereoEKF.setUpEKF(	BOViL::math::Matrix<double>(arrayQ, 6, 6),
-						BOViL::math::Matrix<double>(arrayR, 4, 4),
-						BOViL::math::Matrix<double>(arrayX0, 6, 1));
+	stereoEKF.setUpEKF(	Matrix<double>(arrayQ, 6, 6),
+						Matrix<double>(arrayR, 4, 4),
+						Matrix<double>(arrayX0, 6, 1));
 
 	stereoEKF.setUpCameras(738.143358488352310, 346.966835812843040 , 240.286986071815390);
 	double inputBuffer[20];
@@ -149,26 +151,40 @@ void testSegmentation(){
 		// Update cameras pos and ori
 		double arrayPosC1[3] = {inputBuffer[7], inputBuffer[8], inputBuffer[9]};
 		double arrayPosC2[3] = {inputBuffer[13], inputBuffer[14], inputBuffer[15]};
-		stereoEKF.updateCameras(BOViL::math::Matrix<double>(arrayPosC1, 3, 1),
-								BOViL::math::Matrix<double>(arrayPosC2, 3, 1),	
-								BOViL::math::createRotationMatrixEuler(	inputBuffer[10] - 3.1416 / 2, 
-																		inputBuffer[11], 
-																		inputBuffer[12] - 3.1416 / 2),
-								BOViL::math::createRotationMatrixEuler(	inputBuffer[16] - 3.1416 / 2, 
-																		inputBuffer[17],
-																		inputBuffer[18] - 3.1416 / 2));
+
+
+		Matrix<double> Rx = createRotationMatrix(eEdges::EdgeX, inputBuffer[10]);
+		Matrix<double> Ry = createRotationMatrix(eEdges::EdgeY, inputBuffer[11]);
+		Matrix<double> Rz = createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
+
+		Matrix<double> camOri1 = Rz*Ry*Rx;
+
+		Rx = createRotationMatrix(eEdges::EdgeX, inputBuffer[16]);
+		Ry = createRotationMatrix(eEdges::EdgeY, inputBuffer[17]);
+		Rz = createRotationMatrix(eEdges::EdgeZ, inputBuffer[18]);
+
+		Matrix<double> camOri2 = Rz*Ry*Rx;
+
+		Matrix<double> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2) *
+									createRotationMatrix(eEdges::EdgeZ, PiCte / 2);
+
+
+		stereoEKF.updateCameras(Matrix<double>(arrayPosC1, 3, 1),
+								Matrix<double>(arrayPosC2, 3, 1),	
+								adaptRot*camOri1,
+								adaptRot*camOri2);
 		// Select Oject
-		int maxSize1 = 0, maxIndex1 = 0;
-		for(unsigned int obj = 0; obj < objects1.size() ; ++obj){
-			if(objects1[obj].getSize() > maxSize1){
-				maxSize1 = objects1[obj].getSize();
+		int maxY1 = 0, maxIndex1 = 0;
+		for(unsigned int obj = 0; obj < objects1.size() ; obj++){
+			if(objects1[obj].getCentroid().y > maxY1){
+				maxY1 = objects1[obj].getCentroid().y;
 				maxIndex1 = obj;
 			}
 		}
-		int maxSize2 = 0, maxIndex2 = 0;
-		for(unsigned int obj = 0; obj < objects2.size() ; ++obj){
-			if(objects2[obj].getSize() > maxSize2){
-				maxSize2 = objects2[obj].getSize();
+		int maxY2 = 0, maxIndex2 = 0;
+		for(unsigned int obj = 0; obj < objects2.size() ; obj++){
+			if(objects2[obj].getCentroid().y > maxY2){
+				maxY2 = objects2[obj].getCentroid().y;
 				maxIndex2 = obj;
 			}
 		}
@@ -182,14 +198,14 @@ void testSegmentation(){
 		cv::imshow("ORIGINAL", ori1);
 
 		double arrayZk[4] = {	double (objects1[maxIndex1].getCentroid().x),
-								double (objects1[maxIndex1].getCentroid().y),
+								img1.rows - double (objects1[maxIndex1].getCentroid().y),
 								double (objects2[maxIndex2].getCentroid().x),
-								double (objects2[maxIndex2].getCentroid().y)};
+								img2.rows - double(objects2[maxIndex2].getCentroid().y) };
 
-		stereoEKF.stepEKF(BOViL::math::Matrix<double>(arrayZk, 4, 1), inputBuffer[0] - lastTime);
+		stereoEKF.stepEKF(Matrix<double>(arrayZk, 4, 1), inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
 
-		BOViL::math::Matrix<double> state =  stereoEKF.getStateVector();
+		Matrix<double> state =  stereoEKF.getStateVector();
 
 		state.showMatrix();
 		

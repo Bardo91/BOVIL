@@ -33,7 +33,7 @@ namespace BOViL{
 		Matrix<double> createRotationMatrix(eEdges _edge, double angle);
 
 		//-------------------------------------------------------------------------------------
-Matrix<double> createRotationMatrixEuler(double _alpha, double _beta, double _gamma);
+
 		//-------------------------------------------------------------------------------------
 
 		//-------------------------------------------------------------------------------------

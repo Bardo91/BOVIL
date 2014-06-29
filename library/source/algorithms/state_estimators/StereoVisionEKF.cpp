@@ -47,10 +47,10 @@ namespace BOViL {
 		}
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateHZk(){
-			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
+			math::Matrix<double> cPoint = math::Matrix<double>(mXfk.getMatrixPtr(), 3, 1);
 			
-			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
-			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
+			math::Matrix<double> Pc1 = mOriC1 * (cPoint - mPosC1);
+			math::Matrix<double> Pc2 = mOriC2 * (cPoint - mPosC2);
 
 			mHZk(0, 0) = mU0 - mFocalLenght * Pc1(0, 0) / Pc1(2, 0);
 			mHZk(1, 0) = mV0 + mFocalLenght * Pc1(1, 0) / Pc1(2, 0);
@@ -62,29 +62,29 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateJh(){
-			math::Matrix<double> cPoint(mXfk.getMatrixPtr(), 3, 1);
+			math::Matrix<double> cPoint = math::Matrix<double>(mXfk.getMatrixPtr(), 3, 1);
 
-			math::Matrix<double> Pc1 = mOriC1.transpose() * (cPoint - mPosC1);
-			math::Matrix<double> Pc2 = mOriC2.transpose() * (cPoint - mPosC2);
+			math::Matrix<double> Pc1 = mOriC1 * (cPoint - mPosC1);
+			math::Matrix<double> Pc2 = mOriC2 * (cPoint - mPosC2);
 
 			double den1 = Pc1(2, 0) * Pc1(2, 0);
 			double den2 = Pc2(2, 0) * Pc2(2, 0);
 
-			mJh(0, 0) = -mFocalLenght * (mOriC1(0, 0) * Pc1(2, 0) - mOriC1(0, 2) * Pc1(0, 0)) / den1;
-			mJh(0, 1) = -mFocalLenght * (mOriC1(1, 0) * Pc1(2, 0) - mOriC1(1, 2) * Pc1(0, 0)) / den1;
-			mJh(0, 2) = -mFocalLenght * (mOriC1(2, 0) * Pc1(2, 0) - mOriC1(2, 2) * Pc1(0, 0)) / den1;
+			mJh(0, 0) = -mFocalLenght * (mOriC1(0, 0) * Pc1(2, 0) - mOriC1(2, 0) * Pc1(0, 0)) / den1;
+			mJh(0, 1) = -mFocalLenght * (mOriC1(0, 1) * Pc1(2, 0) - mOriC1(2, 1) * Pc1(0, 0)) / den1;
+			mJh(0, 2) = -mFocalLenght * (mOriC1(0, 2) * Pc1(2, 0) - mOriC1(2, 2) * Pc1(0, 0)) / den1;
 			   											  							  		    
-			mJh(1, 0) = mFocalLenght * (mOriC1(0, 1) * Pc1(2, 0) - mOriC1(0, 2) * Pc1(1, 0)) / den1;
-			mJh(1, 1) = mFocalLenght * (mOriC1(1, 1) * Pc1(2, 0) - mOriC1(1, 2) * Pc1(1, 0)) / den1;
-			mJh(1, 2) = mFocalLenght * (mOriC1(2, 1) * Pc1(2, 0) - mOriC1(2, 2) * Pc1(1, 0)) / den1;  // Pc1(2,0) / Pc2(3,0);
+			mJh(1, 0) = mFocalLenght * (mOriC1(1, 0) * Pc1(2, 0) - mOriC1(2, 0) * Pc1(1, 0)) / den1;
+			mJh(1, 1) = mFocalLenght * (mOriC1(1, 1) * Pc1(2, 0) - mOriC1(2, 1) * Pc1(1, 0)) / den1;
+			mJh(1, 2) = mFocalLenght * (mOriC1(1, 2) * Pc1(2, 0) - mOriC1(2, 2) * Pc1(1, 0)) / den1;  // Pc1(2,0) / Pc2(3,0);
 															
-			mJh(2, 0) = -mFocalLenght * (mOriC2(0, 0) * Pc2(2, 0) - mOriC2(0, 2) * Pc2(0, 0)) / den2;
-			mJh(2, 1) = -mFocalLenght * (mOriC2(1, 0) * Pc2(2, 0) - mOriC2(1, 2) * Pc2(0, 0)) / den2;
-			mJh(2, 2) = -mFocalLenght * (mOriC2(2, 0) * Pc2(2, 0) - mOriC2(2, 2) * Pc2(0, 0)) / den2;
+			mJh(2, 0) = -mFocalLenght * (mOriC2(0, 0) * Pc2(2, 0) - mOriC2(2, 0) * Pc2(0, 0)) / den2;
+			mJh(2, 1) = -mFocalLenght * (mOriC2(0, 1) * Pc2(2, 0) - mOriC2(2, 1) * Pc2(0, 0)) / den2;
+			mJh(2, 2) = -mFocalLenght * (mOriC2(0, 2) * Pc2(2, 0) - mOriC2(2, 2) * Pc2(0, 0)) / den2;
 														   							   		   
-			mJh(3, 0) = mFocalLenght * (mOriC2(0, 1) * Pc2(2, 0) - mOriC2(0, 2) * Pc2(1, 0)) / den2;
-			mJh(3, 1) = mFocalLenght * (mOriC2(1, 1) * Pc2(2, 0) - mOriC2(1, 2) * Pc2(1, 0)) / den2;
-			mJh(3, 2) = mFocalLenght * (mOriC2(2, 1) * Pc2(2, 0) - mOriC2(2, 2) * Pc2(1, 0)) / den2;
+			mJh(3, 0) = mFocalLenght * (mOriC2(1, 0) * Pc2(2, 0) - mOriC2(2, 0) * Pc2(1, 0)) / den2;
+			mJh(3, 1) = mFocalLenght * (mOriC2(1, 1) * Pc2(2, 0) - mOriC2(2, 1) * Pc2(1, 0)) / den2;
+			mJh(3, 2) = mFocalLenght * (mOriC2(1, 2) * Pc2(2, 0) - mOriC2(2, 2) * Pc2(1, 0)) / den2;
 
 			//dataJh[3] = dataJh[4] = dataJh[5] = dataJh[9] = dataJh[10] = 
 			//			dataJh[11] = dataJh[15] = dataJh[16] = dataJh[17] = 

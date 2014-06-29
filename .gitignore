@@ -235,3 +235,10 @@
 /library/prj_assets/vs13/*.sdf
 /library/prj_assets/vs13/*.suo
 /Tests/test_sockets_UDP/server/prj/vs13/*.opensdf
+/Tests/test_stereoEKF/prj/vs13/Debug
+/Tests/test_stereoEKF/prj/vs13/Release
+/Tests/test_stereoEKF/prj/vs13/*.psess
+/Tests/test_stereoEKF/prj/vs13/*.sdf
+/Tests/test_stereoEKF/prj/vs13/*.user
+/Tests/test_stereoEKF/prj/vs13/*.vsp
+/Tests/test_stereoEKF/prj/vs13
