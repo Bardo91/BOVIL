@@ -20,8 +20,8 @@ static const double arrayQ[16] = {	0.05, 0, 0, 0,
 static const double arrayR[4] = {	0.1, 0, 
 									0, 0.1 };
 
-static const double arrayX0[4] = {	0.0,//0, 
-									0.0,//0, 
+static const double arrayX0[4] = {	5.0,//0, 
+									12.0,//0, 
 									0.0,//0, 
 									0.0};//0);
 
@@ -144,7 +144,7 @@ void testSegmentation(){
 		Matrix<double> Ry = createRotationMatrix(eEdges::EdgeY, inputBuffer[11]);
 		Matrix<double> Rz = createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
 
-		Matrix<double> camOri = Rx*Ry*Rz;
+		Matrix<double> camOri = Rz*Ry*Rx;
 		
 
 		Matrix<double> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2)*
@@ -160,7 +160,7 @@ void testSegmentation(){
 
 		// EKF step
 		double arrayZk[2] = {	double (objects[maxIndex].getCentroid().x),
-								double (objects[maxIndex].getCentroid().y)};
+								img.rows - double (objects[maxIndex].getCentroid().y)};
 
 		groundEKF.stepEKF(Matrix<double>(arrayZk, 2, 1), inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
