@@ -82,9 +82,19 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Tests</name>
+			<type>2</type>
+			<location>/home/bardo91/programming/BOVIL/Tests</location>
+		</link>
+		<link>
+			<name>linux</name>
+			<type>2</type>
+			<location>/home/bardo91/programming/BOVIL/library/prj/linux</location>
+		</link>
+		<link>
 			<name>source</name>
 			<type>2</type>
-			<location>/home/pablo/Programming/BOVIL/source</location>
+			<location>/home/bardo91/programming/BOVIL/library/source</location>
 		</link>
 	</linkedResources>
 </projectDescription>
