@@ -34,7 +34,8 @@ namespace BOViL{
 			#if defined(_WIN32)
 				iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (int*)mHints.ai_addrlen);
 			#elif defined(__linux__)
-				iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (socklen_t*) mHints.ai_addrlen);
+				//iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (socklen_t*) mHints.ai_addrlen);
+				iResult = recvfrom(mSocket, (void *)recvbuf, recvbuflen, 0, mHints.ai_addr, &mHints.ai_addrlen);
 			#endif
 			if (iResult < 0) {
 				return false;
