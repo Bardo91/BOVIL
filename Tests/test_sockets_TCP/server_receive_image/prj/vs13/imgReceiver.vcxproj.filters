@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{635b3501-0c5f-467a-a6ac-e7e45b84271c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\socket">
+      <UniqueIdentifier>{5a8d1f30-5891-4400-ac82-5572df6e50e0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\ImgReceiver.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\socket\serverSocket.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\socket\socketMgr.cpp">
+      <Filter>source\socket</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\ImgReceiver.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\socket\serverSocket.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\socket\socketMgr.h">
+      <Filter>source\socket</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

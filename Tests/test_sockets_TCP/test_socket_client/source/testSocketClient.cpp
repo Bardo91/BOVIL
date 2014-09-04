@@ -14,7 +14,7 @@
 using namespace BOViL::comm;
 
 int testSocketClient(std::string _ip, std::string _port){
-	Socket *socket = Socket::createSocket(eSocketType::clientTCP, "2048", "localhost");
+	Socket *socket = Socket::createSocket(eSocketType::clientTCP, _port, _ip);
 	
 	std::string msg = "Hello world";
 	
