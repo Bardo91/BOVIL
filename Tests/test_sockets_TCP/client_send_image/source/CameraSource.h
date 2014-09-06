@@ -17,7 +17,7 @@
 
 #include <vector>
 
-#include <opencv/highgui.h>
+#include <opencv2/opencv.hpp>
 
 const unsigned int IMAGE_ROWS = 128;
 const unsigned int IMAGE_COLS = 128;

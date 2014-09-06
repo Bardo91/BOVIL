@@ -10,15 +10,9 @@
 
 
 //---------------------------------------------------------------------------------------------------------------------
-#include <core/comm/Socket.h>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
-
 #include <string>
 
 //---------------------------------------------------------------------------------------------------------------------
-using namespace cv;
-using namespace BOViL::comm;
 using namespace std;
 
 
@@ -33,6 +27,7 @@ int main(){
 
 	cameraSource.registerListener(imageProcessor);
 
+	cameraSource.startCapture();
 
 	//Mat img = imread("c:/Tulips.jpg");
 	//

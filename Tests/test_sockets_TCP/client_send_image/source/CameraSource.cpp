@@ -21,7 +21,7 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------------------
 CameraSource::CameraSource(){
 	mImageSource.open(CAM_SOURCE);
-
+	
 	if (!mImageSource.isOpened()){
 		std::cout << "LOG: Can't open image source" << std::endl;
 		assert(false);
