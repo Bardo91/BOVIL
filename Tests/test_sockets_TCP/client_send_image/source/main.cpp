@@ -28,6 +28,8 @@ int main(){
 	cameraSource.registerListener(imageProcessor);
 
 	cameraSource.startCapture();
+	
+	//imageProcessor.startProcessing();
 
 	for (;;){
 

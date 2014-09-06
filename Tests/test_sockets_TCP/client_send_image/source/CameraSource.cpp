@@ -32,6 +32,12 @@ CameraSource::CameraSource(){
 }
 
 //---------------------------------------------------------------------------------------------------------------------
+CameraSource::~CameraSource(){
+	mImageSource.release();
+
+}
+
+//---------------------------------------------------------------------------------------------------------------------
 const ImageDescriptor CameraSource::getFrame(){
 	return mCurrentFrame;
 
@@ -70,11 +76,12 @@ void CameraSource::stopCapture(){
 void CameraSource::update(){
 	Mat frame;
 	mImageSource >> frame;
-
+	
 	memcpy(mCurrentFrame.mData, frame.data, IMAGE_COLS * IMAGE_ROWS * IMAGE_CHANNELS);
 
-	for (function<void(const ImageDescriptor &)> listener : mListeners){
+	for (function<void (const ImageDescriptor &)> &listener : mListeners){
 		listener(mCurrentFrame);
+	
 	}
 	
 }

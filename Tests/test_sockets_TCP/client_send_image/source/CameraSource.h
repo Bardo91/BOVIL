@@ -39,6 +39,7 @@ public:
 class CameraSource{
 public:
 	CameraSource();
+	~CameraSource();
 
 	const ImageDescriptor getFrame();			// Get the last frame acquired from the camera
 	void registerListener(std::function<void(const ImageDescriptor &)> _listener);	// Register a new listener waiting for new frames
@@ -50,13 +51,11 @@ private:
 	void update();
 
 private:
-	volatile bool mIsCapturing = false;
-
 	ImageDescriptor mCurrentFrame;
 	std::vector<std::function<void(const ImageDescriptor &)>> mListeners;
 	cv::VideoCapture mImageSource;
-
-
+	
+	volatile bool mIsCapturing = false;
 	std::thread mCaptureThread;
 	std::mutex mCaptureMutex;
 };
