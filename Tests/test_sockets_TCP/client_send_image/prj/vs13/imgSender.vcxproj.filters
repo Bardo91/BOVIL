@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{ec4ec4d5-cf54-46fc-8430-d534eb7954af}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\CameraSource.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\ImageProcessor.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\CameraSource.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ConnectionManager.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\ImageProcessor.h">
+      <Filter>source</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
