@@ -19,8 +19,8 @@
 
 #include <opencv2/opencv.hpp>
 
-const unsigned int IMAGE_ROWS = 128;
-const unsigned int IMAGE_COLS = 128;
+const unsigned int IMAGE_ROWS = 120;
+const unsigned int IMAGE_COLS = 160;
 const unsigned int IMAGE_CHANNELS = 3;
 
 class ImageDescriptor{
@@ -29,9 +29,9 @@ public:
 	~ImageDescriptor(){ delete mData; }
 
 	unsigned int mRows = IMAGE_ROWS;
-	unsigned int mCols = IMAGE_ROWS;
+	unsigned int mCols = IMAGE_COLS;
 	unsigned int mChannels = IMAGE_CHANNELS;
-	unsigned char *mData = new unsigned char[IMAGE_ROWS * IMAGE_COLS];
+	unsigned char *mData = new unsigned char[IMAGE_ROWS * IMAGE_COLS * IMAGE_CHANNELS];
 
 };
 

@@ -14,10 +14,8 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 void ImageProcessor::operator()(const ImageDescriptor &_frame){
-	mCurrentFrame.mRows = _frame.mRows;
-	mCurrentFrame.mCols = _frame.mCols;
-	mCurrentFrame.mChannels = _frame.mChannels;
-	
+	memcpy(mCurrentFrame.mData, _frame.mData, _frame.mCols * _frame.mRows * _frame.mChannels);
+
 }
 
 //---------------------------------------------------------------------------------------------------------------------

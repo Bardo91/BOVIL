@@ -29,6 +29,10 @@ int main(){
 
 	cameraSource.startCapture();
 
+	for (;;){
+
+	}
+
 	//Mat img = imread("c:/Tulips.jpg");
 	//
 	//Socket* clientSocket = Socket::createSocket(eSocketType::clientTCP, "5028", "localhost");
