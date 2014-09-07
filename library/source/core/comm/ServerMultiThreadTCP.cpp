@@ -81,6 +81,11 @@ namespace BOViL{
 		}
 
 		//-------------------------------------------------------------------------------
+		SOCKET AuxiliarServerThread::getSocketDescriptor(){
+			return mSocket;
+		}
+
+		//-------------------------------------------------------------------------------
 		bool AuxiliarServerThread::closeConnection(){
 			int tries = 0;
 			do{
@@ -210,6 +215,12 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------
 		int ServerMultiThreadTCP::requestNoConnections(){
 			return mNoConnections;
+		}
+
+
+		//-------------------------------------------------------------------------------
+		SOCKET ServerMultiThreadTCP::getSocketDescriptor(const unsigned int _n){
+			return mThreadList[_n]->getSocketDescriptor();
 		}
 
 		//-------------------------------------------------------------------------------

@@ -32,6 +32,8 @@ namespace BOViL{
 			bool hasMsg();
 			bool readMsgs(std::vector<std::string> &_messages);
 
+			SOCKET getSocketDescriptor();
+
 			bool closeConnection();
 		protected:
 			AuxiliarServerThread(SOCKET _socket, AuxiliarServerThread **_mySelf);
@@ -63,7 +65,8 @@ namespace BOViL{
 			bool readMsgsFrom(std::vector<std::string> &_msgs, int _connection);
 
 			int requestNoConnections();
-
+			
+			SOCKET getSocketDescriptor(const unsigned int _n);
 		private:
 			#if defined(_WIN32)
 				WSADATA mWsaData;

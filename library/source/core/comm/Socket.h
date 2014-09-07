@@ -54,6 +54,8 @@ namespace BOViL{
 			virtual bool sendMsg(std::string _msg) = 0;
 			virtual bool receiveMsg(std::string &_msg) = 0;
 
+			SOCKET getSocketDescriptor(){ return mSocket; }
+
 		public:	// Socket factory
 			static Socket* createSocket(const eSocketType _socketType, const std::string &_serverPort, const std::string &_serverIp = "");
 		protected:
