@@ -8,28 +8,50 @@
 //
 
 #include "Image.h"
+#include <cassert>
 
 namespace BOViL{
 	//---------------------------------------------------------------------------------------------------------------------
-	eImageTypes checkImageType(std::string _imgPath){
-		unsigned index = _imgPath.find_last_of('.');
+	// Static data initialization
+	bool Image::isFreeImageInitialized = false;
 
-		std::string format = _imgPath.substr(index + 1, _imgPath.length());
-
-		if (format.compare("jpg") || format.compare("jpeg")){
-			return eImageTypes::JPG;
-		}
-		else if (format.compare("png")){
-			return eImageTypes::PNG;
-		}
-
-		return eImageTypes::ERROR;
-
-	}
 	//---------------------------------------------------------------------------------------------------------------------
-	void initFreeImage(){
+	void Image::initFreeImage(){
 			FreeImage_Initialise(true);
-			isFreeImageInitialized = false;
+			isFreeImageInitialized = true;
 	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+	Image::Image(std::string _imgPath){
+		assert(loadImage(_imgPath));
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+	bool Image::loadImage(std::string _imgPath){
+		if (!isFreeImageInitialized){
+			initFreeImage();
+		}
+		FIBITMAP *imageFI = FreeImage_Load(FreeImage_GetFileType(_imgPath.c_str()), _imgPath.c_str());
+		if (nullptr == imageFI)
+			return false;
+
+		mData = FreeImage_GetBits(imageFI);
+		mWidth = FreeImage_GetWidth(imageFI);
+		mHeight = FreeImage_GetHeight(imageFI);
+		mPitch = FreeImage_GetPitch(imageFI);
+
+		return true;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------
+	bool Image::saveImage(std::string _imgPath){
+		if (!isFreeImageInitialized){
+			initFreeImage();
+		}
+		
+		return false;
+
+	}
+
 	//---------------------------------------------------------------------------------------------------------------------
 }

@@ -160,8 +160,5 @@
     <None Include="..\..\source\core\math\Matrix.inl">
       <Filter>core\math</Filter>
     </None>
-    <None Include="..\..\source\core\types\Image.inl">
-      <Filter>core\types</Filter>
-    </None>
   </ItemGroup>
 </Project>

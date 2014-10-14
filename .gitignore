@@ -255,3 +255,9 @@
 /Tests/test_sockets_TCP/server_receive_image/prj/vs13/*.sdf
 /Tests/test_sockets_TCP/server_receive_image/prj/vs13/*.suo
 /Tests/KernelPreprocessing/prj/vs13/Debug
+/Tests/ImageLoad/prj/vs13/Debug
+/Tests/ImageLoad/prj/vs13/*.sdf
+/Tests/ImageLoad/prj/vs13/*.suo
+/Tests/KernelPreprocessing/prj/vs13/*.sdf
+/Tests/KernelPreprocessing/prj/vs13/*.suo
+/Tests/KernelPreprocessing/prj/vs13/*.user

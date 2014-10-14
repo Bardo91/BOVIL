@@ -17,33 +17,29 @@
 #include "../../../external_deps/FreeImage/include/FreeImage.h"
 
 namespace BOViL{
-	static bool isFreeImageInitialized = false;
-
-	void initFreeImage();
-
-	enum class eImageTypes { ERROR = 0, JPG = FIF_JPEG, PNG = FIF_PNG };
-
-	eImageTypes checkImageType(std::string _imgPath);
-
-	template<typename Type_, unsigned width_, unsigned height_, unsigned channels_>
 	struct Image{
-		typedef Type_ mType;
 		Image();
 		Image(std::string _imgPath);
 
-		void loadImage(std::string _imgPath);
+		bool loadImage(std::string _imgPath);
+		bool saveImage(std::string _imgPath);
 
-		const unsigned width(){ return width_; };
-		const unsigned height(){ return height_; };
-		const unsigned channels(){ return channels_; };
+		const unsigned width(){ return mWidth; };
+		const unsigned height(){ return mHeight; };
+		const unsigned pitch(){ return mPitch; };
 
-		Type_ & operator[](unsigned _index){ return mData[_index]; };
+		unsigned char & operator[](unsigned _index){ return mData[_index]; };
 	private:
-		mType mData[width_*height_*channels_];
+		unsigned char	*mData		= nullptr;
+		unsigned		mWidth		= 0;
+		unsigned		mHeight		= 0;
+		unsigned		mPitch	= 0;
+
+	private:
+		static bool isFreeImageInitialized;
+		void initFreeImage();
 
 	};
-
-	#include "Image.inl"
 
 
 }	//	namespace BOViL
