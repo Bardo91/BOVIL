@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\source\core\comm\ServerSocketUDP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>core\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
