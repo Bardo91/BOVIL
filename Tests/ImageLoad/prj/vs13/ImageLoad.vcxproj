@@ -42,8 +42,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Programming\BOVIL\Tests\ImageLoad\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\3rdParty\opencv\build\include;C:\Programming\BOVIL\library\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\3rdParty\opencv\build\x86\vc12\lib;C:\Programming\BOVIL\Tests\ImageLoad\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,11 +51,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BOViL.lib;opencv_core249d.lib;opencv_highgui249d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
