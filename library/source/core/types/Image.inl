@@ -7,6 +7,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Inline implementation of template Image
 
+#include <cassert>
+
 template<typename Type_, unsigned width_, unsigned height_, unsigned channels_>
 Image<Type_, width_, height_, channels_>::Image(){
 
@@ -22,13 +24,17 @@ Image<Type_, width_, height_, channels_>::Image(std::string _imgPath){
 	eImageTypes type = checkImageType(_imgPath);
 	assert(type != eImageTypes::ERROR);	//	 Filetype not supported yet
 
-	FIBITMAP * imageFI = FreeImage_Load(type, _imgPath.c_str());
-
-	mData = (Type_ *)FreeImage_GetBits(imageFI);
+	FIBITMAP * imageFI = FreeImage_Load((FREE_IMAGE_FORMAT) type, _imgPath.c_str());
+	
+	Type_* data = (Type_ *) FreeImage_GetBits(imageFI);
+	data;
 
 }
 //---------------------------------------------------------------------------------------------------------------------
-
+template<typename Type_, unsigned width_, unsigned height_, unsigned channels_>
+void Image<Type_, width_, height_, channels_>::loadImage(std::string _imgPath){
+	_imgPath;
+}
 //---------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------

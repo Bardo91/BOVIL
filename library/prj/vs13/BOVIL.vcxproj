@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Programming\BOVIL\library\external_deps\FreeImage\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\3rdParty\FreeImage;$(IncludePath)</IncludePath>
     <LibraryPath>C:\3rdParty\FreeImage;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -50,12 +50,14 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
       <AdditionalDependencies>FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

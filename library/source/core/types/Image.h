@@ -13,7 +13,8 @@
 #define _BOVIL_CORE_TYPES_IMAGE_H_
 
 #include <string>
-#include <FreeImage.h>
+//#include <FreeImage.h>
+#include "../../../external_deps/FreeImage/include/FreeImage.h"
 
 namespace BOViL{
 	static bool isFreeImageInitialized = false;
@@ -43,6 +44,7 @@ namespace BOViL{
 	};
 
 	#include "Image.inl"
+
 
 }	//	namespace BOViL
 
