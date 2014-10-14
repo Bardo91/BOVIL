@@ -8,19 +8,14 @@
 //
 
 #include <core/types/Image.h>
+#include <iostream>
 
 using namespace BOViL;
 
-int main(){
-	
-	FIBITMAP * image = FreeImage_Load(FIF_JPEG,"C:/Tulips.jpg");
+int main(){	
 
-	unsigned size = FreeImage_GetRedMask(image);
+	Image img("C:/Tulips.jpg");
 
-	if (size == FI16_555_RED_MASK){
-		
-	}
-	size;
 	system("PAUSE");
 
 }

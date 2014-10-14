@@ -35,6 +35,9 @@ namespace BOViL{
 		if (nullptr == imageFI)
 			return false;
 
+		FREE_IMAGE_TYPE imageType = FreeImage_GetImageType(imageFI);	// 666 TODO: only standart RGBA bitmap is supported
+		assert(imageType == FIT_BITMAP);
+
 		mData = FreeImage_GetBits(imageFI);
 		mWidth = FreeImage_GetWidth(imageFI);
 		mHeight = FreeImage_GetHeight(imageFI);
