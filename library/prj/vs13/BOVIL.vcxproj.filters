@@ -96,7 +96,7 @@
     <ClInclude Include="..\..\source\core\comm\ServerSocketUDP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
+    <ClInclude Include="..\..\source\core\types\Image.h">
       <Filter>core\types</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,10 +152,16 @@
     <ClCompile Include="..\..\source\core\comm\ServerSocketUDP.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\core\types\Image.cpp">
+      <Filter>core\types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\core\math\Matrix.inl">
       <Filter>core\math</Filter>
+    </None>
+    <None Include="..\..\source\core\types\Image.inl">
+      <Filter>core\types</Filter>
     </None>
   </ItemGroup>
 </Project>
