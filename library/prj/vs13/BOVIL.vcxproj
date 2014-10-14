@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Programming\BOVIL\library\external_deps\FreeImage\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$FREEIMAGE;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\3rdParty\FreeImage;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

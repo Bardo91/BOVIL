@@ -36,6 +36,7 @@ namespace BOViL{
 		const unsigned height(){ return height_; };
 		const unsigned channels(){ return channels_; };
 
+		Type_ & operator[](unsigned _index){ return mData[_index]; };
 	private:
 		mType mData[width_*height_*channels_];
 
