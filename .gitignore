@@ -261,3 +261,5 @@
 /Tests/KernelPreprocessing/prj/vs13/*.sdf
 /Tests/KernelPreprocessing/prj/vs13/*.suo
 /Tests/KernelPreprocessing/prj/vs13/*.user
+/Tests/ImageLoad/prj/vs13/Release
+/Tests/ImageLoad/prj/vs13/*.user
