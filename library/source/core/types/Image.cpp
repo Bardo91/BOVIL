@@ -38,10 +38,14 @@ namespace BOViL{
 		FREE_IMAGE_TYPE imageType = FreeImage_GetImageType(imageFI);	// 666 TODO: only standart RGBA bitmap is supported
 		assert(imageType == FIT_BITMAP);
 
-		mData = FreeImage_GetBits(imageFI);
-		mWidth = FreeImage_GetWidth(imageFI);
-		mHeight = FreeImage_GetHeight(imageFI);
-		mPitch = FreeImage_GetPitch(imageFI);
+		mData		= FreeImage_GetBits(imageFI);
+		mWidth		= FreeImage_GetWidth(imageFI);
+		mHeight		= FreeImage_GetHeight(imageFI);
+		mPitch		= FreeImage_GetPitch(imageFI);
+		mBPP		= FreeImage_GetBPP(imageFI);
+		mRedMask	= FreeImage_GetRedMask(imageFI);
+		mGreenMask	= FreeImage_GetGreenMask(imageFI);
+		mBlueMask	= FreeImage_GetBlueMask(imageFI);
 
 		return true;
 	}
@@ -51,7 +55,9 @@ namespace BOViL{
 		if (!isFreeImageInitialized){
 			initFreeImage();
 		}
-		
+
+		FreeImage_ConvertFromRawBits(mData, mWidth, mHeight, mPitch, mBPP, mRedMask, mGreenMask, mBlueMask);
+
 		return false;
 
 	}

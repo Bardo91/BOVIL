@@ -33,7 +33,11 @@ namespace BOViL{
 		unsigned char	*mData		= nullptr;
 		unsigned		mWidth		= 0;
 		unsigned		mHeight		= 0;
-		unsigned		mPitch	= 0;
+		unsigned		mPitch		= 0;
+		unsigned		mBPP		= 0;
+		unsigned		mRedMask	= 0;
+		unsigned		mGreenMask	= 0;
+		unsigned		mBlueMask	= 0;
 
 	private:
 		static bool isFreeImageInitialized;
