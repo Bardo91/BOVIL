@@ -12,6 +12,8 @@
 #ifndef _BOVIL_CORE_TYPES_IMAGE_H_
 #define _BOVIL_CORE_TYPES_IMAGE_H_
 
+
+#include <dshow.h>
 #include <string>
 //#include <FreeImage.h>
 #include "../../../external_deps/FreeImage/include/FreeImage.h"
@@ -21,8 +23,8 @@ namespace BOViL{
 		Image();
 		Image(std::string _imgPath);
 
-		bool loadImage(std::string _imgPath);
-		bool saveImage(std::string _imgPath);
+		bool load(std::string _imgPath);
+		bool save(std::string _imgPath);
 
 		const unsigned width(){ return mWidth; };
 		const unsigned height(){ return mHeight; };

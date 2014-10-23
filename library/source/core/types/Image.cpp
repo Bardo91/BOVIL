@@ -23,11 +23,11 @@ namespace BOViL{
 
 	//---------------------------------------------------------------------------------------------------------------------
 	Image::Image(std::string _imgPath){
-		assert(loadImage(_imgPath));
+		assert(load(_imgPath));
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
-	bool Image::loadImage(std::string _imgPath){
+	bool Image::load(std::string _imgPath){
 		if (!isFreeImageInitialized){
 			initFreeImage();
 		}
@@ -51,14 +51,17 @@ namespace BOViL{
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
-	bool Image::saveImage(std::string _imgPath){
+	bool Image::save(std::string _imgPath){
 		if (!isFreeImageInitialized){
 			initFreeImage();
 		}
 
-		FreeImage_ConvertFromRawBits(mData, mWidth, mHeight, mPitch, mBPP, mRedMask, mGreenMask, mBlueMask);
+		FIBITMAP *image = FreeImage_ConvertFromRawBits(mData, mWidth, mHeight, mPitch, mBPP, mRedMask, mGreenMask, mBlueMask);
 
-		return false;
+		if (FreeImage_Save(FreeImage_GetFileType(_imgPath.c_str()), image, _imgPath.c_str()))
+			return true;
+		else
+			return false;
 
 	}
 

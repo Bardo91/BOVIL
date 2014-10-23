@@ -28,7 +28,7 @@ int main(){
 	double midCV = 0;
 	double midFI = 0;
 
-	for (int i = 0; i < 100; i++){
+	for (int i = 0; i < 10; i++){
 		double t0 = time->getTime();
 		Image img("C:/Tulips.jpg");
 		double t1 = time->getTime();
@@ -47,6 +47,11 @@ int main(){
 	std::cout << "My time: " << midFI << std::endl;
 	std::cout << "CV time: " << midCV << std::endl;
 
+
+	Image img("C:/Tulips.jpg");
+	img.save("test.jpg");
+
+	std::cout << "Image saved" << std::endl;
 	system("PAUSE");
 
 }
