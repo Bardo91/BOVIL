@@ -80,7 +80,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 	double lastTime = 0;
 
 	
-	while(condition){
+	while (condition){
 		t0 = time->getTime();
 
 		// ----------------- IMAGE SEGMENTATION ------------------------
@@ -90,7 +90,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 		ss << _nameGen(i);
 
 		std::string imagePath = ss.str();
-		
+
 		img = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);
 
 		img.copyTo(ori);
@@ -99,29 +99,32 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		cv::cvtColor(img, img, CV_BGR2HSV);
 
-		BOViL::algorithms::ColorClustering<std::uint8_t>(	img.data,		// Image pointer
-															img.cols,		// Width
-															img.rows,		// Height
-															5,				// Size Threshold
-															objects,		// Output Objects
-															*cs);			// Segmentation function 
+		BOViL::algorithms::ColorClustering<std::uint8_t>(img.data,		// Image pointer
+			img.cols,		// Width
+			img.rows,		// Height
+			5,				// Size Threshold
+			objects,		// Output Objects
+			*cs);			// Segmentation function 
 
 		t1 = time->getTime();
 		std::cout << "Number of detected Objects1 in the scene: " << objects.size() << std::endl;
 
 		// ----------------- TRACKING ALGORITHM ------------------------
-		
+
 		// Select Oject
 		int maxSize = 0, maxIndex = 0;
-		for(unsigned int obj = 0; obj < objects.size() ; ++obj){
-			if(objects[obj].getSize() > maxSize){
+		for (unsigned int obj = 0; obj < objects.size(); ++obj){
+			if (objects[obj].getSize() > maxSize){
 				maxSize = objects[obj].getSize();
 				maxIndex = obj;
 			}
 		}
 
-		if (objects.size() == 0)
+		if (objects.size() == 0){
+			cv::imshow("ORIGINAL", ori);
+			cv::waitKey(3);
 			continue;
+		}
 
  		BOViL::Point2ui p = objects[maxIndex].getCentroid();
 		cv::circle(ori, cv::Point2d(p.x, p.y), objects[maxIndex].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
