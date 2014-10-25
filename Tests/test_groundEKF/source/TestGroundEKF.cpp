@@ -8,7 +8,7 @@
 
 #include "TestGroundEKF.h"
 
-#include <functional>
+
 #include <core/math/geometrics/Geometrics.h>
 
 using namespace BOViL::math;
@@ -30,7 +30,7 @@ static const double arrayX0[4] = {	5.0,//0,
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
-void testSegmentation(std::string _filePath, std::function<std::string (unsigned int)> _nameGen){
+void testSegmentation(std::string _filePath, std::function<std::string(unsigned int)> _nameGen, QuadParser _parser){
 	///////////////////////////////////////////////////
 	std::ofstream outFile;
 	std::string pathName;
@@ -66,7 +66,7 @@ void testSegmentation(std::string _filePath, std::function<std::string (unsigned
 						Matrix<double>(arrayX0, 4, 1));
 
 	groundEKF.setUpCamera(738.143358488352310, 346.966835812843040, 240.286986071815390);
-	double inputBuffer[20];
+	double inputBuffer[128];	// Size is huge enough to storing many objects's variables
 	std::ifstream inputFile;
 	
 	std::cout << "--Open Input File" << std::endl;
@@ -120,18 +120,23 @@ void testSegmentation(std::string _filePath, std::function<std::string (unsigned
 			}
 		}
 
-		BOViL::Point2ui p = objects[maxIndex].getCentroid();
+		if (objects.size() == 0)
+			continue;
+
+ 		BOViL::Point2ui p = objects[maxIndex].getCentroid();
 		cv::circle(ori, cv::Point2d(p.x, p.y), objects[maxIndex].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
 
 		cv::imshow("ORIGINAL", ori);
 
 		t2 = time->getTime();
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
+		QuadState state = _parser(inputBuffer);
+
 		// Update cameras pos and ori
 		
-		Matrix<double> Rx = createRotationMatrix(eEdges::EdgeX, inputBuffer[10]);
-		Matrix<double> Ry = createRotationMatrix(eEdges::EdgeY, inputBuffer[11]);
-		Matrix<double> Rz = createRotationMatrix(eEdges::EdgeZ, inputBuffer[12]);
+		Matrix<double> Rx = createRotationMatrix(eEdges::EdgeX, state.eulerAngles[0]);
+		Matrix<double> Ry = createRotationMatrix(eEdges::EdgeY, state.eulerAngles[1]);
+		Matrix<double> Rz = createRotationMatrix(eEdges::EdgeZ, state.eulerAngles[2]);
 
 		Matrix<double> camOri = Rz*Ry*Rx;
 		
@@ -144,7 +149,10 @@ void testSegmentation(std::string _filePath, std::function<std::string (unsigned
 
 		//Matrix<double> camOri = createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2, inputBuffer[11], inputBuffer[12] - 3.1416 / 2);
 
-		double arrayPosC1[3] = { inputBuffer[7], inputBuffer[8], inputBuffer[9] };
+		double arrayPosC1[3] = { 	state.position[0],
+									state.position[1],
+									state.position[2]	};
+
 		groundEKF.updateCamera(	BOViL::math::Matrix<double>(arrayPosC1, 3, 1), camOri, inputBuffer[3]);
 
 		// EKF step
@@ -154,15 +162,15 @@ void testSegmentation(std::string _filePath, std::function<std::string (unsigned
 		groundEKF.stepEKF(Matrix<double>(arrayZk, 2, 1), inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
 
-		Matrix<double> state = groundEKF.getStateVector();
+		Matrix<double> stateEKF = groundEKF.getStateVector();
 
 		t3 = time->getTime();
 		//double fps = 1 / (t1 - t0);
 		//std::cout << fps << " fps" << std::endl;
 
-		state.showMatrix();
+		stateEKF.showMatrix();
 		
-		outFile << inputBuffer[0] << "\t" << state[0] << "\t" << state[1] << "\t" << state[2] << "\t" << arrayZk[0] << "\t" << arrayZk[1] << "\t" << 1 / (t1 - t0) << "\t" << 1 / (t3 - t2) << "\n";
+		outFile << inputBuffer[0] << "\t" << stateEKF[0] << "\t" << stateEKF[1] << "\t" << stateEKF[2] << "\t" << arrayZk[0] << "\t" << arrayZk[1] << "\t" << 1 / (t1 - t0) << "\t" << 1 / (t3 - t2) << "\n";
 
 		cv::waitKey(1);
 

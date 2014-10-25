@@ -23,14 +23,27 @@ int main(int _argc, char** _argv){
 
 	auto nameGen = [](unsigned int _i)->string{
 		stringstream ss;
-		ss << "img";
+		ss << "image";
 		ss << _i;
-		ss << "_cam1.jpg";
+		ss << ".jpg";
 
 		return ss.str();
 	};
 
-	testSegmentation(hashMap["IMG_PATH"], nameGen);
+	auto parser = [](double * _arr)->QuadState{
+		QuadState state;
+
+		state.eulerAngles[0]	= _arr[4];
+		state.eulerAngles[1]	= _arr[5];
+		state.eulerAngles[2]	= _arr[6];
+		state.position[0]		= _arr[1];
+		state.position[1]		= _arr[2];
+		state.position[2]		= _arr[3];
+
+		return state;
+	};
+
+	testSegmentation(hashMap["IMG_PATH"], nameGen, parser);
 
 	system("PAUSE");
 

@@ -14,6 +14,7 @@
 
 #include <sstream>
 #include <string>
+#include <functional>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -30,4 +31,12 @@
 #include <fstream>
 #include <string>
 
-void testSegmentation(std::string _filePath, std::function<std::string(unsigned int)> _nameGen);
+
+struct QuadState{
+	double eulerAngles[3];
+	double position[3];
+};
+
+typedef std::function <QuadState(double *)> QuadParser;
+
+void testSegmentation(std::string _filePath, std::function<std::string(unsigned int)> _nameGen, QuadParser _parser);
