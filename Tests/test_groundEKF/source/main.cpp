@@ -12,14 +12,25 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <sstream>
 
-std::map<std::string, std::string> parseArgs(int _argc, char** _argv);
+using namespace std;
+
+map<string, string> parseArgs(int _argc, char** _argv);
 
 int main(int _argc, char** _argv){
-	std::map<std::string, std::string> hashMap = parseArgs(_argc, _argv);
+	map<string, string> hashMap = parseArgs(_argc, _argv);
 
-	testSegmentation();
+	auto nameGen = [](unsigned int _i)->string{
+		stringstream ss;
+		ss << "image";
+		ss << _i;
+		ss << ".jpg";
 
+		return ss.str();
+	};
+
+	testSegmentation(hashMap["IMG_PATH"], nameGen);
 
 	system("PAUSE");
 

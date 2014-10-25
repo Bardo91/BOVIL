@@ -28,5 +28,6 @@
 
 #include <cstdint>
 #include <fstream>
+#include <string>
 
-void testSegmentation();
+void testSegmentation(std::string _filePath, std::function<std::string(unsigned int)> _nameGen);

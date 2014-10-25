@@ -8,6 +8,7 @@
 
 #include "TestGroundEKF.h"
 
+#include <functional>
 #include <core/math/geometrics/Geometrics.h>
 
 using namespace BOViL::math;
@@ -29,7 +30,7 @@ static const double arrayX0[4] = {	5.0,//0,
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
 
-void testSegmentation(){
+void testSegmentation(std::string _filePath, std::function<std::string (unsigned int)> _nameGen){
 	///////////////////////////////////////////////////
 	std::ofstream outFile;
 	std::string pathName;
@@ -40,17 +41,8 @@ void testSegmentation(){
 
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
 	cv::Mat img, ori;
-
-	std::string path = "";
-
-	#if defined (__linux)
-		path = "/home/bardo91/Programming/Images/";
-	#endif
-	#if defined (_WIN32)
-		path = "C:/Programming/ImagenesStereoTracking/P1_640x480/Images/";	
-	#endif
 	
-	std::cout << "--Path of images: " << path << std::endl;
+	std::cout << "--Path of images: " << _filePath << std::endl;
 
 	bool condition = true;
 	int i = 0;
@@ -79,12 +71,11 @@ void testSegmentation(){
 	
 	std::cout << "--Open Input File" << std::endl;
 	
-	#if defined (__linux)
-		condition = openInputFile(inputFile, "/home/bardo91/Programming/Images/ViconData2.txt");
-	#endif
-	#if defined (_WIN32)
-		condition = openInputFile(inputFile, "C:/Programming/ImagenesStereoTracking/P1_640x480/ViconData2.txt");	
-	#endif
+	std::stringstream viconSS;
+	viconSS << _filePath;
+	viconSS << "ViconData2.txt";
+
+	condition = openInputFile(inputFile, viconSS.str());	
 
 	double lastTime = 0;
 
@@ -95,10 +86,8 @@ void testSegmentation(){
 		// ----------------- IMAGE SEGMENTATION ------------------------
 		std::stringstream ss;
 
-		ss << path;
-		ss << "img";
-		ss << i;
-		ss << "_cam1.jpg";
+		ss << _filePath;
+		ss << _nameGen(i);
 
 		std::string imagePath = ss.str();
 		
