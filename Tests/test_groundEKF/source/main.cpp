@@ -33,12 +33,12 @@ int main(int _argc, char** _argv){
 	auto parser = [](double * _arr)->QuadState{
 		QuadState state;
 
-		state.eulerAngles[0]	= _arr[4];
-		state.eulerAngles[1]	= _arr[5];
-		state.eulerAngles[2]	= _arr[6];
-		state.position[0]		= _arr[1];
-		state.position[1]		= _arr[2];
-		state.position[2]		= _arr[3];
+		state.eulerAngles[0]	= _arr[10];
+		state.eulerAngles[1]	= _arr[11];
+		state.eulerAngles[2]	= _arr[12];
+		state.position[0]		= _arr[7];
+		state.position[1]		= _arr[8];
+		state.position[2]		= _arr[9];
 
 		return state;
 	};

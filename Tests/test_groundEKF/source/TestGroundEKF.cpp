@@ -55,7 +55,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 	double t0, t1, t2, t3;
 
 	std::cout << "--Create Clustered Space" << std::endl;
-	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00010000")));
+	BOViL::ColorClusterSpace *cs = BOViL::CreateHSVCS_8c(255U,255U, std::uint8_t(BOViL::bin2dec("00000010")));
 
 	//-------
 	std::cout << "--Init Stereo EKF" << std::endl;
@@ -121,6 +121,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 		}
 
 		if (objects.size() == 0){
+			cv::hconcat(ori, img, ori);
 			cv::imshow("ORIGINAL", ori);
 			cv::waitKey(3);
 			continue;
@@ -129,6 +130,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
  		BOViL::Point2ui p = objects[maxIndex].getCentroid();
 		cv::circle(ori, cv::Point2d(p.x, p.y), objects[maxIndex].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
 
+		cv::hconcat(ori, img, ori);
 		cv::imshow("ORIGINAL", ori);
 
 		t2 = time->getTime();
