@@ -23,9 +23,9 @@ int main(int _argc, char** _argv){
 
 	auto nameGen = [](unsigned int _i)->string{
 		stringstream ss;
-		ss << "image";
+		ss << "img";
 		ss << _i;
-		ss << ".jpg";
+		ss << "_cam1.jpg";
 
 		return ss.str();
 	};
