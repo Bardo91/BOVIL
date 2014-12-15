@@ -47,6 +47,7 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

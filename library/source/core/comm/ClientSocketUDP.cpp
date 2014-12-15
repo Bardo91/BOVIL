@@ -39,7 +39,7 @@ namespace BOViL{
 			mAddr.sin_family = AF_INET;
 			mAddr.sin_port = htons((unsigned short)atoi(_serverPort.c_str()));
 			#if defined(_WIN32)
-				mAddr.sin_addr.s_addr = inet_addr(_serverIp.c_str());
+				mAddr.sin_addr.s_addr = inet_addr(_serverIp.c_str());		// 666 TODO: deprecated function
 			#elif defined(__linux__)
 				inet_aton(_serverIp.c_str() , &mAddr.sin_addr);
 			#endif
