@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\source\core\comm\ServerSocketUDP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.h">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
