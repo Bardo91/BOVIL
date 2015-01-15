@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(GLHL_DIR);$(IncludePath)</IncludePath>
-    <LibraryPath>C:\programming\GLHL\test\particleFilter\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\programming\BOVIL\Tests\particleFilter\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;GLu32.lib;GLHL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,17 +70,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\ParticleFilterGPU.cpp" />
     <ClCompile Include="..\..\src\Robot.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\ParticleFilterCPU.inl" />
-    <None Include="..\..\src\shaders\particle.vertex" />
-    <None Include="..\..\src\shaders\particleFilterShaderTemplate.fragment" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\ParticleFilterCPU.h" />
-    <ClInclude Include="..\..\src\ParticleFilterGPU.h" />
     <ClInclude Include="..\..\src\Robot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

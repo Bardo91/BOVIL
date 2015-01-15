@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\shaders">
-      <UniqueIdentifier>{f553ce79-a8e9-49cd-800b-12e863fa2508}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -24,29 +21,9 @@
     <ClCompile Include="..\..\src\Robot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ParticleFilterGPU.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\ParticleFilterCPU.inl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="..\..\src\shaders\particle.vertex">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="..\..\src\shaders\particleFilterShaderTemplate.fragment">
-      <Filter>Source Files\shaders</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Robot.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ParticleFilterCPU.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ParticleFilterGPU.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

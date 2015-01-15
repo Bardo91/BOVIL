@@ -11,12 +11,10 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-	
-#include <src/core/base/Context.h>
-#include <src/core/utils/time/time.h>
 
-#include "ParticleFilterGPU.h"
-#include "ParticleFilterCPU.h"
+#include <core/time/time.h>
+#include <algorithms/state_estimators/ParticleFilterCPU.h>
+
 #include "Robot.h"
 
 class ParticleRobot : public Particle, public Robot{
@@ -30,19 +28,16 @@ public:
 };
 //---------------------------------------------------------------------------------------------------------------------
 using namespace std;
-using namespace GLHL;
+using namespace BOViL;
 
 //---------------------------------------------------------------------------------------------------------------------
 std::array<double, 3> mediumState(std::vector<ParticleRobot> _particles);
 void particleFilterCPU();
-void particleFilterGPU();
 
 //---------------------------------------------------------------------------------------------------------------------
 int main(void){
 	
-	//particleFilterCPU();
-	
-	particleFilterGPU();
+	particleFilterCPU();
 
 	std::cout << "Finished" << std::endl;
 	
@@ -90,30 +85,4 @@ void particleFilterCPU() {
 	}
 	std::cout << "Step Time: " << time / 50 << std::endl;
 
-}
-
-void particleFilterGPU() {
-	srand(unsigned(time(NULL)));
-	Context context;
-
-
-	Robot robot;
-	robot.setNoise(0.05, 0.05, 5.0);
-
-	// 666 TODO Relative path to vertex shader?
-	ParticleFilterGPU pfGPU(1000, "../../src/shaders/particleFilterShaderTemplate.fragment");
-	STime *sTime = STime::get();
-	double time = 0.0;
-	for (unsigned i = 0; i < 50; i++) {
-		double t0 = sTime->getTime();
-		robot.move(0.1, 5.0);
-		std::array<double, 4> measure = robot.sense();
-		std::cout << "Real particle: " << robot << std::endl;
-		pfGPU.step(vec4f(float(measure[0]), float(measure[1]), float(measure[2]), float(measure[3])));
-		std::cout << "--------------------------------------------------------------------------------------" << std::endl;
-
-		time += sTime->getTime() - t0;
-	}
-
-	std::cout << "Step Time: " << time / 50 << std::endl;
 }
