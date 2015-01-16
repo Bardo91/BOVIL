@@ -32,7 +32,7 @@ namespace BOViL{
 			virtual void updateJh() = 0;
 
 		private:	// Private members
-			math::Matrix<double> Xak, Xfk, Pk, ;
+			math::Matrix<double> Xak, Xfk, Pk;
 		};
 	}	//	namespace comm
 }	//	namespace BOViL
