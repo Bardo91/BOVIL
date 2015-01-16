@@ -56,7 +56,7 @@ namespace BOViL{
 		public:		// Various algorithms
 			double norm();
 			bool decompositionLU(Matrix& _L, Matrix& _U);
-			bool decompositionCholesky(Matrix& _L, Matrix& _Lt);
+			bool decompositionCholesky(Matrix& _L);
 			bool decompositionLDL(Matrix& _L, Matrix& _D, Matrix& _Lt);
 			bool decompositionQR_GR(Matrix& _Q, Matrix& _R);		// QR decomposition using Householder reflexions algorithm.
 

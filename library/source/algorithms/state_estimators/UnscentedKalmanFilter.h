@@ -16,9 +16,8 @@ namespace BOViL{
 		class UnscentedKalmanFilter{
 		public:	// Public Interface
 			UnscentedKalmanFilter();		// 666 TODO: initialize matrixes
-			void setUpUKF(/* something */);
 			
-			void stepEKF(const math::Matrix<double>& _Zk, const double _incT);
+			void step(const math::Matrix<double>& _Zk, const double _incT);
 
 			math::Matrix<double> getStateVector() const;
 
@@ -33,7 +32,7 @@ namespace BOViL{
 			virtual void updateJh() = 0;
 
 		private:	// Private members
-
+			math::Matrix<double> Xak, Xfk, Pk, ;
 		};
 	}	//	namespace comm
 }	//	namespace BOViL

@@ -287,8 +287,7 @@ namespace BOViL{
 		//------------------------------------------------------------------------------
 		template<typename type_>
 		double Matrix<type_>::norm(){		// 666 TODO: only true if vector, if not, is not max norm
-			if (mRows != 1 && mCols != 1)
-				assert(false);	// check dimensions
+			assert(mRows == mCols);	// check dimensions
 
 			int size = mRows > mCols ? mRows : mCols;
 
@@ -322,6 +321,33 @@ namespace BOViL{
 			}
 
 			return true;
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		bool Matrix<type_>::decompositionCholesky(Matrix& _L){
+			assert(mRows == mCols);	// check dimensions
+
+			for (unsigned i = 0; i < mRows; i++){
+				for (unsigned j = 0; j < mCols; j++){
+					if (i == j){
+						type_ sum = 0;
+						for (unsigned k = 0; k < j - 1 ; k++){
+							sum += _L(i, k);
+						}
+						_L(i, j) = sqrt(this(i, j) - sum);
+					}
+					else{
+						type_ sum = 0;
+						for (unsigned k = 0; k < j - 1; k++){
+							sum += _L(i, k)*_L(j, k);
+						}
+						_L(i, j) = sqrt(this(i, j) - sum)/L(j, j);
+					}
+				}
+			}
+
+
 		}
 
 		//-----------------------------------------------------------------------------
