@@ -11,6 +11,8 @@
 
 #include "../../core/math/Matrix.h"
 
+#include <vector>
+
 namespace BOViL{
 	namespace algorithms{
 		class UnscentedKalmanFilter{
@@ -19,20 +21,18 @@ namespace BOViL{
 			
 			void step(const math::Matrix<double>& _Zk, const double _incT);
 
-			math::Matrix<double> getStateVector() const;
+			math::Matrix<double> state() const;
 
 		private:	// Private methods
 			void sigmaPoints();
-			void forecastStep();
-			void dataStep();
+			void forecastStep(const double _incT);
+			void dataStep(const math::Matrix<double>& _Zk);
 
 		private:	// Abstract private methods
-			virtual void updateJf(const double _incT) = 0;
-			virtual void updateHZk() = 0;
-			virtual void updateJh() = 0;
 
 		private:	// Private members
-			math::Matrix<double> Xak, Xfk, Pk;
+			math::Matrix<double> mXak, mXfk, mPk;
+			std::vector<math::Matrix<double>> mSigmaPoints;
 		};
 	}	//	namespace comm
 }	//	namespace BOViL
