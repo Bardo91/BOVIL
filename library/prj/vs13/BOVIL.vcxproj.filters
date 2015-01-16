@@ -152,6 +152,9 @@
     <ClCompile Include="..\..\source\core\comm\ServerSocketUDP.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.cpp">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\core\math\Matrix.inl">

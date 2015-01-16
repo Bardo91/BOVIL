@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
+    <ClCompile Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocketTCP.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocketUDP.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerMultiThreadTCP.cpp" />
