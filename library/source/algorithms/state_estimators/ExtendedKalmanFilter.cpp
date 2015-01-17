@@ -18,25 +18,25 @@ namespace BOViL{
 		}
 		
 		//-----------------------------------------------------------------------------
-		void ExtendedKalmanFilter::setUpEKF(const math::Matrix<double> _Q, const math::Matrix<double> _R, const math::Matrix<double> _x0){
+		void ExtendedKalmanFilter::setUpEKF(const MatrixXd _Q, const MatrixXd _R, const MatrixXd _x0){
 			mQ = _Q;
 			mR = _R;
 			mXak = _x0;
 			mXfk = _x0;
-			mK =	math::Matrix<double>(_Q.getHeight(), _R.getHeight());
-			mJf =	math::createEye<double>(_Q.getHeight());
-			mP =	math::createEye<double>(_Q.getHeight());
-			mHZk =	math::Matrix<double>(_R.getHeight(), 1);
-			mJh =	math::Matrix<double>(_R.getHeight(), _Q.getHeight());
+			mK =	MatrixXd(_Q.rows(), _R.rows());
+			mJf =	MatrixXd::Identity(_Q.rows(), _Q.rows());
+			mP =	MatrixXd::Identity(_Q.rows(), _Q.rows());
+			mHZk =	MatrixXd(_R.rows(), 1);
+			mJh =	MatrixXd(_R.rows(), _Q.rows());
 		}
 		
 		//-----------------------------------------------------------------------------
-		math::Matrix<double> ExtendedKalmanFilter::getStateVector() const{
+		MatrixXd ExtendedKalmanFilter::getStateVector() const{
 			return mXak;
 		}
 
 		//-----------------------------------------------------------------------------
-		void ExtendedKalmanFilter::stepEKF(const math::Matrix<double>& _Zk, const double _incT){
+		void ExtendedKalmanFilter::stepEKF(const MatrixXd& _Zk, const double _incT){
 			forecastStep(_incT);
 
 			filterStep(_Zk);
@@ -52,15 +52,15 @@ namespace BOViL{
 		}
 
 		//-----------------------------------------------------------------------------
-		void ExtendedKalmanFilter::filterStep(const math::Matrix<double>& _Zk){
+		void ExtendedKalmanFilter::filterStep(const MatrixXd& _Zk){
 			updateHZk();
 			updateJh();
 
-			mK = mP * mJh.transpose() * ((mJh * mP * mJh.transpose() + mR) ^ -1);
+			mK = mP * mJh.transpose() * ((mJh * mP * mJh.transpose() + mR).inverse());
 			
 			mXak = mXfk + mK * (_Zk - mHZk);
 			
-			mP = (math::createEye<double>(mK.getHeight()) - mK * mJh) * mP;
+			mP = (MatrixXd(mK.rows(), mK.rows()) - mK * mJh) * mP;
 		}
 
 		//-----------------------------------------------------------------------------

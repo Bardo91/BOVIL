@@ -21,10 +21,10 @@ namespace BOViL{
 		public:
 			void setUpCameras(double _focalLenght, double _u0, double _v0);
 
-			void updateCameras(	const Eigen::MatrixXd& _posC1, 
-								const Eigen::MatrixXd& _posC2, 
-								const Eigen::MatrixXd& _oriC1, 
-								const Eigen::MatrixXd& _oriC2);
+			void updateCameras(	const Eigen::Matrix<double, 3, 1>& _posC1, 
+								const Eigen::Matrix<double, 3, 1>& _posC2, 
+								const Eigen::Matrix<double, 3, 3>& _oriC1, 
+								const Eigen::Matrix<double, 3, 3>& _oriC2);
 
 		private:
 			void updateJf(const double _incT);
@@ -35,7 +35,8 @@ namespace BOViL{
 			double mFocalLenght;
 			double mU0, mV0;
 
-			Eigen::MatrixXd mPosC1, mPosC2, mOriC1, mOriC2;
+			Eigen::Matrix<double, 3, 1> mPosC1, mPosC2;
+			Eigen::Matrix<double, 3, 3> mOriC1, mOriC2;
 		};
 	}	//	namespace algorithms
 }	//	namespace BOVil

@@ -9,7 +9,7 @@
 #ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_EXTENDEDKALMANFILTER_H_
 #define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_EXTENDEDKALMANFILTER_H_
 
-#include <Dense>	// Eigen linear algebra library
+#include<Dense>	// Eigen linear algebra library
 
 namespace BOViL{
 	namespace algorithms{

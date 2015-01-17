@@ -24,7 +24,7 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		void GroundTrackingEKF::updateCamera(const MatrixXd& _pos, const MatrixXd& _ori, double _groundAltitude){
+		void GroundTrackingEKF::updateCamera(const Matrix<double, 3, 1>& _pos, const Matrix<double, 3, 3>& _ori, double _groundAltitude){
 			mPos = _pos;
 			mOri = _ori;
 			mGroundAltitude = _groundAltitude;

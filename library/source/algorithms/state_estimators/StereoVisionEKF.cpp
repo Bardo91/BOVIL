@@ -24,10 +24,10 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		void StereoVisionEKF::updateCameras(	const MatrixXd& _posC1, 
-												const MatrixXd& _posC2, 
-												const MatrixXd& _oriC1, 
-												const MatrixXd& _oriC2){
+		void StereoVisionEKF::updateCameras(	const Matrix<double, 3, 1>& _posC1, 
+												const Matrix<double, 3, 1>& _posC2, 
+												const Matrix<double, 3, 3>& _oriC1, 
+												const Matrix<double, 3, 3>& _oriC2){
 			mPosC1 = _posC1;	
 			mPosC2 = _posC2;	
 			mOriC1 = _oriC1;
@@ -46,8 +46,9 @@ namespace BOViL {
 		}
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateHZk(){
-			MatrixXd cPoint = (mXfk.getMatrixPtr(), 3, 1);
-			
+			MatrixXd cPoint;	// = (mXfk.getMatrixPtr(), 3, 1);
+			cPoint << mXfk(0, 0), mXfk(1, 0), mXfk(2, 0);
+
 			MatrixXd Pc1 = mOriC1 * (cPoint - mPosC1);
 			MatrixXd Pc2 = mOriC2 * (cPoint - mPosC2);
 
@@ -61,7 +62,8 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateJh(){
-			MatrixXd cPoint = (mXfk.getMatrixPtr(), 3, 1);
+			MatrixXd cPoint; // = (mXfk.getMatrixPtr(), 3, 1);
+			cPoint << mXfk(0, 0), mXfk(1, 0), mXfk(2, 0);
 
 			MatrixXd Pc1 = mOriC1 * (cPoint - mPosC1);
 			MatrixXd Pc2 = mOriC2 * (cPoint - mPosC2);

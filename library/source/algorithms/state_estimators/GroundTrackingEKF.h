@@ -28,7 +28,7 @@ namespace BOViL{
 			void setUpCamera(double _focalLenght, double _u0, double _v0);
 
 			// Update camera's position and orientation. An additional parameter is the altitude of the target.
-			void updateCamera(const Eigen::MatrixXd& _pos, const Eigen::MatrixXd& _ori, double _groundAltitude = 0);
+			void updateCamera(const Eigen::Matrix<double, 3, 1>& _pos, const Eigen::Matrix<double, 3, 3>& _ori, double _groundAltitude = 0);
 
 		private:
 			void updateJf(const double _incT);
@@ -41,7 +41,8 @@ namespace BOViL{
 
 			double mGroundAltitude;
 
-			Eigen::MatrixXd mPos, mOri;
+			Eigen::Matrix<double, 3, 1> mPos;
+			Eigen::Matrix<double, 3, 3> mOri;
 		};
 	}	//	namespace algorithms
 }	//	namespace BOVil
