@@ -47,21 +47,50 @@ namespace BOViL{
 		void UnscentedKalmanFilter::forecastStep(const double _incT){
 			
 			
+			// Propagate sigma points through the nonlinear process model.
 			vector<Matrix<double>> xfkPoints;
-
 			for(unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				 xfkPoints.push_back(systemFunction(mSigmaPoints.at(i).first));
 			}
 
 			mXfk.empty();
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
-				mXfk += mSigmaPoints.at(i).first * mSigmaPoints.at(i).second;
+				mXfk += xfkPoints.at(i) * mSigmaPoints.at(i).second;
 			}
+
+
+			mPk = mQk;
+			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
+				mPk += (xfkPoints.at(i) - mXfk)*(xfkPoints.at(i) - mXfk).transpose()*mSigmaPoints.at(i).second;
+			}
+
+			//Propagate sigma points through the nonlinear observation model.
+			vector<Matrix<double>> zkPoints;
+			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
+				zkPoints.push_back(observationFunction(mSigmaPoints.at(i).first));
+			}
+
+			mZk.empty();
+			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
+				mZk += zkPoints.at(i) * mSigmaPoints.at(i).second;
+			}
+
+			mCovObs = mRk;
+			mCrossCov.empty();
+			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
+				mCovObs = (zkPoints.at(i) - mZk)*(zkPoints.at(i) - mZk).transpose()*mSigmaPoints.at(i).second;;
+				mCrossCov = (xfkPoints.at(i) - mXfk)*(zkPoints.at(i) - mZk).transpose()*mSigmaPoints.at(i).second;;
+			}
+
+			mKk = mCrossCov*mCovObs;
 
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
 		void UnscentedKalmanFilter::dataStep(const Matrix<double>& _Zk){
+			mXak = mXfk + mKk*(_Zk - mZk);
+
+			mPk = mPk - mKk*mCovObs*mKk.transpose();
 
 		}
 
