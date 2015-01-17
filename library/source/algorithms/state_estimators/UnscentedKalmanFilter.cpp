@@ -63,7 +63,7 @@ namespace BOViL{
 			// Propagate sigma points through the nonlinear process model.
 			vector<Matrix<double>> xfkPoints;
 			for(unsigned i = 0; i < mSigmaPoints.size(); i++)	{
-				 xfkPoints.push_back(systemFunction(mSigmaPoints.at(i).first));
+				 xfkPoints.push_back(systemModel(mSigmaPoints.at(i).first));
 			}
 
 			mXfk.empty();
@@ -80,7 +80,7 @@ namespace BOViL{
 			//Propagate sigma points through the nonlinear observation model.
 			vector<Matrix<double>> zkPoints;
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
-				zkPoints.push_back(observationFunction(mSigmaPoints.at(i).first));
+				zkPoints.push_back(observerModel(mSigmaPoints.at(i).first));
 			}
 
 			mZk.empty();

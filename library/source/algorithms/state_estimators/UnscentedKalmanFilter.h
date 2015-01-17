@@ -30,6 +30,8 @@ namespace BOViL{
 			void dataStep(const math::Matrix<double>& _Zk);
 
 		private:	// Abstract private methods
+			virtual Matrix<double> systemModel(Matrix<double>) = 0;
+			virtual Matrix<double> observerModel(Matrix<double>) = 0;
 
 		private:	// Private members
 			math::Matrix<double> mXak, mXfk, mZk, mPk, mQk, mRk, mKk;
