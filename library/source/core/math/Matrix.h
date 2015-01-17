@@ -42,6 +42,7 @@ namespace BOViL{
 			type_& operator()(const int _i, const int _j);
 			const type_& operator()(const int _i, const int _j) const;
 			Matrix operator=(const Matrix& _mat);				// Assignement operator
+			Matrix operator+=(const Matrix& _mat);
 			Matrix operator+(const Matrix& _mat) const;		// Add operator
 			Matrix operator-(const Matrix& _mat) const;		// Sub operator
 			Matrix operator*(const Matrix& _mat) const;		// Mul operator
@@ -52,6 +53,8 @@ namespace BOViL{
 			Matrix operator&(const Matrix& _mat) const;		// Projection operator._mat is projected to this
 			Matrix transpose();								// Transpose operator
 			type_ determinant();							// Determinant operator
+
+			void empty();
 
 		public:		// Various algorithms
 			double norm();
