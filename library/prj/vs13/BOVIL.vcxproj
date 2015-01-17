@@ -39,7 +39,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(EIGEN_DIR);$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
@@ -84,8 +86,6 @@
     <ClInclude Include="..\..\source\core\comm\Socket.h" />
     <ClInclude Include="..\..\source\core\comm\SocketTCP.h" />
     <ClInclude Include="..\..\source\core\comm\SocketUDP.h" />
-    <ClInclude Include="..\..\source\core\math\geometrics\Geometrics.h" />
-    <ClInclude Include="..\..\source\core\math\Matrix.h" />
     <ClInclude Include="..\..\source\core\time\time.h" />
     <ClInclude Include="..\..\source\core\types\BasicTypes.h" />
     <ClInclude Include="..\..\source\core\types\ColorClusterSpace.h" />
@@ -105,14 +105,9 @@
     <ClCompile Include="..\..\source\core\comm\Socket.cpp" />
     <ClCompile Include="..\..\source\core\comm\SocketTCP.cpp" />
     <ClCompile Include="..\..\source\core\comm\SocketUDP.cpp" />
-    <ClCompile Include="..\..\source\core\math\geometrics\Geometrics.cpp" />
-    <ClCompile Include="..\..\source\core\math\Matrix.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\source\core\math\Matrix.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

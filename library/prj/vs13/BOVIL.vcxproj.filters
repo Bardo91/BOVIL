@@ -16,9 +16,6 @@
     <Filter Include="core\types">
       <UniqueIdentifier>{317cd825-25f8-4e1f-8fa8-a49448969ca3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\math">
-      <UniqueIdentifier>{25449f5c-6479-4f55-aeb4-81832c9b6f98}</UniqueIdentifier>
-    </Filter>
     <Filter Include="core\time">
       <UniqueIdentifier>{58247cb6-22d3-4ef2-ad2e-0c3e5e9fa141}</UniqueIdentifier>
     </Filter>
@@ -27,9 +24,6 @@
     </Filter>
     <Filter Include="core\comm">
       <UniqueIdentifier>{b50b6974-3104-4848-9c1a-411842cac3a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core\math\geometrics">
-      <UniqueIdentifier>{a3a3f7c5-8d7f-4af5-808a-946099112d22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,9 +38,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h">
       <Filter>algorithms\state_estimators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\math\Matrix.h">
-      <Filter>core\math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\core\time\time.h">
       <Filter>core\time</Filter>
@@ -65,9 +56,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h">
       <Filter>algorithms\state_estimators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\math\geometrics\Geometrics.h">
-      <Filter>core\math\geometrics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\core\comm\Socket.h">
       <Filter>core\comm</Filter>
@@ -116,14 +104,8 @@
     <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
       <Filter>core\types</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\core\math\Matrix.cpp">
-      <Filter>core\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp">
       <Filter>algorithms\state_estimators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core\math\geometrics\Geometrics.cpp">
-      <Filter>core\math\geometrics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core\comm\Socket.cpp">
       <Filter>core\comm</Filter>
@@ -149,10 +131,5 @@
     <ClCompile Include="..\..\source\core\comm\ServerSocketUDP.cpp">
       <Filter>core\comm</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\source\core\math\Matrix.inl">
-      <Filter>core\math</Filter>
-    </None>
   </ItemGroup>
 </Project>
