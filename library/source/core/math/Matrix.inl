@@ -157,6 +157,19 @@ namespace BOViL{
 
 		//-----------------------------------------------------------------------------
 		template<typename type_>
+		Matrix<type_> Matrix<type_>::operator+= (const Matrix<type_>& _mat){
+			if (this != &_mat){
+				assert(mRows != _mat.mRows || mCols != _mat.mCols);		// Matrix dimension error
+				for (int i = 0; i < mCols*mRows; i++){
+					mPtr[i] = mPtr[i] + _mat.mPtr[i];
+				}
+			}
+			return *this;
+		}
+
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
 		Matrix<type_> Matrix<type_>::operator+ (const Matrix<type_>& _mat) const{
 			assert(_mat.mCols == mCols || _mat.mRows == mRows);
 
@@ -280,6 +293,16 @@ namespace BOViL{
 			}
 
 			return static_cast<type_>(0);
+		}
+
+		//-----------------------------------------------------------------------------
+		template<typename type_>
+		void Matrix<type_>::empty(){
+			for (int i = 0; i < mCols; i++){
+				for (int j = 0; j < mRows; j++){
+					(*this)(i, j) = 0;
+				}
+			}
 		}
 
 		//-----------------------------------------------------------------------------

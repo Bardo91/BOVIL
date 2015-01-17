@@ -32,7 +32,7 @@ namespace BOViL{
 
 		private:	// Private members
 			math::Matrix<double> mXak, mXfk, mPk;
-			std::vector<math::Matrix<double>> mSigmaPoints;
+			std::vector<pair<math::Matrix<double>,double>> mSigmaPoints;
 		};
 	}	//	namespace comm
 }	//	namespace BOViL
