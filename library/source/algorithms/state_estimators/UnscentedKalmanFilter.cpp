@@ -12,6 +12,8 @@
 
 #include "UnscentedKalmanFilter.h"
 
+using namespace BOViL::math;
+using namespace std;
 
 namespace BOViL{
 	namespace algorithms{
@@ -29,13 +31,26 @@ namespace BOViL{
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
-		math::Matrix<double> UnscentedKalmanFilter::state() const{
+		Matrix<double> UnscentedKalmanFilter::state() const{
 			return mXak;
 
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
 		void UnscentedKalmanFilter::sigmaPoints(){
+			unsigned n = mXak.getHeight();
+			double w0 = -1;	//	666 Were is choosen?
+			mSigmaPoints.push_back(pair<Matrix<double>, double>(mXak, w0));
+
+			for (unsigned i = 0; i < n; i++){
+				double wj = (1 - w0) / 2 / n;
+
+				Matrix<double> lamda;	//666 calc lamda
+
+				mSigmaPoints.push_back(pair<Matrix<double>, double>(mXak + lamda, wj));
+				mSigmaPoints.push_back(pair<Matrix<double>, double>(mXak - lamda, wj));
+			}
+
 
 		}
 

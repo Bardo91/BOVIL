@@ -12,6 +12,7 @@
 #include "../../core/math/Matrix.h"
 
 #include <vector>
+#include <pair>
 
 namespace BOViL{
 	namespace algorithms{
@@ -32,7 +33,7 @@ namespace BOViL{
 
 		private:	// Private members
 			math::Matrix<double> mXak, mXfk, mPk;
-			std::vector<math::Matrix<double>> mSigmaPoints;
+			std::vector<std::pair<math::Matrix<double>, double>> mSigmaPoints;
 		};
 	}	//	namespace comm
 }	//	namespace BOViL
