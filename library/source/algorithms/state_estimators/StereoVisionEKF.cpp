@@ -9,6 +9,7 @@
 #include "StereoVisionEKF.h"
 #include "../../core/types/BasicTypes.h"
 
+using namespace Eigen;
 
 namespace BOViL {
 	namespace algorithms{
@@ -23,10 +24,10 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		void StereoVisionEKF::updateCameras(	const math::Matrix<double>& _posC1, 
-												const math::Matrix<double>& _posC2, 
-												const math::Matrix<double>& _oriC1, 
-												const math::Matrix<double>& _oriC2){
+		void StereoVisionEKF::updateCameras(	const MatrixXd& _posC1, 
+												const MatrixXd& _posC2, 
+												const MatrixXd& _oriC1, 
+												const MatrixXd& _oriC2){
 			mPosC1 = _posC1;	
 			mPosC2 = _posC2;	
 			mOriC1 = _oriC1;
@@ -35,22 +36,20 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateJf(const double _incT){
-			double arrayJf[6*6] = {	1,	0,	0,	_incT,	0,		0, 
-									0,	1,	0,	0,		_incT,	0, 
-									0,	0,	1,	0,		0,		_incT, 
-									0,	0,	0,	1,		0,		0, 
-									0,	0,	0,	0,		1,		0, 
-									0,	0,	0,	0,		0,		1};
-
-			mJf = math::Matrix<double>(arrayJf, 6, 6);
-
+			mJf <<	1,	0,	0,	_incT,	0,		0, 
+					0,	1,	0,	0,		_incT,	0, 
+					0,	0,	1,	0,		0,		_incT, 
+					0,	0,	0,	1,		0,		0, 
+					0,	0,	0,	0,		1,		0, 
+					0,	0,	0,	0,		0,		1;
+			
 		}
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateHZk(){
-			math::Matrix<double> cPoint = math::Matrix<double>(mXfk.getMatrixPtr(), 3, 1);
+			MatrixXd cPoint = (mXfk.getMatrixPtr(), 3, 1);
 			
-			math::Matrix<double> Pc1 = mOriC1 * (cPoint - mPosC1);
-			math::Matrix<double> Pc2 = mOriC2 * (cPoint - mPosC2);
+			MatrixXd Pc1 = mOriC1 * (cPoint - mPosC1);
+			MatrixXd Pc2 = mOriC2 * (cPoint - mPosC2);
 
 			mHZk(0, 0) = mU0 - mFocalLenght * Pc1(0, 0) / Pc1(2, 0);
 			mHZk(1, 0) = mV0 + mFocalLenght * Pc1(1, 0) / Pc1(2, 0);
@@ -62,10 +61,10 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void StereoVisionEKF::updateJh(){
-			math::Matrix<double> cPoint = math::Matrix<double>(mXfk.getMatrixPtr(), 3, 1);
+			MatrixXd cPoint = (mXfk.getMatrixPtr(), 3, 1);
 
-			math::Matrix<double> Pc1 = mOriC1 * (cPoint - mPosC1);
-			math::Matrix<double> Pc2 = mOriC2 * (cPoint - mPosC2);
+			MatrixXd Pc1 = mOriC1 * (cPoint - mPosC1);
+			MatrixXd Pc2 = mOriC2 * (cPoint - mPosC2);
 
 			double den1 = Pc1(2, 0) * Pc1(2, 0);
 			double den2 = Pc2(2, 0) * Pc2(2, 0);

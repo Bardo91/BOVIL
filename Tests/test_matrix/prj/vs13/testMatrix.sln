@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testMatrix", "testMatrix.vcxproj", "{51E5FD87-42EC-498F-B97F-F79B3E9F9D38}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A37D6EF8-CB7D-4CE2-AC73-5D1ACE39A833} = {A37D6EF8-CB7D-4CE2-AC73-5D1ACE39A833}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOVIL", "..\..\..\..\library\prj\vs13\BOVIL.vcxproj", "{A37D6EF8-CB7D-4CE2-AC73-5D1ACE39A833}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOViL", "..\..\..\..\library\prj\vs13\BOVIL.vcxproj", "{A37D6EF8-CB7D-4CE2-AC73-5D1ACE39A833}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

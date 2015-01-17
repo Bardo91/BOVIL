@@ -9,7 +9,7 @@
 #ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_EXTENDEDKALMANFILTER_H_
 #define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_EXTENDEDKALMANFILTER_H_
 
-#include "../../core/math/Matrix.h"
+#include <Dense>	// Eigen linear algebra library
 
 namespace BOViL{
 	namespace algorithms{
@@ -17,12 +17,12 @@ namespace BOViL{
 		public:
 			ExtendedKalmanFilter();		// 666 TODO: initialize matrixes
 
-			void setUpEKF(const math::Matrix<double> _Q,const  math::Matrix<double> _R,const  math::Matrix<double> _x0);
+			void setUpEKF(const Eigen::MatrixXd _Q, const  Eigen::MatrixXd _R, const  Eigen::MatrixXd _x0);
 
-			math::Matrix<double> getStateVector() const;
+			Eigen::MatrixXd getStateVector() const;
 
 		public:
-			void stepEKF(const math::Matrix<double>& _Zk, const double _incT);
+			void stepEKF(const Eigen::MatrixXd& _Zk, const double _incT);
 
 		protected:
 			// Non specific funtcions of the EKF.
@@ -32,10 +32,10 @@ namespace BOViL{
 
 			// EKF steps.
 			void forecastStep(const double _incT);
-			void filterStep(const math::Matrix<double>&_Zk);
+			void filterStep(const Eigen::MatrixXd&_Zk);
 
 		protected:
-			math::Matrix<double> mXfk, mXak, mK, mJf, mJh, mP, mQ, mR, mHZk;
+			Eigen::MatrixXd mXfk, mXak, mK, mJf, mJh, mP, mQ, mR, mHZk;
 
 		};	//	class ExtendedKalmanFilter
 

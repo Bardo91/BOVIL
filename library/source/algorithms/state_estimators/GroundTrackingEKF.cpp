@@ -9,6 +9,7 @@
 #include "GroundTrackingEKF.h"
 #include "../../core/types/BasicTypes.h"
 
+using namespace Eigen;
 
 namespace BOViL {
 	namespace algorithms{
@@ -23,7 +24,7 @@ namespace BOViL {
 		}
 
 		//-----------------------------------------------------------------------------
-		void GroundTrackingEKF::updateCamera(const math::Matrix<double>& _pos, const math::Matrix<double>& _ori, double _groundAltitude){
+		void GroundTrackingEKF::updateCamera(const MatrixXd& _pos, const MatrixXd& _ori, double _groundAltitude){
 			mPos = _pos;
 			mOri = _ori;
 			mGroundAltitude = _groundAltitude;
@@ -31,23 +32,21 @@ namespace BOViL {
 
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJf(const double _incT){
-			double arrayJf[16] = {	1,	0,	_incT,	0,
-									0,	1,	0,		_incT,
-									0,	0,	1,		0,
-									0,	0,	0,		1};
-
-			mJf = math::Matrix<double>(arrayJf, 4, 4);
+			mJf <<	1, 0, _incT, 0,
+					0, 1, 0, _incT,
+					0, 0, 1, 0,
+					0, 0, 0, 1;
 
 		}
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateHZk(){
 			// Calculate the estimated position of the system in global coordinates
-			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
-			math::Matrix<double> cPoint(cPointArray, 3, 1);
+			MatrixXd cPoint;
+			cPoint << mXfk(0, 0), mXfk(1, 0), mGroundAltitude;
 
 			// Point related to camera's coordinate
-			math::Matrix<double> Pc = (cPoint - mPos);
-			math::Matrix<double> Pc_local = mOri * Pc;
+			MatrixXd Pc = (cPoint - mPos);
+			MatrixXd Pc_local = mOri * Pc;
 
 			// Estimation of the observation state based on actual estimation of system state ( h(·) )
 			mHZk(0, 0) = mU0 - mFocalLenght * Pc_local(0, 0) / Pc_local(2, 0);
@@ -59,11 +58,11 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJh(){
 			// Calculate the estimated position of the system in global coordinates
-			double cPointArray[3] = { mXfk(0, 0), mXfk(1, 0), mGroundAltitude };
-			math::Matrix<double> cPoint(cPointArray, 3, 1);
+			MatrixXd cPoint;
+			cPoint << mXfk(0, 0), mXfk(1, 0), mGroundAltitude;
 
 			// Point related to camera's coordinate
-			math::Matrix<double> Pc = mOri * (cPoint - mPos);
+			MatrixXd Pc = mOri * (cPoint - mPos);
 
 			// Updating the jacobian of the observation system
 			mJh(0, 0) = -mFocalLenght * (mOri(0, 0) * Pc(2, 0) - mOri(2, 0) * Pc(0, 0)) / Pc(2, 0) / Pc(2, 0);
