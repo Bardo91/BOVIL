@@ -7,25 +7,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestGroundEKF.h"
+#include <Dense>
 
-
-#include <core/math/geometrics/Geometrics.h>
-
-using namespace BOViL::math;
-
-static const double arrayQ[16] = {	0.05, 0, 0, 0,
-									0, 0.05, 0, 0,
-									0, 0, 0.05, 0,
-									0, 0, 0, 0.05 };
-
-static const double arrayR[4] = {	0.1, 0, 
-									0, 0.1 };
-
-static const double arrayX0[4] = {	5.0,//0, 
-									12.0,//0, 
-									0.0,//0, 
-									0.0};//0);
-
+using namespace Eigen;
+using namespace std;
 
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
@@ -61,9 +46,21 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 	std::cout << "--Init Stereo EKF" << std::endl;
 	BOViL::algorithms::GroundTrackingEKF groundEKF;
 
-	groundEKF.setUpEKF(Matrix<double>(arrayQ, 4, 4),
-						Matrix<double>(arrayR, 2, 2),
-						Matrix<double>(arrayX0, 4, 1));
+	Matrix<double, 4, 4> Q;
+	Q <<	0.05, 0, 0, 0,
+			0, 0.05, 0, 0,
+			0, 0, 0.05, 0,
+			0, 0, 0, 0.05;
+	Matrix<double, 2, 2> R;
+	R <<	0.1, 0,
+			0, 0.1;
+	Matrix<double, 4, 1> x0;
+	x0 <<	5.0,//0, 
+			12.0,//0, 
+			0.0,//0, 
+			0.0;
+
+	groundEKF.setUpEKF(Q, R, x0);
 
 	groundEKF.setUpCamera(738.143358488352310, 346.966835812843040, 240.286986071815390);
 	double inputBuffer[128];	// Size is huge enough to storing many objects's variables
@@ -91,13 +88,13 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		std::string imagePath = ss.str();
 
-		img = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);
+		img = cv::imread(imagePath, 1/*CV_LOAD_IMAGE_COLOR*/);
 
 		img.copyTo(ori);
 
 		std::vector<BOViL::ImageObject> objects;
 
-		cv::cvtColor(img, img, CV_BGR2HSV);
+		cv::cvtColor(img, img, 40 /*CV_BGR2HSV*/);
 
 		BOViL::algorithms::ColorClustering<std::uint8_t>(img.data,		// Image pointer
 			img.cols,		// Width
@@ -139,43 +136,54 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		// Update cameras pos and ori
 		
-		Matrix<double> Rx = createRotationMatrix(eEdges::EdgeX, state.eulerAngles[0]);
-		Matrix<double> Ry = createRotationMatrix(eEdges::EdgeY, state.eulerAngles[1]);
-		Matrix<double> Rz = createRotationMatrix(eEdges::EdgeZ, state.eulerAngles[2]);
+		AngleAxis<double> Rx(state.eulerAngles[0], Vector3d(1, 0, 0));
+		AngleAxis<double> Ry(state.eulerAngles[1], Vector3d(0, 1, 0));
+		AngleAxis<double> Rz(state.eulerAngles[2], Vector3d(0, 0, 1));
 
-		Matrix<double> camOri = Rz*Ry*Rx;
+		//Matrix<double, 3, 3> Rx = createRotationMatrix(eEdges::EdgeX, state.eulerAngles[0]);
+		//Matrix<double, 3, 3> Ry = createRotationMatrix(eEdges::EdgeY, state.eulerAngles[1]);
+		//Matrix<double, 3, 3> Rz = createRotationMatrix(eEdges::EdgeZ, state.eulerAngles[2]);
+
+		Matrix<double, 3, 3> camOri = (Rz*Ry*Rx).matrix();
 		
 
-		Matrix<double> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2)*
-									createRotationMatrix(eEdges::EdgeZ, PiCte / 2);
+		// Adaptation to Alex edges.
+		AngleAxis<double> rot1(3.1416 / 2, Vector3d(1, 0, 0));
+		AngleAxis<double> rot2(3.1416 / 2, Vector3d(0, 0, 1));
+
+		Matrix<double, 3, 3> adaptRot = (rot1*rot2).matrix();
+		
+		//Matrix<double, 3, 3> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2)*
+		//								createRotationMatrix(eEdges::EdgeZ, PiCte / 2);
 		
 		
 		camOri = adaptRot*camOri;
 
 		//Matrix<double> camOri = createRotationMatrixEuler(inputBuffer[10] - 3.1416 / 2, inputBuffer[11], inputBuffer[12] - 3.1416 / 2);
 
-		double arrayPosC1[3] = { 	state.position[0],
-									state.position[1],
-									state.position[2]	};
 
-		groundEKF.updateCamera(	BOViL::math::Matrix<double>(arrayPosC1, 3, 1), camOri, inputBuffer[3]);
+		Matrix<double, 3, 1> posC1;
+		posC1 << state.position[0], state.position[1], state.position[2];
+
+		groundEKF.updateCamera(	posC1, camOri, inputBuffer[3]);
 
 		// EKF step
-		double arrayZk[2] = {	double (objects[maxIndex].getCentroid().x),
-								img.rows - double (objects[maxIndex].getCentroid().y)};
+		Matrix<double, 2, 1> zk;
+		zk << double(objects[maxIndex].getCentroid().x),
+			img.rows - double(objects[maxIndex].getCentroid().y);
 
-		groundEKF.stepEKF(Matrix<double>(arrayZk, 2, 1), inputBuffer[0] - lastTime);
+		groundEKF.stepEKF(zk, inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
 
-		Matrix<double> stateEKF = groundEKF.getStateVector();
+		Matrix<double, 3, 1> stateEKF = groundEKF.getStateVector();
 
 		t3 = time->getTime();
 		//double fps = 1 / (t1 - t0);
 		//std::cout << fps << " fps" << std::endl;
 
-		stateEKF.showMatrix();
+		cout << stateEKF << endl;
 		
-		outFile << inputBuffer[0] << "\t" << stateEKF[0] << "\t" << stateEKF[1] << "\t" << stateEKF[2] << "\t" << arrayZk[0] << "\t" << arrayZk[1] << "\t" << 1 / (t1 - t0) << "\t" << 1 / (t3 - t2) << "\n";
+		outFile << inputBuffer[0] << "\t" << stateEKF[0] << "\t" << stateEKF[1] << "\t" << stateEKF[2] << "\t" << zk[0] << "\t" << zk[1] << "\t" << 1 / (t1 - t0) << "\t" << 1 / (t3 - t2) << "\n";
 
 		cv::waitKey(1);
 
