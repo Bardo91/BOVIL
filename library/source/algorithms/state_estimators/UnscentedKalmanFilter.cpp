@@ -41,16 +41,21 @@ namespace BOViL{
 		//---------------------------------------------------------------------------------------------------------------------
 		void UnscentedKalmanFilter::sigmaPoints(){
 			unsigned n = mXak.rows();
-			double w0 = -1;	//	666 Were is choosen?
+			double w0 = -1;	//	666 Where is choosen?
 			mSigmaPoints.push_back(pair<MatrixXd, double>(mXak, w0));
+
+
+
+			MatrixXd lambda = n/(1-w0)*mPk;
+			// Using not the square root matrix but L of cholesky decomposition
+			LLT<MatrixXd> llt(lambda);
+			lambda = llt.matrixL();
 
 			for (unsigned i = 0; i < n; i++){
 				double wj = (1 - w0) / 2 / n;
 
-				MatrixXd lamda;	//666 calc lamda (square root matrix)
-
-				mSigmaPoints.push_back(pair<MatrixXd, double>(mXak + lamda, wj));
-				mSigmaPoints.push_back(pair<MatrixXd, double>(mXak - lamda, wj));
+				mSigmaPoints.push_back(pair<MatrixXd, double>(mXak + lambda.col(i), wj));
+				mSigmaPoints.push_back(pair<MatrixXd, double>(mXak - lambda.col(i), wj));
 			}
 
 
@@ -66,7 +71,7 @@ namespace BOViL{
 				 xfkPoints.push_back(systemModel(mSigmaPoints.at(i).first));
 			}
 
-			mXfk = MatrixXd::Zero(mXfk.rows(), mXfk.cols());
+			mXfk.setZero(mXfk.rows(), mXfk.cols()); // = MatrixXd::Zero(mXfk.rows(), mXfk.cols());
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				mXfk += xfkPoints.at(i) * mSigmaPoints.at(i).second;
 			}
@@ -83,13 +88,13 @@ namespace BOViL{
 				zkPoints.push_back(observerModel(mSigmaPoints.at(i).first));
 			}
 
-			mZk = MatrixXd::Zero(mZk.rows(), mZk.cols());
+			mZk.setZero(mZk.rows(), mZk.cols()); //= MatrixXd::Zero(mZk.rows(), mZk.cols());
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				mZk += zkPoints.at(i) * mSigmaPoints.at(i).second;
 			}
 
 			mCovObs = mRk;
-			mCrossCov = MatrixXd::Zero(mCrossCov.rows(), mCrossCov.cols());
+			mCrossCov.setZero(mCrossCov.rows(), mCrossCov.cols()); // = MatrixXd::Zero(mCrossCov.rows(), mCrossCov.cols());
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				mCovObs = (zkPoints.at(i) - mZk)*(zkPoints.at(i) - mZk).transpose()*mSigmaPoints.at(i).second;;
 				mCrossCov = (xfkPoints.at(i) - mXfk)*(zkPoints.at(i) - mZk).transpose()*mSigmaPoints.at(i).second;;
