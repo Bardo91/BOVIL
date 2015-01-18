@@ -81,6 +81,7 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
+    <ClInclude Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.h" />
     <ClInclude Include="..\..\source\core\BOViL_core.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocketTCP.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocketUDP.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.cpp" />
+    <ClCompile Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocketTCP.cpp" />
     <ClCompile Include="..\..\source\core\comm\ClientSocketUDP.cpp" />
     <ClCompile Include="..\..\source\core\comm\ServerMultiThreadTCP.cpp" />
