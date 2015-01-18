@@ -9,10 +9,8 @@
 #ifndef _BOVIL_ALGORITHMS_STATE_ESTIMATORS_UNSCENTED_KALMAN_FILTER_H_
 #define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_UNSCENTED_KALMAN_FILTER_H_
 
-#include "../../core/math/Matrix.h"
-
 #include <vector>
-#include <pair>
+#include <Dense>
 
 namespace BOViL{
 	namespace algorithms{
@@ -20,23 +18,23 @@ namespace BOViL{
 		public:	// Public Interface
 			UnscentedKalmanFilter();		// 666 TODO: initialize matrixes
 			
-			void step(const math::Matrix<double>& _Zk, const double _incT);
+			void step(const Eigen::MatrixXd& _Zk, const double _incT);
 
-			math::Matrix<double> state() const;
+			Eigen::MatrixXd state() const;
 
 		private:	// Private methods
 			void sigmaPoints();
 			void forecastStep(const double _incT);
-			void dataStep(const math::Matrix<double>& _Zk);
+			void dataStep(const Eigen::MatrixXd& _Zk);
 
 		private:	// Abstract private methods
-			virtual Matrix<double> systemModel(Matrix<double>) = 0;
-			virtual Matrix<double> observerModel(Matrix<double>) = 0;
+			virtual Eigen::MatrixXd systemModel(Eigen::MatrixXd) = 0;
+			virtual Eigen::MatrixXd observerModel(Eigen::MatrixXd) = 0;
 
 		private:	// Private members
-			math::Matrix<double> mXak, mXfk, mZk, mPk, mQk, mRk, mKk;
-			math::Matrix<double> mCovObs, mCrossCov;
-			std::vector<pair<math::Matrix<double>,double>> mSigmaPoints;
+			Eigen::MatrixXd mXak, mXfk, mZk, mPk, mQk, mRk, mKk;
+			Eigen::MatrixXd mCovObs, mCrossCov;
+			std::vector<std::pair<Eigen::MatrixXd, double>> mSigmaPoints;
 		};
 	}	//	namespace comm
 }	//	namespace BOViL

@@ -15,7 +15,7 @@
 #include <vector>
 
 using namespace std;
-using namespace BOViL::math;
+using namespace Eigen;
 
 namespace BOViL{
 	namespace algorithms{
@@ -26,31 +26,31 @@ namespace BOViL{
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
-		void UnscentedKalmanFilter::step(const Matrix<double>& _Zk, const double _incT) {
+		void UnscentedKalmanFilter::step(const MatrixXd& _Zk, const double _incT) {
 			sigmaPoints();
 			forecastStep(_incT);
 			dataStep(_Zk);
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
-		Matrix<double> UnscentedKalmanFilter::state() const{
+		MatrixXd UnscentedKalmanFilter::state() const{
 			return mXak;
 
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
 		void UnscentedKalmanFilter::sigmaPoints(){
-			unsigned n = mXak.getHeight();
+			unsigned n = mXak.rows();
 			double w0 = -1;	//	666 Were is choosen?
-			mSigmaPoints.push_back(pair<Matrix<double>, double>(mXak, w0));
+			mSigmaPoints.push_back(pair<MatrixXd, double>(mXak, w0));
 
 			for (unsigned i = 0; i < n; i++){
 				double wj = (1 - w0) / 2 / n;
 
-				Matrix<double> lamda;	//666 calc lamda
+				MatrixXd lamda;	//666 calc lamda (square root matrix)
 
-				mSigmaPoints.push_back(pair<Matrix<double>, double>(mXak + lamda, wj));
-				mSigmaPoints.push_back(pair<Matrix<double>, double>(mXak - lamda, wj));
+				mSigmaPoints.push_back(pair<MatrixXd, double>(mXak + lamda, wj));
+				mSigmaPoints.push_back(pair<MatrixXd, double>(mXak - lamda, wj));
 			}
 
 
@@ -61,12 +61,12 @@ namespace BOViL{
 			
 			
 			// Propagate sigma points through the nonlinear process model.
-			vector<Matrix<double>> xfkPoints;
+			vector<MatrixXd> xfkPoints;
 			for(unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				 xfkPoints.push_back(systemModel(mSigmaPoints.at(i).first));
 			}
 
-			mXfk.empty();
+			mXfk = MatrixXd::Zero(mXfk.rows(), mXfk.cols());
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				mXfk += xfkPoints.at(i) * mSigmaPoints.at(i).second;
 			}
@@ -78,18 +78,18 @@ namespace BOViL{
 			}
 
 			//Propagate sigma points through the nonlinear observation model.
-			vector<Matrix<double>> zkPoints;
+			vector<MatrixXd> zkPoints;
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				zkPoints.push_back(observerModel(mSigmaPoints.at(i).first));
 			}
 
-			mZk.empty();
+			mZk = MatrixXd::Zero(mZk.rows(), mZk.cols());
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				mZk += zkPoints.at(i) * mSigmaPoints.at(i).second;
 			}
 
 			mCovObs = mRk;
-			mCrossCov.empty();
+			mCrossCov = MatrixXd::Zero(mCrossCov.rows(), mCrossCov.cols());
 			for (unsigned i = 0; i < mSigmaPoints.size(); i++)	{
 				mCovObs = (zkPoints.at(i) - mZk)*(zkPoints.at(i) - mZk).transpose()*mSigmaPoints.at(i).second;;
 				mCrossCov = (xfkPoints.at(i) - mXfk)*(zkPoints.at(i) - mZk).transpose()*mSigmaPoints.at(i).second;;
@@ -100,7 +100,7 @@ namespace BOViL{
 		}
 
 		//---------------------------------------------------------------------------------------------------------------------
-		void UnscentedKalmanFilter::dataStep(const Matrix<double>& _Zk){
+		void UnscentedKalmanFilter::dataStep(const MatrixXd& _Zk){
 			mXak = mXfk + mKk*(_Zk - mZk);
 
 			mPk = mPk - mKk*mCovObs*mKk.transpose();
