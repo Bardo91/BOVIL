@@ -25,7 +25,9 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
-	cv::Mat img, ori;
+	//cv::Mat img, ori;
+	unsigned char img;
+	int width, height, channels;
 	
 	std::cout << "--Path of images: " << _filePath << std::endl;
 
@@ -88,9 +90,10 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		std::string imagePath = ss.str();
 
-		img = cv::imread(imagePath, 1/*CV_LOAD_IMAGE_COLOR*/);
+		SOIL_load_image(imagePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 
-		img.copyTo(ori);
+		//img = cv::imread(imagePath, 1/*CV_LOAD_IMAGE_COLOR*/);
+		//img.copyTo(ori);
 
 		std::vector<BOViL::ImageObject> objects;
 

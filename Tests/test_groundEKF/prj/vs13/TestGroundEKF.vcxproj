@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(EIGEN_DIR);$(OPENCV_DIR)\include;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(OPENCV_DIR)\x86\vc12\staticlib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(EIGEN_DIR);$(SOIL_DIR)\src;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SOIL_DIR)\lib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(EIGEN_DIR);$(OPENCV_DIR)\include;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
@@ -76,10 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\colorConversor.cpp" />
     <ClCompile Include="..\..\source\main.cpp" />
     <ClCompile Include="..\..\source\TestGroundEKF.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\colorConversor.h" />
     <ClInclude Include="..\..\source\TestGroundEKF.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
