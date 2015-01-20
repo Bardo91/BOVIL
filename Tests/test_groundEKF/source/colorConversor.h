@@ -10,14 +10,17 @@
 
 enum eCcTypes {eRGB2HSV = 0};
 
-
+template<typename Type_>
 struct Terna{
-	unsigned a, b, c;
+	Type_ a, b, c;
 	Terna() :a(0), b(0), c(0){};
-	Terna(unsigned _a, unsigned _b, unsigned _c){
+	Terna(Type_ _a, Type_ _b, Type_ _c){
 		a = _a; b = _b; c = _c;
 	};
 };
+
+typedef Terna<unsigned> TernaU;
+typedef Terna<double> TernaD;
 
 
 bool colorConversor(eCcTypes _type, unsigned char *_image, unsigned _width, unsigned _height, unsigned _channels);

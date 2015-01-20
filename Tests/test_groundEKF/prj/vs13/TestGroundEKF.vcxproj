@@ -43,8 +43,8 @@
     <LibraryPath>$(SOIL_DIR)\lib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(EIGEN_DIR);$(OPENCV_DIR)\include;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(OPENCV_DIR)\x86\vc12\staticlib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(EIGEN_DIR);$(SOIL_DIR)\src;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SOIL_DIR)\lib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
