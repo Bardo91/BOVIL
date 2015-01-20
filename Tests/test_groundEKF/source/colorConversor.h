@@ -20,6 +20,7 @@ struct Terna{
 };
 
 typedef Terna<unsigned> TernaU;
+typedef Terna<unsigned char> TernaUC;
 typedef Terna<double> TernaD;
 
 

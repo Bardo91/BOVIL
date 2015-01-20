@@ -13,10 +13,10 @@
 #include <functional>
 
 
-TernaU RGB2HSV(TernaU _terna);
+TernaUC RGB2HSV(TernaUC _terna);
 
 bool colorConversor(eCcTypes _type, unsigned char *_image, unsigned _width, unsigned _height, unsigned _channels){
-	std::function < TernaU(TernaU) > conversor;
+	std::function < TernaUC(TernaUC) > conversor;
 
 	switch (_type) {
 	case eRGB2HSV:
@@ -28,7 +28,7 @@ bool colorConversor(eCcTypes _type, unsigned char *_image, unsigned _width, unsi
 
 	for (unsigned i = 0; i < _height; i++){
 		for (unsigned j = 0; j < _width; j++){
-			TernaU t = conversor(TernaU(	_image[_width*_channels*i + _channels*j + 0],
+			TernaUC t = conversor(TernaUC(	_image[_width*_channels*i + _channels*j + 0],
 											_image[_width*_channels*i + _channels*j + 1],
 											_image[_width*_channels*i + _channels*j + 2]));
 
@@ -51,7 +51,7 @@ TypeOut_ MIN(TypeIn_ _a, TypeIn_ _b, TypeIn_ _c){
 	return _a < _b ? (_a < _c ? _a : _c) : (_b < _c ? _b : _c);
 }
 
-TernaU RGB2HSV(TernaU _terna){
+TernaUC RGB2HSV(TernaUC _terna){
 
 	TernaD hsv;
 	double min, max, delta;
@@ -65,7 +65,7 @@ TernaU RGB2HSV(TernaU _terna){
 		// r = g = b = 0		// s = 0, v is undefined
 		hsv.b = 0;
 		hsv.a = -1;
-		return;
+		return TernaUC();
 	}
 	if (_terna.a == max)
 		hsv.a = (_terna.b - _terna.c) / delta;		// between yellow & magenta
@@ -77,5 +77,5 @@ TernaU RGB2HSV(TernaU _terna){
 	if (hsv.a < 0)
 		hsv.a += 360;
 
-	return TernaU(unsigned(hsv.a/360*255), unsigned(hsv.b*255), unsigned(hsv.c*255));
+	return TernaUC(unsigned(hsv.a/360*255), unsigned(hsv.b*255), unsigned(hsv.c*255));
 }
