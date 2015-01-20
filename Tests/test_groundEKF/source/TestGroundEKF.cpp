@@ -7,7 +7,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestGroundEKF.h"
+#include "colorConversor.h"
+
 #include <Dense>
+
 
 using namespace Eigen;
 using namespace std;
@@ -26,7 +29,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
 	//cv::Mat img, ori;
-	unsigned char img;
+	unsigned char *img;
 	int width, height, channels;
 	
 	std::cout << "--Path of images: " << _filePath << std::endl;
@@ -90,18 +93,20 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		std::string imagePath = ss.str();
 
-		SOIL_load_image(imagePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+		img = SOIL_load_image(imagePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 
 		//img = cv::imread(imagePath, 1/*CV_LOAD_IMAGE_COLOR*/);
 		//img.copyTo(ori);
 
 		std::vector<BOViL::ImageObject> objects;
 
-		cv::cvtColor(img, img, 40 /*CV_BGR2HSV*/);
+		colorConversor(eCcTypes::eRGB2HSV, img, width, height, channels);
 
-		BOViL::algorithms::ColorClustering<std::uint8_t>(img.data,		// Image pointer
-			img.cols,		// Width
-			img.rows,		// Height
+		//cv::cvtColor(img, img, 40 /*CV_BGR2HSV*/);
+
+		BOViL::algorithms::ColorClustering<std::uint8_t>(img,		// Image pointer
+			width,		// Width
+			height,		// Height
 			5,				// Size Threshold
 			objects,		// Output Objects
 			*cs);			// Segmentation function 
@@ -120,19 +125,19 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 			}
 		}
 
-		if (objects.size() == 0){
-			cv::hconcat(ori, img, ori);
-			cv::imshow("ORIGINAL", ori);
-			cv::waitKey(3);
-			continue;
-		}
+		//if (objects.size() == 0){
+		//	cv::hconcat(ori, img, ori);
+		//	cv::imshow("ORIGINAL", ori);
+		//	cv::waitKey(3);
+		//	continue;
+		//}
 
  		BOViL::Point2ui p = objects[maxIndex].getCentroid();
-		cv::circle(ori, cv::Point2d(p.x, p.y), objects[maxIndex].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
+		//cv::circle(ori, cv::Point2d(p.x, p.y), objects[maxIndex].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
 
-		cv::hconcat(ori, img, ori);
-		cv::imshow("ORIGINAL", ori);
-
+		//cv::hconcat(ori, img, ori);
+		//cv::imshow("ORIGINAL", ori);
+		
 		t2 = time->getTime();
 		dropLineIntoBuffer(inputFile, inputBuffer);		// Get objects info.
 		QuadState state = _parser(inputBuffer);
@@ -173,7 +178,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 		// EKF step
 		Matrix<double, 2, 1> zk;
 		zk << double(objects[maxIndex].getCentroid().x),
-			img.rows - double(objects[maxIndex].getCentroid().y);
+			height - double(objects[maxIndex].getCentroid().y);
 
 		groundEKF.stepEKF(zk, inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
@@ -188,7 +193,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 		
 		outFile << inputBuffer[0] << "\t" << stateEKF[0] << "\t" << stateEKF[1] << "\t" << stateEKF[2] << "\t" << zk[0] << "\t" << zk[1] << "\t" << 1 / (t1 - t0) << "\t" << 1 / (t3 - t2) << "\n";
 
-		cv::waitKey(1);
+		//cv::waitKey(1);
 
 		++i;
 	}

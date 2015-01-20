@@ -31,6 +31,10 @@ bool colorConversor(eCcTypes _type, unsigned char *_image, unsigned _width, unsi
 			TernaU t = conversor(TernaU(	_image[_width*_channels*i + _channels*j + 0],
 											_image[_width*_channels*i + _channels*j + 1],
 											_image[_width*_channels*i + _channels*j + 2]));
+
+			_image[_width*_channels*i + _channels*j + 0] = t.a;
+			_image[_width*_channels*i + _channels*j + 1] = t.b;
+			_image[_width*_channels*i + _channels*j + 2] = t.c;
 		}
 	}
 
