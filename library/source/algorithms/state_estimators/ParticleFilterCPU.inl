@@ -9,7 +9,7 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::step(ParticleType_ &_realParticle) {
+void ParticleFilterCPU<ParticleType_>::step(const Particle &_realParticle) {
 	simulate();
 	calcWeigh(_realParticle);
 	resample();
@@ -33,7 +33,7 @@ void ParticleFilterCPU<ParticleType_>::simulate() {
 
 //---------------------------------------------------------------------------------------------------------------------
 template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::calcWeigh(ParticleType_ &_realParticle) {
+void ParticleFilterCPU<ParticleType_>::calcWeigh(const Particle &_realParticle) {
 	for (unsigned i = 0; i < mNuParticles; i++) {
 		mParticles[i].calcWeigh(_realParticle);
 	}

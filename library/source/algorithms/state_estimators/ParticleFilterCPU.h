@@ -33,14 +33,14 @@ public:
 	ParticleFilterCPU(unsigned _nuParticles) :mNuParticles(_nuParticles) {};
 	
 	void init();
-	void step(ParticleType_ &_realParticle);
+	void step(const Particle &_realParticle);
 	
 	unsigned nuParticles() const { return mNuParticles; };
 	std::vector<ParticleType_> particles() const{ return mParticles; };
 
 private:
 	void simulate();
-	void calcWeigh(ParticleType_ &_realParticle);
+	void calcWeigh(const Particle &_realParticle);
 	void resample();
 
 private:
