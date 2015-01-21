@@ -17,7 +17,7 @@
 class Particle {
 public:
 	virtual void simulate() = 0;
-	virtual void calcWeigh(const Particle &_realParticle) = 0;
+	virtual void calcWeigh(Particle &_realParticle) = 0;
 
 	double weigh() const { return mWeigh; };
 	
@@ -33,14 +33,14 @@ public:
 	ParticleFilterCPU(unsigned _nuParticles) :mNuParticles(_nuParticles) {};
 	
 	void init();
-	void step(const Particle &_realParticle);
+	void step(Particle &_realParticle);
 	
 	unsigned nuParticles() const { return mNuParticles; };
 	std::vector<ParticleType_> particles() const{ return mParticles; };
 
 private:
 	void simulate();
-	void calcWeigh(const Particle &_realParticle);
+	void calcWeigh(Particle &_realParticle);
 	void resample();
 
 private:
