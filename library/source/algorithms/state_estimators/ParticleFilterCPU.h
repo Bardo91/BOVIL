@@ -17,7 +17,7 @@
 class Particle {
 public:
 	virtual void simulate() = 0;
-	virtual void calcWeigh(Particle &_realParticle) = 0;
+	virtual void calcWeigh(const Particle &_realParticle) = 0;
 
 	double weigh() const { return mWeigh; };
 	

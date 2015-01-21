@@ -12,31 +12,31 @@
 
 namespace BOViL{
 	//-----------------------------------------------------------------------------
-	template<typename type_>
+	template<typename Type_>
 	struct Point2{
 		// Constructors.
 		Point2():	x(0), y(0)	{};
-		Point2(type_ _x, type_ _y):	x(_x),  y(_y)	{};
+		Point2(Type_ _x, Type_ _y):	x(_x),  y(_y)	{};
 
 		// Properties.
-		type_ x, y;		// Coordinates of the point in the image.
+		Type_ x, y;		// Coordinates of the point in the image.
 	};
 
 
-	typedef Point2<double>			Point2d;
-	typedef Point2<int>				Point2i;
+	typedef Point2<double>				Point2d;
+	typedef Point2<int>					Point2i;
 	typedef Point2<unsigned int>		Point2ui;
 
 	//-----------------------------------------------------------------------------
-	template<typename type_>
+	template<typename Type_>
 	struct Point3{
 		// Constructors.
 		Point3():	x(0), y(0), z(0)	{};
 
-		Point3(type_ _x, type_ _y, type_ _z):	x(_x),  y(_y),	z(_z)	{};
+		Point3(Type_ _x, Type_ _y, Type_ _z):	x(_x),  y(_y),	z(_z)	{};
 
 		// Properties.
-		type_ x, y, z;		// Coordinates of the point in the image.
+		Type_ x, y, z;		// Coordinates of the point in the image.
 	};
 
 
