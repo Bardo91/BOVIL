@@ -186,7 +186,7 @@ namespace BOViL{
 			
 			for(unsigned int i = 0; i < objects.size() ; i ++){
 				if(objects[i].getSize() >= _sizeThreshold)
-					_objects.push_back(ImageObject(objects[i].getUpperLeft(), objects[i].getDownRight(), objects[i].getSize(), objects[i].getColor()));
+					_objects.push_back(ImageObject(objects[i].upperLeft(), objects[i].downRight(), objects[i].getSize(), objects[i].getColor()));
 			}
 		}	// ColorClustering
 		
