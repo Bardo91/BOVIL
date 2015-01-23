@@ -34,7 +34,7 @@ namespace BOViL{
 													unsigned int _sizeThreshold, 
 													std::vector<ImageObject> &_objects,
 													std::function<int (T *_a, T *_b, T *_c)> _functionSegmentation,
-													std::function<color3<T> (color3<T> _col)> _functionColorSpace = nullptr){
+													std::function<color3<T> (const color3<T> _col)> _functionColorSpace = nullptr){
 
 			std::vector<std::vector<LineRLE>> aRLE;		// Matrix with every RLE encoded objects
 			std::vector<SegmentedRLEObject> objects;	// Auxiliary object that store Segmented objects while they are been growing.
