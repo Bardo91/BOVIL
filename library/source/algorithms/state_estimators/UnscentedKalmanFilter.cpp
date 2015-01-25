@@ -64,7 +64,8 @@ namespace BOViL{
 		//---------------------------------------------------------------------------------------------------------------------
 		void UnscentedKalmanFilter::forecastStep(const double _incT){
 			
-			
+			_incT;	// 666 use system equation.
+
 			// Propagate sigma points through the nonlinear process model.
 			vector<MatrixXd> xfkPoints;
 			for(unsigned i = 0; i < mSigmaPoints.size(); i++)	{
