@@ -72,9 +72,6 @@
     <ClInclude Include="..\..\source\core\comm\ServerSocketTCP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\BOViL_core.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\core\comm\ServerMultiThreadTCP.h">
       <Filter>core\comm</Filter>
     </ClInclude>
