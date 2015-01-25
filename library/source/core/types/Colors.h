@@ -40,6 +40,7 @@ namespace BOViL{
 
 	typedef color3<unsigned char> c3u;
 	typedef color3<float> c3f;
+	typedef color3<double> c3d;
 
 
 	// ----- Functions -----
