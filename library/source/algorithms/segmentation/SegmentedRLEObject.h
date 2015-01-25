@@ -47,12 +47,6 @@ namespace BOViL{
 			};
 
 		class SegmentedRLEObject {
-			std::vector<LineRLE> obj;
-
-			Vec2ui upperLeft, downRight; // Border pixels
-			int color;
-			unsigned int size;
-
 		public:
 			SegmentedRLEObject(LineRLE ini);
 
@@ -61,14 +55,21 @@ namespace BOViL{
 
 			int getLines() const;
 			LineRLE getRLEObj(int) const;
-			Vec2ui getUpperLeft() const;
-			Vec2ui getDownRight() const;
+			Vec2ui upperLeft() const;
+			Vec2ui downRight() const;
 			unsigned int getColor() const;
 			unsigned int getSize() const;
 			unsigned int getBBSize() const;
 			Vec2ui getCentroid() const;
 
 			void sortObj();
+
+		private:
+			std::vector<LineRLE> obj;
+
+			Vec2ui mUpperLeft, mDownRight; // Border pixels
+			int color;
+			unsigned int size;
 		};
 
 	}	// namespace algorithms

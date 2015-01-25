@@ -17,10 +17,10 @@
 namespace BOViL {
 	namespace algorithms {
 		SegmentedRLEObject::SegmentedRLEObject(LineRLE ini) {
-			upperLeft.x = 9999;
-			downRight.x = 0;
-			upperLeft.y = 9999;
-			downRight.y = 0;
+			mUpperLeft.x = 9999;
+			mDownRight.x = 0;
+			mUpperLeft.y = 9999;
+			mDownRight.y = 0;
 			size = 0;
 			color = ini.color;
 			addLineObjRLE(ini);
@@ -30,14 +30,14 @@ namespace BOViL {
 		void SegmentedRLEObject::addLineObjRLE(LineRLE aux) {
 			obj.push_back(aux);
 
-			if (upperLeft.y > aux.i)
-				upperLeft.y = aux.i;
-			if (upperLeft.x > aux.js)
-				upperLeft.x = aux.js;
-			if (downRight.y < aux.i)
-				downRight.y = aux.i;
-			if (downRight.x < aux.je)
-				downRight.x = aux.je;
+			if (mUpperLeft.y > aux.i)
+				mUpperLeft.y = aux.i;
+			if (mUpperLeft.x > aux.js)
+				mUpperLeft.x = aux.js;
+			if (mDownRight.y < aux.i)
+				mDownRight.y = aux.i;
+			if (mDownRight.x < aux.je)
+				mDownRight.x = aux.je;
 			size += aux.size + 1;
 		}
 
@@ -45,14 +45,14 @@ namespace BOViL {
 			for (int k = 0; k < family.getLines(); k++) {
 				LineRLE aux = family.getRLEObj(k);
 				obj.push_back(aux);
-				if (upperLeft.y > aux.i)
-					upperLeft.y = aux.i;
-				if (upperLeft.x > aux.js)
-					upperLeft.x = aux.js;
-				if (downRight.y < aux.i)
-					downRight.y = aux.i;
-				if (downRight.x < aux.je)
-					downRight.x = aux.je;
+				if (mUpperLeft.y > aux.i)
+					mUpperLeft.y = aux.i;
+				if (mUpperLeft.x > aux.js)
+					mUpperLeft.x = aux.js;
+				if (mDownRight.y < aux.i)
+					mDownRight.y = aux.i;
+				if (mDownRight.x < aux.je)
+					mDownRight.x = aux.je;
 				size += aux.size + 1;
 			}
 		}
@@ -65,12 +65,12 @@ namespace BOViL {
 			return obj[k];
 		}
 
-		Vec2ui SegmentedRLEObject::getUpperLeft() const {
-			return upperLeft;
+		Vec2ui SegmentedRLEObject::upperLeft() const {
+			return mUpperLeft;
 		}
 
-		Vec2ui SegmentedRLEObject::getDownRight() const {
-			return downRight;
+		Vec2ui SegmentedRLEObject::downRight() const {
+			return mDownRight;
 		}
 
 		unsigned int SegmentedRLEObject::getColor() const {
@@ -82,11 +82,11 @@ namespace BOViL {
 		}
 
 		unsigned int SegmentedRLEObject::getBBSize() const {
-			return (downRight.x - upperLeft.x) * (downRight.y - upperLeft.y);
+			return (mDownRight.x - mUpperLeft.x) * (mDownRight.y - mUpperLeft.y);
 		}
 
 		Vec2ui SegmentedRLEObject::getCentroid() const {
-			return Vec2ui((upperLeft.x + downRight.x)/2, (upperLeft.y + downRight.y)/2);
+			return Vec2ui((mUpperLeft.x + mDownRight.x)/2, (mUpperLeft.y + mDownRight.y)/2);
 		}
 
 		bool sortFunction(LineRLE a, LineRLE b) {
