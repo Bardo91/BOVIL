@@ -6,20 +6,20 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include "algorithms/segmentation/ColorClustering.h"
-#include "core/types/ColorSpaceHSV8.h"
-#include "core/time/time.h"
-#include "algorithms/state_estimators/GroundTrackingEKF.h"
+#include <algorithms/state_estimators/GroundTrackingEKF.h>
+#include <algorithms/segmentation/ColorClustering.h>
+#include <core/types/ColorSpaceHSV8.h>
+#include <core/types/Colors.h>
+#include <core/time/time.h>
 
-#include <SOIL.h>
-
+#include <algorithm>
 #include <cstdint>
 #include <fstream>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <string>
 #include <functional>
+#include <iostream>
+#include <SOIL.h>
+#include <string>
+#include <sstream>
 
 struct QuadState{
 	double eulerAngles[3];

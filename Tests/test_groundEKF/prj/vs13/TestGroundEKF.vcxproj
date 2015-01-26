@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A9929304-9EFC-4320-AB7D-5E9A0DF88C88}</ProjectGuid>
-    <RootNamespace>testSegmentation</RootNamespace>
+    <ProjectGuid>{23EFD397-38FC-4D9C-941E-12AB9775FDEC}</ProjectGuid>
+    <RootNamespace>TestGroundEKF</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,40 +39,32 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(EIGEN_DIR);$(SOIL_DIR)\src;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SOIL_DIR)\lib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(EIGEN_DIR);$(SOIL_DIR)\src;$(BOVIL_DIR)\source;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SOIL_DIR)\lib;C:\Programming\BOVIL\Tests\test_groundEKF\prj\vs13\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\programming\BOVIL\library\source;$(SOIL_DIR)\src;$(EIGEN_DIR);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SOIL_DIR)\lib;C:\programming\BOVIL\Tests\test_groundEKF\prj\vs13\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SOIL.lib;BOViL.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLu32.lib;SOIL.lib;BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opencv_core300.lib;opencv_imgproc300.lib;opencv_highgui300.lib;BOViL.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

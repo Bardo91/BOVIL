@@ -7,16 +7,17 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include "TestGroundEKF.h"
-#include "colorConversor.h"
-
-#include <Dense>
 
 
 using namespace Eigen;
 using namespace std;
+using namespace BOViL;
 
 bool openInputFile(std::ifstream& _inFile, std::string _path);
 bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer);
+
+c3u rgb2hsv(const c3u _color);
+c3u hsv2rgb(const c3u _color);
 
 void testSegmentation(std::string _filePath, std::function<std::string(unsigned int)> _nameGen, QuadParser _parser){
 	///////////////////////////////////////////////////
@@ -29,7 +30,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 	std::cout << "TESTING SEGMENTATION ALGORITHM && EKF" << std::endl;
 	//cv::Mat img, ori;
-	unsigned char *img;
+	unsigned char *image;
 	int width, height, channels;
 	
 	std::cout << "--Path of images: " << _filePath << std::endl;
@@ -93,37 +94,51 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		std::string imagePath = ss.str();
 
-		img = SOIL_load_image(imagePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+		image = SOIL_load_image(imagePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 
 		//img = cv::imread(imagePath, 1/*CV_LOAD_IMAGE_COLOR*/);
 		//img.copyTo(ori);
 
 		std::vector<BOViL::ImageObject> objects;
 
-		colorConversor(eCcTypes::eRGB2HSV, img, width, height, channels);
-
 		//cv::cvtColor(img, img, 40 /*CV_BGR2HSV*/);
 
-		BOViL::algorithms::ColorClustering<std::uint8_t>(img,		// Image pointer
+		BOViL::algorithms::ColorClustering<std::uint8_t>(image,		// Image pointer
 			width,		// Width
 			height,		// Height
 			5,				// Size Threshold
 			objects,		// Output Objects
-			*cs);			// Segmentation function 
+			*cs,			// Segmentation function 
+			rgb2hsv);
 
 		t1 = time->getTime();
+
+		for (int i = 0; i < height; i++){
+			for (int j = 0; j < width; j++){
+				c3u col = hsv2rgb(c3u(image[width*channels*i + channels*j + 0],
+					image[width*channels*i + channels*j + 1],
+					image[width*channels*i + channels*j + 2]));
+
+				image[width*channels*i + channels*j + 0] = col.a;
+				image[width*channels*i + channels*j + 1] = col.b;
+				image[width*channels*i + channels*j + 2] = col.c;
+
+			}
+		}
+
 		std::cout << "Number of detected Objects1 in the scene: " << objects.size() << std::endl;
+		SOIL_save_image("./result.jpg", SOIL_SAVE_TYPE_BMP, width, height, channels, image);
 
 		// ----------------- TRACKING ALGORITHM ------------------------
 
 		// Select Oject
-		int maxSize = 0, maxIndex = 0;
-		for (unsigned int obj = 0; obj < objects.size(); ++obj){
-			if (objects[obj].getSize() > maxSize){
-				maxSize = objects[obj].getSize();
-				maxIndex = obj;
-			}
-		}
+		//int maxSize = 0, maxIndex = 0;
+		//for (unsigned int obj = 0; obj < objects.size(); ++obj){
+		//	if (objects[obj].getSize() > maxSize){
+		//		maxSize = objects[obj].getSize();
+		//		maxIndex = obj;
+		//	}
+		//}
 
 		//if (objects.size() == 0){
 		//	cv::hconcat(ori, img, ori);
@@ -132,7 +147,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 		//	continue;
 		//}
 
- 		BOViL::Point2ui p = objects[maxIndex].getCentroid();
+ 		BOViL::Vec2ui p = objects.back().getCentroid();
 		//cv::circle(ori, cv::Point2d(p.x, p.y), objects[maxIndex].getHeight() / 2, cv::Scalar(0, 255, 0), 1);
 
 		//cv::hconcat(ori, img, ori);
@@ -177,8 +192,8 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		// EKF step
 		Matrix<double, 2, 1> zk;
-		zk << double(objects[maxIndex].getCentroid().x),
-			height - double(objects[maxIndex].getCentroid().y);
+		zk << double(p.x),
+			height - double(p.y);
 
 		groundEKF.stepEKF(zk, inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
@@ -236,4 +251,60 @@ bool dropLineIntoBuffer(std::ifstream& _inFile, double* _buffer){
 	}
 
 	return true;
+}
+
+
+c3u rgb2hsv(const c3u _color){
+	double h, s, v;
+	c3d col(_color.a / 255.0, _color.b / 255.0, _color.c / 255.0);
+	double rgb_max = (col.a > col.b ? (col.a > col.c ? col.a : col.c) : (col.b > col.c ? col.b : col.c));//std::max(col.a, std::max(col.b, col.c));
+	double rgb_min = (col.a < col.b ? (col.a < col.c ? col.a : col.c) : (col.b < col.c ? col.b : col.c));//std::min(col.a, std::min(col.b, col.c));
+	double delta = rgb_max - rgb_min;
+	s = delta / (rgb_max + 1e-20f);
+	v = rgb_max;
+
+	double hue;
+	if (col.a == rgb_max)
+		hue = (col.b - col.c) / (delta + 1e-20f);
+	else if (col.b == rgb_max)
+		hue = 2 + (col.c - col.a) / (delta + 1e-20f);
+	else
+		hue = 4 + (col.a - col.b) / (delta + 1e-20f);
+	if (hue < 0)
+		hue += 6.f;
+	h = hue * (1.f / 6.f);
+
+	return c3u(
+		unsigned char(h * 180),
+		unsigned char(s * 255),
+		unsigned char(v * 255));
+}
+
+
+c3u hsv2rgb(const c3u _color){
+	double r, g, b;
+	double h = _color.a / 180.0;
+	double s = _color.b / 255.0;
+	double v = _color.c / 255.0;
+
+	int i = int(h * 6);
+	double f = h * 6 - i;
+	double p = v * (1 - s);
+	double q = v * (1 - f * s);
+	double t = v * (1 - (1 - f) * s);
+
+	switch (i % 6){
+	case 0: r = v, g = t, b = p; break;
+	case 1: r = q, g = v, b = p; break;
+	case 2: r = p, g = v, b = t; break;
+	case 3: r = p, g = q, b = v; break;
+	case 4: r = t, g = p, b = v; break;
+	case 5: r = v, g = p, b = q; break;
+	}
+
+
+	return c3u(
+		unsigned char(r * 255),
+		unsigned char(g * 255),
+		unsigned char(b * 255));
 }
