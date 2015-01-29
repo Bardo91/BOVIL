@@ -41,12 +41,12 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateHZk(){
 			// Calculate the estimated position of the system in global coordinates
-			MatrixXd cPoint;
+			Matrix<double, 3, 1> cPoint;
 			cPoint << mXfk(0, 0), mXfk(1, 0), mGroundAltitude;
 
 			// Point related to camera's coordinate
-			MatrixXd Pc = (cPoint - mPos);
-			MatrixXd Pc_local = mOri * Pc;
+			Matrix<double, 3, 1> Pc = (cPoint - mPos);
+			Matrix<double, 3, 1> Pc_local = mOri * Pc;
 
 			// Estimation of the observation state based on actual estimation of system state ( h(·) )
 			mHZk(0, 0) = mU0 - mFocalLenght * Pc_local(0, 0) / Pc_local(2, 0);
@@ -58,22 +58,22 @@ namespace BOViL {
 		//-----------------------------------------------------------------------------
 		void GroundTrackingEKF::updateJh(){
 			// Calculate the estimated position of the system in global coordinates
-			MatrixXd cPoint;
+			Matrix<double, 3, 1> cPoint;
 			cPoint << mXfk(0, 0), mXfk(1, 0), mGroundAltitude;
 
 			// Point related to camera's coordinate
-			MatrixXd Pc = mOri * (cPoint - mPos);
+			Matrix<double, 3, 1> Pc = mOri * (cPoint - mPos);
 
 			// Updating the jacobian of the observation system
 			mJh(0, 0) = -mFocalLenght * (mOri(0, 0) * Pc(2, 0) - mOri(2, 0) * Pc(0, 0)) / Pc(2, 0) / Pc(2, 0);
 			mJh(0, 1) = -mFocalLenght * (mOri(0, 1) * Pc(2, 0) - mOri(2, 1) * Pc(0, 0)) / Pc(2, 0) / Pc(2, 0);
-			//mJh(0, 2) = 0;
-			//mJh(0, 3) = 0;
+			mJh(0, 2) = 0;
+			mJh(0, 3) = 0;
 
 			mJh(1, 0) = mFocalLenght * (mOri(1, 0) * Pc(2, 0) - mOri(2, 0) * Pc(1, 0)) / Pc(2, 0) / Pc(2, 0);
 			mJh(1, 1) = mFocalLenght * (mOri(1, 1) * Pc(2, 0) - mOri(2, 1) * Pc(1, 0)) / Pc(2, 0) / Pc(2, 0);
-			//mJh(1, 2) = 0;
-			//mJh(1, 3) = 0;
+			mJh(1, 2) = 0;
+			mJh(1, 3) = 0;
 
 		}
 

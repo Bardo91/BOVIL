@@ -8,6 +8,8 @@
 
 #include "ExtendedKalmanFilter.h"
 
+#include <iostream>
+
 using namespace Eigen;
 
 namespace BOViL{
@@ -60,7 +62,9 @@ namespace BOViL{
 			
 			mXak = mXfk + mK * (_Zk - mHZk);
 			
-			mP = (MatrixXd(mK.rows(), mK.rows()) - mK * mJh) * mP;
+			MatrixXd I = MatrixXd::Identity(mK.rows(), mK.rows());
+
+			mP = (I - mK * mJh) * mP;
 		}
 
 		//-----------------------------------------------------------------------------
