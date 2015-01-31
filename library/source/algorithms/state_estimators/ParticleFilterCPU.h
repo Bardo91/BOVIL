@@ -30,15 +30,16 @@ protected:
 template<typename ParticleType_>
 class ParticleFilterCPU {
 public:
-	ParticleFilterCPU(unsigned _nuParticles) :mNuParticles(_nuParticles) {};
+	ParticleFilterCPU(unsigned _nuParticles) :mNuParticles(_nuParticles) { init(); };
 	
-	void init();
 	void step(Particle &_realParticle);
 	
 	unsigned nuParticles() const { return mNuParticles; };
 	std::vector<ParticleType_> particles() const{ return mParticles; };
 
 private:
+	void init();
+
 	void simulate();
 	void calcWeigh(Particle &_realParticle);
 	void resample();
