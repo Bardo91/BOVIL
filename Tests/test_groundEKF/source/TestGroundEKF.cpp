@@ -159,22 +159,26 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 
 		// Update cameras pos and ori
 		
-		AngleAxis<double> Rx(state.eulerAngles[0], Vector3d(1, 0, 0));
-		AngleAxis<double> Ry(state.eulerAngles[1], Vector3d(0, 1, 0));
-		AngleAxis<double> Rz(state.eulerAngles[2], Vector3d(0, 0, 1));
+		//AngleAxis<double> Rx(state.eulerAngles[0], Vector3d(1, 0, 0));
+		//AngleAxis<double> Ry(state.eulerAngles[1], Vector3d(0, 1, 0));
+		//AngleAxis<double> Rz(state.eulerAngles[2], Vector3d(0, 0, 1));
 
 		//Matrix<double, 3, 3> Rx = createRotationMatrix(eEdges::EdgeX, state.eulerAngles[0]);
 		//Matrix<double, 3, 3> Ry = createRotationMatrix(eEdges::EdgeY, state.eulerAngles[1]);
 		//Matrix<double, 3, 3> Rz = createRotationMatrix(eEdges::EdgeZ, state.eulerAngles[2]);
 
-		Matrix<double, 3, 3> camOri = (Rz*Ry*Rx).matrix();
+		//Matrix<double, 3, 3> camOri = (Rz*Ry*Rx).matrix();
+		Matrix<double, 3, 3> camOri;
 		
+		camOri =	AngleAxisd(state.eulerAngles[0], Vector3d::UnitX())*
+					AngleAxisd(state.eulerAngles[1], Vector3d::UnitY())*
+					AngleAxisd(state.eulerAngles[2], Vector3d::UnitZ());
+		camOri.transposeInPlace();
 
 		// Adaptation to Alex edges.
-		AngleAxis<double> rot1(3.1416 / 2, Vector3d(1, 0, 0));
-		AngleAxis<double> rot2(3.1416 / 2, Vector3d(0, 0, 1));
-
-		Matrix<double, 3, 3> adaptRot = (rot1*rot2).matrix();
+		Matrix<double, 3, 3> adaptRot;
+		adaptRot =	AngleAxisd(-M_PI / 2, Vector3d::UnitX())*
+					AngleAxisd(-M_PI / 2, Vector3d::UnitZ());
 		
 		//Matrix<double, 3, 3> adaptRot =	createRotationMatrix(eEdges::EdgeX, PiCte / 2)*
 		//								createRotationMatrix(eEdges::EdgeZ, PiCte / 2);
@@ -198,7 +202,7 @@ void testSegmentation(std::string _filePath, std::function<std::string(unsigned 
 		groundEKF.stepEKF(zk, inputBuffer[0] - lastTime);
 		lastTime = inputBuffer[0];
 
-		Matrix<double, 3, 1> stateEKF = groundEKF.getStateVector();
+		Matrix<double, 4, 1> stateEKF = groundEKF.getStateVector();
 
 		t3 = time->getTime();
 		//double fps = 1 / (t1 - t0);
