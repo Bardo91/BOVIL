@@ -42,20 +42,26 @@ void ParticleFilterCPU<ParticleType_>::calcWeigh(Particle &_realParticle) {
 //---------------------------------------------------------------------------------------------------------------------
 template<typename ParticleType_>
 void ParticleFilterCPU<ParticleType_>::resample() {
+	// Ponderate weighs
+	std::map<unsigned, double> weighs;
+	for (unsigned i = 0; i < mNuParticles; i++){
+		if (weighs[mParticles[i].weigh().first] < mParticles[i].weigh().second)
+			weighs[mParticles[i].weigh().first] = mParticles[i].weigh().second;
+	}
+
+	for (unsigned i = 0; i < mNuParticles; i++){
+		mParticles[i].weigh().second /= weighs[mParticles[i].weigh().first];
+	}
+	//
 	std::vector<ParticleType_> newParticles;
 	double beta = 0.0;
 	unsigned index = unsigned(double(rand()) / RAND_MAX * mNuParticles);
-	double maxWeigh = 0.0;
-
-	for (unsigned i = 0; i < mNuParticles; i++) {
-		if (mParticles[i].weigh() > maxWeigh)
-			maxWeigh = mParticles[i].weigh();
-	}
+	double maxWeigh = 1.0;
 
 	for (unsigned i = 0; i < mNuParticles; i++) {
 		beta += double(rand()) / RAND_MAX * 2.0 * maxWeigh;
-		while (beta > mParticles[index].weigh()) {
-			beta -= mParticles[index].weigh();
+		while (beta > mParticles[index].weigh().second) {
+			beta -= mParticles[index].weigh().second;
 			index = (index + 1) % mNuParticles;
 		}
 		newParticles.push_back(mParticles[index]);
