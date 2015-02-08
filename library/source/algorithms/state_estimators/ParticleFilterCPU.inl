@@ -28,7 +28,7 @@ template<typename ParticleType_>
 void ParticleFilterCPU<ParticleType_>::simulate() {
 	// Aleatorize X% of particles. x = 10;
 	for (unsigned i = 0; i < mNuParticles; i++){
-		unsigned index = unsigned (double(rand()) / RAND_MAX*mNuParticles*0.5);
+		unsigned index = unsigned (double(rand()) / RAND_MAX*mNuParticles*0.3);
 		mParticles[index] = ParticleType_();
 	}
 
