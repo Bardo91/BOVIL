@@ -26,6 +26,12 @@ void ParticleFilterCPU<ParticleType_>::init(){
 //---------------------------------------------------------------------------------------------------------------------
 template<typename ParticleType_>
 void ParticleFilterCPU<ParticleType_>::simulate() {
+	// Aleatorize X% of particles. x = 10;
+	for (unsigned i = 0; i < mNuParticles; i++){
+		unsigned index = unsigned (double(rand()) / RAND_MAX*mNuParticles*0.5);
+		mParticles[index] = ParticleType_();
+	}
+
 	for (unsigned i = 0; i < mNuParticles; i ++) {
 		mParticles[i].simulate();
 	}
@@ -50,7 +56,9 @@ void ParticleFilterCPU<ParticleType_>::resample() {
 	}
 
 	for (unsigned i = 0; i < mNuParticles; i++){
-		mParticles[i].weigh().second /= weighs[mParticles[i].weigh().first];
+		double weigh = mParticles[i].weigh().second;
+		unsigned index = mParticles[i].weigh().first;
+		mParticles[i].weigh().second = weigh / weighs[index];
 	}
 	//
 	std::vector<ParticleType_> newParticles;
