@@ -10,7 +10,7 @@
 #define _BOVIL_ALGORITHMS_STATE_ESTIMATORS_UNSCENTED_KALMAN_FILTER_H_
 
 #include <vector>
-#include <Dense>
+#include <Eigen/Eigen>
 
 namespace BOViL{
 	namespace algorithms{
