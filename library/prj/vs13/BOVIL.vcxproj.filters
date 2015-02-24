@@ -25,6 +25,9 @@
     <Filter Include="core\comm">
       <UniqueIdentifier>{b50b6974-3104-4848-9c1a-411842cac3a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="core\types\file">
+      <UniqueIdentifier>{87cabdcd-7b7c-417b-b630-276a808ace75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h">
@@ -84,6 +87,12 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\core\types\file\file.h">
+      <Filter>core\types\file</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\core\types\file\json.h">
+      <Filter>core\types\file</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
@@ -133,6 +142,12 @@
     </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.cpp">
       <Filter>algorithms\state_estimators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\types\file\file.cpp">
+      <Filter>core\types\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\core\types\file\json.cpp">
+      <Filter>core\types\file</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
