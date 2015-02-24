@@ -93,6 +93,9 @@
     <ClInclude Include="..\..\source\core\types\file\json.h">
       <Filter>core\types\file</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\state_estimators\GMMEM.h">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\core\types\file\json.cpp">
       <Filter>core\types\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\state_estimators\GMMEM.cpp">
+      <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
