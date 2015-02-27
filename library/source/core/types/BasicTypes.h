@@ -56,6 +56,14 @@ namespace BOViL{
 			size = _size;
 			color = _color;
 		};
+
+		ImageObject(Vec2ui _centroid, unsigned _width, unsigned _height, int _size, int _color){
+			centroid = _centroid;
+			width = _width;
+			height = _height;
+			size = _size;
+			color = _color;
+		};
 			
 		Vec2ui getCentroid() const {return centroid;};
 		int getWidth() const {return width;};
