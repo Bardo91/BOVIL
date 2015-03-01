@@ -54,7 +54,7 @@ shared_lib: $(OBJ_FILES)
 	@echo "Searching for objects-----------------"
 	@echo $(OBJ_FILES)
 	@echo "Prepare compilation-------------------"
-	gcc -shared -o libBOViL.so $(OBJ_FILES)
+	$(CXX) -shared -o libBOViL.so $(OBJ_FILES) $(CXX_FLAGS)
 	@echo "Generated shared library -------------"
 
 

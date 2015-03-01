@@ -9,7 +9,7 @@
 
 #include "GMMEM.h"
 
-#include <Eigen\Eigen>
+#include <Eigen/Eigen>
 #include <iostream>
 
 
