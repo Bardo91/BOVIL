@@ -5,7 +5,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 // json object
 #include <cassert>
-#include <core/platfrom/file/file.h>
+#include "file.h"
 #include "json.h"
 #include <utility>
 #include <sstream>
