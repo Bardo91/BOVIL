@@ -215,7 +215,7 @@ void Json::setInt(int _i) {
 }
 
 //------------------------------------------------------------------------------------------------------------------
-const float& Json::asFloat() const {
+float Json::asFloat() const {
 	assert(isFloat());
 	return mFloat;
 }
