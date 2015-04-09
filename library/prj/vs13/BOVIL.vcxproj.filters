@@ -28,6 +28,9 @@
     <Filter Include="core\types\file">
       <UniqueIdentifier>{87cabdcd-7b7c-417b-b630-276a808ace75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="algorithms\filtering">
+      <UniqueIdentifier>{42efadcf-e6dc-4093-b0c9-bee5d7416b36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h">
@@ -95,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\GMMEM.h">
       <Filter>algorithms\state_estimators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\filtering\Convolution.h">
+      <Filter>algorithms\filtering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\filtering\Kernels.h">
+      <Filter>algorithms\filtering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -76,6 +76,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\source\algorithms\filtering\Convolution.h" />
+    <ClInclude Include="..\..\source\algorithms\filtering\Kernels.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
