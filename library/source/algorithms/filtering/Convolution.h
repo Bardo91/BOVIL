@@ -27,16 +27,18 @@ namespace BOViL{
 
 			PixelType_ *res = new PixelType_[_width*_height*_channels];
 
-			for (unsigned col = KernelSize_ / 2 + 1; col < _width - KernelSize_ / 2; col++) {
-				for (unsigned row = KernelSize_ / 2 + 1; row < _height - KernelSize_ / 2; row++){
+			const int midKernelSize = int(KernelSize_) / 2;
+
+			for (unsigned col = midKernelSize + 1; col < _width - midKernelSize; col++) {
+				for (unsigned row = midKernelSize + 1; row < _height - midKernelSize; row++){
 					for (unsigned channel = 0; channel < _channels; channel++){
 						// Extract subimage
 						std::array<double, KernelSize_ * KernelSize_> subImage;
 						memset(subImage.data(), 0, KernelSize_*KernelSize_);
-						for (int i = -static_cast<int>(KernelSize_)/2; i <= KernelSize_/2; i++){
-							for (int j = -static_cast<int>(KernelSize_) / 2; j <= KernelSize_ / 2; j++){
+						for (int i = -midKernelSize; i <= midKernelSize; i++){
+							for (int j = -midKernelSize; j <= midKernelSize; j++){
 								unsigned pixelIndex = row*_width*_channels + col*_channels + channel;
-								subImage[i*KernelSize_ + j] = _image[pixelIndex + i*_width*_channels + j*_channels];
+								subImage[i*(KernelSize_) + j] = _image[pixelIndex + i*_width*_channels + j*_channels];
 							}
 						}
 						//Convolute subimage with kernel

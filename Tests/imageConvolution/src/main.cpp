@@ -17,5 +17,5 @@ int main(){
 
 	BOViL::algorithms::imageConvolution<unsigned char, 3>(image, width, height, channels, BOViL::algorithms::blur);
 
-	SOIL_save_image("./blurred.jpg", SOIL_SAVE_TYPE_DDS, width, height, channels, image);
+	SOIL_save_image("./blurred.png", SOIL_SAVE_TYPE_BMP, width, height, channels, image);
 }
