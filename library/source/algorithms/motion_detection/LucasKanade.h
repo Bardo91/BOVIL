@@ -30,7 +30,7 @@ namespace BOViL{
 							unsigned char * _image2,
 							unsigned		_width,
 							unsigned		_height, 
-							unsigned		_kernelSize);
+							unsigned		_windowSize);
 
 
 

@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SOIL_DIR)/src;$(BOVIL_DIR)/source;;$(IncludePath)</IncludePath>
+    <IncludePath>$(EIGEN_DIR);$(SOIL_DIR)/src;$(BOVIL_DIR)/source;;$(IncludePath)</IncludePath>
     <LibraryPath>$(SOIL_DIR)/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

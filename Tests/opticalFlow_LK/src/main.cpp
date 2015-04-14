@@ -20,10 +20,10 @@ int main(int _argc, char ** _argv){
 	// Load images.
 	ImageData image1, image2;
 
-	image1.data = SOIL_load_image("", &image1.width, &image1.height, &image1.channels, SOIL_LOAD_AUTO);
+	image1.data = SOIL_load_image("", &image1.width, &image1.height, &image1.channels, 1);
 	image2.data = SOIL_load_image("", &image2.width, &image2.height, &image2.channels, SOIL_LOAD_AUTO);
 
 	// Procces pair of images.
-
+	BOViL::algorithms::lucasKanade(image1.data, image2.data, image1.width, image1.height, 3);
 
 }
