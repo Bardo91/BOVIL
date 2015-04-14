@@ -28,6 +28,9 @@
     <Filter Include="core\types\file">
       <UniqueIdentifier>{87cabdcd-7b7c-417b-b630-276a808ace75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="algorithms\motion_detection">
+      <UniqueIdentifier>{e7db68fe-e46f-4c54-973b-66eb3d59d9cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h">
@@ -96,6 +99,9 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\GMMEM.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\motion_detection\LucasKanade.h">
+      <Filter>algorithms\motion_detection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
@@ -155,5 +161,10 @@
     <ClCompile Include="..\..\source\algorithms\state_estimators\GMMEM.cpp">
       <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\algorithms\motion_detection\LucasKanade.cpp">
+      <Filter>algorithms\motion_detection</Filter>
+    </None>
   </ItemGroup>
 </Project>
