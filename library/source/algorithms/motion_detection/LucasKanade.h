@@ -17,7 +17,7 @@ namespace BOViL{
 				mHeight		= _height;
 			}
 
-			unsigned char operator() (unsigned _col, unsigned _row, unsigned _channel = 0){
+			unsigned char operator() (unsigned _col, unsigned _row){
 				return mData[_row*mWidth + _col];
 			}
 
@@ -26,7 +26,7 @@ namespace BOViL{
 			unsigned mWidth, mHeight;
 		};
 
-		void lucasKanade(	unsigned char * _image1,
+		float* lucasKanade(	unsigned char * _image1,
 							unsigned char * _image2,
 							unsigned		_width,
 							unsigned		_height, 

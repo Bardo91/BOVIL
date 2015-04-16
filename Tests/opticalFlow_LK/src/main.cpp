@@ -7,23 +7,37 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#include <SOIL.h>
 #include <algorithms/motion_detection/LucasKanade.h>
+#include <core/time/time.h>
+#include <iostream>
 
-struct ImageData{
-	unsigned char* data;
-	int width, height, channels;
-};
+#include <opencv2/opencv.hpp>
 
 int main(int _argc, char ** _argv){
+	_argc; _argv;
 
+	BOViL::STime *timer = BOViL::STime::get();
 	// Load images.
-	ImageData image1, image2;
-
-	image1.data = SOIL_load_image("", &image1.width, &image1.height, &image1.channels, 1);
-	image2.data = SOIL_load_image("", &image2.width, &image2.height, &image2.channels, SOIL_LOAD_AUTO);
+	
+	cv::Mat im1;
+	cv::cvtColor(cv::imread("C:/programming/datasets/opticalflow/eval-data/Army/frame10.png"), im1, cv::COLOR_RGB2GRAY);
+	cv::Mat im2;
+	cv::cvtColor(cv::imread("C:/programming/datasets/opticalflow/eval-data/Army/frame11.png"), im2, cv::COLOR_RGB2GRAY);
 
 	// Procces pair of images.
-	BOViL::algorithms::lucasKanade(image1.data, image2.data, image1.width, image1.height, 3);
+	double t0 = timer->getTime();
+	float * result = BOViL::algorithms::lucasKanade(im1.data, im2.data, im1.cols, im1.rows, 3);
+	double t1 = timer->getTime();
 
+	for (int i = 0; i < im1.rows / 3; i++){
+		for (int j = 0; j < im1.cols / 3; i++){
+			cv::Point2d p1(i*3*im1.cols, j*3);
+			cv::Point2d p2(i * 3 * im1.cols + result[i*im1.rows / 3 + j], j * 3 + result[i*im1.rows / 3 + j+ 1]);
+			cv::line(im1, p1, p2, cv::Scalar(255, 255, 255));
+		}
+	}
+	cv::imshow("lalala", im1);
+
+	std::cout << "Spent " << t1 - t0 << " seconds" << std::endl;
+	cv::waitKey();
 }

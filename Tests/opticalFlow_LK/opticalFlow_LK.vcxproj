@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(EIGEN_DIR);$(SOIL_DIR)/src;$(BOVIL_DIR)/source;;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SOIL_DIR)/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(OPENCV_DIR)/include;$(EIGEN_DIR);$(BOVIL_DIR)/source;;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OPENCV_DIR)/x86/vc12/lib;$(SolutionDir)$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>BOViL.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_imgproc249d.lib;opencv_core249d.lib;opencv_highgui249d.lib;OpenGL32.lib;BOViL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
