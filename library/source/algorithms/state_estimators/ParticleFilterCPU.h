@@ -19,10 +19,10 @@ public:
 	virtual void simulate() = 0;
 	virtual void calcWeigh(Particle &_realParticle) = 0;
 
-	std::pair<unsigned, double> &weigh() { return mWeigh; };
+	std::pair<unsigned, double> &weigh() { return mWeight; };
 	
 protected:
-	std::pair<unsigned, double> mWeigh;
+	std::pair<unsigned, double> mWeight;
 };	//	 class Particle
 
 
