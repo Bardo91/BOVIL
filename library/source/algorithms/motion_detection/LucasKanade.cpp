@@ -25,29 +25,31 @@ namespace BOViL{
 			// Allocate array for velocities.
 			float *result = new float[_width*_height/_windowSize/_windowSize * 2];
 
-			MatrixXf spatialDerivatives(_windowSize*_windowSize, 2);
-			MatrixXf temporalDerivatives(_windowSize*_windowSize, 1);
-			MatrixXf velocities(2,1);
-			// Star the algorithm.
-			for (unsigned j = 1 + _windowSize; j < _height - 1 - _windowSize; j = j + _windowSize){
-				for (unsigned i = 1 + _windowSize; i < _width - 1 - _windowSize; i = i + _windowSize){
-					
-
-					// Compute derivatives.
-					for (int subI = -int(_windowSize)/2; subI < int(_windowSize)/2; subI++){
-						for (int subJ = -int(_windowSize)/2; subJ < int(_windowSize)/2; subJ++){
-							spatialDerivatives((subI + _windowSize / 2) * _windowSize + (subJ + _windowSize / 2), 0) = image2(i + subI - 1, j + subJ) - image2(i + subI + 1, j + subJ);
-							spatialDerivatives((subI + _windowSize / 2)	* _windowSize + (subJ + _windowSize / 2), 1) = image2(i + subI, j + subJ - 1) - image2(i + subI, j + subJ + 1);
-							temporalDerivatives((subI + _windowSize / 2)	* _windowSize + (subJ + _windowSize / 2)) = image2(i + subI, j + subJ) - image1(i + subI, j + subJ);
-						}
-					}
-
-					// Calculate velocity in pixel (i,j).
-					velocities = (spatialDerivatives.transpose() * spatialDerivatives).inverse() * spatialDerivatives.transpose() * temporalDerivatives;
-					result[i*_width + j + 0] = velocities(0);
-					result[i*_width + j + 1] = velocities(1);
+			MatrixXf Ixs(_width, _height);
+			MatrixXf Iys(_width, _height);
+			MatrixXf Its(_width, _height);
+			// Calculate derivatives.
+			// Ix = [-1, 0, 1]*I(x-1:x+1, y)
+			// Iy = [-1, 0, 1]*I(x, y-1:y+1)
+			// It = [-1, 1]*[I(t)-I(t-1)]
+			for (unsigned i = 1; i < _height - 1; i++){
+				for (unsigned j = 1 ; j < _width - 1; j++){
+					Ixs(i, j) = -image1(i - 1, j) + image1(i + 1, j);
+					Iys(i, j) = -image1(i, j - 1) + image1(i, j + 1);
+					Its(i, j) = image2(i, j) - image1(i, j);
 				}
 			}
+
+			// Calc Speed. Supposed windowSize  == 3.
+			for (unsigned i = 1; i < _height - 1; i = i + 3){
+				for (unsigned j = 1; j < _width - 1; j = j + 3){
+					MatrixXd spatialDeriv(3, 2);
+					Vector3d temporalDeriv;
+					
+					Matrix2d velocities = spatialDeriv.jacobiSvd(ComputeThinU | ComputeThinV).solve(temporalDeriv);
+				}
+			}
+
 			return result;
 			
 		}
