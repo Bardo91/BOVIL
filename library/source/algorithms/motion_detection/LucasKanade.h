@@ -26,7 +26,8 @@ namespace BOViL{
 			unsigned mWidth, mHeight;
 		};
 
-		float* lucasKanade(	unsigned char * _image1,
+		float* lucasKanade(	float		  *	_result,
+							unsigned char * _image1,
 							unsigned char * _image2,
 							unsigned		_width,
 							unsigned		_height, 

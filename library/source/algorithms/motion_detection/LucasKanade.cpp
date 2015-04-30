@@ -9,13 +9,14 @@
 
 #include "LucasKanade.h"
 #include <Eigen/Eigen>
+#include <iostream>
 
 using namespace Eigen;
 
 namespace BOViL{
 	namespace algorithms{
 		// Simple unweighted Lucas Kanade algorithm.
-		float* lucasKanade(unsigned char * _image1, unsigned char * _image2, unsigned _width, unsigned _height, unsigned _windowSize){
+		float* lucasKanade(float * _result, unsigned char * _image1, unsigned char * _image2, unsigned _width, unsigned _height, unsigned _windowSize){
 			assert(_windowSize % 2 == 1);	// Window size must be odd
 			
 			// Struct to acces easily to images.
@@ -25,9 +26,9 @@ namespace BOViL{
 			// Allocate array for velocities.
 			float *result = new float[_width*_height/_windowSize/_windowSize * 2];
 
-			MatrixXf Ixs(_width, _height);
-			MatrixXf Iys(_width, _height);
-			MatrixXf Its(_width, _height);
+			MatrixXf Ixs(_height, _width);
+			MatrixXf Iys(_height, _width);
+			MatrixXf Its(_height, _width);
 			// Calculate derivatives.
 			// Ix = [-1, 0, 1]*I(x-1:x+1, y)
 			// Iy = [-1, 0, 1]*I(x, y-1:y+1)
@@ -39,19 +40,44 @@ namespace BOViL{
 					Its(i, j) = image2(i, j) - image1(i, j);
 				}
 			}
+			Ixs = Ixs / 255;
+			//std::cout << Ixs/255 << std::endl;
+			memcpy(_result, Ixs.data(), sizeof(_result));
 
+			return nullptr;
+
+			/*
 			// Calc Speed. Supposed windowSize  == 3.
 			for (unsigned i = 1; i < _height - 1; i = i + 3){
 				for (unsigned j = 1; j < _width - 1; j = j + 3){
-					MatrixXd spatialDeriv(3, 2);
-					Vector3d temporalDeriv;
+					MatrixXf spatialDeriv(9, 2);
+					spatialDeriv <<		Ixs(i-1, j-1),	Iys(i-1, j-1),
+										Ixs(i-1, j),	Iys(i-1, j),
+										Ixs(i-1, j+1),	Iys(i-1, j+1);
+										Ixs(i, j-1),	Iys(i, j-1);
+										Ixs(i, j),		Iys(i, j);
+										Ixs(i, j+1),	Iys(i, j+1);
+										Ixs(i+1, j-1),	Iys(i+1, j);
+										Ixs(i+1, j),	Iys(i+1, j);
+										Ixs(i+1, j+1),	Iys(i+1, j);
+
+					VectorXf temporalDeriv(9);
+					temporalDeriv <<	Its(i - 1, j - 1),
+										Its(i - 1, j),
+										Its(i - 1, j + 1),
+										Its(i, j - 1),
+										Its(i, j),
+										Its(i, j + 1),
+										Its(i + 1, j - 1),
+										Its(i + 1, j),
+										Its(i + 1, j + 1);
 					
-					Matrix2d velocities = spatialDeriv.jacobiSvd(ComputeThinU | ComputeThinV).solve(temporalDeriv);
+					Vector2f velocities = spatialDeriv.jacobiSvd(ComputeThinU | ComputeThinV).solve(temporalDeriv);
 				}
 			}
 
 			return result;
-			
+			*/
 		}
 	}	//	namespace algorithms
 }	//	namespace BOViL
