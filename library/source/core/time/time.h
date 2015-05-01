@@ -20,54 +20,29 @@
 
 namespace BOViL {
 	class STime {
+		// Static interface
 	public:
-		// --- Singleton life cycle ---
-		static void init();
-		static STime* get();        // Returns the singleton instance
-		static void end();
+		static STime*	get();
+		static void		init();
+		static void		end();
 
-	public: // --- Public interface ---
-		double getTime();
+	private:
+		static	STime*				sTime;
+
+		// Class interface
+	public:
+		double	getTime();
+		void	delay(const unsigned _seconds);
+		void	mDelay(const unsigned _millis);
 
 	private:
 		STime();
-	private:
-		// Singleton instance
-		static STime* sTime; // Static data definition
-		// members
-		#if defined(__linux__)
-			timeval mInitTime;
-		#elif defined (_WIN32)
-			LARGE_INTEGER mInitTime;
-		#endif
+#if defined(__linux__)
+		timeval			mInitTime;
+#elif defined (_WIN32)
+		LARGE_INTEGER	mInitTime;
+#endif
 	};
-
-	//------------------------------------------------------------------------------------------------------------------
-	inline STime * STime::get() {
-		if (sTime == nullptr)
-			init();
-		return sTime;
-	}
-
-	//------------------------------------------------------------------------------------------------------------------
-	inline double STime::getTime() {
-	#if defined (__linux__)
-			// Get current time
-			timeval currentTime;
-			gettimeofday(&currentTime, 0);
-			return double(currentTime.tv_sec - mInitTime.tv_sec) + double(currentTime.tv_usec - mInitTime.tv_usec) / 1000000;
-	#elif defined (_WIN32)
-			// Get current time
-			LARGE_INTEGER largeTicks;
-			QueryPerformanceCounter(&largeTicks);
-			unsigned currTime = largeTicks.LowPart;
-			// Convert time difference to seconds
-			LARGE_INTEGER frequency;
-			QueryPerformanceFrequency(&frequency);
-			return (double(currTime) / double(frequency.LowPart)) -
-				(double(mInitTime.LowPart) / double(frequency.LowPart));
-	#endif 
-	}
 
 }        // namespace BOViL
 
