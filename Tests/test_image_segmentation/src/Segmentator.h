@@ -13,7 +13,7 @@
 #define _BOVIL_TEST_IMAGE_SEGMENTATION_SEGMENTATOR_H_
 
 #include <core/types/BasicTypes.h>
-#include <core/types/ColorClusterSpace.h>
+#include <algorithms/segmentation/color_clustering/types/ColorClusterSpace.h>
 #include <opencv2/core/core.hpp>
 
 namespace test{

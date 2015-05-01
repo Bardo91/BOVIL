@@ -28,14 +28,14 @@
     <Filter Include="core\types\file">
       <UniqueIdentifier>{87cabdcd-7b7c-417b-b630-276a808ace75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="algorithms\segmentation\color_clustering">
+      <UniqueIdentifier>{939626d7-bbc0-44fa-801e-4b07f27575f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\segmentation\color_clustering\types">
+      <UniqueIdentifier>{d1fd82b4-3db0-4384-b225-7383c7f31b0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h">
-      <Filter>algorithms\segmentation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h">
-      <Filter>algorithms\segmentation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
@@ -48,13 +48,7 @@
     <ClInclude Include="..\..\source\core\types\BasicTypes.h">
       <Filter>core\types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\core\types\ColorClusterSpace.h">
-      <Filter>core\types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\core\types\Colors.h">
-      <Filter>core\types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h">
       <Filter>core\types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h">
@@ -96,11 +90,20 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\GMMEM.h">
       <Filter>algorithms\state_estimators</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\ColorClustering.h">
+      <Filter>algorithms\segmentation\color_clustering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorClusterSpace.h">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorSpaceHSV8.h">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.h">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp">
-      <Filter>algorithms\segmentation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp">
       <Filter>algorithms\state_estimators</Filter>
     </ClCompile>
@@ -109,12 +112,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\core\time\time.cpp">
       <Filter>core\time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp">
-      <Filter>core\types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp">
-      <Filter>core\types</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp">
       <Filter>algorithms\state_estimators</Filter>
@@ -154,6 +151,15 @@
     </ClCompile>
     <ClCompile Include="..\..\source\algorithms\state_estimators\GMMEM.cpp">
       <Filter>algorithms\state_estimators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorClusterSpace.cpp">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorSpaceHSV8.cpp">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.cpp">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

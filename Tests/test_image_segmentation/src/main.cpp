@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <core/types/ColorSpaceHSV8.h>
+#include <algorithms/segmentation/color_clustering/types/ColorSpaceHSV8.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv/cv.h>
@@ -84,7 +84,7 @@ void singleImage(Segmentator &_segmentator, map<string, string> &_hashMap){
 void multipleImages(Segmentator &_segmentator, map<string, string> &_hashMap){
 	stringstream ss;
 
-	int i = 1;
+	int i = 160;
 	bool condition = true;
 
 	Mat ori, seg;

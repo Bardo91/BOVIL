@@ -76,8 +76,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\algorithms\segmentation\ColorClustering.h" />
-    <ClInclude Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.h" />
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\ColorClustering.h" />
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorClusterSpace.h" />
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorSpaceHSV8.h" />
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GMMEM.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h" />
@@ -93,14 +95,14 @@
     <ClInclude Include="..\..\source\core\comm\SocketUDP.h" />
     <ClInclude Include="..\..\source\core\time\time.h" />
     <ClInclude Include="..\..\source\core\types\BasicTypes.h" />
-    <ClInclude Include="..\..\source\core\types\ColorClusterSpace.h" />
     <ClInclude Include="..\..\source\core\types\Colors.h" />
-    <ClInclude Include="..\..\source\core\types\ColorSpaceHSV8.h" />
     <ClInclude Include="..\..\source\core\types\file\file.h" />
     <ClInclude Include="..\..\source\core\types\file\json.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\algorithms\segmentation\SegmentedRLEObject.cpp" />
+    <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorClusterSpace.cpp" />
+    <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorSpaceHSV8.cpp" />
+    <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\GMMEM.cpp" />
     <ClCompile Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.cpp" />
@@ -115,8 +117,6 @@
     <ClCompile Include="..\..\source\core\comm\SocketTCP.cpp" />
     <ClCompile Include="..\..\source\core\comm\SocketUDP.cpp" />
     <ClCompile Include="..\..\source\core\time\time.cpp" />
-    <ClCompile Include="..\..\source\core\types\ColorClusterSpace.cpp" />
-    <ClCompile Include="..\..\source\core\types\ColorSpaceHSV8.cpp" />
     <ClCompile Include="..\..\source\core\types\file\file.cpp" />
     <ClCompile Include="..\..\source\core\types\file\json.cpp" />
   </ItemGroup>

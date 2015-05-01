@@ -9,7 +9,7 @@
 
 #include "Segmentator.h"
 
-#include <algorithms/segmentation/ColorClustering.h>
+#include <algorithms/segmentation/color_clustering/ColorClustering.h>
 
 using namespace BOViL::algorithms;
 using namespace cv;

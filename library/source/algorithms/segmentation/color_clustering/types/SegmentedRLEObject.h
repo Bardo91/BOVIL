@@ -11,7 +11,7 @@
 #define _BOVIL_ALGORITHM_SEGMENTATION_H_
 
 #include <vector>
-#include "../../core/types/BasicTypes.h"
+#include "../../../../core/types/BasicTypes.h"
 
 namespace BOViL{
 	namespace algorithms{
