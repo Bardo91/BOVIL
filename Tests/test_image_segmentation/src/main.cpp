@@ -34,8 +34,8 @@ int main(int _argc, char** _argv){
 
 	map<string, string> hashMap = parseArgs(_argc, _argv);
 
-	ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 0, 100, 180, 255, 255, 36);
-
+	//ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 0, 100, 180, 255, 255, 36);
+	ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 150, 250, 180, 255, 255, 36);
 	test::Segmentator segmentator(&ccs, 100);
 
 	if (!strcmp(hashMap["TYPE"].c_str(), "SINGLE")){
