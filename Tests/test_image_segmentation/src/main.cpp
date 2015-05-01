@@ -34,7 +34,7 @@ int main(int _argc, char** _argv){
 
 	map<string, string> hashMap = parseArgs(_argc, _argv);
 
-	ColorClusterSpace ccs = createSingleClusteredSpace(0, 180, 0, 70, 180, 255, 180, 255, 255, 36);
+	ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 0, 100, 180, 255, 255, 36);
 
 	test::Segmentator segmentator(&ccs, 100);
 
@@ -100,6 +100,10 @@ void multipleImages(Segmentator &_segmentator, map<string, string> &_hashMap){
 		ss << ".jpg";
 
 		ori = imread(ss.str());
+		// Blur image
+		cv::GaussianBlur(ori, ori, cv::Size2i(3,3), 1, 1);
+	
+		// Segmentation
 		ori.copyTo(seg);
 		objects.clear();
 		if (ori.rows != 0){
