@@ -16,13 +16,12 @@ using namespace cv;
 
 namespace test{
 	//-----------------------------------------------------------------------------------
-	bool Segmentator::segmentateImage(const Mat &_srcImg, Mat &_dstImg, std::vector<BOViL::ImageObject> &_objects){
+	bool Segmentator::segmentateImage(const Mat &_srcImg, std::vector<BOViL::ImageObject> &_objects){
 		if (_srcImg.rows == 0)
 			return false;
-		
-		_srcImg.copyTo(_dstImg);
+	
 
-		ColorClustering<uchar>(_dstImg.data, _dstImg.cols, _dstImg.rows, colorThreshold, _objects, *ccs);
+		ColorClustering<uchar>(_srcImg.data, _srcImg.cols, _srcImg.rows, colorThreshold, _objects, *ccs);
 
 		return true;
 	};

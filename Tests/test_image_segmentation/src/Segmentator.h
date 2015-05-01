@@ -21,7 +21,7 @@ namespace test{
 	public:
 		Segmentator(BOViL::ColorClusterSpace *_ccs, const int _colorThreshold){ ccs = _ccs; colorThreshold = _colorThreshold; };
 	public:
-		bool segmentateImage(const cv::Mat &_srcImg, cv::Mat &_dstImg, std::vector<BOViL::ImageObject> &_objects);
+		bool segmentateImage(const cv::Mat &_srcImg, std::vector<BOViL::ImageObject> &_objects);
 		void changeCCS(BOViL::ColorClusterSpace *_ccs){ ccs = _ccs; };
 		void changeThreshold(const int _colorThreshold){ colorThreshold = _colorThreshold; };
 

@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\ColorClustering.h" />
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ccsCreation.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorClusterSpace.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ColorSpaceHSV8.h" />
     <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.h" />

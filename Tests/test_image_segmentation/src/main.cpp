@@ -18,6 +18,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv/cv.h>
 
+#include <algorithms/segmentation/color_clustering/types/ccsCreation.h>
 
 
 using namespace test;
@@ -33,9 +34,9 @@ int main(int _argc, char** _argv){
 
 	map<string, string> hashMap = parseArgs(_argc, _argv);
 
-	ColorClusterSpace *ccs = CreateHSVCS_8c(255U, 255U, 255U);
+	ColorClusterSpace ccs = createSingleClusteredSpace(0, 180, 0, 70, 180, 255, 180, 255, 255, 36);
 
-	test::Segmentator segmentator(ccs, 100);
+	test::Segmentator segmentator(&ccs, 100);
 
 	if (!strcmp(hashMap["TYPE"].c_str(), "SINGLE")){
 		singleImage(segmentator, hashMap);
@@ -66,11 +67,12 @@ void singleImage(Segmentator &_segmentator, map<string, string> &_hashMap){
 	Mat seg, ori = imread(_hashMap["IMG_PATH"]);
 
 	vector<BOViL::ImageObject> objects;
-
-	cvtColor(ori, ori, CV_BGR2HSV);
-	if (_segmentator.segmentateImage(ori, seg, objects)){
+	ori.copyTo(seg);
+	cvtColor(seg, seg, CV_BGR2HSV);
+	if (_segmentator.segmentateImage(seg, objects)){
 		cout << "Hecho" << endl;
 		cvtColor(seg, seg, CV_HSV2BGR);
+		hconcat(ori, seg, seg);
 		imshow("image", seg);
 		waitKey(1);
 	}
@@ -98,10 +100,18 @@ void multipleImages(Segmentator &_segmentator, map<string, string> &_hashMap){
 		ss << ".jpg";
 
 		ori = imread(ss.str());
+		ori.copyTo(seg);
+		objects.clear();
 		if (ori.rows != 0){
-			cvtColor(ori, ori, CV_BGR2HSV);
-			_segmentator.segmentateImage(ori, seg, objects);
+			cvtColor(seg, seg, CV_BGR2HSV);
+			_segmentator.segmentateImage(seg, objects);
 			cvtColor(seg, seg, CV_HSV2BGR);
+
+			for (ImageObject object : objects){
+				circle(ori, Point2i(object.getCentroid().x, object.getCentroid().y), object.getWidth() / 2, Scalar(255, 255, 255), 3);
+			}
+
+			hconcat(ori, seg, seg);
 			imshow("image", seg);
 			waitKey(1);
 		}

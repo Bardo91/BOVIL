@@ -49,7 +49,7 @@ namespace BOViL{
 		};
 
 		int whichColor(c3u& _color){
-			int i = (_color.a * (size - 1) / 180); // 666 TODO: improve (get 5%)
+			int i = (_color.a * (size - 1) / 180); // 666 TODO: improve (gets 5%)
 			int j = _color.b*(size - 1) >> 7;
 			j = (j>>1) + (j&1);
 			int k = _color.c*(size - 1) >> 7;

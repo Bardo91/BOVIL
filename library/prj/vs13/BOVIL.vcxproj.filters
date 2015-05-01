@@ -102,6 +102,9 @@
     <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.h">
       <Filter>algorithms\segmentation\color_clustering\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ccsCreation.h">
+      <Filter>algorithms\segmentation\color_clustering\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp">
