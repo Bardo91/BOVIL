@@ -80,7 +80,7 @@ void singleImage(Segmentator &_segmentator, map<string, string> &_hashMap){
 		for (ImageObject object : objects){
 			Point2d p1(object.getCentroid().x - object.getWidth() / 2, object.getCentroid().y - object.getHeight()/2);
 			Point2d p2(object.getCentroid().x + object.getWidth() / 2, object.getCentroid().y + object.getHeight()/2);
-			rectangle(seg, p1, p2, Scalar(255, 255, 255), 1);
+			rectangle(seg, p1, p2, Scalar(0, 255, 0), 1);
 		}
 		
 		hconcat(ori, seg, seg);
