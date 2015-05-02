@@ -167,7 +167,7 @@ namespace BOViL{
 							}
 							else{	// If current lineRLE has parent --> OVERLAP
 								if (_rleList[_i - 1][ppRLE].hasParent){		// There is a "family" of RLE lines
-									if ((_rleList[_i - 1][ppRLE].pi != _rleList[_i][pcRLE].pi) && (_rleList[_i - 1][ppRLE].pj != _rleList[_i][pcRLE].pj)){
+									if ((_rleList[_i - 1][ppRLE].pi != _rleList[_i][pcRLE].pi) || (_rleList[_i - 1][ppRLE].pj != _rleList[_i][pcRLE].pj)){
 										_rleList[_rleList[_i - 1][ppRLE].pi][_rleList[_i - 1][ppRLE].pj].pi = _rleList[_i][pcRLE].pi;
 										_rleList[_rleList[_i - 1][ppRLE].pi][_rleList[_i - 1][ppRLE].pj].pj = _rleList[_i][pcRLE].pj;
 										_rleList[_rleList[_i - 1][ppRLE].pi][_rleList[_i - 1][ppRLE].pj].hasParent = true;
