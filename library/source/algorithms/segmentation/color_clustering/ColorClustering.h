@@ -58,7 +58,7 @@ namespace BOViL{
 						LineRLE auxRLE = aRLE[aRLE[i][j].pi][aRLE[i][j].pj];
 
 						int loopCounter = 0;
-						while(auxRLE.hasParent && loopCounter < 30){
+						while(auxRLE.hasParent && loopCounter < 30){ // 666 TODO: optimice
 							aRLE[i][j].pi = auxRLE.pi;
 							aRLE[i][j].pj = auxRLE.pj;
 
@@ -184,7 +184,7 @@ namespace BOViL{
 							}
 						}
 					}	// Connecting RLEs
-					if (pcRLE >= _rleList[_i].size() - 1 || ppRLE >= _rleList[_i - 1].size() - 1){
+					if (pcRLE >= _rleList[_i].size() - 1 && ppRLE >= _rleList[_i - 1].size() - 1){
 						condition = false;
 						continue;
 					}
