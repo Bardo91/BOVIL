@@ -35,8 +35,11 @@ int main(int _argc, char** _argv){
 	map<string, string> hashMap = parseArgs(_argc, _argv);
 
 	//ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 0, 100, 180, 255, 255, 36);
-	ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 150, 250, 180, 255, 255, 36);
-	test::Segmentator segmentator(&ccs, 100);
+	//ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 150, 250, 180, 255, 255, 36);
+
+	ColorClusterSpace *ccs = CreateHSVCS_8c(255U, 255U, 255U);
+
+	test::Segmentator segmentator(ccs, 100);
 
 	if (!strcmp(hashMap["TYPE"].c_str(), "SINGLE")){
 		singleImage(segmentator, hashMap);
@@ -69,9 +72,17 @@ void singleImage(Segmentator &_segmentator, map<string, string> &_hashMap){
 	vector<BOViL::ImageObject> objects;
 	ori.copyTo(seg);
 	cvtColor(seg, seg, CV_BGR2HSV);
+	namedWindow("image", CV_WINDOW_NORMAL);
 	if (_segmentator.segmentateImage(seg, objects)){
 		cout << "Hecho" << endl;
 		cvtColor(seg, seg, CV_HSV2BGR);
+		
+		for (ImageObject object : objects){
+			Point2d p1(object.getCentroid().x - object.getWidth() / 2, object.getCentroid().y - object.getHeight()/2);
+			Point2d p2(object.getCentroid().x + object.getWidth() / 2, object.getCentroid().y + object.getHeight()/2);
+			rectangle(seg, p1, p2, Scalar(255, 255, 255), 1);
+		}
+		
 		hconcat(ori, seg, seg);
 		imshow("image", seg);
 		waitKey(1);
@@ -79,14 +90,14 @@ void singleImage(Segmentator &_segmentator, map<string, string> &_hashMap){
 	else
 		cout << "Error" << endl;
 
-	system("PAUSE");
+	waitKey();
 
 }
 
 void multipleImages(Segmentator &_segmentator, map<string, string> &_hashMap){
 	stringstream ss;
 
-	int i = 160;
+	int i = atoi(_hashMap["INDEX"].c_str());
 	bool condition = true;
 
 	Mat ori, seg;
