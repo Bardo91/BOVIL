@@ -39,8 +39,8 @@ namespace BOViL{
 				int color;	// Color of the object.s
 
 				bool hasParent;				// Flag if the RLE was parented.
-				unsigned int pi;			// Index of the parent in the vector.
-				unsigned int pj;			// Index of the parent in the vector.
+				unsigned int pi;			// Row index of the parent in the vector.
+				unsigned int pj;			// Column index of the parent in the vector.
 
 				int iObj;
 

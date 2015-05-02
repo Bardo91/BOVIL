@@ -83,6 +83,7 @@ namespace BOViL{
 				}	// for i
 			}	// for j
 			
+			// Threshold filtering
 			for(unsigned int i = 0; i < objects.size() ; i ++){
 				if(objects[i].getSize() >= _sizeThreshold)
 					_objects.push_back(ImageObject(objects[i].upperLeft(), objects[i].downRight(), objects[i].getSize(), objects[i].getColor()));
@@ -141,7 +142,7 @@ namespace BOViL{
 		template<typename T_>
 		inline void joinLines(unsigned _i, std::vector<std::vector<LineRLE>> &_rleList){
 			if (_i){	//First line cannot have parents
-				unsigned int pcRLE = 0, ppRLE = 0; 		// Index of the current lineRLE on the i row of aRLE
+				unsigned int pcRLE = 0, ppRLE = 0; 		// Index of the lineRLE objects on the i (current) and  i-1 (previous) rows of aRLE
 				unsigned int jc = _rleList[_i][pcRLE].size, jp = _rleList[_i - 1][ppRLE].size;	// Index of current row's column and previous row's column.
 
 				bool condition = true;
