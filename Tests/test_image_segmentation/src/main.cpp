@@ -37,9 +37,9 @@ int main(int _argc, char** _argv){
 	//ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 0, 100, 180, 255, 255, 36);
 	//ColorClusterSpace ccs = createSingleClusteredSpace(80, 150, 0, 140, 150, 250, 180, 255, 255, 36);
 
-	ColorClusterSpace *ccs = CreateHSVCS_8c(255U, 255U, 255U);
+	ColorClusterSpace ccs = *CreateHSVCS_8c(255U, 255U, 255U);
 
-	test::Segmentator segmentator(ccs, 100);
+	test::Segmentator segmentator(&ccs, 50);
 
 	if (!strcmp(hashMap["TYPE"].c_str(), "SINGLE")){
 		singleImage(segmentator, hashMap);
@@ -123,7 +123,9 @@ void multipleImages(Segmentator &_segmentator, map<string, string> &_hashMap){
 			cvtColor(seg, seg, CV_HSV2BGR);
 
 			for (ImageObject object : objects){
-				circle(ori, Point2i(object.getCentroid().x, object.getCentroid().y), object.getWidth() / 2, Scalar(255, 255, 255), 3);
+				Point2d p1(object.getCentroid().x - object.getWidth() / 2, object.getCentroid().y - object.getHeight() / 2);
+				Point2d p2(object.getCentroid().x + object.getWidth() / 2, object.getCentroid().y + object.getHeight() / 2);
+				rectangle(seg, p1, p2, Scalar(255, 255, 255), 1);
 			}
 
 			hconcat(ori, seg, seg);
