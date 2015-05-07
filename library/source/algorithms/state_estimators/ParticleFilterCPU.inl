@@ -8,46 +8,40 @@
 // ParticleFilter class
 
 //---------------------------------------------------------------------------------------------------------------------
-template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::step(Particle &_realParticle) {
+template<typename ParticleType_, typename ObservableData_>
+void ParticleFilterCPU<ParticleType_, ObservableData_>::step(ObservableData_ &_data) {
 	simulate();
-	calcWeigh(_realParticle);
+	calcWeigh(_data);
 	resample();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::init(){
+template<typename ParticleType_, typename ObservableData_>
+void ParticleFilterCPU<ParticleType_, ObservableData_>::init(){
 	for (unsigned i = 0; i < mNuParticles; i++){
 		mParticles.push_back(ParticleType_());
 	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::simulate() {
-	// Aleatorize X% of particles. x = 10;
-	for (unsigned i = 0; i < mNuParticles; i++){
-		unsigned index = unsigned (double(rand()) / RAND_MAX*mNuParticles*0.3);
-		mParticles[index] = ParticleType_();
-	}
-
+template<typename ParticleType_, typename ObservableData_>
+void ParticleFilterCPU<ParticleType_, ObservableData_>::simulate() {
 	for (unsigned i = 0; i < mNuParticles; i ++) {
 		mParticles[i].simulate();
 	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::calcWeigh(Particle &_realParticle) {
+template<typename ParticleType_, typename ObservableData_>
+void ParticleFilterCPU<ParticleType_, ObservableData_>::calcWeigh(ObservableData_ &_data) {
 	for (unsigned i = 0; i < mNuParticles; i++) {
-		mParticles[i].calcWeigh(_realParticle);
+		mParticles[i].calcWeigh(_data);
 	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-template<typename ParticleType_>
-void ParticleFilterCPU<ParticleType_>::resample() {
+template<typename ParticleType_, typename ObservableData_>
+void ParticleFilterCPU<ParticleType_, ObservableData_>::resample() {
 	// Ponderate weighs
 	std::map<unsigned, double> weighs;
 	for (unsigned i = 0; i < mNuParticles; i++){

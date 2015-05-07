@@ -84,6 +84,7 @@
     <ClInclude Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GMMEM.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\GroundTrackingEKF.h" />
+    <ClInclude Include="..\..\source\algorithms\state_estimators\ParticleFilterCPU.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\StereoVisionEKF.h" />
     <ClInclude Include="..\..\source\algorithms\state_estimators\UnscentedKalmanFilter.h" />
     <ClInclude Include="..\..\source\core\comm\ClientSocketTCP.h" />
@@ -120,6 +121,9 @@
     <ClCompile Include="..\..\source\core\time\time.cpp" />
     <ClCompile Include="..\..\source\core\types\file\file.cpp" />
     <ClCompile Include="..\..\source\core\types\file\json.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\algorithms\state_estimators\ParticleFilterCPU.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

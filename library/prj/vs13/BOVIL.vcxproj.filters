@@ -105,6 +105,9 @@
     <ClInclude Include="..\..\source\algorithms\segmentation\color_clustering\types\ccsCreation.h">
       <Filter>algorithms\segmentation\color_clustering\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\algorithms\state_estimators\ParticleFilterCPU.h">
+      <Filter>algorithms\state_estimators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\algorithms\state_estimators\ExtendedKalmanFilter.cpp">
@@ -164,5 +167,10 @@
     <ClCompile Include="..\..\source\algorithms\segmentation\color_clustering\types\SegmentedRLEObject.cpp">
       <Filter>algorithms\segmentation\color_clustering\types</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\source\algorithms\state_estimators\ParticleFilterCPU.inl">
+      <Filter>algorithms\state_estimators</Filter>
+    </None>
   </ItemGroup>
 </Project>
