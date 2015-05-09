@@ -27,6 +27,18 @@ namespace BOViL{
 		template<typename T> color3<T>  pixelXXX2XXX(color3<T> _col){
 			return _col;
 		}
+	
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Private functions definition
+		template<typename T_>
+		void changeColor(T_ *_image, unsigned _i, unsigned _j, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace);
+
+		template<typename T_>
+		std::vector<LineRLE> simplifyLine(T_ *_image, unsigned _i, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace, std::function<int(T_ *_a, T_ *_b, T_ *_c)> _functionSegmentation);
+
+		template<typename T_>
+		void joinLines(unsigned _i, std::vector<std::vector<LineRLE>> &_rleList);
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Algorithm
@@ -93,7 +105,7 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------------------------------------
 		// "Private" functions
 		template<typename T_>
-		inline void changeColor(T_ *_image, unsigned _i, unsigned _j, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace){
+		void changeColor(T_ *_image, unsigned _i, unsigned _j, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace){
 			color3<T_> c3(*(_image + _i * _width * 3 + 3 * _j + 0),
 				*(_image + _i * _width * 3 + 3 * _j + 1),
 				*(_image + _i * _width * 3 + 3 * _j + 2));
@@ -107,7 +119,7 @@ namespace BOViL{
 
 		//-------------------------------------------------------------------------------------------------------------
 		template<typename T_>
-		inline std::vector<LineRLE> simplifyLine(T_ *_image, unsigned _i, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace, std::function<int(T_ *_a, T_ *_b, T_ *_c)> _functionSegmentation){
+		std::vector<LineRLE> simplifyLine(T_ *_image, unsigned _i, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace, std::function<int(T_ *_a, T_ *_b, T_ *_c)> _functionSegmentation){
 			std::vector<LineRLE> simplifiedLine;
 			int currentColor, colorRLE = -1;
 			unsigned js = 0;
@@ -140,7 +152,7 @@ namespace BOViL{
 		}
 
 		template<typename T_>
-		inline void joinLines(unsigned _i, std::vector<std::vector<LineRLE>> &_rleList){
+		void joinLines(unsigned _i, std::vector<std::vector<LineRLE>> &_rleList){
 			if (_i){	//First line cannot have parents
 				unsigned int pcRLE = 0, ppRLE = 0; 		// Index of the lineRLE objects on the i (current) and  i-1 (previous) rows of aRLE
 				unsigned int jc = _rleList[_i][pcRLE].size, jp = _rleList[_i - 1][ppRLE].size;	// Index of current row's column and previous row's column.
