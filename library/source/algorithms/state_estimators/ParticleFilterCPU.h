@@ -12,6 +12,7 @@
 #define _GLHL_TEST_PARTICLE_FILTER_CPU_H_
 
 #include <vector>
+#include <map>
 
 // Particle filter class
 template<typename ParticleType_, typename ObservableData_>

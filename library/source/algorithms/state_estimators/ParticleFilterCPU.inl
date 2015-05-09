@@ -7,6 +7,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ParticleFilter class
 
+#if defined(__linux__)
+#include <stdlib.h>
+#endif
+
 //---------------------------------------------------------------------------------------------------------------------
 template<typename ParticleType_, typename ObservableData_>
 void ParticleFilterCPU<ParticleType_, ObservableData_>::step(ObservableData_ &_data) {
