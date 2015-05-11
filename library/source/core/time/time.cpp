@@ -10,6 +10,7 @@
 // Engine headers
 #include "time.h"
 #include <cassert>
+#include <time.h>
 
 namespace BOViL {
 	STime* STime::sTime = nullptr;	//	Static data initialization.
@@ -67,10 +68,7 @@ namespace BOViL {
 	}
 	//------------------------------------------------------------------------------------------------------------------
 	void STime::delay(const unsigned _seconds){
-		double t0 = getTime();
-		while (getTime() - t0 < _seconds){
-			//	 Intentionally blank
-		}
+		Sleep(_seconds);
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
