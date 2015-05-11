@@ -10,7 +10,13 @@
 // Engine headers
 #include "time.h"
 #include <cassert>
-#include <time.h>
+
+#if defined (__linux__)
+	#include <unistd.h>
+#elif defined (WIN32)
+	#include <time.h>
+#endif
+
 
 namespace BOViL {
 	STime* STime::sTime = nullptr;	//	Static data initialization.
@@ -68,7 +74,12 @@ namespace BOViL {
 	}
 	//------------------------------------------------------------------------------------------------------------------
 	void STime::delay(const unsigned _seconds){
+	#if defined (__linux__)
+		sleep(_seconds);
+	#elif defined (WIN32)
 		Sleep(_seconds);
+	#endif
+		
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
