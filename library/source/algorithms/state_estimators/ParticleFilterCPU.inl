@@ -47,16 +47,21 @@ void ParticleFilterCPU<ParticleType_, ObservableData_>::calcWeigh(ObservableData
 template<typename ParticleType_, typename ObservableData_>
 void ParticleFilterCPU<ParticleType_, ObservableData_>::resample() {
 	// Ponderate weighs
-	std::map<unsigned, double> weighs;
+	std::map<unsigned, double> weights;
 	for (unsigned i = 0; i < mNuParticles; i++){
-		if (weighs[mParticles[i].weigh().first] < mParticles[i].weigh().second)
-			weighs[mParticles[i].weigh().first] = mParticles[i].weigh().second;
+		if (weights[mParticles[i].weigh().first] < mParticles[i].weigh().second)
+			weights[mParticles[i].weigh().first] = mParticles[i].weigh().second;
+	}
+
+	for (std::pair<unsigned, double> weight : weights){
+		if (weight.second == 0.0)
+			return;	// Data corrupted or null.
 	}
 
 	for (unsigned i = 0; i < mNuParticles; i++){
 		double weigh = mParticles[i].weigh().second;
 		unsigned index = mParticles[i].weigh().first;
-		mParticles[i].weigh().second = weigh / weighs[index];
+		mParticles[i].weigh().second = weigh / weights[index];
 	}
 	//
 	std::vector<ParticleType_> newParticles;
