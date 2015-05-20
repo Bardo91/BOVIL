@@ -15,8 +15,8 @@ namespace BOViL{
 	namespace comm{
 		class SocketTCP : public Socket{
 		public:
-			bool sendMsg(std::string _msg);
-			bool receiveMsg(std::string &_msg);
+			int sendMsg(const unsigned char *_buffer, const unsigned _bufferSize);
+			int receiveMsg(unsigned char *_buffer, const unsigned _bufferSize);
 		
 		protected:
 			SocketTCP() {};

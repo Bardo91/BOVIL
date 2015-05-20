@@ -12,38 +12,27 @@
 namespace BOViL{
 	namespace comm{
 		//-----------------------------------------------------------------------------
-		bool SocketUDP::sendMsg(std::string _str) {
-			if (sendto(mSocket, _str.c_str(), _str.size(), 0, (sockaddr *) &mAddr, sizeof(mAddr)) == SOCKET_ERROR) {
+		int SocketUDP::sendMsg(const unsigned char *_buffer, const unsigned _bufferSize) {
+			if (sendto(mSocket, (char*)_buffer, _bufferSize, 0, (sockaddr *) &mAddr, sizeof(mAddr)) == SOCKET_ERROR) {
 				std::cout << "Socket Error" << std::endl;
 				closeSocket();
 				#if defined (_WIN32)
 					//std::cout << "Send failed with error: " << WSAGetLastError() << std::endl;
 					WSACleanup();
 				#endif
-				return false;
+				return -1;
 			}
 
-			return true;
+			return 0;
 		}
 
 		//-----------------------------------------------------------------------------
-		bool SocketUDP::receiveMsg(std::string &_msg) {
-			char recvbuf[1024];
-			int recvbuflen = 1024;
-			int iResult;			
+		int SocketUDP::receiveMsg(unsigned char *_buffer, const unsigned _bufferSize) {		
 			#if defined(_WIN32)
-				iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (int*)mHints.ai_addrlen);
+				return recvfrom(mSocket, (char*) _buffer, _bufferSize, 0, mHints.ai_addr, (int*)mHints.ai_addrlen);
 			#elif defined(__linux__)
-				//iResult = recvfrom(mSocket, recvbuf, recvbuflen, 0, mHints.ai_addr, (socklen_t*) mHints.ai_addrlen);
-				iResult = recvfrom(mSocket, (void *)recvbuf, recvbuflen, 0, mHints.ai_addr, &mHints.ai_addrlen);
+				return recvfrom(mSocket, (void *)_buffer, _bufferSize, 0, mHints.ai_addr, &mHints.ai_addrlen);
 			#endif
-			if (iResult < 0) {
-				return false;
-			}
-
-			_msg.append(recvbuf, iResult);
-
-			return true;
 		}
 	}
 }

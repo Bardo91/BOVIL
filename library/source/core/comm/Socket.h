@@ -51,8 +51,8 @@ namespace BOViL{
 		
 		class Socket{
 		public:
-			virtual bool sendMsg(std::string _msg) = 0;
-			virtual bool receiveMsg(std::string &_msg) = 0;
+			virtual int sendMsg(const unsigned char *_buffer, const unsigned _bufferSize) = 0;
+			virtual int receiveMsg(unsigned char *_buffer, const unsigned _bufferSize) = 0;
 
 			SOCKET getSocketDescriptor(){ return mSocket; }
 
