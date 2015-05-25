@@ -21,6 +21,17 @@ void ParticleFilterCPU<ParticleType_, ObservableData_>::step(ObservableData_ &_d
 
 //---------------------------------------------------------------------------------------------------------------------
 template<typename ParticleType_, typename ObservableData_>
+void ParticleFilterCPU<ParticleType_, ObservableData_>::reinitialize(const double &_prob) {
+	for (unsigned i = 0; i < mNuParticles; i++){
+		if (double(rand()) / RAND_MAX <= _prob){
+			mParticles[i] = ParticleType_();
+		}
+	}
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------
+template<typename ParticleType_, typename ObservableData_>
 void ParticleFilterCPU<ParticleType_, ObservableData_>::init(){
 	for (unsigned i = 0; i < mNuParticles; i++){
 		mParticles.push_back(ParticleType_());

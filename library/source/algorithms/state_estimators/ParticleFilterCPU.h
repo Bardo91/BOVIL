@@ -21,7 +21,9 @@ public:
 	ParticleFilterCPU(unsigned _nuParticles) :mNuParticles(_nuParticles) { init(); };
 	
 	void step(ObservableData_ &_data);
-	
+	void reinitialize(const double &_prob);
+
+
 	unsigned nuParticles() const { return mNuParticles; };
 	std::vector<ParticleType_> particles() const{ return mParticles; };
 
