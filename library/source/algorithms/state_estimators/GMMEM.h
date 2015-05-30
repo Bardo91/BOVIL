@@ -27,7 +27,7 @@ namespace BOViL {
 	public:
 		GMMEM(std::vector<std::array<double, 2>> _particles, std::vector<GaussianParameters> _gaussians);
 
-		void iterate();
+		bool iterate();
 
 		std::vector<GaussianParameters> result() const { return mGaussians; };
 

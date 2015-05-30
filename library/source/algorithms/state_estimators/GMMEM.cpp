@@ -25,12 +25,12 @@ namespace BOViL{
 
 
 	//---------------------------------------------------------------------------------------------------------------------
-	void GMMEM::iterate(){
+	bool GMMEM::iterate(){
 		Eigen::MatrixXd membershipWeighs(mGaussians.size(), mParticles.size());
 		Eigen::VectorXd N(mGaussians.size());
 
 		if (mGaussians.size() == 0)
-			return;	// No gaussians to iterate.
+			return false;	// No gaussians to iterate.
 
 		unsigned steps = 0;
 		double lastLikelihood = 0.0;
@@ -139,11 +139,17 @@ namespace BOViL{
 				likelihood += log(gProb);
 			}
 
+			if (isnan(likelihood) || isinf(likelihood)){	// Error converging to solution.
+				return false;
+			}
+
 			errorLikelihood = abs(lastLikelihood - likelihood);
 			std::cout << "lastLL: " << lastLikelihood << " - CurrentLL:" << likelihood << ". Error: " << errorLikelihood << std::endl;
 			lastLikelihood = likelihood;
 			steps++;
 		} while (steps < 10 && errorLikelihood > 1);
+
+		return true;
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------
