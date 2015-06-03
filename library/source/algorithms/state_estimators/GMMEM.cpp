@@ -139,7 +139,7 @@ namespace BOViL{
 				likelihood += log(gProb);
 			}
 
-			if (isnan(likelihood) || isinf(likelihood)){	// Error converging to solution.
+			if (std::isnan(likelihood) || std::isinf(likelihood)){	// Error converging to solution.
 				return false;
 			}
 
