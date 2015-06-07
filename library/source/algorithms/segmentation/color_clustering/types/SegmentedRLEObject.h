@@ -16,52 +16,88 @@
 namespace BOViL{
 	namespace algorithms{
 		//-----------------------------------------------------------------------------
-			struct LineRLE{		// RLE encoding object.
-				LineRLE(unsigned int _i,
-						unsigned int _js,
-						unsigned int _je,
-						int _color){
-							i = _i;
-							js = _js;
-							je = _je;
-							size = je - js;
-							color = _color;
-							hasParent = false;
-							pi = pj = 0;
-							iObj = -1;
-				};
-
-				unsigned int i;			// Row of the object.
-				unsigned int js;		// Started column of the object.
-				unsigned int je;		// Ended column of the object.
-				unsigned int size;		// Size of the object (= je - js + 1) its computed one time in order to reduce the algorithm operations.
-
-				int color;	// Color of the object.s
-
-				bool hasParent;				// Flag if the RLE was parented.
-				unsigned int pi;			// Row index of the parent in the vector.
-				unsigned int pj;			// Column index of the parent in the vector.
-
-				int iObj;
-
+		/** Struct that holds compressed line of image using RLE based on color codes.
+		*/
+		struct LineRLE{		// RLE encoding object.
+			LineRLE(unsigned int _i,
+					unsigned int _js,
+					unsigned int _je,
+					int _color){
+						i = _i;
+						js = _js;
+						je = _je;
+						size = je - js;
+						color = _color;
+						hasParent = false;
+						pi = pj = 0;
+						iObj = -1;
 			};
 
+			unsigned int i;			// Row of the object.
+			unsigned int js;		// Started column of the object.
+			unsigned int je;		// Ended column of the object.
+			unsigned int size;		// Size of the object (= je - js + 1) its computed one time in order to reduce the algorithm operations.
+
+			int color;	// Color of the object.s
+
+			bool hasParent;				// Flag if the RLE was parented.
+			unsigned int pi;			// Row index of the parent in the vector.
+			unsigned int pj;			// Column index of the parent in the vector.
+
+			int iObj;
+
+		};
+
+		/** Image object compressed using RLE encoding.
+		*/
 		class SegmentedRLEObject {
 		public:
-			SegmentedRLEObject(LineRLE ini);
-
-			void addLineObjRLE(LineRLE);
+			/** \brief Create a new instance using a line as first element.
+			*/
+			SegmentedRLEObject(LineRLE _ini);
+			
+			/** \brief add new compressed line to object.
+			*/
+			void addLineObjRLE(LineRLE _line);
+			
+			/** \brief add a set of compressed lines encoded in a RLE object.
+			*/
 			void addRLEFamily(SegmentedRLEObject&);
 
+			/** \brief	get number of compressed lines. 77 rename to lines().
+			*/
 			int getLines() const;
+			
+			/** \brief	get index of object. 777 need review.
+			*/
 			LineRLE getRLEObj(int) const;
+			
+			/** \brief get upper left corner of object.
+			*/
 			Vec2ui upperLeft() const;
+			
+			/** \brief get down right corner of object.
+			*/
 			Vec2ui downRight() const;
+			
+			/** \brief get simplified color of object. 777 need review. 777 rename to color().
+			*/
 			unsigned int getColor() const;
+			
+			/** \brief get amount of pixels in the object. 777 rename to size().
+			*/
 			unsigned int getSize() const;
+			
+			/** \brief get size of bouncing box of object. 77 rename to bbSize().
+			*/
 			unsigned int getBBSize() const;
+			
+			/** \brief get centroid ob object. 777 rename to centroid().
+			*/
 			Vec2ui getCentroid() const;
 
+			/** \brief sort lines based on line's position in image.
+			*/
 			void sortObj();
 
 		private:

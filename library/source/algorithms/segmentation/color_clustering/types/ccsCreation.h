@@ -17,7 +17,6 @@ namespace BOViL{
 
 	/**	\brief This method provide a Color clustered space that could be used to segmentate one single color.
 	*
-	*
 	* @param _c1Top: top threshold of first channel.
 	* @param _c1Bottom: bottom threshold of first channel.
 	* @param _c2Top: top threshold of second channel.

@@ -24,6 +24,8 @@ namespace BOViL{
 		//-------------------------------------------------------------------------------------------------------------
 		// The template is the type of image pointer, and function is the segmentate pixel format
 
+		/** generic interaface of pixel transformation functions.
+		*/
 		template<typename T> color3<T>  pixelXXX2XXX(color3<T> _col){
 			return _col;
 		}
@@ -31,17 +33,26 @@ namespace BOViL{
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Private functions definition
+		/** 777 Move to .inl
+		*/
 		template<typename T_>
 		void changeColor(T_ *_image, unsigned _i, unsigned _j, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace);
 
+		/** 777 Move to .inl
+		*/
 		template<typename T_>
 		std::vector<LineRLE> simplifyLine(T_ *_image, unsigned _i, unsigned _width, std::function<color3<T_>(const color3<T_> _col)> _functionColorSpace, std::function<int(T_ *_a, T_ *_b, T_ *_c)> _functionSegmentation);
 
+		/** 777 Move to .inl
+		*/
 		template<typename T_>
 		void joinLines(unsigned _i, std::vector<std::vector<LineRLE>> &_rleList);
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Algorithm
+		/** Algorithm to segmentate image using CMU segmentation algorithm (777 add reference). 777 Add example of use. 
+		*	777 move definition to .inl.
+		*/
 		template<typename T> void ColorClustering(	T *_image, 
 													int _width,
 													int _height, 

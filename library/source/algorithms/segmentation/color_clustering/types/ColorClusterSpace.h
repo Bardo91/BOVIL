@@ -18,11 +18,19 @@
 #define LOG2 0.3010299957
 
 namespace BOViL{
+	/** Class that store a set of clusters in a color space. 777 ad example with image and so on...
+	*/
 	class ColorClusterSpace {
 	public:
-		int size;
-		c3u *clusters;
+		int size;	//	 666 add a method to get size and set private.
+		c3u *clusters; //	 666 add a method to get clusters and set private.
+
+		/** \brief
+		*/
 		ColorClusterSpace(int, unsigned char* _AClass, unsigned char* _BClass, unsigned char* _CClass, const c3u* _colors);
+		
+		/** \brief
+		*/
 		~ColorClusterSpace();
 
 	private:
@@ -31,6 +39,11 @@ namespace BOViL{
 		unsigned char *CClass;
 
 	public:
+		/** \brief compute color mermbership.	777 add example.
+		*	@param _a: first channel value.
+		*	@param _b: second channel value.
+		*	@param _c: third channel value.
+		*/
 		int operator()(unsigned char* _a, unsigned char*_b, unsigned char*_c){
 			c3u col(*_a, *_b, *_c);
 

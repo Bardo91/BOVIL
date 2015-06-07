@@ -16,8 +16,16 @@
 #include <string>
 
 namespace BOViL {
-	int bin2dec(std::string bin);
+	/**	Functions that decode binary number to integer.
+	*	@param	_bin: string that contains number in binary format
+	*/
+	int bin2dec(std::string _bin);
 
+	/** Create a new color cluster space clustered in 8 colors equidisted with a resolution of 10 degrees.	777 add example.
+	*	@param _maskH: mask applied tu hue channel. Ignore colors with 0 in it's binary position.
+	*	@param _maskS: mask applied to saturation channel. Ignore colors with 0 in it's binary position.
+	*	@param _maskV: mask applied to value channel. Ignore colors with 0 in it's binary position.
+	*/
 	ColorClusterSpace *CreateHSVCS_8c(unsigned char _maskH, unsigned char _maskS, unsigned char _maskV);
 } // namespace BOViL.
 
