@@ -13,15 +13,30 @@
 
 namespace BOViL{
 	namespace algorithms{
+		/** Abstrac class that implements Extended Kalman Filter (EKF) pipeline.
+		*/
 		class ExtendedKalmanFilter{
 		public:
-			ExtendedKalmanFilter();		// 666 TODO: initialize matrixes
+			/** \brief EKF class construction and initialization.
+			*/
+			ExtendedKalmanFilter();		// 666 TODO: initialize matrixes.
 
+			/** \brief set EKF initial matrixes.
+			*	@param _Q: 
+			*	@param _R: 
+			*	@param _x0: 
+			*/
 			void setUpEKF(const Eigen::MatrixXd _Q, const  Eigen::MatrixXd _R, const  Eigen::MatrixXd _x0);
 
+			/** \brief get last filtered estimation. 777 rename to state().
+			*/
 			Eigen::MatrixXd getStateVector() const;
 
 		public:
+			/** \brief compute single step of EKF.
+			*	@param _zK: observable state.
+			*	@param _incT: elapsed time between previous and current state.
+			*/
 			void stepEKF(const Eigen::MatrixXd& _Zk, const double _incT);
 
 		protected:

@@ -17,14 +17,19 @@ namespace BOViL{
 		//-----------------------------------------------------------------------------
 		//----------------- Stereo Vision Class --------------------------------------
 		//-----------------------------------------------------------------------------
+		/** Implementation of Extended Kalman Filter that use monocular camera information to estimate position
+		*	of an object.
+		*	
+		*	In this EKF the observed state is compoud by two integers that are the pixel's X & Y of the targeting object
+		*	in the image. Make sure that the image has the origin (0,0) at the top on the left. If not, a transformation 
+		*	is necessary. Another assumtion is that the Z coordinate of the camera is upfront and the X edge has the 
+		*	same orientation of the X edge of the image (X_c == X_img).
+		*/
 		class GroundTrackingEKF : public ExtendedKalmanFilter{
 		public:
-			// In this EKF the observed state is compoud by two integers that are the pixel's X & Y of the targeting object
-			// Make sure that the image has the origin (0,0) at the top on the left. If not, a transformation is necessary. 
-			// Another assumtion is that the Z coordinate of the camera is upfront and the X edge has the same orientation
-			// of the X edge of the image (X_c == X_img).
-			
-			// Set camera's parameters
+
+			/** \brief Set position and orientation of the camera.
+			*/
 			void setUpCamera(double _focalLenght, double _u0, double _v0);
 
 			// Update camera's position and orientation. An additional parameter is the altitude of the target.
