@@ -11,21 +11,30 @@
 
 namespace BOViL{
 	// ----- Traits -----		666 TODO: hacer con constexpr cuando salga para el compilador de vs
+
+	/** 777 need review.
+	*/
 	template <typename T> struct ColorTypeInfo{
 
 	};
 
+	/** 777 need review.
+	*/
 	template <> struct ColorTypeInfo<unsigned char>{
 		static unsigned char getMAX(){ return 255; };
 		static unsigned char getMIN(){ return 0; };
 	};
 
+	/** 777 need review.
+	*/
 	template <> struct ColorTypeInfo<float>{
 		static float getMAX(){ return 1.0f; };
 		static float getMIN(){ return 0.0f; };
 	};
 
 	// ----- Types and structures -----
+	/** 777 need review.
+	*/
 	template<typename T_> struct color3 {
 			color3(){
 				a = b = c = T_(0);
@@ -38,12 +47,20 @@ namespace BOViL{
 			T_ a, b, c;
 		};
 
+	/** 777 need review.
+	*/
 	typedef color3<unsigned char> c3u;
+	/** 777 need review.
+	*/
 	typedef color3<float> c3f;
+	/** 777 need review.
+	*/
 	typedef color3<double> c3d;
 
 
 	// ----- Functions -----
+	/** 777 need review.
+	*/
 	template<typename T> color3<T> PixelRGB2HSV(const color3<T> &_color){
 		color3<T> HSV;
 		T MAX, MIN;

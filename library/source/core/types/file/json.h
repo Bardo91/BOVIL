@@ -10,6 +10,9 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+
+/** \brief class to deal with json. 777 use cjson library
+*/
 class Json {
 public:
 	// Internal types

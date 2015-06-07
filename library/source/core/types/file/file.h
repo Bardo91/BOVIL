@@ -9,6 +9,8 @@
 
 #include <string>
 
+/** \brief class used to open system files. 666 Need to be updated
+*/
 class File {
 public:
 	File(const std::string& _path); // File must exist

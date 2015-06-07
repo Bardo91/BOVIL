@@ -12,6 +12,8 @@
 
 namespace BOViL{
 	//-----------------------------------------------------------------------------
+	/** Basic store types.
+	*/
 	template<typename Type_>
 	struct Vec2{
 		// Constructors.
@@ -29,6 +31,8 @@ namespace BOViL{
 	typedef Vec2<unsigned char> Vec2uc;
 
 	//-----------------------------------------------------------------------------
+	/** Basic store types.
+	*/
 	template<typename Type_>
 	struct Vec3{
 		// Constructors.
@@ -47,8 +51,12 @@ namespace BOViL{
 	typedef Vec3<unsigned char> Vec3uc;
 
 	//-----------------------------------------------------------------------------
+	/** Basic class that holds information of generic image object
+	*/
 	class ImageObject{		// Summarized object.
 	public:
+		/** \brief
+		*/
 		ImageObject(Vec2ui _upperLeft, Vec2ui _downRight, int _size, int _color){
 			centroid = Vec2ui((_upperLeft.x + _downRight.x)/2, (_upperLeft.y + _downRight.y)/2);
 			width = _downRight.x - _upperLeft.x;
@@ -57,6 +65,8 @@ namespace BOViL{
 			color = _color;
 		};
 
+		/** \brief
+		*/
 		ImageObject(Vec2ui _centroid, unsigned _width, unsigned _height, int _size, int _color){
 			centroid = _centroid;
 			width = _width;
@@ -65,10 +75,24 @@ namespace BOViL{
 			color = _color;
 		};
 			
+		/** \brief get centroid of object in the image. 666 rename to centroid();
+		*/
 		Vec2ui getCentroid() const {return centroid;};
+		
+		/** \brief get width of object. 666 rename to width().
+		*/
 		int getWidth() const {return width;};
+		
+		/** \brief get height of object. 666 rename to height().
+		*/
 		int getHeight() const {return height;};
+		
+		/** \brief get color of object. 666 rename to color(). 666 Only used in CCS, need review.
+		*/
 		int getColor() const {return color;};
+		
+		/** \brief get number of pixels of the object. 666 rename to size().
+		*/
 		int getSize() const {return size;};
 	private:
 		Vec2ui centroid;
