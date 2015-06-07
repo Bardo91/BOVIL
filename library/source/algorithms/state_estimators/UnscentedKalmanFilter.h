@@ -14,12 +14,22 @@
 
 namespace BOViL{
 	namespace algorithms{
+		/** Abstrac class that implements Unescented Kalman Filter (UKF) pipeline.
+		*/
 		class UnscentedKalmanFilter{
 		public:	// Public Interface
+			/** \brief EKF class construction and initialization.
+			*/
 			UnscentedKalmanFilter();		// 666 TODO: initialize matrixes
 			
+			/** \brief compute single step of UKF.
+			*	@param _zK: observable state.
+			*	@param _incT: elapsed time between previous and current state.
+			*/
 			void step(const Eigen::MatrixXd& _Zk, const double _incT);
 
+			/** \brief get last filtered estimation.
+			*/
 			Eigen::MatrixXd state() const;
 
 		private:	// Private methods
