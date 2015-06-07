@@ -19,11 +19,21 @@
 #include <iostream>
 
 namespace BOViL {
+	/** Class tool for time manage purposes
+	*/
 	class STime {
 		// Static interface
 	public:
+		/** \brief Static method to get singleton.
+		*/
 		static STime*	get();
+
+		/** \brief Static method to initialize singleton
+		*/
 		static void		init();
+
+		/** \brief Static method to end destroy singleton
+		*/
 		static void		end();
 
 	private:
@@ -31,8 +41,18 @@ namespace BOViL {
 
 		// Class interface
 	public:
+		/** \brief get current time
+		*/
 		double	getTime();
+		
+		/** \brief stop thread the given amount of seconds
+		*	@param _seconds: number of second to be stopped
+		*/
 		void	delay(const unsigned _seconds);
+		
+		/** \brief stop thread the given amount of milliseconds
+		*	@param _millis: number of millisecond to be stopped
+		*/
 		void	mDelay(const unsigned _millis);
 
 	private:
