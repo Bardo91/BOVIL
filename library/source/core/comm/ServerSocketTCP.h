@@ -13,6 +13,8 @@
 
 namespace BOViL{
 	namespace comm{
+		/** Class that defines a TCP server socket construction.
+		*/
 		class ServerSocketTCP : public SocketTCP{
 		protected:
 			ServerSocketTCP(const std::string &_serverPort);

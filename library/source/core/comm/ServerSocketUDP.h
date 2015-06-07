@@ -13,6 +13,8 @@
 
 namespace BOViL{
 	namespace comm{
+		/** Class that defines a UDP server socket construction.
+		*/
 		class ServerSocketUDP : public SocketUDP{
 		protected:
 			ServerSocketUDP(const std::string &_serverPort);

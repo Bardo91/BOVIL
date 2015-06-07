@@ -47,17 +47,37 @@
 //---------------------------------------------------------------------------------------
 namespace BOViL{
 	namespace comm{
+		/** Definition of supported socket types
+		*/
 		enum class eSocketType {serverTCP, clientTCP, serverUDP, clientUDP};
 		
+		/** Base socket class to generalize socket's use.
+		*/
 		class Socket{
 		public:
+			/** \brief abstract method to send messages throught socket.
+			*	@param _buffer: buffer array that contains message to be sended.
+			*	@param _bufferSize:	size message.
+			*/
 			virtual int sendMsg(const unsigned char *_buffer, const unsigned _bufferSize) = 0;
+
+			/** \brief read message from socket.
+			*	@param _buffer: buffer to store received message.
+			*	@param _bufferSize: max size of buffer.
+			*/
 			virtual int receiveMsg(unsigned char *_buffer, const unsigned _bufferSize) = 0;
 
+			/** \brief retreive socket descriptor to be used outside the class.
+			*/
 			SOCKET getSocketDescriptor(){ return mSocket; }
 
 		public:	// Socket factory
-			static Socket* createSocket(const eSocketType _socketType, const std::string &_serverPort, const std::string &_serverIp = "");
+			/** \brief static method to create a new socket
+			*	@param _socketType: one of supported socket type
+			*	@param _serverPort: desired port to be opened or server's port to be connected
+			*	@param _serverIp: if connecting to socket, server's ip. localhost by default.
+			*/
+			static Socket* createSocket(const eSocketType _socketType, const std::string &_port, const std::string &_serverIp = "");
 		protected:
 			Socket();
 
