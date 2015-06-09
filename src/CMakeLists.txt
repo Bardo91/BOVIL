@@ -22,11 +22,13 @@ endmacro()
 
 GroupSources(code)
 
-add_library(BOViL SHARED ${BOVIL_SOURCE_FILES})
-
 # Compiler specific options
 if(CMAKE_COMPILER_IS_GNUCXX)
     add_definitions(-std=c++11)
 endif()
 
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+
+add_library(BOViL SHARED ${BOVIL_SOURCE_FILES})
 target_include_directories(BOViL PUBLIC ${PROJECT_SOURCE_DIR}/code)
