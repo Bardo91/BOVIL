@@ -27,8 +27,19 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     add_definitions(-std=c++11)
 endif()
 
-find_package(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
+#Library external dependencies.
+if(UNIX)
+	find_package(Eigen3 REQUIRED)
+	include_directories(${EIGEN3_INCLUDE_DIR})
+elseif(WIN32)
+	set(EIGEN3_INCLUDE_DIR $ENV{EIGEN_DIR})
+	if(DEFINED EIGEN3_INCLUDE_DIR)
+		include_directories(${EIGEN3_INCLUDE_DIR})
+	else()
+		message(SEND_ERROR "Cant locate eigen include directory. Please define EIGEN_DIR environment variable with include directory")
+	endif()
+endif()
 
+# Library
 add_library(BOViL SHARED ${BOVIL_SOURCE_FILES})
 target_include_directories(BOViL PUBLIC ${PROJECT_SOURCE_DIR}/code)
