@@ -41,5 +41,5 @@ elseif(WIN32)
 endif()
 
 # Library
-add_library(BOViL SHARED ${BOVIL_SOURCE_FILES})
+add_library(BOViL STATIC ${BOVIL_SOURCE_FILES})
 target_include_directories(BOViL PUBLIC ${PROJECT_SOURCE_DIR}/code)
