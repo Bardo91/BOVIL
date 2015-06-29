@@ -30,7 +30,7 @@ endif()
 
 set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH})
 # Loading 3rd party libraries.
-find_package(Eigen3 REQUIRED)
+set(EIGEN3_INCLUDE_DIR C:\programming\eigen3\Eigen)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 # Library
