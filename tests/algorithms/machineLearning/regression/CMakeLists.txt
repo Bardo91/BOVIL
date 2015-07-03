@@ -1,0 +1,3 @@
+add_executable(testRegression test.cpp)
+target_link_libraries(testRegression PUBLIC bovil)
+add_test(testRegression1 iterators_test)

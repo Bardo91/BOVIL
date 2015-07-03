@@ -3,3 +3,6 @@ project(BOViL)
 
 # Library Projects
 add_subdirectory(src)
+
+# Test
+add_subdirectory(tests) # Unit tests
