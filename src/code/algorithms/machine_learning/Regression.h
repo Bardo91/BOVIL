@@ -16,19 +16,25 @@
 namespace BOViL {
 	namespace algorithms{
 		/// Base tamplate of Regression algorithms (i.e. LinealRegression, PolinomialRegression, Logistic Regression, 
-		/// etc.).
-		template<unsigned InputSize_, Eigen::Matrix<double, InputSize_, InputSize_> Polinom_, std::function<double (std::vector<double>)> Hypothesis_>
+		/// etc.). Regression takes as template arguments
+		/// \tparam InputSize_ number of parameters
+		/// \tparam Polinom_ superior triangular matrix that defines the hypothesys.
+		template<unsigned InputSize_>
 		class Regression{
 		public:
+			/// Build a regression with the given hypothesys.
+			Regression(const Eigen::Matrix<double, InputSize_, InputSize_> &_hypothesis);
+
 			/// \brief Traing network with given dataset.
+			/// \tparam TrainSize_ size of training set
 			/// \param _x inputs of datasets.
 			/// \param _y desired results for given inputs.
 			template <unsigned TrainSize_>
-			bool train(Eigen::Matrix<double, TrainSize_, InputSize_> _x, Eigen::Matrix<double, TrainSize_, 1> _y);
+			bool train(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y);
 
 			/// \brief Prediction of Regression.
 			/// \param Input values.
-			double evaluate(Eigen::Matrix<double, InputSize_, 1> _x);
+			double evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x);
 
 		};
 	}	//	namespace algorithms
