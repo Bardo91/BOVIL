@@ -8,17 +8,19 @@
 #include <Eigen/Eigen>
 #include <algorithms/machine_learning/Regression.h>
 
+#include <iostream>
+
 using namespace Eigen;
 using namespace BOViL::algorithms;
 
 void linearRegression();
-void polinomicRegression();
+void polinomialRegression();
 
 int main(int _argc, char** _argv) {
 
 	linearRegression();
 
-	polinomicRegression();
+	polinomialRegression();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -26,44 +28,58 @@ void linearRegression() {
 	// ex. y = a + b*x1 + c*x*2;
 	typedef Polynomial<2,3> lineal2x;
 
-	lineal2x hypothesis(
-		[] (const lineal2x::Input &_x) {
+	auto monomials = [] (const lineal2x::Input &_x) {
 		return lineal2x::Monomials({1, _x(0), _x(1)});
-		}
-	);
+	};
+	lineal2x hypothesis( monomials );
 
 	Regression<2,3> regression(hypothesis);
 
 	Matrix<double, 2, 3> xTs;
-	xTs << 1, 0, 0, 1, 1, 1;
+	xTs.row(0) = monomials({ 0, 0 });
+	xTs.row(1) = monomials({ 1, 1});
 	Matrix<double, 2, 1> yTs({0, 1});
-	regression.train<2>(xTs, yTs, 0.5, 1.0);
+	regression.train<2>(xTs, yTs, 1.0, 0.1);
 
-	double y = regression.evaluate({0.5, 0.5});
-	assert(0.5 == y);
+	const double tol = 0.05;
+	assert(abs(0.0 - regression.evaluate({0.0, 0.0})) < tol);
+	assert(abs(0.5 - regression.evaluate({0.5, 0.5})) < tol);
+	assert(abs(1.0 - regression.evaluate({1.0, 1.0})) < tol);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
-void polinomicRegression() {
-	// ex. y = a + b*x1 + c*x1*x2 + d*x*2 + e*x2^2;
-	typedef Polynomial<2,5> pol2x;
+void polinomialRegression() {
+	// ex. y = a + b*x1 + c*x1^2;
+	typedef Polynomial<1,3> polx;
 
-	pol2x hypothesis(
-		[] (const pol2x::Input &_x) {
-		pol2x::Monomials mon;
-		mon << 1, _x(0), _x(0)*_x(1), _x(1), pow(_x(1),2);
+	auto monomials = [] (const polx::Input &_x) {
+		polx::Monomials mon;
+		mon << 1, _x(0), pow(_x(0),2);
 		return mon;
-	}
-	);
+	};
 
-	Regression<2,5> regression(hypothesis);
+	polx hypothesis( monomials );
 
-	Matrix<double, 2, 5> xTs;
-	xTs << 1, 0, 0, 0, 0, 1, 1, 1, 1, 1;
-	Matrix<double, 2, 1> yTs;
-	yTs <<  0, 1;
-	regression.train<2>(xTs, yTs, 0.5, 1.0);
+	Regression<1,3> regression(hypothesis);
 
-	double y = regression.evaluate({0.5, 0.5});
+	Matrix<double, 3, 3> xTs;
+	polx::Input x;
+	x(0) = 0;
+	xTs.row(0) = monomials(x);
+	x(0) = 1;
+	xTs.row(1) = monomials(x);
+	x(0) = 2;
+	xTs.row(2) = monomials(x);
+
+	Matrix<double, 3, 1> yTs({0, 3, 2});
+	regression.train<3>(xTs, yTs, 0.3, 2.0);
+
+	std::cout << xTs << std::endl << std::endl;
+	std::cout << yTs << std::endl << std::endl;
+
+	const double tol = 0.05;
+	assert(abs(0.0 - regression.evaluate(polx::Input({ 0 }))) < tol);
+	assert(abs(3.0 - regression.evaluate(polx::Input({ 1 }))) < tol);
+	assert(abs(2.0 - regression.evaluate(polx::Input({ 2 }))) < tol);
 	//assert(0.5 == y);
 }
