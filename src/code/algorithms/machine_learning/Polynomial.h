@@ -67,6 +67,8 @@ namespace BOViL {
 			///
 			double evaluate(const Input &_x) const;
 
+			/// Get current parameter list.
+			Params parameters() const;
 		private:
 			std::function<Monomials(const Input &)> mMonomialEvaluator;
 			Params	mParams;
