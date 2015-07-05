@@ -38,7 +38,10 @@ namespace BOViL {
 
 			/// \brief Prediction of Regression.
 			/// \param Input values.
-			double evaluate(const Eigen::Matrix<double, 1, Nvars_> &_x);
+			double evaluate(const Eigen::Matrix<double, 1, Nvars_> &_x) const;
+
+		private:
+			Eigen::Matrix<double, Nmonomials_,1> gradient(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const;
 
 		private:	// Private members
 			Polynomial<Nvars_, Nmonomials_>	mHypothesys;
