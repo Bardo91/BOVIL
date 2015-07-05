@@ -69,8 +69,12 @@ namespace BOViL {
 
 			/// Get current parameter list.
 			Params parameters() const;
+
+			/// Get calculator of monomials.
+			std::function<Monomials(const Input &)> monomialCalculator() const;
+
 		private:
-			std::function<Monomials(const Input &)> mMonomialEvaluator;
+			std::function<Monomials(const Input &)> mMonomialCalculator;
 			Params	mParams;
 		};
 

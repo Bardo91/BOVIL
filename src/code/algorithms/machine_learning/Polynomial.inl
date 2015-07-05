@@ -9,8 +9,7 @@ namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
-		Polynomial<Nvars_, Nmonomials_>::Polynomial(std::function<Monomials(const Input &)> _monomials) {
-			mMonomialEvaluator = _monomials;
+		Polynomial<Nvars_, Nmonomials_>::Polynomial(std::function<Monomials(const Input &)> _monomials): mMonomialCalculator(_monomials) {
 		}
 
 		//-------------------------------------------------------------------------------------------------------------------
@@ -22,7 +21,7 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
 		double Polynomial<Nvars_, Nmonomials_>::evaluate(const Input &_x) const{
-			Monomials monom = mMonomialEvaluator(_x);
+			Monomials monom = mMonomialCalculator(_x);
 			return mParams*monom;
 		}
 
@@ -32,5 +31,10 @@ namespace BOViL {
 			return mParams;
 		}
 
+		//-------------------------------------------------------------------------------------------------------------------
+		template<unsigned Nvars_, unsigned Nmonomials_>		
+		std::function<Eigen::Matrix<double, Nmonomials_, 1>(const Eigen::Matrix<double, 1, Nvars_> &)> Polynomial<Nvars_, Nmonomials_>::monomialCalculator() const {
+			return mMonomialCalculator;
+		}
 	}	//	namespace algorithms
 }	//	namespace BOViL
