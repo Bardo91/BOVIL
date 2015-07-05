@@ -28,7 +28,7 @@ namespace BOViL {
 
 		//-------------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
-		Params Polynomial<Nvars_, Nmonomials_>::parameters() const {
+		Eigen::Matrix<double, 1, Nmonomials_> Polynomial<Nvars_, Nmonomials_>::parameters() const {
 			return mParams;
 		}
 
