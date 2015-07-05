@@ -15,24 +15,21 @@ int main(int _argc, char** _argv) {
 
 	// Polynomial creation.
 	// ex: y = 1 + 2*x1 + x1^2 + x2^2;
-	std::function<Eigen::Matrix<double, 4, 1>(Eigen::Matrix<double, 1, 2>)> base = [](Eigen::Matrix<double, 1, 2> _x) {
-		Eigen::Matrix<double, 4, 1> base;
+	typedef Polynomial<2,4> SquarePol;
+
+	std::function<SquarePol::Monomials(SquarePol::Input)> base = [](const SquarePol::Input &_x) {
+		SquarePol::Monomials base;
 		base << 1, _x(0), pow(_x(2), 2), pow(_x(1), 2);
 		return base;
 	};
 
-	Polynomial<2,4> pol1(base);
+	SquarePol pol1(base);
 
 	// Setting params.
-	Eigen::Matrix<double, 4, 1> params;
-	params << 1, 2, 1, 1;
-	pol1.setParams(params);
+	pol1.setParams({ 1, 2, 1, 1 });
 
 	// Evaluate y(1,2)
-	Eigen::Matrix<double, 1, 2> x;
-	x << 1, 2;
-
-	double y = pol1.evaluate(x);
+	double y = pol1.evaluate({ 1,2 });
 
 	assert(8 == y);
 

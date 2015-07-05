@@ -25,7 +25,7 @@ namespace BOViL {
 		class Polynomial {
 		public:
 			/// Redefinitions to simplify usage.
-			typedef Eigen::Matrix<double, 1, Nvar_>			Input;
+			typedef Eigen::Matrix<double, 1, Nvars_>		Input;
 			typedef Eigen::Matrix<double, Nmonomials_, 1>	Monomials;
 			typedef Eigen::Matrix<double, 1, Nmonomials_>	Params;
 
@@ -45,7 +45,7 @@ namespace BOViL {
 			///		}
 			///		Polynomial\<2,5\> poly(base);
 			///
-			Polynomial(std::function<Monomials(Input)> _monomials);
+			Polynomial(std::function<Monomials(const Input &)> _monomials);
 
 			/// Define params of the polymonial equation.
 			///
@@ -54,7 +54,7 @@ namespace BOViL {
 			///		params << 1, 1, -3, 8, 1;
 			///		poly.setParams(params);
 			///
-			void setParams(Params _params);
+			void setParams(const Params &_params);
 
 			///	Evaluate polynomial equation with the given values of variables
 			///		
@@ -65,12 +65,15 @@ namespace BOViL {
 			///		x << 1, 2;
 			///		y = poly.evaluate(x);
 			///
-			double evaluate(Input _x);
+			double evaluate(const Input &_x) const;
 
 		private:
 
 		};
+
 	}	//	namespace algorithms
 }	//	namespace BOViL
+
+#include "Polynomial.inl"
 
 #endif	//	_BOVIL_ALGORITHMS_MACHINELEARNING_POLYNOMIAL_H_

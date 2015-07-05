@@ -5,25 +5,23 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#include "Polynomial.h"
-
 namespace BOViL {
 	namespace algorithms {
 		template<unsigned Nvars_, unsigned Nmonomials_>
-		Polynomial::Polynomial(std::function<Monomials(Input)> _monomials) {
+		Polynomial<Nvars_, Nmonomials_>::Polynomial(std::function<Monomials(const Input &)> _monomials) {
 
 		}
 
 
 		template<unsigned Nvars_, unsigned Nmonomials_>
-		Polynomial::setParams(Params _params) {
+		void Polynomial<Nvars_, Nmonomials_>::setParams(const Params &_params) {
 
 		}
 
 
 		template<unsigned Nvars_, unsigned Nmonomials_>
-		Polynomial::evaluate(Input _x) {
-
+		double Polynomial<Nvars_, Nmonomials_>::evaluate(const Input &_x) const{
+			return NAN;
 		}
 	}	//	namespace algorithms
 }	//	namespace BOViL
