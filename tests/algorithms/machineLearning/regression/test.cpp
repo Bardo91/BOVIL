@@ -41,6 +41,10 @@ void linearRegression() {
 	Matrix<double, 2, 1> yTs({0, 1});
 	regression.train<2>(xTs, yTs, 1.0, 0.1);
 
+	std::cout << xTs << std::endl << std::endl;
+	std::cout << yTs << std::endl << std::endl;
+	std::cout << regression.hypothesis().parameters() << std::endl << std::endl;
+
 	const double tol = 0.05;
 	assert(abs(0.0 - regression.evaluate({0.0, 0.0})) < tol);
 	assert(abs(0.5 - regression.evaluate({0.5, 0.5})) < tol);
@@ -72,14 +76,18 @@ void polinomialRegression() {
 	xTs.row(2) = monomials(x);
 
 	Matrix<double, 3, 1> yTs({0, 3, 2});
-	regression.train<3>(xTs, yTs, 0.3, 2.0);
+	regression.train<3>(xTs, yTs, 0.2, 0.0, 1000);
 
 	std::cout << xTs << std::endl << std::endl;
 	std::cout << yTs << std::endl << std::endl;
+	std::cout << regression.hypothesis().parameters() << std::endl << std::endl;
 
 	const double tol = 0.05;
-	assert(abs(0.0 - regression.evaluate(polx::Input({ 0 }))) < tol);
-	assert(abs(3.0 - regression.evaluate(polx::Input({ 1 }))) < tol);
-	assert(abs(2.0 - regression.evaluate(polx::Input({ 2 }))) < tol);
-	//assert(0.5 == y);
+	x(0) = 0;
+	assert(abs(0.0 - regression.evaluate(x)) < tol);
+	x(0) = 1;
+	assert(abs(3.0 - regression.evaluate(x)) < tol);
+	x(0) = 2;
+	assert(abs(2.0 - regression.evaluate(x)) < tol);
+
 }

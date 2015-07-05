@@ -34,17 +34,21 @@ namespace BOViL {
 			/// \param _lambda regularization parameter
 			/// \param _maxIter maximum number of iteration allowed
 			template <unsigned TrainSize_>
-			void train(const Eigen::Matrix<double, TrainSize_, Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 1000);
+			void train(const Eigen::Matrix<double, TrainSize_, Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
 
 			/// \brief Prediction of Regression.
 			/// \param Input values.
 			double evaluate(const Eigen::Matrix<double, 1, Nvars_> &_x) const;
 
+			Polynomial<Nvars_, Nmonomials_> hypothesis() const;
 		private:
 			Eigen::Matrix<double, Nmonomials_,1> gradient(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const;
 
+			// For debugging purposes.
+			double cost(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const;
+
 		private:	// Private members
-			Polynomial<Nvars_, Nmonomials_>	mHypothesys;
+			Polynomial<Nvars_, Nmonomials_>	mHypothesis;
 
 		};
 	}	//	namespace algorithms
