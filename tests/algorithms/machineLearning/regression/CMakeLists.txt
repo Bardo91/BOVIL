@@ -6,4 +6,4 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 add_executable(testRegression test.cpp)
 
 target_link_libraries(testRegression PUBLIC BOViL)
-add_test(testRegression1 iterators_test)
+add_test(testRegression1 testRegression)
