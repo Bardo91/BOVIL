@@ -22,6 +22,7 @@ namespace BOViL {
 			do {
 				//Eigen::Matrix<double, Nmonomials_, 1> grad = gradient();
 				//mParameters = mParameters - grad;
+				iters++;
 			}while(iters < _maxIter);
 
 			return false;
