@@ -24,6 +24,11 @@ namespace BOViL {
 		template<unsigned Nvars_, unsigned Nmonomials_>
 		class Polynomial {
 		public:
+			/// Redefinitions to simplify usage.
+			typedef Eigen::Matrix<double, 1, Nvar_>			Input;
+			typedef Eigen::Matrix<double, Nmonomials_, 1>	Monomials;
+			typedef Eigen::Matrix<double, 1, Nmonomials_>	Params;
+
 			/// Polynomial Constructor. 
 			/// \param _base: base form of polynomial
 			///
@@ -38,9 +43,9 @@ namespace BOViL {
 			///					_x2^2;
 			///			return baseVec;
 			///		}
-			///		Polynomial\<2,4\> poly(base);
+			///		Polynomial\<2,5\> poly(base);
 			///
-			Polynomial(std::function<Eigen::Matrix<double, Nmonomials_, 1>(Eigen::Matrix<double, 1, Nvar_>)> _base);
+			Polynomial(std::function<Monomials(Input)> _monomials);
 
 			/// Define params of the polymonial equation.
 			///
@@ -49,7 +54,7 @@ namespace BOViL {
 			///		params << 1, 1, -3, 8, 1;
 			///		poly.setParams(params);
 			///
-			void setParams(Eigen::Matrix<double, 1, Nmonomials_>);
+			void setParams(Params _params);
 
 			///	Evaluate polynomial equation with the given values of variables
 			///		
@@ -60,8 +65,7 @@ namespace BOViL {
 			///		x << 1, 2;
 			///		y = poly.evaluate(x);
 			///
-			double evaluate(Eigen::Matrix<double, 1, Nvar_>);
-
+			double evaluate(Input _x);
 
 		private:
 
