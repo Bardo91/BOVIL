@@ -34,7 +34,7 @@ namespace BOViL {
 			/// \param _lambda regularization parameter
 			/// \param _maxIter maximum number of iteration allowed
 			template <unsigned TrainSize_>
-			bool train(const Eigen::Matrix<double, TrainSize_, Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 150);
+			void train(const Eigen::Matrix<double, TrainSize_, Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 150);
 
 			/// \brief Prediction of Regression.
 			/// \param Input values.

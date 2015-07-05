@@ -37,7 +37,7 @@ void linearRegression() {
 	Matrix<double, 2, 3> xTs;
 	xTs << 1, 0, 0, 1, 1, 1;
 	Matrix<double, 2, 1> yTs({0, 1});
-	assert(regression.train<2>(xTs, yTs, 0.5, 1.0));
+	regression.train<2>(xTs, yTs, 0.5, 1.0);
 
 	double y = regression.evaluate({0.5, 0.5});
 	assert(0.5 == y);
@@ -62,7 +62,7 @@ void polinomicRegression() {
 	xTs << 1, 0, 0, 0, 0, 1, 1, 1, 1, 1;
 	Matrix<double, 2, 1> yTs;
 	yTs <<  0, 1;
-	assert(regression.train<2>(xTs, yTs, 0.5, 1.0));
+	regression.train<2>(xTs, yTs, 0.5, 1.0);
 
 	double y = regression.evaluate({0.5, 0.5});
 	//assert(0.5 == y);
