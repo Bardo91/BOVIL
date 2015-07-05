@@ -68,7 +68,8 @@ namespace BOViL {
 			double evaluate(const Input &_x) const;
 
 		private:
-
+			std::function<Monomials(const Input &)> mMonomialEvaluator;
+			Params	mParams;
 		};
 
 	}	//	namespace algorithms

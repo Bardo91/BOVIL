@@ -17,19 +17,17 @@ int main(int _argc, char** _argv) {
 	// ex: y = 1 + 2*x1 + x1^2 + x2^2;
 	typedef Polynomial<2,4> SquarePol;
 
-	std::function<SquarePol::Monomials(SquarePol::Input)> base = [](const SquarePol::Input &_x) {
-		SquarePol::Monomials base;
-		base << 1, _x(0), pow(_x(2), 2), pow(_x(1), 2);
-		return base;
-	};
-
-	SquarePol pol1(base);
+	SquarePol pol1(
+		[](const SquarePol::Input &_x) {
+			return SquarePol::Monomials({ 1, _x(0), pow(_x(0), 2), pow(_x(1), 2) });
+		}
+	);
 
 	// Setting params.
 	pol1.setParams({ 1, 2, 1, 1 });
 
 	// Evaluate y(1,2)
-	double y = pol1.evaluate({ 1,2 });
+	double y = pol1.evaluate({ 1, 2 });
 
 	assert(8 == y);
 
