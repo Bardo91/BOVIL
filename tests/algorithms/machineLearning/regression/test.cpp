@@ -115,10 +115,6 @@ void polinomialRegressionMulti() {
 	yTs << 0.3, 0.6, 1, 0.6, 0.6, 0.65, 1.0, 0.7, 0.4;
 	regression.train<9>(xTs, yTs, 0.01, 1.0, 10000, 0.000001);
 
-	std::cout << xTs << std::endl << std::endl;
-	std::cout << yTs << std::endl << std::endl;
-	std::cout << regression.hypothesis().parameters() << std::endl << std::endl;
-
 	const double tol = 0.1;
 	assert(abs(0.6 - regression.evaluate({1.0, 1.0})) < tol);
 	assert(abs(0.65 - regression.evaluate({1.0, 2.0})) < tol);
