@@ -16,12 +16,13 @@ int main(int _argc, char** _argv) {
 	// Polynomial creation.
 	// ex: y = 1 + 2*x1 + x1^2 + x2^2;
 	typedef Polynomial<2,4> SquarePol;
+	auto monomial = [](const SquarePol::Input &_x) {
+		SquarePol::Monomials mon;
+		mon <<  1, _x(0), pow(_x(0), 2), pow(_x(1), 2) ;
+		return mon;
+	};
 
-	SquarePol pol1(
-		[](const SquarePol::Input &_x) {
-			return SquarePol::Monomials({ 1, _x(0), pow(_x(0), 2), pow(_x(1), 2) });
-		}
-	);
+	SquarePol pol1(monomial);
 
 	// Setting params.
 	pol1.setParams({ 1, 2, 1, 1 });
