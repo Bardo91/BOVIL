@@ -33,6 +33,7 @@ namespace BOViL {
 			/// \param _alpha gradient coefficient
 			/// \param _lambda regularization parameter
 			/// \param _maxIter maximum number of iteration allowed
+			/// \param _tol min difference required between steps in cost function
 			template <unsigned TrainSize_>
 			void train(const Eigen::Matrix<double, TrainSize_, Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
 
