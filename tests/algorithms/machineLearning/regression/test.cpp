@@ -36,7 +36,8 @@ void linearRegression() {
 
 	Regression<2,3> regression(hypothesis);
 
-	Matrix<double, 2, 2> xTs({0,0,1,1});
+	Matrix<double, 2, 2> xTs;
+	xTs << 0, 0, 1, 1;
 	Matrix<double, 2, 1> yTs({0,1});
 
 	regression.train<2>(xTs, yTs, 1.0, 0.1);
@@ -64,12 +65,15 @@ void polinomialRegression() {
 	regression.train<3>(xTs, yTs, 0.2, 0.0, 1000);
 
 	const double tol = 0.05;
-	Matrix<double,1,1> x({0});
+	Matrix<double,1,1> x;
+	x << 0;
 	assert(abs(0.0 - regression.evaluate(x)) < tol);
-	Matrix<double,1,1> x({1});
-	assert(abs(3.0 - regression.evaluate(x)) < tol);
-	Matrix<double,1,1> x({2});
-	assert(abs(2.0 - regression.evaluate(x)) < tol);
+	Matrix<double,1,1> y;
+	y << 1;
+	assert(abs(3.0 - regression.evaluate(y)) < tol);
+	Matrix<double,1,1> z;
+	z << 2;
+	assert(abs(2.0 - regression.evaluate(z)) < tol);
 
 }
 

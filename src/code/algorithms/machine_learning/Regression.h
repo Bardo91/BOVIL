@@ -27,7 +27,7 @@ namespace BOViL {
 
 			/// Build a regression with the given hypothesys.
 			/// \param _hypothesis Polinomial equation that defines the hypothesis
-			Regression(Hypothesis &_hypothesis);
+			Regression(const Polynomial<Nvars_, Nmonomials_> &_hypothesis);
 
 			/// \brief Traing network with given dataset.
 			/// \tparam TrainSize_ size of training set
@@ -38,7 +38,7 @@ namespace BOViL {
 			/// \param _maxIter maximum number of iteration allowed
 			/// \param _tol min difference required between steps in cost function
 			template <unsigned TrainSize_>
-			void train(const Eigen::Matrix<double, TrainSize_, Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
+			void train(const Eigen::Matrix<double, TrainSize_, Nvars_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
 
 			/// \brief Prediction of Regression.
 			/// \param Input values.
@@ -46,7 +46,9 @@ namespace BOViL {
 
 			Polynomial<Nvars_, Nmonomials_> hypothesis() const;
 		private:
-			Eigen::Matrix<double, Nmonomials_,1> gradient(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const;
+			template <unsigned TrainSize_>
+			Eigen::Matrix<double, TrainSize_, Nmonomials_>	adaptSet(const Eigen::Matrix<double, TrainSize_,Nvars_> &_x) const;
+			Eigen::Matrix<double, Nmonomials_,1>			gradient(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const;
 
 			// For debugging purposes.
 			double cost(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const;

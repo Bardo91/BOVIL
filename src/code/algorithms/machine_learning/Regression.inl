@@ -5,6 +5,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
+#include <iostream>
+
 namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------
@@ -17,7 +19,8 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
 		template<unsigned TrainSize_>
-		void Regression<Nvars_, Nmonomials_>::train(const Eigen::Matrix<double, TrainSize_,Nmonomials_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter, double _tol) {
+		void Regression<Nvars_, Nmonomials_>::train(const Eigen::Matrix<double, TrainSize_,Nvars_> &_x, const Eigen::Matrix<double, TrainSize_, 1> &_y, double _alpha, double _lambda, unsigned _maxIter, double _tol) {
+			auto X = adaptSet<TrainSize_>(_x);
 			unsigned iters = 0;
 			double cos = 0.0, lastCost = 999999;
 			do {
@@ -25,8 +28,8 @@ namespace BOViL {
 				Eigen::Matrix<double, 1, Nmonomials_> parameters = mHypothesis.parameters();
 				Eigen::Matrix<double, Nmonomials_, 1> grad = Eigen::Matrix<double, Nmonomials_, 1>::Zero();
 				for (unsigned set = 0; set < TrainSize_; set++) {
-					grad = grad + gradient(_x.block<1, Nmonomials_>(set,0), _y(set));
-					cos += cost(_x.block<1, Nmonomials_>(set,0), _y(set));
+					grad = grad + gradient(X.block<1, Nmonomials_>(set,0), _y(set));
+					cos += cost(X.block<1, Nmonomials_>(set,0), _y(set));
 				}
 				for (unsigned param = 1; param < Nmonomials_; param++) {
 					grad(param) = grad(param) + _lambda*parameters(param);
@@ -60,6 +63,18 @@ namespace BOViL {
 				grad(param) = (params*_x.transpose() - _y)*_x(param);
 			}
 			return grad;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned Nvars_, unsigned Nmonomials_>
+		template <unsigned TrainSize_>
+		Eigen::Matrix<double, TrainSize_,Nmonomials_> Regression<Nvars_, Nmonomials_>::adaptSet(const Eigen::Matrix<double, TrainSize_,Nvars_> &_x) const{
+			Eigen::Matrix<double, TrainSize_,Nmonomials_> X;
+			for (unsigned set = 0; set < TrainSize_; set++) {
+				X.block<1,Nmonomials_>(set,0) = mHypothesis.monomialCalculator()(_x.row(set));
+			}
+			std::cout << X << std::endl;
+			return X;
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
