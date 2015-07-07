@@ -30,7 +30,7 @@ int main(int _argc, char** _argv) {
 void linearRegression() {
 	// ex. y = a + b*x1 + c*x2;
 
-	auto hypothesis = [] (const Polynomial<2,3>::Input &_x) {
+	Regression<2,3>::Hypothesis hypothesis = [] (const Polynomial<2,3>::Input &_x) {
 		return Polynomial<2,3>::Monomials({1, _x(0), _x(1)});
 	};
 
@@ -50,7 +50,7 @@ void linearRegression() {
 //---------------------------------------------------------------------------------------------------------------------
 void polinomialRegression() {
 	// ex. y = a + b*x1 + c*x1^2;
-	auto hypothesis = [] (const Polynomial<1,3>::Input &_x) {
+	Regression<1,3>::Hypothesis hypothesis = [] (const Polynomial<1,3>::Input &_x) {
 		Polynomial<1,3>::Monomials mon;
 		mon << 1, _x(0), pow(_x(0),2);
 		return mon;
@@ -76,7 +76,7 @@ void polinomialRegression() {
 //---------------------------------------------------------------------------------------------------------------------
 void polinomialRegressionMulti() {
 	// ex. y = a + b*x1 + c*x1*x2 + d*x*2 + e*x*2^2;
-	auto hypothesis = [] (const Polynomial<2,5>::Input &_x) {
+	Regression<2,5>::Hypothesis hypothesis = [] (const Polynomial<2,5>::Input &_x) {
 		Polynomial<2,5>::Monomials mon;
 		mon << 1, _x(0), _x(0)*_x(1), _x(1), pow(_x(1),2) ;
 		return mon;

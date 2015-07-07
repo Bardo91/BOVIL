@@ -22,9 +22,12 @@ namespace BOViL {
 		template<unsigned Nvars_, unsigned Nmonomials_>
 		class Regression{
 		public:	// Public interface
+			/// Redefinition for simplyfied understanding
+			typedef std::function<Eigen::Matrix<double, Nmonomials_, 1>(const Eigen::Matrix<double, 1, Nvars_> &)> Hypothesis;
+
 			/// Build a regression with the given hypothesys.
 			/// \param _hypothesis Polinomial equation that defines the hypothesis
-			Regression(const Polynomial<Nvars_, Nmonomials_> &_hypothesis);
+			Regression(Hypothesis &_hypothesis);
 
 			/// \brief Traing network with given dataset.
 			/// \tparam TrainSize_ size of training set
