@@ -16,6 +16,7 @@ using namespace BOViL::algorithms;
 void linearRegression();
 void polinomialRegression();
 void polinomialRegressionMulti();
+void logisticRegression();
 
 int main(int _argc, char** _argv) {
 
@@ -24,6 +25,8 @@ int main(int _argc, char** _argv) {
 	polinomialRegression();
 
 	polinomialRegressionMulti();
+
+	logisticRegression();
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -106,4 +109,37 @@ void polinomialRegressionMulti() {
 	const double tol = 0.1;
 	assert(abs(0.6 - regression.evaluate({1.0, 1.0})) < tol);
 	assert(abs(0.65 - regression.evaluate({1.0, 2.0})) < tol);
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+void logisticRegression() {
+	// ex. y = a + b*x1 + c*x1^2;
+	Regression<1,4>::Hypothesis hypothesis = [] (const Polynomial<1,3>::Input &_x) {
+		Polynomial<1,4>::Monomials mon;
+		mon << 1, _x(0), pow(_x(0),2), pow(_x(0),3);
+		return mon;
+	};
+
+	auto sigmoid = [](double _x) {
+		return 1/(1 + exp(-_x));
+	};
+
+	Regression<1,4> regression(hypothesis, sigmoid);
+
+	Matrix<double, 7, 1> xTs;
+	xTs << 0, 0.25, 0.5, 1, 1.5, 1.75, 2;
+	Matrix<double, 7, 1> yTs;
+	yTs << 0, 0, 1, 1, 1, 0, 0;
+
+	regression.train<7>(xTs, yTs, 0.2, 0.0, 1000);
+
+	Matrix<double,1,1> x;
+	x << 0.2;
+	assert(regression.evaluate(x) < 0.5);
+	Matrix<double,1,1> y;
+	y << 1.25;
+	assert(regression.evaluate(y) > 0.5);
+	Matrix<double,1,1> z;
+	z << 1.8;
+	assert(regression.evaluate(z) < 0.5);
 }
