@@ -11,7 +11,7 @@ namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
-		Regression<Nvars_, Nmonomials_>::Regression(const Polynomial<Nvars_, Nmonomials_> &_hypothesis): mHypothesis(_hypothesis) {
+		Regression<Nvars_, Nmonomials_>::Regression(const Polynomial<Nvars_, Nmonomials_> &_hypothesis, const std::function<double(double)> &_transformation): mHypothesis(_hypothesis), mTransformation(_transformation) {
 			// 666 Random init of theta? watch video.
 			mHypothesis.setParams(Eigen::Matrix<double, Nmonomials_,1>::Zero());
 		}

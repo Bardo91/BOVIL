@@ -27,7 +27,8 @@ namespace BOViL {
 
 			/// Build a regression with the given hypothesys.
 			/// \param _hypothesis Polinomial equation that defines the hypothesis
-			Regression(const Polynomial<Nvars_, Nmonomials_> &_hypothesis);
+			/// \param _transformation Additional transformation (g(x)) that can be applied to hypothesis, for example: sigmoid to use regression as logistic regression. Default g(x) = x;
+			Regression(const Polynomial<Nvars_, Nmonomials_> &_hypothesis, const std::function<double(double)> &_transformation = [](double _x) {return _x;});
 
 			/// \brief Traing network with given dataset.
 			/// \tparam TrainSize_ size of training set
@@ -55,7 +56,7 @@ namespace BOViL {
 
 		private:	// Private members
 			Polynomial<Nvars_, Nmonomials_>	mHypothesis;
-
+			std::function<double(double)> mTransformation;
 		};
 	}	//	namespace algorithms
 }	//	namespace BOViL
