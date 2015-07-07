@@ -46,7 +46,7 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
 		double Regression<Nvars_, Nmonomials_>::evaluate(const typename Eigen::Matrix<double, 1, Nvars_> &_x) const{
-			return mHypothesis.evaluate(_x);
+			return mTransformation(mHypothesis.evaluate(_x));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
@@ -60,7 +60,7 @@ namespace BOViL {
 			Eigen::Matrix<double, Nmonomials_,1> grad = Eigen::Matrix<double, Nmonomials_,1>::Zero();
 			Eigen::Matrix<double, 1, Nmonomials_> params = mHypothesis.parameters();
 			for (unsigned param = 0; param < Nmonomials_; param++) {
-				grad(param) = (params*_x.transpose() - _y)*_x(param);
+				grad(param) = (mTransformation(params*_x.transpose()) - _y)*_x(param);
 			}
 			return grad;
 		}
@@ -80,7 +80,7 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned Nvars_, unsigned Nmonomials_>
 		double Regression<Nvars_, Nmonomials_>::cost(const Eigen::Matrix<double, 1, Nmonomials_> &_x, double _y) const{
-			return pow(mHypothesis.parameters()*_x.transpose() - _y,2);
+			return pow(mTransformation(mHypothesis.parameters()*_x.transpose()) - _y,2);
 		}
 	}	//	namespace algorithms
 }	//	namespace BOViL
