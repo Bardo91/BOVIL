@@ -28,7 +28,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 
-set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH} /usr/local/lib /usr/lib)
 # Loading 3rd party libraries.
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
