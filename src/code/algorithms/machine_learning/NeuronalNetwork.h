@@ -33,13 +33,16 @@ namespace BOViL {
 
 		private:
 			void randomizeParams();
+			Eigen::MatrixXd appendBias(const Eigen::MatrixXd &_x);
+
 			Eigen::MatrixXd sigmoid(const Eigen::MatrixXd &_in);
 			Eigen::MatrixXd sigmoidGradient(const Eigen::MatrixXd &_in);
 
 		private:
-			Eigen::Matrix<double, HiddenUnits_, InputSize_ + 1> Theta1;
+			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1> mParameters;
+			/*Eigen::Matrix<double, HiddenUnits_, InputSize_ + 1> Theta1;
 			Eigen::Matrix<double, OutputSize_,HiddenUnits_ + 1> ThetaN;
-			std::array<Eigen::Matrix<double, HiddenUnits_, HiddenUnits_+1>, HiddenLayers_ - 1> ThetaI;
+			std::array<Eigen::Matrix<double, HiddenUnits_, HiddenUnits_+1>, HiddenLayers_ - 1> ThetaI;*/
 		};
 	}	//	namespace algorithms
 }	//	namespace BOViL
