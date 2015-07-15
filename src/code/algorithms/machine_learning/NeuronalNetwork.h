@@ -35,6 +35,7 @@ namespace BOViL {
 			void randomizeParams();
 			Eigen::MatrixXd appendBias(const Eigen::MatrixXd &_x);
 
+			Eigen::MatrixXd logarithm(const Eigen::MatrixXd &_in);
 			Eigen::MatrixXd sigmoid(const Eigen::MatrixXd &_in);
 			Eigen::MatrixXd sigmoidGradient(const Eigen::MatrixXd &_in);
 

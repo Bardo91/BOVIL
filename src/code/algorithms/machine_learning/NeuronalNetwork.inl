@@ -5,9 +5,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#include <iostream>
-
-
 namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------
@@ -42,8 +39,8 @@ namespace BOViL {
 							a[layer] = appendBias(sigmoid(z[layer]));
 					}
 					// Compute cost
-					auto h = a[a.size()-1];
-					cost += (-_y[set]*log(h(0,0)) - (1-_y[set])*(log(1-h(0,0))));
+					Eigen::MatrixXd h = a[a.size()-1];
+					cost += -( _y.block<1, OutputSize_>(set,0)*logarithm(h)+ (Eigen::MatrixXd::Ones(1, OutputSize_) - _y.block<1, OutputSize_>(set,0)*logarithm(Eigen::MatrixXd::Ones(1, OutputSize_) - h))).sum();
 
 					//  --- Back propagation ---
 					std::array<MatrixXd, cNuLayers> d;
@@ -141,6 +138,18 @@ namespace BOViL {
 			x(0, 0) = 1;
 			x.block(0, 1, 1, _x.cols()) = _x;
 			return x;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		Eigen::MatrixXd NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::logarithm(const Eigen::MatrixXd &_in) {
+			Eigen::MatrixXd res = _in;
+			for (int i = 0; i < _in.rows(); i++) {
+				for (int j = 0; j < _in.cols(); j++) {
+					res(i,j) = log(_in(i,j));
+				}
+			}
+			return res;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
