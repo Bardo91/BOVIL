@@ -5,8 +5,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-#include <iostream>
-
 namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------
@@ -59,25 +57,58 @@ namespace BOViL {
 					grad2 += d[2]*a[1].transpose();
 				}
 				cost = cost/TrainSize_;
-				std::cout  << cost << std::endl;
 
 				grad1 = grad1/TrainSize_;
 				grad2 = grad2/TrainSize_;
-				
-				Theta1.block<HiddenUnits_, InputSize_>(0,1) += _alpha*grad1.block<HiddenUnits_, InputSize_>(0,1);
-				ThetaN.block<OutputSize_,HiddenUnits_>(0,1) += _alpha*grad2.block<OutputSize_,HiddenUnits_>(0,1);
 
 				iters++;
 				// Regularize cost function.
+				Eigen::MatrixXd aux1 = Theta1.block<HiddenUnits_, InputSize_>(0,1);
+				Eigen::MatrixXd aux2 = ThetaN.block<OutputSize_,HiddenUnits_>(0,1);
+				cost += (aux1.cwiseProduct(aux1).sum() + aux2.cwiseProduct(aux2).sum())*_lambda/2/TrainSize_;
+
 				// Regularize gradient.
+				aux1 = Theta1;
+				aux1.block<HiddenUnits_, 1>(0,0) = Eigen::MatrixXd::Zero(HiddenUnits_,1);
+				grad1 += _lambda/TrainSize_*aux1;
+
+				aux2 = ThetaN;
+				aux2.block<OutputSize_, 1>(0,0) = Eigen::MatrixXd::Zero(OutputSize_,1);
+				grad2 += _lambda/TrainSize_*aux2;
+
+				Theta1.block<HiddenUnits_, InputSize_>(0,1) -= _alpha*grad1.block<HiddenUnits_, InputSize_>(0,1);
+				ThetaN.block<OutputSize_,HiddenUnits_>(0,1) -= _alpha*grad2.block<OutputSize_,HiddenUnits_>(0,1);
 			}while(iters < _maxIter/* && abs(lastCost - cos) > _tol*/);
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		Eigen::Matrix<double, OutputSize_, 1> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x) {
-			Eigen::Matrix<double, OutputSize_, 1> y;
-			return y;
+			// Feedforward Propagation
+			std::array<MatrixXd, HiddenLayers_ + 2> a;
+			std::array<MatrixXd, HiddenLayers_ + 2> z;
+
+			// a1
+			a[0] = Eigen::MatrixXd(1, InputSize_+1);
+			a[0](0,0) = 1;
+			a[0].block<1, InputSize_>(0, 1) = _x;
+			a[0].transposeInPlace();
+			// z2
+			z[0] = Theta1*a[0];
+
+			// a2
+			a[1] = Eigen::MatrixXd(1, HiddenUnits_+1);
+			a[1](0,0)  = 1;
+			a[1].block<1, HiddenUnits_>(0, 1) = sigmoid(z[0]).transpose();
+			a[1].transposeInPlace();
+
+			// z3
+			z[1] = ThetaN*a[1];
+
+			// h = y
+			Eigen::MatrixXd h = sigmoid(z[1]);
+
+			return h;
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
