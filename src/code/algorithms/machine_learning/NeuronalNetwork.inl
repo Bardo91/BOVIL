@@ -17,8 +17,6 @@ namespace BOViL {
 			const int cNuLayers = HiddenLayers_ + 2;
 			// Init params randomlly to decouple params.
 			randomizeParams();
-			std::cout << mParameters[0] << std::endl << std::endl;
-			std::cout << mParameters[1] << std::endl << std::endl;
 			unsigned iters = 0;
 			double lastCost = 999999;
 			double cost = 0;
@@ -35,7 +33,6 @@ namespace BOViL {
 
 					// Initial activation
 					a[0] = appendBias(_x.block<1, InputSize_>(set, 0));
-					std::cout << a[0] << std::endl << std::endl;
 					// Activations
 					for (unsigned layer = 1; layer < cNuLayers; layer++) {
 						z[layer] = (mParameters[layer-1]*a[layer-1].transpose()).transpose();
@@ -44,10 +41,6 @@ namespace BOViL {
 						else
 							a[layer] = appendBias(sigmoid(z[layer]));
 					}
-					std::cout << a[1] << std::endl << std::endl;
-					std::cout << z[1] << std::endl << std::endl;
-					std::cout << a[2] << std::endl << std::endl;
-					std::cout << z[2] << std::endl << std::endl;
 					// Compute cost
 					auto h = a[a.size()-1];
 					cost += (-_y[set]*log(h(0,0)) - (1-_y[set])*(log(1-h(0,0))));
@@ -55,115 +48,38 @@ namespace BOViL {
 					//  --- Back propagation ---
 					std::array<MatrixXd, cNuLayers> d;
 
-					d[2] = a[a.size()-1] - _y.block<OutputSize_, 1>(set, 0);
-					d[1] = mParameters[1].block<OutputSize_, HiddenUnits_>(0, 1).cwiseProduct(d[2]*sigmoidGradient(z[1])).transpose();
-					gradients[0] += d[1]*a[0];
-					gradients[1] += d[2]*a[1];
+					d[a.size()-1] = a[a.size()-1] - _y.block<OutputSize_, 1>(set, 0);
+					for (unsigned i = cNuLayers - 2; i > 0; i--) {
+						d[i] = mParameters[i].block<OutputSize_, HiddenUnits_>(0, 1).cwiseProduct(d[i+1]*sigmoidGradient(z[i])).transpose();
+					}
 
-
-					std::cout << d[2] << std::endl << std::endl;
-					std::cout << d[1] << std::endl << std::endl;
-					std::cout << gradients[0] << std::endl << std::endl;
-					std::cout << gradients[1] << std::endl << std::endl;
-				}
-
-				cost = cost/TrainSize_;
-
-				gradients[0] = gradients[0]/TrainSize_;
-				gradients[1] = gradients[1]/TrainSize_;
-
-				std::cout << gradients[0] << std::endl << std::endl;
-				std::cout << gradients[1] << std::endl << std::endl;
-
-				// Regularize cost function.
-				Eigen::MatrixXd aux1 = mParameters[0].block<HiddenUnits_, InputSize_>(0,1);
-				Eigen::MatrixXd aux2 = mParameters[1].block<OutputSize_,HiddenUnits_>(0,1);
-				cost += (aux1.cwiseProduct(aux1).sum() + aux2.cwiseProduct(aux2).sum())*_lambda/2/TrainSize_;
-
-				// Regularize gradient.
-				aux1 = mParameters[0];
-				aux1.block<HiddenUnits_, 1>(0,0) = Eigen::MatrixXd::Zero(HiddenUnits_,1);
-				gradients[0] += _lambda/TrainSize_*aux1;
-
-				aux2 = mParameters[1];
-				aux2.block<OutputSize_, 1>(0,0) = Eigen::MatrixXd::Zero(OutputSize_,1);
-				gradients[1] += _lambda/TrainSize_*aux2;
-
-
-				std::cout << gradients[0] << std::endl << std::endl;
-				std::cout << gradients[1] << std::endl << std::endl;
-
-				mParameters[0].block<HiddenUnits_, InputSize_>(0,1) -= _alpha*gradients[0].block<HiddenUnits_, InputSize_>(0,1);
-				mParameters[1].block<OutputSize_,HiddenUnits_>(0,1) -= _alpha*gradients[1].block<OutputSize_,HiddenUnits_>(0,1);
-				
-
-				std::cout << mParameters[0] << std::endl << std::endl;
-				std::cout << mParameters[1] << std::endl << std::endl;
-
-				iters++;
-				std::cout << cost << std::endl;
-				/*
-				//lastCost = cost;
-				Eigen::MatrixXd grad1 = Eigen::MatrixXd::Zero(HiddenUnits_, HiddenUnits_);
-				Eigen::MatrixXd grad2 = Eigen::MatrixXd::Zero(OutputSize_, HiddenUnits_+1);
-
-				// Traing
-				for (unsigned set = 0; set < TrainSize_; set++) {
-					// Feedforward Propagation
-					std::array<MatrixXd, HiddenLayers_ + 2> a;
-					std::array<MatrixXd, HiddenLayers_ + 2> z;
-
-					// a1
-					a[0] = Eigen::MatrixXd(1, InputSize_+1);
-					a[0](0,0) = 1;
-					a[0].block<1, InputSize_>(0, 1) = _x.block<1, InputSize_>(set, 0);
-					a[0].transposeInPlace();
-					// z2
-					z[0] = Theta1*a[0];
-
-					// a2
-					a[1] = Eigen::MatrixXd(1, HiddenUnits_+1);
-					a[1](0,0)  = 1;
-					a[1].block<1, HiddenUnits_>(0, 1) = sigmoid(z[0]).transpose();
-					a[1].transposeInPlace();
-				
-					// z3
-					z[1] = ThetaN*a[1];
-
-					// h = y
-					Eigen::MatrixXd h = sigmoid(z[1]);
-					cost += (-_y[set]*log(h(0,0)) - (1-_y[set])*(log(1-h(0,0))));
-
-					// Backpropagation
-					std::array<MatrixXd, HiddenLayers_ + 2> d;
-
-					d[2] = h - _y.block<OutputSize_, 1>(set, 0);
-					d[1] = ThetaN.block<OutputSize_, HiddenUnits_>(0, 1).transpose()*d[2]*sigmoidGradient(z[1]);
-					grad1 += d[1]*a[0].transpose();
-					grad2 += d[2]*a[1].transpose();
+					for (unsigned i = 0; i < cNuLayers - 1; i++) {
+						gradients[i] += d[i+1]*a[i];
+					}
 				}
 				cost = cost/TrainSize_;
+				for (unsigned i = 0; i < cNuLayers - 1; i++) {
+					gradients[i] /= TrainSize_;
+				}
 
-				grad1 = grad1/TrainSize_;
-				grad2 = grad2/TrainSize_;
-
-				iters++;
 				// Regularize cost function.
-				Eigen::MatrixXd aux1 = Theta1.block<HiddenUnits_, InputSize_>(0,1);
-				Eigen::MatrixXd aux2 = ThetaN.block<OutputSize_,HiddenUnits_>(0,1);
-				cost += (aux1.cwiseProduct(aux1).sum() + aux2.cwiseProduct(aux2).sum())*_lambda/2/TrainSize_;
+				for (unsigned i = 0; i < cNuLayers-1; i++) {
+					Eigen::MatrixXd aux = mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1);
+					cost += aux.cwiseProduct(aux).sum();
+				}
+				cost *= _lambda/2/TrainSize_;
 
 				// Regularize gradient.
-				aux1 = Theta1;
-				aux1.block<HiddenUnits_, 1>(0,0) = Eigen::MatrixXd::Zero(HiddenUnits_,1);
-				grad1 += _lambda/TrainSize_*aux1;
+				for (unsigned i = 0; i < cNuLayers-1; i++) {
+					auto aux = mParameters[i];
+					aux.block(0,0,mParameters[i].rows(), 1) = Eigen::MatrixXd::Zero(mParameters[i].rows(),1);
+					gradients[i] += _lambda/TrainSize_*aux;
+				}
 
-				aux2 = ThetaN;
-				aux2.block<OutputSize_, 1>(0,0) = Eigen::MatrixXd::Zero(OutputSize_,1);
-				grad2 += _lambda/TrainSize_*aux2;
-
-				Theta1.block<HiddenUnits_, InputSize_>(0,1) -= _alpha*grad1.block<HiddenUnits_, InputSize_>(0,1);
-				ThetaN.block<OutputSize_,HiddenUnits_>(0,1) -= _alpha*grad2.block<OutputSize_,HiddenUnits_>(0,1);*/
+				for (unsigned i = 0; i < cNuLayers-1; i++) {
+					mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1) += - _alpha*gradients[i].block(0,1, gradients[i].rows(), gradients[i].cols()-1);
+				}
+				iters++;
 			}while(iters < _maxIter/* && abs(lastCost - cos) > _tol*/);
 		}
 
