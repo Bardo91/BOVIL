@@ -48,12 +48,16 @@ void simpleNN() {
 	Matrix<double, 4, 1> x2({0, 0, 0.8, 0});
 	Matrix<double, 1, 1> y2 = nn.evaluate(x2);
 	assert(y2(0,0) < 0.5);
+
+	Matrix<double, 4, 1> x3({0, 0, 0, 1});
+	Matrix<double, 1, 1> y3 = nn.evaluate(x3);
+	assert(y3(0,0) < 0.5);
 }
 
 void loadDataset(Matrix<double, 178,13> &_xSet, Matrix<double, 178,3> &_ySet);
 
 void wineNN() {
-	NeuronalNetwork<13,1,13,3> nn;
+	NeuronalNetwork<13,1,20,3> nn;
 
 	Matrix<double, 178,13> xSet;
 	Matrix<double, 178,3> ySet;
