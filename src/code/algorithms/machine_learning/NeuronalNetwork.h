@@ -29,7 +29,7 @@ namespace BOViL {
 			/// \param Input values.
 			Eigen::Matrix<double, OutputSize_, 1> evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x);
 			
-			std::array<Eigen::MatrixXd, HiddenLayers_-1+2> parameters();
+			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> parameters();
 
 		private:
 			void randomizeParams();
@@ -41,13 +41,10 @@ namespace BOViL {
 
 		private:
 			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1> mParameters;
-			/*Eigen::Matrix<double, HiddenUnits_, InputSize_ + 1> Theta1;
-			Eigen::Matrix<double, OutputSize_,HiddenUnits_ + 1> ThetaN;
-			std::array<Eigen::Matrix<double, HiddenUnits_, HiddenUnits_+1>, HiddenLayers_ - 1> ThetaI;*/
 		};
 	}	//	namespace algorithms
 }	//	namespace BOViL
 
 #include "NeuronalNetwork.inl"
 
-#endif _BOVIL_ALGORITHMS_MACHINELEARNING_NEURONALNETWORK_H_#pragma once
+#endif //_BOVIL_ALGORITHMS_MACHINELEARNING_NEURONALNETWORK_H_

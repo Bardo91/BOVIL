@@ -20,7 +20,7 @@ void wineNN();
 
 int main(int _argc, char** _argv) {
 
-	simpleNN();
+	//simpleNN();
 
 	wineNN();
 }

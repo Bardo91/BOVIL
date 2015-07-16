@@ -11,69 +11,68 @@ namespace BOViL {
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		template<unsigned TrainSize_>
 		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::train(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x, const Eigen::Matrix<double, TrainSize_, OutputSize_> &_y, double _alpha, double _lambda, unsigned _maxIter, double _tol) {
-			const int cNuLayers = HiddenLayers_ + 2;
 			// Init params randomlly to decouple params.
 			randomizeParams();
 			unsigned iters = 0;
 			double lastCost = 999999;
 			double cost = 0;
 			do {
-				std::array<Eigen::MatrixXd, cNuLayers - 1> gradients;
+				std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1> gradients;
 				gradients[0] = Eigen::MatrixXd::Zero(HiddenUnits_, InputSize_+1);
 				gradients[1] = Eigen::MatrixXd::Zero(OutputSize_, HiddenUnits_+1);
 
 				// For every set
 				for (unsigned set = 0; set < TrainSize_; set++) {
 					//  --- Feedforward propagation ---
-					std::array<MatrixXd, cNuLayers> a;
-					std::array<MatrixXd, cNuLayers> z;
+					std::array<MatrixXd, HiddenLayers_ + 2> a;
+					std::array<MatrixXd, HiddenLayers_ + 2> z;
 
 					// Initial activation
-					a[0] = appendBias(_x.block<1, InputSize_>(set, 0));
+					a[0] = _x.block<1, InputSize_>(set, 0).transpose();
 					// Activations
-					for (unsigned layer = 1; layer < cNuLayers; layer++) {
-						z[layer] = (mParameters[layer-1]*a[layer-1].transpose()).transpose();
-						if(layer == cNuLayers - 1)
+					for (unsigned layer = 1; layer < HiddenLayers_ + 2; layer++) {
+						z[layer] = mParameters[layer-1]*appendBias(a[layer-1]);
+						if(layer == HiddenLayers_ + 2 - 1)
 							a[layer] = sigmoid(z[layer]);
 						else
-							a[layer] = appendBias(sigmoid(z[layer]));
+							a[layer] = sigmoid(z[layer]);
 					}
 					// Compute cost
 					Eigen::MatrixXd h = a[a.size()-1];
 					cost += -( _y.block<1, OutputSize_>(set,0)*logarithm(h)+ (Eigen::MatrixXd::Ones(1, OutputSize_) - _y.block<1, OutputSize_>(set,0)*logarithm(Eigen::MatrixXd::Ones(1, OutputSize_) - h))).sum();
 
 					//  --- Back propagation ---
-					std::array<MatrixXd, cNuLayers> d;
+					std::array<MatrixXd, HiddenLayers_ + 2> d;
 
 					d[a.size()-1] = a[a.size()-1] - _y.block<OutputSize_, 1>(set, 0);
-					for (unsigned i = cNuLayers - 2; i > 0; i--) {
-						d[i] = mParameters[i].block<OutputSize_, HiddenUnits_>(0, 1).cwiseProduct(d[i+1]*sigmoidGradient(z[i])).transpose();
+					for (unsigned i = (HiddenLayers_ + 2 - 1) - 1; i > 0; i--) {
+						d[i] = (mParameters[i].block<OutputSize_, HiddenUnits_>(0, 1).transpose()*d[i+1]).cwiseProduct(sigmoidGradient(z[i]));
 					}
 
-					for (unsigned i = 0; i < cNuLayers - 1; i++) {
-						gradients[i] += d[i+1]*a[i];
+					for (unsigned i = 0; i < HiddenLayers_ + 2 - 1; i++) {
+						gradients[i] += d[i+1]*appendBias(a[i]).transpose();
 					}
 				}
 				cost = cost/TrainSize_;
-				for (unsigned i = 0; i < cNuLayers - 1; i++) {
+				for (unsigned i = 0; i < HiddenLayers_ + 2 - 1; i++) {
 					gradients[i] /= TrainSize_;
 				}
 
 				// Regularize cost function.
-				for (unsigned i = 0; i < cNuLayers-1; i++) {
+				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					Eigen::MatrixXd aux = mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1);
 					cost += aux.cwiseProduct(aux).sum();
 				}
 				cost *= _lambda/2/TrainSize_;
 
 				// Regularize gradient.
-				for (unsigned i = 0; i < cNuLayers-1; i++) {
+				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					auto aux = mParameters[i];
 					aux.block(0,0,mParameters[i].rows(), 1) = Eigen::MatrixXd::Zero(mParameters[i].rows(),1);
 					gradients[i] += _lambda/TrainSize_*aux;
 				}
 
-				for (unsigned i = 0; i < cNuLayers-1; i++) {
+				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1) += - _alpha*gradients[i].block(0,1, gradients[i].rows(), gradients[i].cols()-1);
 				}
 				iters++;
@@ -112,14 +111,8 @@ namespace BOViL {
 
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
-		std::array<Eigen::MatrixXd, HiddenLayers_ -1 +2> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::parameters(){
-			std::array<Eigen::MatrixXd, HiddenLayers_ -1 +2> params;
-			params[0] = Theta1;
-			params[params.size()-1] = ThetaN;
-			for (unsigned i = 0; i < HiddenLayers_ - 1; i++) {
-				params[i] = ThetaI[i];
-			}
-			return params;
+		std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::parameters(){
+			return mParameters;
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
@@ -134,9 +127,9 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		Eigen::MatrixXd NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::appendBias(const Eigen::MatrixXd &_x) {
-			Eigen::MatrixXd x(_x.rows(), _x.cols() + 1);
+			Eigen::MatrixXd x(_x.rows() + 1, _x.cols());
 			x(0, 0) = 1;
-			x.block(0, 1, 1, _x.cols()) = _x;
+			x.block(1, 0, _x.rows(), 1) = _x;
 			return x;
 		}
 
