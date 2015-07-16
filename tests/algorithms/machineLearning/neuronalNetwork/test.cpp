@@ -20,7 +20,7 @@ void wineNN();
 
 int main(int _argc, char** _argv) {
 
-	//simpleNN();
+	simpleNN();
 
 	wineNN();
 }
@@ -61,10 +61,10 @@ void wineNN() {
 
 	nn.train<178>(xSet, ySet, 1.0, 0.1);
 
-	/*Matrix<double, 13, 1> x;
+	Matrix<double, 13, 1> x;
 	x << 13.08,3.9,2.36,21.5,113,1.41,1.39,.34,1.14,9.40,.57,1.33,550;
-	Matrix<double, 1, 1> y = nn.evaluate(x);
-	std::cout << y << std::endl;*/
+	Matrix<double, 1, 3> y = nn.evaluate(x);	// y ~ [0 0 1] ;
+	std::cout << y << std::endl;
 
 }
 

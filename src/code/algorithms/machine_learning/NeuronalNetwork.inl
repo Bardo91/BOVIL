@@ -32,19 +32,18 @@ namespace BOViL {
 					// Activations
 					for (unsigned layer = 1; layer < HiddenLayers_ + 2; layer++) {
 						z[layer] = mParameters[layer-1]*appendBias(a[layer-1]);
-						if(layer == HiddenLayers_ + 2 - 1)
-							a[layer] = sigmoid(z[layer]);
-						else
-							a[layer] = sigmoid(z[layer]);
+						a[layer] = sigmoid(z[layer]);
 					}
 					// Compute cost
 					Eigen::MatrixXd h = a[a.size()-1];
-					cost += -( _y.block<1, OutputSize_>(set,0)*logarithm(h)+ (Eigen::MatrixXd::Ones(1, OutputSize_) - _y.block<1, OutputSize_>(set,0)*logarithm(Eigen::MatrixXd::Ones(1, OutputSize_) - h))).sum();
+					Eigen::MatrixXd y = _y.block<1, OutputSize_>(set,0).transpose();
+					Eigen::MatrixXd vOnes = Eigen::MatrixXd::Ones(OutputSize_, 1);
+					cost += -( y.cwiseProduct(logarithm(h))+ (vOnes - y.cwiseProduct(logarithm(vOnes - h)))).sum();
 
 					//  --- Back propagation ---
 					std::array<MatrixXd, HiddenLayers_ + 2> d;
 
-					d[a.size()-1] = a[a.size()-1] - _y.block<OutputSize_, 1>(set, 0);
+					d[a.size()-1] = a[a.size()-1] - y;
 					for (unsigned i = (HiddenLayers_ + 2 - 1) - 1; i > 0; i--) {
 						d[i] = (mParameters[i].block<OutputSize_, HiddenUnits_>(0, 1).transpose()*d[i+1]).cwiseProduct(sigmoidGradient(z[i]));
 					}
@@ -82,31 +81,18 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		Eigen::Matrix<double, OutputSize_, 1> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x) {
-			// Feedforward Propagation
+			//  --- Feedforward propagation ---
 			std::array<MatrixXd, HiddenLayers_ + 2> a;
 			std::array<MatrixXd, HiddenLayers_ + 2> z;
+			// Initial activation
+			a[0] = _x;
+			// Activations
+			for (unsigned layer = 1; layer < HiddenLayers_ + 2; layer++) {
+				z[layer] = mParameters[layer-1]*appendBias(a[layer-1]);
+				a[layer] = sigmoid(z[layer]);
+			}
 
-			// a1
-			a[0] = Eigen::MatrixXd(1, InputSize_+1);
-			a[0](0,0) = 1;
-			a[0].block<1, InputSize_>(0, 1) = _x;
-			a[0].transposeInPlace();
-			// z2
-			z[0] = mParameters[0]*a[0];
-
-			// a2
-			a[1] = Eigen::MatrixXd(1, HiddenUnits_+1);
-			a[1](0,0)  = 1;
-			a[1].block<1, HiddenUnits_>(0, 1) = sigmoid(z[0]).transpose();
-			a[1].transposeInPlace();
-
-			// z3
-			z[1] = mParameters[1]*a[1];
-
-			// h = y
-			Eigen::MatrixXd h = sigmoid(z[1]);
-
-			return h;
+			return a[a.size()-1];
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
