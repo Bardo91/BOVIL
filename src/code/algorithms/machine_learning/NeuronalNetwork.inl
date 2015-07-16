@@ -5,6 +5,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
+#include <iostream>
+
 namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------
@@ -18,8 +20,12 @@ namespace BOViL {
 			double cost = 0;
 			do {
 				std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1> gradients;
+				// Init gradients;
 				gradients[0] = Eigen::MatrixXd::Zero(HiddenUnits_, InputSize_+1);
-				gradients[1] = Eigen::MatrixXd::Zero(OutputSize_, HiddenUnits_+1);
+				for (unsigned i = 1; i < gradients.size(); i++) {
+					gradients[i] = Eigen::Matrix<double, HiddenUnits_, HiddenUnits_+1>::Zero();
+				}
+				gradients[gradients.size()-1] = Eigen::MatrixXd::Zero(OutputSize_, HiddenUnits_+1);
 
 				// For every set
 				for (unsigned set = 0; set < TrainSize_; set++) {
@@ -45,7 +51,7 @@ namespace BOViL {
 
 					d[a.size()-1] = a[a.size()-1] - y;
 					for (unsigned i = (HiddenLayers_ + 2 - 1) - 1; i > 0; i--) {
-						d[i] = (mParameters[i].block<OutputSize_, HiddenUnits_>(0, 1).transpose()*d[i+1]).cwiseProduct(sigmoidGradient(z[i]));
+						d[i] = (mParameters[i].block(0, 1, mParameters[i].rows(), mParameters[i].cols()-1).transpose()*d[i+1]).cwiseProduct(sigmoidGradient(z[i]));
 					}
 
 					for (unsigned i = 0; i < HiddenLayers_ + 2 - 1; i++) {
