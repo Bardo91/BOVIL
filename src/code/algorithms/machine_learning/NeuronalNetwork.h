@@ -35,12 +35,18 @@ namespace BOViL {
 			void randomizeParams();
 			Eigen::MatrixXd appendBias(const Eigen::MatrixXd &_x);
 
+			template<unsigned TrainSize_>
+			Eigen::Matrix<double, TrainSize_, InputSize_>	normalizeDataset(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x);
+			Eigen::Matrix<double, InputSize_, 1>			normalizeInput(const Eigen::Matrix<double, InputSize_, 1> &_x);
+
 			Eigen::MatrixXd logarithm(const Eigen::MatrixXd &_in);
 			Eigen::MatrixXd sigmoid(const Eigen::MatrixXd &_in);
 			Eigen::MatrixXd sigmoidGradient(const Eigen::MatrixXd &_in);
 
 		private:
-			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1> mParameters;
+			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1>	mParameters;
+			std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>>		mNormalizeParameters;	// nu and sigma of input data to normalize inputs.
+
 		};
 	}	//	namespace algorithms
 }	//	namespace BOViL

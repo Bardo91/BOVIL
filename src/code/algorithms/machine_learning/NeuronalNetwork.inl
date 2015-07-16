@@ -13,6 +13,9 @@ namespace BOViL {
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		template<unsigned TrainSize_>
 		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::train(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x, const Eigen::Matrix<double, TrainSize_, OutputSize_> &_y, double _alpha, double _lambda, unsigned _maxIter, double _tol) {
+			// Calculate media and sigma of input and normalize dataset
+			Eigen::Matrix<double, TrainSize_, InputSize_> x = normalizeDataset<TrainSize_>(_x);
+
 			// Init params randomlly to decouple params.
 			randomizeParams();
 			unsigned iters = 0;
@@ -34,7 +37,7 @@ namespace BOViL {
 					std::array<MatrixXd, HiddenLayers_ + 2> z;
 
 					// Initial activation
-					a[0] = _x.block<1, InputSize_>(set, 0).transpose();
+					a[0] = x.block<1, InputSize_>(set, 0).transpose();
 					// Activations
 					for (unsigned layer = 1; layer < HiddenLayers_ + 2; layer++) {
 						z[layer] = mParameters[layer-1]*appendBias(a[layer-1]);
@@ -87,11 +90,14 @@ namespace BOViL {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		Eigen::Matrix<double, OutputSize_, 1> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x) {
+			// Normalize input;
+			auto x = normalizeInput(_x);
+
 			//  --- Feedforward propagation ---
 			std::array<MatrixXd, HiddenLayers_ + 2> a;
 			std::array<MatrixXd, HiddenLayers_ + 2> z;
 			// Initial activation
-			a[0] = _x;
+			a[0] = x;
 			// Activations
 			for (unsigned layer = 1; layer < HiddenLayers_ + 2; layer++) {
 				z[layer] = mParameters[layer-1]*appendBias(a[layer-1]);
@@ -122,6 +128,39 @@ namespace BOViL {
 			Eigen::MatrixXd x(_x.rows() + 1, _x.cols());
 			x(0, 0) = 1;
 			x.block(1, 0, _x.rows(), 1) = _x;
+			return x;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		template<unsigned TrainSize_>
+		Eigen::Matrix<double, TrainSize_, InputSize_> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalizeDataset(const Eigen::Matrix<double, TrainSize_, InputSize_> &_set) {
+			// Calculate medias
+			for (unsigned i = 0; i < InputSize_; i++) {
+				mNormalizeParameters.first(0,i) = _set.block(0, i, _set.rows(), 1).sum()/_set.rows();
+			}
+
+			// Calculate sigmas
+			for (unsigned i = 0; i < InputSize_; i++) {
+				Eigen::Matrix<double, TrainSize_, 1> vNu;
+				vNu.fill(mNormalizeParameters.first(0,i));
+				auto diff = _set.block(0, i, _set.rows(), 1) - vNu;
+				mNormalizeParameters.second(0,i) = sqrt(diff.cwiseProduct(diff).sum()/_set.rows());
+			}
+			auto set = _set;
+
+			for (int i = 0; i < _set.rows(); i++) {
+				set.block<1, InputSize_>(i,0) = normalizeInput(_set.block<1, InputSize_>(i,0));
+			}
+			return set;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		Eigen::Matrix<double, InputSize_, 1> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalizeInput(const Eigen::Matrix<double, InputSize_, 1> &_x){
+			auto x = _x;
+			for (unsigned i = 0; i < InputSize_; i++) {
+				x(i,0) = (_x(i,0)-mNormalizeParameters.first(0,i))/mNormalizeParameters.second(0,i); // x = (x-nu)/sigma
+			}
 			return x;
 		}
 
