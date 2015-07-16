@@ -61,11 +61,21 @@ void wineNN() {
 
 	nn.train<178>(xSet, ySet, 1.0, 0.1);
 
-	Matrix<double, 13, 1> x;
-	x << 13.08,3.9,2.36,21.5,113,1.41,1.39,.34,1.14,9.40,.57,1.33,550;
-	Matrix<double, 1, 3> y = nn.evaluate(x);	// y ~ [0 0 1] ;
-	std::cout << y << std::endl;
+	Matrix<double, 13, 1> x1;
+	x1 << 13.75,1.73,2.41,16,89,2.6,2.76,.29,1.81,5.6,1.15,2.9,1320;
+	Matrix<double, 1, 3> y1 = nn.evaluate(x1);	// y ~ [1 0 0] ;
+	std::cout << y1 << std::endl;
 
+	Matrix<double, 13, 1> x2;
+	x2 << 12.42,1.61,2.19,22.5,108,2,2.09,.34,1.61,2.06,1.06,2.96,345;
+	Matrix<double, 1, 3> y2 = nn.evaluate(x2);	// y ~ [0 1 0] ;
+	std::cout << y2 << std::endl;
+
+	Matrix<double, 13, 1> x3;
+	x3 << 13.08,3.9,2.36,21.5,113,1.41,1.39,.34,1.14,9.40,.57,1.33,550;
+	Matrix<double, 1, 3> y3 = nn.evaluate(x3);	// y ~ [0 0 1] ;
+	std::cout << y3 << std::endl;
+	
 }
 
 void loadDataset(Matrix<double, 178,13> &_xSet, Matrix<double, 178,3> &_ySet) {
