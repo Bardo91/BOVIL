@@ -80,6 +80,31 @@ void loadDataset(Matrix<double, TrainSize_,InputSize_> &_xSet, Matrix<double, Tr
 	dataFile.close();
 }
 
+template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_,unsigned TrainSize_>
+double accuracy(const Matrix<double, TrainSize_,InputSize_> &_xSet, const Matrix<double, TrainSize_,OutputSize_> &_ySet, NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_> &_nn) {
+	
+	double accuracy = 0.0;
+	for (unsigned set = 0; set < TrainSize_; set++) {
+		Eigen::MatrixXd x = _xSet.block<1, InputSize_>(set,0);
+		Eigen::MatrixXd y = _nn.evaluate(x.transpose());
+
+		// Get index of max probability
+		unsigned index = 0;
+		double prob = 0.0;
+		for (int i = 0; i < y.rows(); i++) {
+			if (y(i) > prob) {
+				prob = y(i);
+				index = i;
+			}
+		}
+
+		accuracy += _ySet(set, index);
+	}
+
+	return accuracy/TrainSize_;
+
+}
+
 void wineNN() {
 	NeuronalNetwork<13,1,20,3> nn;
 
@@ -107,6 +132,8 @@ void wineNN() {
 	assert(y3(2) > 0.5);
 	assert(y3(0) + y3(1) < 0.5);
 
+	double acc = accuracy<13,1,20,3,178>(xSet, ySet, nn);
+	assert(acc > 0.9);	//	 = 1;
 }
 
 void irisNN() {
@@ -136,4 +163,6 @@ void irisNN() {
 	assert(y3(2) > 0.5);
 	assert(y3(0) + y3(1) < 0.5);
 
+	double acc = accuracy<4,1,20,3,150>(xSet, ySet, nn);
+	assert(acc > 0.9);	//	 ~0.94
 }
