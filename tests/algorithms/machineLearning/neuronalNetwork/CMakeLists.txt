@@ -7,5 +7,6 @@ add_executable(testNeuronalNetwork test.cpp)
 target_link_libraries(testNeuronalNetwork PUBLIC BOViL)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/wineDataset.txt ${CMAKE_CURRENT_BINARY_DIR}/wineDataset.txt COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/irisDataset.txt ${CMAKE_CURRENT_BINARY_DIR}/irisDataset.txt COPYONLY)
 
 add_test(testNeuronalNetwork1 testNeuronalNetwork)
