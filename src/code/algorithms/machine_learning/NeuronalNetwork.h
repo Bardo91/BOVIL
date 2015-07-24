@@ -22,8 +22,7 @@ namespace BOViL {
 			/// \brief Train neuronal network with the given dataset
 			/// \param _x inputs of datasets.
 			/// \param _y desired results for given inputs.
-			template<unsigned TrainSize_>
-			void train(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x, const Eigen::Matrix<double, TrainSize_, OutputSize_> &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
+			void train(const Eigen::MatrixXd &_x, const Eigen::MatrixXd &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
 
 			/// \brief Prediction of neuronal network.
 			/// \param Input values.
@@ -35,9 +34,8 @@ namespace BOViL {
 			void randomizeParams();
 			Eigen::MatrixXd appendBias(const Eigen::MatrixXd &_x);
 
-			template<unsigned TrainSize_>
-			Eigen::Matrix<double, TrainSize_, InputSize_>	normalizeDataset(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x);
-			Eigen::Matrix<double, InputSize_, 1>			normalizeInput(const Eigen::Matrix<double, InputSize_, 1> &_x);
+			Eigen::MatrixXd							normalizeDataset		(const Eigen::MatrixXd &_x);
+			Eigen::Matrix<double, InputSize_, 1>	normalizeInput			(const Eigen::Matrix<double, InputSize_, 1> &_x);
 
 			Eigen::MatrixXd logarithm(const Eigen::MatrixXd &_in);
 			Eigen::MatrixXd sigmoid(const Eigen::MatrixXd &_in);

@@ -11,10 +11,12 @@ namespace BOViL {
 	namespace algorithms {
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
-		template<unsigned TrainSize_>
-		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::train(const Eigen::Matrix<double, TrainSize_, InputSize_> &_x, const Eigen::Matrix<double, TrainSize_, OutputSize_> &_y, double _alpha, double _lambda, unsigned _maxIter, double _tol) {
+		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::train(const Eigen::MatrixXd &_x, const Eigen::MatrixXd &_y, double _alpha, double _lambda, unsigned _maxIter, double _tol) {
+			//assert(_x.cols == int(InputSize_));
+			//assert(_y.cols == int(OutputSize_));
+
 			// Calculate media and sigma of input and normalize dataset
-			Eigen::Matrix<double, TrainSize_, InputSize_> x = normalizeDataset<TrainSize_>(_x);
+			Eigen::MatrixXd x = normalizeDataset(_x);
 
 			// Init params randomlly to decouple params.
 			randomizeParams();
@@ -31,7 +33,7 @@ namespace BOViL {
 				gradients[gradients.size()-1] = Eigen::MatrixXd::Zero(OutputSize_, HiddenUnits_+1);
 
 				// For every set
-				for (unsigned set = 0; set < TrainSize_; set++) {
+				for (int set = 0; set < x.rows(); set++) {
 					//  --- Feedforward propagation ---
 					std::array<MatrixXd, HiddenLayers_ + 2> a;
 					std::array<MatrixXd, HiddenLayers_ + 2> z;
@@ -61,9 +63,9 @@ namespace BOViL {
 						gradients[i] += d[i+1]*appendBias(a[i]).transpose();
 					}
 				}
-				cost = cost/TrainSize_;
+				cost = cost/x.size();
 				for (unsigned i = 0; i < HiddenLayers_ + 2 - 1; i++) {
-					gradients[i] /= TrainSize_;
+					gradients[i] /= x.size();
 				}
 
 				// Regularize cost function.
@@ -71,13 +73,13 @@ namespace BOViL {
 					Eigen::MatrixXd aux = mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1);
 					cost += aux.cwiseProduct(aux).sum();
 				}
-				cost *= _lambda/2/TrainSize_;
+				cost *= _lambda/2/x.size();
 
 				// Regularize gradient.
 				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					auto aux = mParameters[i];
 					aux.block(0,0,mParameters[i].rows(), 1) = Eigen::MatrixXd::Zero(mParameters[i].rows(),1);
-					gradients[i] += _lambda/TrainSize_*aux;
+					gradients[i] += _lambda/x.size()*aux;
 				}
 
 				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
@@ -132,8 +134,7 @@ namespace BOViL {
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
-		template<unsigned TrainSize_>
-		Eigen::Matrix<double, TrainSize_, InputSize_> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalizeDataset(const Eigen::Matrix<double, TrainSize_, InputSize_> &_set) {
+		Eigen::MatrixXd NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalizeDataset(const Eigen::MatrixXd &_set) {
 			// Calculate medias
 			for (unsigned i = 0; i < InputSize_; i++) {
 				mNormalizeParameters.first(0,i) = _set.block(0, i, _set.rows(), 1).sum()/_set.rows();
@@ -141,7 +142,7 @@ namespace BOViL {
 
 			// Calculate sigmas
 			for (unsigned i = 0; i < InputSize_; i++) {
-				Eigen::Matrix<double, TrainSize_, 1> vNu;
+				Eigen::MatrixXd vNu(_set.rows(),1);
 				vNu.fill(mNormalizeParameters.first(0,i));
 				auto diff = _set.block(0, i, _set.rows(), 1) - vNu;
 				mNormalizeParameters.second(0,i) = sqrt(diff.cwiseProduct(diff).sum()/_set.rows());
