@@ -42,7 +42,7 @@ void simpleNN() {
 		0, 0.5, 1,0;
 	Matrix<double, 7, 1> ySet;
 	ySet << 1, 1, 1, 0, 0, 0, 0;
-	nn.train<7>(xSet, ySet, 1, 0.1);
+	nn.train(xSet, ySet, 1, 0.1);
 
 	Matrix<double, 4, 1> x1({0.8, 0.5, 0, 0});
 	Matrix<double, 1, 1> y1 = nn.evaluate(x1);
@@ -112,7 +112,7 @@ void wineNN() {
 	Matrix<double, 178,3> ySet;
 	loadDataset<178,13,3>(xSet, ySet, "wineDataset.txt");
 
-	nn.train<178>(xSet, ySet, 1.0, 0.1);
+	nn.train(xSet, ySet, 1.0, 0.1);
 
 	Matrix<double, 13, 1> x1;
 	x1 << 13.75,1.73,2.41,16,89,2.6,2.76,.29,1.81,5.6,1.15,2.9,1320;
@@ -143,7 +143,7 @@ void irisNN() {
 	Matrix<double, 150,3> ySet;
 	loadDataset<150,4,3>(xSet, ySet,"irisDataset.txt");
 
-	nn.train<150>(xSet, ySet, 1.0, 0.1);
+	nn.train(xSet, ySet, 1.0, 0.1);
 
 	Matrix<double, 4, 1> x1;
 	x1 << 4.7,3.2,1.3,0.2;
