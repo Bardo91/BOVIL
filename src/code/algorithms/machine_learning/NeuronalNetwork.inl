@@ -71,9 +71,8 @@ namespace BOViL {
 				// Regularize cost function.
 				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					Eigen::MatrixXd aux = mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1);
-					cost += aux.cwiseProduct(aux).sum();
+					cost += aux.cwiseProduct(aux).sum()*_lambda/2/x.size();
 				}
-				cost *= _lambda/2/x.size();
 
 				// Regularize gradient.
 				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
@@ -85,6 +84,7 @@ namespace BOViL {
 				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1) += - _alpha*gradients[i].block(0,1, gradients[i].rows(), gradients[i].cols()-1);
 				}
+				mCostHistory.push_back(cost);
 				iters++;
 			}while(iters < _maxIter/* && abs(lastCost - cos) > _tol*/);
 		}
@@ -131,6 +131,12 @@ namespace BOViL {
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalParams(const std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> &_normalParams) {
 			mNormalizeParameters = _normalParams;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		std::vector<double> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::costHistory() {
+			return mCostHistory;
 		}
 
 		//-------------------------------------------------------------------------------------------------------------

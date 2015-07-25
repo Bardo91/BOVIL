@@ -23,16 +23,27 @@ namespace BOViL {
 			/// \param _x inputs of datasets.
 			/// \param _y desired results for given inputs.
 			void train(const Eigen::MatrixXd &_x, const Eigen::MatrixXd &_y, double _alpha, double _lambda, unsigned _maxIter = 150, double _tol = 0.00001);
+			
+			/// \brief Get current parameters.
+			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> parameters();
+
+			/// \brief Set internalparameters of neuronal network.
+			/// \param List of matrixes with layer's parameters.
+			void parameters(const std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> &_parameters);
+
+			/// \brief Get normal values of input after training.
+			std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> normalParams();
+
+			/// \brief Set normal values of inputs.
+			/// \param Pair with nu and sigma values of inputs.
+			void normalParams(const std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> &normalParams);
+
+			/// \brief get history of cost function during training
+			std::vector<double> costHistory();
 
 			/// \brief Prediction of neuronal network.
 			/// \param Input values.
 			Eigen::Matrix<double, OutputSize_, 1> evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x);
-			
-			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> parameters();
-			void parameters(const std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> &_parameters);
-
-			std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> normalParams();
-			void normalParams(const std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> &normalParams);
 
 		private:
 			void randomizeParams();
@@ -49,6 +60,7 @@ namespace BOViL {
 			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1>	mParameters;
 			std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>>		mNormalizeParameters;	// nu and sigma of input data to normalize inputs.
 
+			std::vector<double> mCostHistory;
 		};
 	}	//	namespace algorithms
 }	//	namespace BOViL
