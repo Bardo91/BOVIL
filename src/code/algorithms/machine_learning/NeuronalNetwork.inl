@@ -49,7 +49,7 @@ namespace BOViL {
 					Eigen::MatrixXd h = a[a.size()-1];
 					Eigen::MatrixXd y = _y.block<1, OutputSize_>(set,0).transpose();
 					Eigen::MatrixXd vOnes = Eigen::MatrixXd::Ones(OutputSize_, 1);
-					cost += -( y.cwiseProduct(logarithm(h))+ (vOnes - y.cwiseProduct(logarithm(vOnes - h)))).sum();
+					cost += -( y.cwiseProduct(logarithm(h))+ (vOnes - y).cwiseProduct(logarithm(vOnes - h))).sum();
 
 					//  --- Back propagation ---
 					std::array<MatrixXd, HiddenLayers_ + 2> d;
@@ -71,7 +71,7 @@ namespace BOViL {
 				// Regularize cost function.
 				for (unsigned i = 0; i < HiddenLayers_ + 2-1; i++) {
 					Eigen::MatrixXd aux = mParameters[i].block(0,1, mParameters[i].rows(), mParameters[i].cols()-1);
-					cost += aux.cwiseProduct(aux).sum()*_lambda/2/x.size();
+					cost += aux.cwiseProduct(aux).sum()*_lambda/2/x.size();;
 				}
 
 				// Regularize gradient.
