@@ -29,6 +29,10 @@ namespace BOViL {
 			Eigen::Matrix<double, OutputSize_, 1> evaluate(const Eigen::Matrix<double, InputSize_, 1> &_x);
 			
 			std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> parameters();
+			void parameters(const std::array<Eigen::MatrixXd, HiddenLayers_ + 2 -1> &_parameters);
+
+			std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> normalParams();
+			void normalParams(const std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> &normalParams);
 
 		private:
 			void randomizeParams();

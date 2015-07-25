@@ -117,6 +117,24 @@ namespace BOViL {
 
 		//-------------------------------------------------------------------------------------------------------------
 		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		void  NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::parameters(const std::array<Eigen::MatrixXd, HiddenLayers_ + 2 - 1> &_parameters) {
+			mParameters = _parameters;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalParams() {
+			return mNormalizeParameters;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
+		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::normalParams(const std::pair<Eigen::Matrix<double, 1, InputSize_>, Eigen::Matrix<double, 1, InputSize_>> &_normalParams) {
+			mNormalizeParameters = _normalParams;
+		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		template<unsigned InputSize_, unsigned HiddenLayers_, unsigned HiddenUnits_, unsigned OutputSize_>
 		void NeuronalNetwork<InputSize_, HiddenLayers_, HiddenUnits_, OutputSize_>::randomizeParams() {	
 			mParameters[0] = Eigen::Matrix<double, HiddenUnits_, InputSize_ + 1>::Random();
 			for (unsigned i = 0; i < HiddenLayers_ - 1; i++) {
