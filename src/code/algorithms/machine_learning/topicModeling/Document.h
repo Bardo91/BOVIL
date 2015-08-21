@@ -12,33 +12,34 @@
 #include <vector>
 #include <algorithm>
 
-namespace algorithm {
-	class Document {
-	public:
-		/// Default constructor;
-		Document() {};
+namespace BOViL {
+	namespace algorithms {
+		class Document {
+		public:
+			/// Default constructor;
+			Document() {};
 
-		/// Construct a document with a list of words
-		Document(std::vector<unsigned> _words): mWords(_words) {};
-		
-		/// Add new word to document
-		void addWord(unsigned _word) { mWords.push_back(_word); };
-		
-		/// Shuffle word list.
-		void shuffle(){ std::random_shuffle(mWords.begin(), mWords.end()); };
+			/// Construct a document with a list of words
+			Document(std::vector<unsigned> _words) : mWords(_words) {};
 
-		/// Get a copy of word list
-		std::vector<unsigned>	words()	const	{ return mWords; };
+			/// Add new word to document
+			void addWord(unsigned _word) { mWords.push_back(_word); };
 
-		/// Access to a single word
-		int word(unsigned _index) const { return mWords[_index]; };
+			/// Shuffle word list.
+			void shuffle() { std::random_shuffle(mWords.begin(), mWords.end()); };
 
-		/// Get number of words in document.
-		unsigned			lenght(){return mWords.size(); };
-	private:
-		std::vector<unsigned> mWords;
-	};	// class Document
+			/// Get a copy of word list
+			std::vector<unsigned>	words()	const { return mWords; };
 
-}	//	namespace algorithm
+			/// Access to a single word
+			int word(unsigned _index) const { return mWords[_index]; };
 
+			/// Get number of words in document.
+			unsigned			lenght() { return mWords.size(); };
+		private:
+			std::vector<unsigned> mWords;
+		};	// class Document
+
+	}	//	namespace algorithm
+}	//	namespace BOViL.
 #endif	//	_BOVIL_ALGORITHMS_MACHINELEARNING_TOPICMODELING_DOCUMENTS_H_
