@@ -13,7 +13,7 @@
 
 #include <vector>
 namespace BOViL {
-	namespace algorithm {
+	namespace algorithms {
 		class Corpus {
 		public:
 			void addDocument(Document _document) { mDocuments.push_back(_document); };
