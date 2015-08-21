@@ -1,3 +1,4 @@
 add_subdirectory(regression)
 add_subdirectory(polynomial)
 add_subdirectory(neuronalNetwork)
+add_subdirectory(topicModeling)
