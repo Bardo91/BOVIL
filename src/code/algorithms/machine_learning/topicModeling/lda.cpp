@@ -154,6 +154,45 @@ namespace BOViL {
 					modelFile << mTheta[i][j] << std::endl;
 				}
 			}
+
+			modelFile << mVocabSize << std::endl;
+			modelFile << mNumTopics << std::endl;
+			modelFile << mAlpha << std::endl;
+			modelFile << mBeta << std::endl;
+
+			modelFile <<  mNwz.size() << std::endl;
+			for (unsigned i = 0; i < mNwz.size(); i++) {
+				modelFile <<  mNwz[i].size() << std::endl;
+				for (unsigned j = 0; j < mNwz[i].size(); j++) {
+					modelFile << mNwz[i][j] << std::endl;
+				}
+			}
+
+			modelFile << mNzm.size() << std::endl;
+			for (unsigned i = 0; i < mNzm.size(); i++) {
+				modelFile << mNzm[i].size() << std::endl;
+				for (unsigned j = 0; j < mNzm[i].size(); j++) {
+					modelFile << mNzm[i][j] << std::endl;
+				}
+			}
+
+			modelFile << mNz.size() << std::endl;
+			for (unsigned i = 0; i < mNz.size(); i++) {
+				modelFile << mNz[i] << std::endl;
+			}
+
+			modelFile << mNwSum.size() << std::endl;
+			for (unsigned i = 0; i < mNwSum.size(); i++) {
+				modelFile << mNwSum[i] << std::endl;
+			}
+
+			modelFile << mZ.size() << std::endl;
+			for (unsigned i = 0; i < mZ.size(); i++) {
+				modelFile << mZ[i].size() << std::endl;
+				for (unsigned j = 0; j < mZ[i].size(); j++) {
+					modelFile << mZ[i][j] << std::endl;
+				}
+			}
 		}
 
 		//-----------------------------------------------------------------------------------------------------------------
@@ -189,6 +228,56 @@ namespace BOViL {
 					modelFile >> mTheta[i][j];
 				}
 			}
+
+			// Load words counts
+			modelFile >> mVocabSize;
+			modelFile >> mNumTopics;
+			modelFile >> mAlpha;
+			modelFile >> mBeta;
+
+			unsigned inValue;
+			modelFile >> inValue;
+			mNwz.resize(inValue);
+			for (unsigned i = 0; i < mNwz.size(); i++) {
+				modelFile >> inValue;
+				mNwz[i].resize(inValue);
+				for (unsigned j = 0; j < mNwz[i].size(); j++) {
+					modelFile >> mNwz[i][j];
+				}
+			}
+
+			modelFile >> inValue;
+			mNzm.resize(inValue);
+			for (unsigned i = 0; i < mNzm.size(); i++) {
+				modelFile >> inValue;
+				mNzm[i].resize(inValue);
+				for (unsigned j = 0; j < mNzm[i].size(); j++) {
+					modelFile >> mNzm[i][j];
+				}
+			}
+
+			modelFile >> inValue;
+			mNz.resize(inValue);
+			for (unsigned i = 0; i < mNz.size(); i++) {
+				modelFile >> mNz[i];
+			}
+
+			modelFile >> inValue;
+			mNwSum.resize(inValue);
+			for (unsigned i = 0; i < mNwSum.size(); i++) {
+				modelFile >> mNwSum[i];
+			}
+
+			modelFile >> inValue;
+			mZ.resize(inValue);
+			for (unsigned i = 0; i < mZ.size(); i++) {
+				modelFile >> inValue;
+				mZ[i].resize(inValue);
+				for (unsigned j = 0; j < mZ[i].size(); j++) {
+					modelFile >> mZ[i][j];
+				}
+			}
+
 		}
 
 		//-----------------------------------------------------------------------------------------------------------------
