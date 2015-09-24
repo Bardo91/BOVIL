@@ -56,6 +56,8 @@ namespace BOViL{
 	public:
 		/// \brief
 		ImageObject(Vec2i _upperLeft, Vec2i _downRight, int _size, int _color){
+			mUpperLeft = _upperLeft;
+			mDownRight = _downRight;
 			mCentroid = Vec2i((_upperLeft.x + _downRight.x)/2, (_upperLeft.y + _downRight.y)/2);
 			mWidth = _downRight.x - _upperLeft.x;
 			mHeight = _downRight.y - _upperLeft.y;
@@ -66,6 +68,8 @@ namespace BOViL{
 		/// \brief
 		ImageObject(Vec2i _centroid, int _width, int _height, int _size, int _color){
 			mCentroid = _centroid;
+			mUpperLeft = Vec2i(	mCentroid.x - _width/2,mCentroid.x - _height/2 );
+			mDownRight = Vec2i(	mCentroid.x + _width/2,mCentroid.x + _height/2 );
 			mWidth = _width;
 			mHeight = _height;
 			mSize = _size;
@@ -74,11 +78,17 @@ namespace BOViL{
 			
 		/// \brief Join current object with the given one;
 		void join(ImageObject _obj) {
-			mCentroid = Vec2i((mCentroid.x + _obj.mCentroid.x)/2, (mCentroid.y + _obj.mCentroid.y)/2);
-			mWidth = mWidth/2 + _obj.mWidth/2 + int(abs((double) mCentroid.x - _obj.mCentroid.x));
-			mHeight = mHeight/2 + _obj.mHeight/2 + int(abs((double) mCentroid.y - _obj.mCentroid.y));
-			mSize = mSize + _obj.mSize;
-			mColor = mColor == _obj.mColor ? mColor : -1;
+			mUpperLeft	= Vec2i(	mUpperLeft.x < _obj.mUpperLeft.x ? mUpperLeft.x : _obj.mUpperLeft.x,
+									mUpperLeft.y < _obj.mUpperLeft.y ? mUpperLeft.y : _obj.mUpperLeft.y);
+			
+			mDownRight	= Vec2i(	mDownRight.x > _obj.mDownRight.x ? mDownRight.x : _obj.mDownRight.x,
+									mDownRight.y > _obj.mDownRight.y ? mDownRight.y : _obj.mDownRight.y);
+
+			mCentroid	= Vec2i((mUpperLeft.x + mDownRight.x)/2, (mUpperLeft.y + mDownRight.y)/2);
+			mWidth		= mDownRight.x - mUpperLeft.x;
+			mHeight		= mDownRight.y - mUpperLeft.y;
+			mSize		= mSize + _obj.mSize;
+			mColor		= mColor == _obj.mColor ? mColor : -1;
 		}
 
 		/// \brief get centroid of object in the image. 666 rename to centroid();
@@ -100,6 +110,7 @@ namespace BOViL{
 		int mWidth, mHeight;
 		int mColor;
 		int mSize;
+		Vec2i mUpperLeft, mDownRight;
 	};
 
 }	// namespace BOViL
