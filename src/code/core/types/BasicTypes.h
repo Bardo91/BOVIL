@@ -72,6 +72,15 @@ namespace BOViL{
 			mColor = _color;
 		};
 			
+		/// \brief Join current object with the given one;
+		void join(ImageObject _obj) {
+			mCentroid = Vec2ui((mCentroid.x + _obj.mCentroid.x)/2, (mCentroid.y + _obj.mCentroid.y)/2);
+			mWidth = mWidth/2 + _obj.mWidth/2 + int(abs((double) mCentroid.x - _obj.mCentroid.x));
+			mHeight = mHeight/2 + _obj.mHeight/2 + int(abs((double) mCentroid.y - _obj.mCentroid.y));
+			mSize = mSize + _obj.mSize;
+			mColor = mColor == _obj.mColor ? mColor : -1;
+		}
+
 		/// \brief get centroid of object in the image. 666 rename to centroid();
 		Vec2ui centroid() const {return mCentroid;};
 		
