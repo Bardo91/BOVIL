@@ -55,8 +55,8 @@ namespace BOViL{
 	class ImageObject{		// Summarized object.
 	public:
 		/// \brief
-		ImageObject(Vec2ui _upperLeft, Vec2ui _downRight, int _size, int _color){
-			mCentroid = Vec2ui((_upperLeft.x + _downRight.x)/2, (_upperLeft.y + _downRight.y)/2);
+		ImageObject(Vec2i _upperLeft, Vec2i _downRight, int _size, int _color){
+			mCentroid = Vec2i((_upperLeft.x + _downRight.x)/2, (_upperLeft.y + _downRight.y)/2);
 			mWidth = _downRight.x - _upperLeft.x;
 			mHeight = _downRight.y - _upperLeft.y;
 			mSize = _size;
@@ -64,7 +64,7 @@ namespace BOViL{
 		};
 
 		/// \brief
-		ImageObject(Vec2ui _centroid, unsigned _width, unsigned _height, int _size, int _color){
+		ImageObject(Vec2i _centroid, int _width, int _height, int _size, int _color){
 			mCentroid = _centroid;
 			mWidth = _width;
 			mHeight = _height;
@@ -74,7 +74,7 @@ namespace BOViL{
 			
 		/// \brief Join current object with the given one;
 		void join(ImageObject _obj) {
-			mCentroid = Vec2ui((mCentroid.x + _obj.mCentroid.x)/2, (mCentroid.y + _obj.mCentroid.y)/2);
+			mCentroid = Vec2i((mCentroid.x + _obj.mCentroid.x)/2, (mCentroid.y + _obj.mCentroid.y)/2);
 			mWidth = mWidth/2 + _obj.mWidth/2 + int(abs((double) mCentroid.x - _obj.mCentroid.x));
 			mHeight = mHeight/2 + _obj.mHeight/2 + int(abs((double) mCentroid.y - _obj.mCentroid.y));
 			mSize = mSize + _obj.mSize;
@@ -82,7 +82,7 @@ namespace BOViL{
 		}
 
 		/// \brief get centroid of object in the image. 666 rename to centroid();
-		Vec2ui centroid() const {return mCentroid;};
+		Vec2i centroid() const {return mCentroid;};
 		
 		/// \brief get width of object. 666 rename to width().
 		int width() const {return mWidth;};
@@ -96,7 +96,7 @@ namespace BOViL{
 		/// \brief get number of pixels of the object. 666 rename to size().
 		int size() const {return mSize;};
 	private:
-		Vec2ui mCentroid;
+		Vec2i mCentroid;
 		int mWidth, mHeight;
 		int mColor;
 		int mSize;

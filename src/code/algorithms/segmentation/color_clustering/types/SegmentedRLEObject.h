@@ -19,9 +19,9 @@ namespace BOViL{
 		/** Struct that holds compressed line of image using RLE based on color codes.
 		*/
 		struct LineRLE{		// RLE encoding object.
-			LineRLE(unsigned int _i,
-					unsigned int _js,
-					unsigned int _je,
+			LineRLE(int _i,
+					int _js,
+					int _je,
 					int _color){
 						i = _i;
 						js = _js;
@@ -33,16 +33,16 @@ namespace BOViL{
 						iObj = -1;
 			};
 
-			unsigned int i;			// Row of the object.
-			unsigned int js;		// Started column of the object.
-			unsigned int je;		// Ended column of the object.
-			unsigned int size;		// Size of the object (= je - js + 1) its computed one time in order to reduce the algorithm operations.
+			int i;			// Row of the object.
+			int js;		// Started column of the object.
+			int je;		// Ended column of the object.
+			int size;		// Size of the object (= je - js + 1) its computed one time in order to reduce the algorithm operations.
 
 			int color;	// Color of the object.s
 
 			bool hasParent;				// Flag if the RLE was parented.
-			unsigned int pi;			// Row index of the parent in the vector.
-			unsigned int pj;			// Column index of the parent in the vector.
+			int pi;			// Row index of the parent in the vector.
+			int pj;			// Column index of the parent in the vector.
 
 			int iObj;
 
@@ -74,11 +74,11 @@ namespace BOViL{
 			
 			/** \brief get upper left corner of object.
 			*/
-			Vec2ui upperLeft() const;
+			Vec2i upperLeft() const;
 			
 			/** \brief get down right corner of object.
 			*/
-			Vec2ui downRight() const;
+			Vec2i downRight() const;
 			
 			/** \brief get simplified color of object. 777 need review. 777 rename to color().
 			*/
@@ -94,7 +94,7 @@ namespace BOViL{
 			
 			/** \brief get centroid ob object. 777 rename to centroid().
 			*/
-			Vec2ui getCentroid() const;
+			Vec2i getCentroid() const;
 
 			/** \brief sort lines based on line's position in image.
 			*/
@@ -103,7 +103,7 @@ namespace BOViL{
 		private:
 			std::vector<LineRLE> obj;
 
-			Vec2ui mUpperLeft, mDownRight; // Border pixels
+			Vec2i mUpperLeft, mDownRight; // Border pixels
 			int color;
 			unsigned int size;
 		};
