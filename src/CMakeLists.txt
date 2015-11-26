@@ -28,10 +28,25 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 
-set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH})
 # Loading 3rd party libraries.
-find_package(Eigen3 REQUIRED)
+find_package(Eigen3)
 include_directories(${EIGEN3_INCLUDE_DIR})
+
+if(NOT DEFINED ${EIGEN3_INCLUDE_DIR})
+	message(STATUS "Im here")
+	
+	if(WIN32)
+		set(EIGEN3_INCLUDE_DIR "C:/Program Files (x86)/Eigen/include")
+	elseif(UNIX)
+		set(EIGEN3_INCLUDE_DIR "/usr/include/Eigen")
+	endif()
+	
+	file(GLOB_RECURSE EIGEN_INCLUDE_FILES "${EIGEN3_INCLUDE_DIR}/*")
+	
+	if("${EIGEN_INCLUDE_FILES}" STREQUAL  "")
+		message( FATAL_ERROR "Can't find Eigen3 library" )
+	endif()
+endif()
 
 # Library
 add_library(BOViL STATIC ${BOVIL_SOURCE_FILES})
