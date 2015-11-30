@@ -24,6 +24,7 @@ namespace BOViL{
 			if (getaddrinfo(NULL, mServerPort.c_str(), &mHints, &mResult) != 0) {
 				closeSocket();
 				assert(false);
+				return;
 			}
 
 			// Create a SOCKET for connecting to server
@@ -32,6 +33,7 @@ namespace BOViL{
 				closeSocket();
 				freeaddrinfo(mResult);
 				assert(false);
+				return;
 			}
 
 			// Setup the TCP listening socket
@@ -42,18 +44,20 @@ namespace BOViL{
 			#ifdef _WIN32
 				bool bOptVal = TRUE;
 				int bOptLen = sizeof(bool);
-				setsockopt(mAcceptSocket, SOL_SOCKET, SO_REUSEADDR, (char *)bOptVal, bOptLen);
+				setsockopt(mAcceptSocket, SOL_SOCKET, SO_REUSEADDR, (char *) &bOptVal, bOptLen);
 			#endif
 
 			if (bind(mAcceptSocket, mResult->ai_addr, mResult->ai_addrlen) == SOCKET_ERROR) {
 				freeaddrinfo(mResult);
 				closeSocket();
 				assert(false);
+				return;
 			}
 
 			if (listen(mAcceptSocket, SOMAXCONN) == SOCKET_ERROR) {
 				closeSocket();
 				assert(false);
+				return;
 			}
 
 			freeaddrinfo(mResult);
