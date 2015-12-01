@@ -25,11 +25,11 @@ namespace BOViL{
 			mR = _R;
 			mXak = _x0;
 			mXfk = _x0;
-			mK =	MatrixXd(_Q.rows(), _R.rows());
+			mK =	MatrixXd::Zero(_Q.rows(), _R.rows());
 			mJf =	MatrixXd::Identity(_Q.rows(), _Q.rows());
 			mP =	MatrixXd::Identity(_Q.rows(), _Q.rows());
-			mHZk =	MatrixXd(_R.rows(), 1);
-			mJh =	MatrixXd(_R.rows(), _Q.rows());
+			mHZk =	MatrixXd::Zero(_R.rows(), 1);
+			mJh =	MatrixXd::Zero(_R.rows(), _Q.rows());
 		}
 		
 		//-----------------------------------------------------------------------------
