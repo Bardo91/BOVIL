@@ -33,9 +33,23 @@ endif()
 
 set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH} /usr/local/lib /usr/lib)
 # Loading 3rd party libraries.
-find_package(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
+find_package(Eigen3)
+
+if(NOT DEFINED ${EIGEN3_INCLUDE_DIR})	
+	if(WIN32)
+		set(EIGEN3_INCLUDE_DIR "C:/Program Files (x86)/Eigen/include/eigen3")
+	elseif(UNIX)
+		set(EIGEN3_INCLUDE_DIR "/usr/include/eigen3")
+	endif()
+	
+	file(GLOB_RECURSE EIGEN_INCLUDE_FILES "${EIGEN3_INCLUDE_DIR}/*")
+	
+	if("${EIGEN_INCLUDE_FILES}" STREQUAL  "")
+		message( FATAL_ERROR "Can't find Eigen3 library" )
+	endif()
+endif()
 
 # Library
 add_library(BOViL STATIC ${BOVIL_SOURCE_FILES})
 target_include_directories(BOViL PUBLIC ${PROJECT_SOURCE_DIR}/code)
+target_include_directories(BOViL PUBLIC ${EIGEN3_INCLUDE_DIR})

@@ -71,6 +71,8 @@ namespace BOViL{
 			*/
 			SOCKET getSocketDescriptor(){ return mSocket; }
 
+			bool closeSocket();
+
 		public:	// Socket factory
 			/** \brief static method to create a new socket
 			*	@param _socketType: one of supported socket type
@@ -80,8 +82,6 @@ namespace BOViL{
 			static Socket* createSocket(const eSocketType _socketType, const std::string &_port, const std::string &_serverIp = "");
 		protected:
 			Socket();
-
-			bool closeSocket();
 
 			int getLastError();
 
