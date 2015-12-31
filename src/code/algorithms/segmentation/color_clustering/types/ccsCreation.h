@@ -29,7 +29,7 @@ namespace BOViL{
 	* @param _subdivision: Resolution of the space.
 	*/
 
-	ColorClusterSpace createSingleClusteredSpace(	unsigned char _c1Bottom,
+	ColorClusterSpace * createSingleClusteredSpace(	unsigned char _c1Bottom,
 													unsigned char _c1Top,
 													unsigned char _c2Bottom,
 													unsigned char _c2Top,
@@ -61,7 +61,7 @@ namespace BOViL{
 						(_c2Top + _c2Bottom) / 2,
 						(_c3Top + _c3Bottom) / 2);
 
-		return ColorClusterSpace(_subdivision, AClass, BClass, CClass, colors);
+		return new ColorClusterSpace(_subdivision, AClass, BClass, CClass, colors);
 	}
 
 }
