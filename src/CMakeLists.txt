@@ -39,7 +39,7 @@ if(NOT DEFINED ${EIGEN3_INCLUDE_DIR})
 	if(WIN32)
 		set(EIGEN3_INCLUDE_DIR "C:/Program Files (x86)/Eigen/include/eigen3")
 	elseif(UNIX)
-		set(EIGEN3_INCLUDE_DIR "/usr/include/eigen3")
+		set(EIGEN3_INCLUDE_DIR "/usr/include/eigen3" "/usr/local/include/eigen3")
 	endif()
 	
 	file(GLOB_RECURSE EIGEN_INCLUDE_FILES "${EIGEN3_INCLUDE_DIR}/*")
