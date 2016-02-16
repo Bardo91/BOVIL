@@ -5,7 +5,7 @@ endif()
 project(BOViL)
 
 # Collect all sources
-file(GLOB_RECURSE BOVIL_SOURCE_FILES "code/*.cpp" "code/*.h" "code/*.inl")
+file(GLOB_RECURSE BOVIL_SOURCE_FILES "bovil/*.cpp" "bovil/*.h" "bovil/*.inl")
 
 # Clasify sources according to folder structure.
 # This creates a nice layout for the project in visual studio
@@ -23,7 +23,7 @@ macro(GroupSources curdir)
 	endforeach()
 endmacro()
 
-GroupSources(code)
+GroupSources(bovil)
 
 # Compiler specific options
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -51,5 +51,5 @@ endif()
 
 # Library
 add_library(BOViL STATIC ${BOVIL_SOURCE_FILES})
-target_include_directories(BOViL PUBLIC ${PROJECT_SOURCE_DIR}/code)
+target_include_directories(BOViL PUBLIC ${PROJECT_SOURCE_DIR}/bovil)
 target_include_directories(BOViL PUBLIC ${EIGEN3_INCLUDE_DIR})
